@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="./main.css" />
+
+        <title>MedMe EHR API Sample</title>
+
+        <!-- load lib/main.js using requirejs module loader -->
+        <script data-main="lib/main" type="text/javascript" src="lib/requirejs.2_3_6.js"></script>
+        <script src="../dist/browser/bundle.js"></script>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">MedMe EHR API Sample</a>
+        </nav>    
+            <div class="row">
+                <div class="col-sm-3">             
+            <nav class="nav flex-column">
+                <a class="nav-link" href="#">Информация о пациенте</a>
+                <a class="nav-link disabled active" href="#">Записи на приём</a>
+                <a class="nav-link" href="#">Результаты приёма</a>
+                <a class="nav-link" href="#">Назначения</a>
+                <a class="nav-link" href="#">Анализы</a>
+              </nav>
+            </div>
+            <div class="col-sm-9">
+
+        <div class="container">
+            <h1>Записи на прием</h1>
+            <form>
+              <div class="form-group">
+              
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#save-appointment-dialog">
+                  Создать запись
+                </button>
+              </div>
+            </form>
+            <div class="table-responsive">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Клиника</th>
+                    <th scope="col">Дата создания</th>
+                    <th scope="col">Дата начала</th>
+                    <th scope="col">Продолжительность</th>
+                    <th scope="col">Врач</th>
+                    <th scope="col">Услуги</th>
+                    <th scope="col">Подтверждена?</th>
+                    <th scope="col">Посещена?</th>
+                    <th scope="col">Цена за приём</th>
+                  </tr>
+                </thead>
+                <tbody id="appointments-table-body">
+                </tbody>
+              </table>
+            </div>
+            </div>
+        </div>
+        <script id="appointment-line-template" type="text/x-handlebars-template">
+          <tr>
+            <th scope="row">{{id}}</th>
+            <td>{{business.name}}</td>
+            <td>{{showDate created}}</td>
+            <td>{{showDate start}}</td>
+            <td>{{showDuration duration}}</td>
+            <td>{{doctor.name}} {{doctor.surname}}</td>
+            <td>{{showListOfNames services}}</td>
+            <td>{{showConfirmationStatus confirmationStatus}}</td>
+            <td>{{boolYesNo clientAppear}}</td>
+            <td>{{showPrice clientPrice}}</td>
+          </tr>
+        </script>
+        <div class="modal " tabindex="-1" role="dialog" id="save-appointment-dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Создание записи на прием</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="businessId">Клиника</label>
+                      <input type="text" class="form-control" id="businessId" aria-describedby="businessIdHelp" placeholder="Идентификатор клиники">
+                      <small id="businessIdHelp" class="form-text text-muted">Идентификатор клиники. Доступное значение: 1</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="doctorId">Врач</label>
+                      <input type="text" class="form-control" id="doctorId" aria-describedby="doctorIdHelp" placeholder="Идентификатор врача">
+                      <small id="doctorIdHelp" class="form-text text-muted">Идентификатор врача. Доступное значение: 1</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="start">Дата начала записи</label>
+                      <input type="text" class="form-control" id="start" aria-describedby="doctorIdHelp" placeholder="2010-01-01T13:17:25.000Z">
+                      <small id="doctorIdHelp" class="form-text text-muted">Дата начала записи. Например, 2010-01-01T13:17:25.000Z</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="duration">Продолжительность</label>
+                      <input type="text" class="form-control" id="duration" aria-describedby="doctorIdHelp" placeholder="Продолжительность записи в минутах">
+                      <small id="doctorIdHelp" class="form-text text-muted">Продолжительность записи в минутах. Например, 30, 60, 90, 120</small>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </body>    
+</html>
