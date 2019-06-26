@@ -7,6 +7,11 @@ import { AppointmentSource } from "./AppointmentSource";
 import { AppointmentHistoryItem } from "./AppointmentHistoryItem"
 import { AppointmentInputProperties } from "./AppointmentInputProperties"
 import { Currency } from "./Currency";
+import { Diagnosis } from "./Diagnosis";
+import { ProcedureExecStatus } from "./ProcedureExecStatus";
+import { ProcedureType } from "./ProcedureType";
+import { ProcedureInfo } from "./ProcedureInfo";
+import { PrescriptionInfo } from "./PrescriptionInfo";
 
 export {
     BusinessInfo,
@@ -18,5 +23,9 @@ export {
     AppointmentSource,
     AppointmentHistoryItem,
     AppointmentInputProperties,
-
+    Diagnosis,
+    ProcedureExecStatus,
+    ProcedureType,
+    ProcedureInfo,
+    PrescriptionInfo
 };
