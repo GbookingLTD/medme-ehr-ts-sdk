@@ -15,7 +15,12 @@
         <!-- load lib/main.js using requirejs module loader -->
         <script data-main="lib/main" type="text/javascript" src="lib/requirejs.2_3_6.js"></script>
         <script src="../dist/browser/bundle.js"></script>
-
+        <style>
+          .infoblock {
+             min-height: calc(1.5em + .75rem + 2px);
+             height: auto!important;
+          }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -57,6 +62,7 @@
                     <th scope="col">Подтверждена?</th>
                     <th scope="col">Посещена?</th>
                     <th scope="col">Цена за приём</th>
+                    <th scope="col">Результаты приема</th>
                   </tr>
                 </thead>
                 <tbody id="appointments-table-body">
@@ -77,8 +83,32 @@
             <td>{{showConfirmationStatus confirmationStatus}}</td>
             <td>{{boolYesNo clientAppear}}</td>
             <td>{{showPrice clientPrice}}</td>
+            <td><button type="button" class="btn btn-primary appointment-result-btn" data-id="{{id}}" data-toggle="modal" data-target="#appointment-result-dialog">Результаты</button>
+            </td>
           </tr>
         </script>
+
+        <script id="appointment-result-template" type="text/x-handlebars-template">
+          <form>
+              <div class="form-group">
+                <label for="anamnesis">Анамнез</label>
+                <div class="form-control infoblock" id="anamnesis" readonly>{{joinParagrathes anamnesis}}</div>
+              </div>
+              <div class="form-group">
+                <label for="medicalExaminationResult">Результаты медицинского обследования</label>
+                <div class="form-control infoblock" id="medicalExaminationResult" readonly>{{joinParagrathes medicalExaminationResult}}</div>
+              </div>
+              <div class="form-group">
+                <label for="diagnosis">Диагноз</label>
+                <div class="form-control infoblock" id="diagnosis" readonly>{{showDiagnosis diagnosis}}</div>
+              </div>
+              <div class="form-group">
+                <label for="recommendations">Рекомендации</label>
+                <div class="form-control infoblock" id="recommendations" readonly>{{showRecommendations recommendations}}</div>
+              </div>
+          </form>
+        </script>
+
         <div class="modal " tabindex="-1" role="dialog" id="save-appointment-dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
@@ -113,8 +143,29 @@
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                  <button type="button" class="btn btn-primary">Сохранить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        <div class="modal " tabindex="-1" role="dialog" id="appointment-result-dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Результаты приема</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                  </div>
                 </div>
               </div>
             </div>

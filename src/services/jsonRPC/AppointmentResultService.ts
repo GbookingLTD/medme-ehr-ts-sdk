@@ -13,9 +13,9 @@ export class AppointmentResultService extends JsonRPCService implements IAppoint
      */
     public getAppointmentResultModelById(id: string, cb: (appointmentResult: AppointmentResultModel) => void): void {
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
-            if (err) throw new Error("failed to load appointment (id="+id+"): " + err);
+            if (err) throw new Error("failed to load appointment results (id="+id+"): " + err);
             let app = new AppointmentResultModel();
-            app.fromJson(payload['appointment']);
+            app.fromJson(payload['appointmentResult']);
             cb(app);
         });
     }

@@ -46,8 +46,22 @@ requirejs(['src/index', 'handlebars', 'bootstrap'], function(MedMe, Handlebars) 
         return AppointmentConfirmationStatus[val];
     });
 
+    Handlebars.registerHelper('joinParagrathes', function(val) {
+        return new Handlebars.SafeString(val.map(function(p) {
+            return "<p>"+p+"</p>";
+        }).join("\n"));
+    });
+
+    Handlebars.registerHelper('showDiagnosis', function(val) {
+        return "";
+    });
+
+    Handlebars.registerHelper('showRecommendations', function(val) {
+        return "";
+    });
+
     var Templates = {};
-    ["appointment-line-template"].forEach(function(id) {
+    ["appointment-line-template", "appointment-result-template"].forEach(function(id) {
         var source   = document.getElementById(id).innerHTML;
         Templates[id] = Handlebars.compile(source);
     });
@@ -55,13 +69,17 @@ requirejs(['src/index', 'handlebars', 'bootstrap'], function(MedMe, Handlebars) 
 
     var JsonRPC = MedMe.EHR.Services.JsonRPC;
 
-    var service;
-    if (location.hostname === "localhost")
-        service = new JsonRPC.AppointmentService("http://localhost:9999/", JsonRPC.Transports.xhr);
-    else 
-        service = new JsonRPC.AppointmentService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
+    var appointmentService;
+    var appointmentResultService;
+    if (location.hostname === "localhost") {
+        appointmentService = new JsonRPC.AppointmentService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        appointmentResultService = new JsonRPC.AppointmentResultService("http://localhost:9999/", JsonRPC.Transports.xhr);
+    } else {
+        appointmentService = new JsonRPC.AppointmentService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
+        appointmentResultService = new JsonRPC.AppointmentResultService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
+    }
 
-    service.getPatientAppointments("1", 10, 0, function(appointments) {
+    appointmentService.getPatientAppointments("1", 10, 0, function(appointments) {
         appointments.forEach(function(app) {
             var template = Templates["appointment-line-template"];
             var html = template(app);
@@ -85,7 +103,7 @@ requirejs(['src/index', 'handlebars', 'bootstrap'], function(MedMe, Handlebars) 
         form.clientPrice.value = 222;
         form.clientPrice.discount = null;
 
-        service.saveAppointment(form, function(appModel) {
+        appointmentService.saveAppointment(form, function(appModel) {
             // TODO Append a new appointment to the list
         });
     }
@@ -93,5 +111,15 @@ requirejs(['src/index', 'handlebars', 'bootstrap'], function(MedMe, Handlebars) 
     var submitButton = document.querySelector("#save-appointment-dialog .btn-primary");
     submitButton.addEventListener('click', function(ev) {
         saveAppointment();
+    });
+
+    $('#appointment-result-dialog').on('shown.bs.modal', function (e) {
+
+        appointmentResultService.getAppointmentResultModelById("1", (appresult) => {
+            console.log('app_res.id:' + appresult.id);
+            var template = Templates["appointment-result-template"];
+            var html = template(appresult);
+            document.querySelector('#appointment-result-dialog .modal-body').innerHTML = html;
+        });
     });
 });

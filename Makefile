@@ -1,7 +1,8 @@
 FILES=src/index.ts
 
 test:
-	npm run test
+	./node_modules/.bin/mocha -r ts-node/register tests/appointment.test.ts && \
+		./node_modules/.bin/mocha -r ts-node/register tests/appointmentResult.test.ts
 
 build: build_commonjs build_es5 build_browser
 
