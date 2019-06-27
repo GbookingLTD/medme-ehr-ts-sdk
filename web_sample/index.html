@@ -89,6 +89,7 @@
         </script>
 
         <script id="appointment-result-template" type="text/x-handlebars-template">
+    
           <form>
               <div class="form-group">
                 <label for="anamnesis">Анамнез</label>
@@ -104,9 +105,19 @@
               </div>
               <div class="form-group">
                 <label for="recommendations">Рекомендации</label>
-                <div class="form-control infoblock" id="recommendations" readonly>{{showRecommendations recommendations}}</div>
+                <div class="form-control infoblock" id="recommendations" readonly>{{showProcedures recommendations}}</div>
+              </div>
+              <div class="form-group">
+                <label for="scheduledProcedures">Назначенные на приеме процедуры, анализы, исследования</label>
+                <div class="form-control infoblock" id="scheduledProcedures" readonly>{{showProcedures scheduledProcedures}}</div>
+              </div>
+              <div class="form-group">
+                <label for="prescriptions">Медикаментозные назначения (выписанные лекарства)</label>
+                <div class="form-control infoblock" id="prescriptions" readonly>{{showPrescriptions prescriptions}}</div>
               </div>
           </form>
+      
+
         </script>
 
         <div class="modal " tabindex="-1" role="dialog" id="save-appointment-dialog">
@@ -161,7 +172,18 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    
+                      <ul class="nav nav-tabs" id="appResultSwitch" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" id="appResultSwitch-form-tab" data-toggle="tab" href="#appResultSwitch-form" role="tab" aria-controls="appResultSwitch-form" aria-selected="true">Форма</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="appResultSwitch-text-tab" data-toggle="tab" href="#appResultSwitch-text" role="tab" aria-controls="appResultSwitch-text" aria-selected="false">Текст</a>
+                          </li>
+                        </ul>
+                        <div class="tab-content" id="appResultSwitchContent">
+                          <div class="tab-pane fade show active" id="appResultSwitch-form" role="tabpanel" aria-labelledby="appResultSwitch-form-tab">...</div>
+                          <div class="tab-pane fade" id="appResultSwitch-text" role="tabpanel" aria-labelledby="appResultSwitch-text-tab"><pre></pre></div>
+                        </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>

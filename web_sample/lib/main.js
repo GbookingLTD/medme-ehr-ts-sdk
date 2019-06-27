@@ -56,7 +56,11 @@ requirejs(['src/index', 'handlebars', 'bootstrap'], function(MedMe, Handlebars) 
         return "";
     });
 
-    Handlebars.registerHelper('showRecommendations', function(val) {
+    Handlebars.registerHelper('showProcedures', function(val) {
+        return "";
+    });
+
+    Handlebars.registerHelper('showPrescriptions', function(val) {
         return "";
     });
 
@@ -119,7 +123,10 @@ requirejs(['src/index', 'handlebars', 'bootstrap'], function(MedMe, Handlebars) 
             console.log('app_res.id:' + appresult.id);
             var template = Templates["appointment-result-template"];
             var html = template(appresult);
-            document.querySelector('#appointment-result-dialog .modal-body').innerHTML = html;
+            document.querySelector('#appResultSwitch-form').innerHTML = html;
+            var formatter = new MedMe.EHR.Formatters.SimpleTextFormatter(
+                MedMe.EHR.Formatters.SimpleTextFormatter.LOCALIZE["ru-ru"]);
+            document.querySelector('#appResultSwitch-text pre').innerText = formatter.appointmentResult(appresult);
         });
     });
 });
