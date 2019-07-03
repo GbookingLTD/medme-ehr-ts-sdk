@@ -3,8 +3,8 @@ export class Period {
     end: Date;
 
     fromJson(json: any) : Period {
-        this.begin = json.begin;
-        this.end = json.end;
+        this.begin = new Date(json.begin);
+        this.end = new Date(json.end);
         return this;
     }
 }

@@ -1,5 +1,5 @@
 import { IJsonModel } from './JsonModel';
-import { BusinessInfo, Doctor, Diagnosis, ProcedureInfo, PrescriptionInfo } from "../types/index";
+import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo } from "../types/index";
 
 /**
  * Класс модели записи.
@@ -16,8 +16,8 @@ export class AppointmentResultModel implements IJsonModel {
     private _anamnesis: string[];
     private _medicalExaminationResult: string[];
     private _diagnosis: Diagnosis[];
-    private _recommendations: ProcedureInfo[];
-    private _procedures: ProcedureInfo[];
+    private _recommendations: Procedure[];
+    private _scheduledProcedures: Procedure[];
     private _prescriptions: PrescriptionInfo[];
     private _diagnosticReportIds: string[];
 
@@ -33,8 +33,8 @@ export class AppointmentResultModel implements IJsonModel {
     get anamnesis(): string[] { return this._anamnesis; }
     get medicalExaminationResult(): string[] { return this._medicalExaminationResult; }
     get diagnosis(): Diagnosis[] { return this._diagnosis; }
-    get recommendations(): ProcedureInfo[] { return this._recommendations; }
-    get procedures(): ProcedureInfo[] { return this._procedures; }
+    get recommendations(): Procedure[] { return this._recommendations; }
+    get scheduledProcedures(): Procedure[] { return this._scheduledProcedures; }
     get prescriptions(): PrescriptionInfo[] { return this._prescriptions; }
     get diagnosticReportIds(): string[] { return this._diagnosticReportIds; }
 
@@ -53,8 +53,8 @@ export class AppointmentResultModel implements IJsonModel {
         this._anamnesis = json.anamnesis;
         this._medicalExaminationResult = json.medicalExaminationResult;
         this._diagnosis = json.diagnosis ? json.diagnosis.map((d: any) => new Diagnosis(d)) : [];
-        this._recommendations = json.recommendations ? json.recommendations.map((r: any) => new ProcedureInfo(r)) : [];
-        this._procedures = json.procedures ? json.procedures.map((p: any) => new ProcedureInfo(p)) : [];
+        this._recommendations = json.recommendations ? json.recommendations.map((r: any) =>  (new Procedure).fromJson(r)) : [];
+        this._scheduledProcedures = json.scheduledProcedures ? json.scheduledProcedures.map((p: any) => (new Procedure).fromJson(p)) : [];
         this._prescriptions = json.prescriptions ? json.prescriptions.map((p: any) => (new PrescriptionInfo).fromJson(p)) : [];
         this._diagnosticReportIds = json.diagnosticReportIds || [];
         return this;

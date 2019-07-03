@@ -7,4 +7,17 @@ export class ClientPrice {
     discountValue: number;
     value: number;
     discount: Discount;
+
+    constructor() {
+        this.discount = new Discount();
+    }
+
+    fromJson(json: any): ClientPrice {
+        this.currency = json.currency;
+        this.originValue = json.originValue;
+        this.discountValue = json.discountValue;
+        this.value = json.value;
+        this.discount.fromJson(json.discount);
+        return this;
+    }
 }

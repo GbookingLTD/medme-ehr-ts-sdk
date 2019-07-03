@@ -8,5 +8,7 @@ export namespace Handlers {
     export const HANDLER_GET_PATIENT_APPOINTMENTS_METHOD = "appointment.get_patient_appointments";
     export const HANDLER_GET_APPOINTMENT_RESULT_BY_ID = 200;
     export const HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD = "appointment_result.get_appointment_result_by_id";
+    export const HANDLER_GET_PATIENT_APPOINTMENT_RESULTS = 201;
+    export const HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD = "appointment_result.get_patient_appointment_results";
 
 }

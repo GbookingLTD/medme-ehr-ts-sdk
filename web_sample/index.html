@@ -10,7 +10,7 @@
 
         <link rel="stylesheet" href="./main.css" />
 
-        <title>MedMe EHR API Sample</title>
+        <title>MedMe EHR API Demo</title>
 
         <!-- load lib/main.js using requirejs module loader -->
         <script data-main="lib/main" type="text/javascript" src="lib/requirejs.2_3_6.js"></script>
@@ -24,173 +24,20 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">MedMe EHR API Sample</a>
+            <a class="navbar-brand" href="#">MedMe EHR API Demo</a>
         </nav>    
-            <div class="row">
-                <div class="col-sm-3">             
-            <nav class="nav flex-column">
-                <a class="nav-link" href="#">Информация о пациенте</a>
-                <a class="nav-link disabled active" href="#">Записи на приём</a>
-                <a class="nav-link" href="#">Результаты приёма</a>
-                <a class="nav-link" href="#">Назначения</a>
-                <a class="nav-link" href="#">Анализы</a>
-              </nav>
+        <div class="row">
+            <div class="col-sm-3">
+                <nav id="mainNavigation" class="nav flex-column">
+                    <a class="nav-link" href="#appointments">Записи на приём</a>
+                    <a class="nav-link" href="#appointmentResults">История посещений</a>
+                    <a class="nav-link" href="#prescriptions">Назначения</a>
+                    <a class="nav-link" href="#analisys">Анализы</a>
+                </nav>
             </div>
             <div class="col-sm-9">
-
-        <div class="container">
-            <h1>Записи на прием</h1>
-            <form>
-              <div class="form-group">
-              
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#save-appointment-dialog">
-                  Создать запись
-                </button>
-              </div>
-            </form>
-            <div class="table-responsive">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Клиника</th>
-                    <th scope="col">Дата создания</th>
-                    <th scope="col">Дата начала</th>
-                    <th scope="col">Продолжительность</th>
-                    <th scope="col">Врач</th>
-                    <th scope="col">Услуги</th>
-                    <th scope="col">Подтверждена?</th>
-                    <th scope="col">Посещена?</th>
-                    <th scope="col">Цена за приём</th>
-                    <th scope="col">Результаты приема</th>
-                  </tr>
-                </thead>
-                <tbody id="appointments-table-body">
-                </tbody>
-              </table>
-            </div>
+                <div class="container" id="mainContent"></div>
             </div>
         </div>
-        <script id="appointment-line-template" type="text/x-handlebars-template">
-          <tr>
-            <th scope="row">{{id}}</th>
-            <td>{{business.name}}</td>
-            <td>{{showDate created}}</td>
-            <td>{{showDate start}}</td>
-            <td>{{showDuration duration}}</td>
-            <td>{{doctor.name}} {{doctor.surname}}</td>
-            <td>{{showListOfNames services}}</td>
-            <td>{{showConfirmationStatus confirmationStatus}}</td>
-            <td>{{boolYesNo clientAppear}}</td>
-            <td>{{showPrice clientPrice}}</td>
-            <td><button type="button" class="btn btn-primary appointment-result-btn" data-id="{{id}}" data-toggle="modal" data-target="#appointment-result-dialog">Результаты</button>
-            </td>
-          </tr>
-        </script>
-
-        <script id="appointment-result-template" type="text/x-handlebars-template">
-    
-          <form>
-              <div class="form-group">
-                <label for="anamnesis">Анамнез</label>
-                <div class="form-control infoblock" id="anamnesis" readonly>{{joinParagrathes anamnesis}}</div>
-              </div>
-              <div class="form-group">
-                <label for="medicalExaminationResult">Результаты медицинского обследования</label>
-                <div class="form-control infoblock" id="medicalExaminationResult" readonly>{{joinParagrathes medicalExaminationResult}}</div>
-              </div>
-              <div class="form-group">
-                <label for="diagnosis">Диагноз</label>
-                <div class="form-control infoblock" id="diagnosis" readonly>{{showDiagnosis diagnosis}}</div>
-              </div>
-              <div class="form-group">
-                <label for="recommendations">Рекомендации</label>
-                <div class="form-control infoblock" id="recommendations" readonly>{{showProcedures recommendations}}</div>
-              </div>
-              <div class="form-group">
-                <label for="scheduledProcedures">Назначенные на приеме процедуры, анализы, исследования</label>
-                <div class="form-control infoblock" id="scheduledProcedures" readonly>{{showProcedures scheduledProcedures}}</div>
-              </div>
-              <div class="form-group">
-                <label for="prescriptions">Медикаментозные назначения (выписанные лекарства)</label>
-                <div class="form-control infoblock" id="prescriptions" readonly>{{showPrescriptions prescriptions}}</div>
-              </div>
-          </form>
-      
-
-        </script>
-
-        <div class="modal " tabindex="-1" role="dialog" id="save-appointment-dialog">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Создание записи на прием</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label for="businessId">Клиника</label>
-                      <input type="text" class="form-control" id="businessId" aria-describedby="businessIdHelp" placeholder="Идентификатор клиники">
-                      <small id="businessIdHelp" class="form-text text-muted">Идентификатор клиники. Доступное значение: 1</small>
-                    </div>
-                    <div class="form-group">
-                      <label for="doctorId">Врач</label>
-                      <input type="text" class="form-control" id="doctorId" aria-describedby="doctorIdHelp" placeholder="Идентификатор врача">
-                      <small id="doctorIdHelp" class="form-text text-muted">Идентификатор врача. Доступное значение: 1</small>
-                    </div>
-                    <div class="form-group">
-                      <label for="start">Дата начала записи</label>
-                      <input type="text" class="form-control" id="start" aria-describedby="doctorIdHelp" placeholder="2010-01-01T13:17:25.000Z">
-                      <small id="doctorIdHelp" class="form-text text-muted">Дата начала записи. Например, 2010-01-01T13:17:25.000Z</small>
-                    </div>
-                    <div class="form-group">
-                      <label for="duration">Продолжительность</label>
-                      <input type="text" class="form-control" id="duration" aria-describedby="doctorIdHelp" placeholder="Продолжительность записи в минутах">
-                      <small id="doctorIdHelp" class="form-text text-muted">Продолжительность записи в минутах. Например, 30, 60, 90, 120</small>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                  <button type="button" class="btn btn-primary">Сохранить</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-        <div class="modal " tabindex="-1" role="dialog" id="appointment-result-dialog">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Результаты приема</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                      <ul class="nav nav-tabs" id="appResultSwitch" role="tablist">
-                          <li class="nav-item">
-                            <a class="nav-link active" id="appResultSwitch-form-tab" data-toggle="tab" href="#appResultSwitch-form" role="tab" aria-controls="appResultSwitch-form" aria-selected="true">Форма</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="appResultSwitch-text-tab" data-toggle="tab" href="#appResultSwitch-text" role="tab" aria-controls="appResultSwitch-text" aria-selected="false">Текст</a>
-                          </li>
-                        </ul>
-                        <div class="tab-content" id="appResultSwitchContent">
-                          <div class="tab-pane fade show active" id="appResultSwitch-form" role="tabpanel" aria-labelledby="appResultSwitch-form-tab">...</div>
-                          <div class="tab-pane fade" id="appResultSwitch-text" role="tabpanel" aria-labelledby="appResultSwitch-text-tab"><pre></pre></div>
-                        </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
     </body>    
 </html>

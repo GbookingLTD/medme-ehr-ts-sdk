@@ -1,0 +1,30 @@
+// aggregate resources of appointmnts screen
+define('appointment-screen', ['handlebars',
+        'src/index',
+        'medme-app',
+        'text!../partials/appointments.html',
+        'text!../partials/appointment-line-template.html',
+        'appointment-result-dialog',
+        'save-appointment-dialog'
+    ], function(Handlebars, MedMe, medmeApp, appointmentTable, 
+        appointmentLineTemplate, appointmentResultDialog, saveAppointmentDialog) {
+    return {
+        render: function() {
+            document.getElementById('mainContent').innerHTML = '';
+            document.getElementById('mainContent').insertAdjacentHTML('beforeend', appointmentTable);
+    
+            appointmentResultDialog.render(document.getElementById('mainContent'));
+            saveAppointmentDialog.render(document.getElementById('mainContent'));
+
+            var appointmentLineTemplateFn = Handlebars.compile(appointmentLineTemplate);
+            medmeApp.appointmentService.getPatientAppointments("1", 10, 0, function(appointments) {
+                appointments.forEach(function(app) {
+                    var html = appointmentLineTemplateFn(app);
+                    document.getElementById('appointments-table-body')
+                        .insertAdjacentHTML('beforeend', html);
+                });
+            });
+            
+        }
+    };
+});

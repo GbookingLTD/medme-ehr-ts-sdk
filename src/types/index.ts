@@ -11,6 +11,7 @@ import { Diagnosis } from "./Diagnosis";
 import { ProcedureExecStatus } from "./ProcedureExecStatus";
 import { ProcedureType } from "./ProcedureType";
 import { ProcedureInfo } from "./ProcedureInfo";
+import { Procedure } from "./Procedure";
 import { PrescriptionInfo } from "./PrescriptionInfo";
 
 export {
@@ -27,5 +28,6 @@ export {
     ProcedureExecStatus,
     ProcedureType,
     ProcedureInfo,
+    Procedure,
     PrescriptionInfo
 };

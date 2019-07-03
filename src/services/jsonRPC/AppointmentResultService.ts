@@ -20,4 +20,18 @@ export class AppointmentResultService extends JsonRPCService implements IAppoint
         });
     }
 
+    public getPatientAppointmentResults(patientId: string, limit: number, offset: number, 
+            cb: (appointmentResults: AppointmentResultModel[]) => void): void {
+        let params = {patientId: patientId, limit: limit, offset: offset};
+        this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD, params, (err: any, payload: object) => {
+            if (err) throw new Error("failed to load patient appointment results (patientId="+patientId+"): " + err);
+            let appointmentResults = payload['appointmentResults'].map((jsonApp: object) => {
+                let app = new AppointmentResultModel();
+                app.fromJson(jsonApp);
+                return app;
+            });
+            cb(appointmentResults);
+        });
+    }
+
 }

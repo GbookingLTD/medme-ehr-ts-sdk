@@ -14,10 +14,23 @@ describe('AppointmentResult', function() {
         });
     }
 
+    function getPatientAppointmentResults(service: IAppointmentResultService, patientId: string, limit: number, offset: number,
+            done: (err: Error, appointments: AppointmentResultModel[]) => void) {
+        service.getPatientAppointmentResults(patientId, limit, offset, (appointments: AppointmentResultModel[]) => {
+            appointments.forEach(function(app) {
+                assert.strictEqual(app.patientId, patientId);
+            });
+            done(null, appointments);
+        });
+    }
+
     describe("JsonRPC", function() {
         let service = new JsonRPC.AppointmentResultService("http://localhost:9999/", JsonRPC.Transports.xhr);
         it("GetOneById", function(done: (err?: any) => void) {
             getOneById(service, "1", done);
+        });
+        it('GetPatientAppointmentResults', function(done: (err?: any) => void) {
+            getPatientAppointmentResults(service, "1", 10, 0, done);
         });
     });
 });
