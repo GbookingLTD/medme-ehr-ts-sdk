@@ -17,7 +17,7 @@ import { AppointmentInputProperties } from "../src/types/AppointmentInputPropert
 describe('Appointment', function() {
     function getOneById(service: IAppointmentService, id: string, done: (err: Error, appointment: AppointmentModel) => void) {
         service.getAppointmentModelById(id, (appointment: AppointmentModel) => {
-            console.log("appointment.patientId:", appointment.patientId);
+            // console.log("appointment.patientId:", appointment.patientId);
             assert.strictEqual(appointment.id, id);
             done(null, appointment);
         });

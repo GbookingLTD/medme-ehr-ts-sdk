@@ -48,15 +48,17 @@ function registerHandlebarsHelpers(Handlebars) {
     });
 }
 
-function route(hash) {
+function route(hash, done) {
+    var fn = function(screen) {
+        screen.render();
+        if (done) done();
+    };
     if (location.hash === '' || hash === "#appointments")
-        requirejs(['appointment-screen'], function(screen) {
-            screen.render();
-        });
+        requirejs(['appointment-screen'], fn);
     else if (hash === "#appointmentResults")
-        requirejs(['appointment-results-screen'], function(screen) {
-            screen.render();
-        });
+        requirejs(['appointment-results-screen'], fn);
+    else if (hash === "#prescriptions")
+        requirejs(['prescription-screen'], fn);
 }
 
 define('medme-app', ['src/index', 'handlebars'], function(MedMe, Handlebars) {
@@ -66,15 +68,18 @@ define('medme-app', ['src/index', 'handlebars'], function(MedMe, Handlebars) {
     var hash = location.hash; 
     if (location.hash === "" || location.hash === "#")
         hash = "#appointments";
-    document.querySelector('#mainNavigation > a[href="'+hash+'"]').classList.add('disabled');
-    route(hash);
+
+    route(hash, function() {
+        document.querySelector('#mainNavigation > a[href="'+hash+'"]').classList.add('disabled');
+    });
 
     // initialize navigation menu
     document.querySelectorAll('#mainNavigation > a').forEach(function(a) {
         a.addEventListener('click', function(ev) {
-            document.querySelector('#mainNavigation > a.disabled').classList.remove('disabled');
-            ev.target.classList.add('disabled');
-            route(ev.target.getAttribute('href'));
+            route(ev.target.getAttribute('href'), function done() {
+                document.querySelector('#mainNavigation > a.disabled').classList.remove('disabled');
+                ev.target.classList.add('disabled');
+            });
         });
     });
 
@@ -83,16 +88,20 @@ define('medme-app', ['src/index', 'handlebars'], function(MedMe, Handlebars) {
 
     var appointmentService;
     var appointmentResultService;
+    var prescriptionService;
     if (location.hostname === "localhost") {
         appointmentService = new JsonRPC.AppointmentService("http://localhost:9999/", JsonRPC.Transports.xhr);
         appointmentResultService = new JsonRPC.AppointmentResultService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        prescriptionService = new JsonRPC.PrescriptionService("http://localhost:9999/", JsonRPC.Transports.xhr);
     } else {
         appointmentService = new JsonRPC.AppointmentService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
         appointmentResultService = new JsonRPC.AppointmentResultService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
+        prescriptionService = new JsonRPC.PrescriptionService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
     }
 
     return {
         appointmentService: appointmentService,
-        appointmentResultService: appointmentResultService
+        appointmentResultService: appointmentResultService,
+        prescriptionService: prescriptionService
     };
 });

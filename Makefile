@@ -2,7 +2,8 @@ FILES=src/index.ts
 
 test:
 	./node_modules/.bin/mocha -r ts-node/register tests/appointment.test.ts && \
-		./node_modules/.bin/mocha -r ts-node/register tests/appointmentResult.test.ts
+		./node_modules/.bin/mocha -r ts-node/register tests/appointmentResult.test.ts && \
+		./node_modules/.bin/mocha -r ts-node/register tests/prescription.test.ts
 
 build: build_commonjs build_es5 build_browser
 

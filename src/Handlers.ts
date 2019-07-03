@@ -10,5 +10,9 @@ export namespace Handlers {
     export const HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD = "appointment_result.get_appointment_result_by_id";
     export const HANDLER_GET_PATIENT_APPOINTMENT_RESULTS = 201;
     export const HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD = "appointment_result.get_patient_appointment_results";
+    export const HANDLER_GET_PRESCRIPTION_BY_ID = 300;
+    export const HANDLER_GET_PRESCRIPTION_BY_ID_METHOD = "prescription.get_prescription_by_id";
+    export const HANDLER_GET_PATIENT_PRESCRIPTIONS = 301;
+    export const HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD = "prescription.get_patient_prescriptions";
 
 }

@@ -6,7 +6,7 @@ import { Period } from "./Period";
 export class PrescriptionInfo {
     id: string;
     created: Date;
-    doctor: Doctor;
+    recorderDoctor: Doctor;
     medications: Medication[];
     dosageText: string;
     reasonText: string;
@@ -16,7 +16,7 @@ export class PrescriptionInfo {
     fromJson(json: any): PrescriptionInfo {
         this.id = json.id;
         this.created = new Date(json.created);
-        this.doctor = (new Doctor()).fromJson(json.doctor);
+        this.recorderDoctor = (new Doctor()).fromJson(json.recorderDoctor);
         this.medications = json.medications ? json.medications.map((m: any) => (new Medication()).fromJson(m)) : [];
         this.dosageText = json.dosageText;
         this.reasonText = json.reasonText;

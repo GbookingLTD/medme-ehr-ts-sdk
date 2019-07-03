@@ -8,7 +8,7 @@ import { AppointmentResultModel } from "../src/models/AppointmentResultModel";
 describe('AppointmentResult', function() {
     function getOneById(service: IAppointmentResultService, id: string, done: (err: Error, appointmentResult: AppointmentResultModel) => void) {
         service.getAppointmentResultModelById(id, (appointment: AppointmentResultModel) => {
-            console.log("appointment_result.id:", appointment.id);
+            // console.log("appointment_result.id:", appointment.id);
             assert.strictEqual(appointment.id, id);
             done(null, appointment);
         });
