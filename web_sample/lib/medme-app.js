@@ -59,6 +59,10 @@ function route(hash, done) {
         requirejs(['appointment-results-screen'], fn);
     else if (hash === "#prescriptions")
         requirejs(['prescription-screen'], fn);
+    else if (hash === "#analisys")
+        requirejs(['analisys-screen'], fn);
+    else if (hash === "#investigations")
+        requirejs(['investigation-screen'], fn);
 }
 
 define('medme-app', ['src/index', 'handlebars'], function(MedMe, Handlebars) {

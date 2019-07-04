@@ -1,0 +1,22 @@
+
+import { DiagnosticReportModel } from "../models/DiagnosticReportModel";
+
+export interface IDiagnosticReportService {
+
+    /**
+     * Возвращает назначение по идентификатору.
+     * @param id идентификатор записи
+     * @param cb callback
+     */
+    getDiagnosticReportModelById(id: string, cb: (p: DiagnosticReportModel) => void): void;
+
+    /**
+     * Возвращает список назначений пациента.
+     * @param patientId идентификатор пациента
+     * @param limit максимальное количество назначений, которое нужно вернуть
+     * @param offset смещение относительно начала списка назначений
+     * @param cb callback
+     */
+    getPatientDiagnosticReports(patientId: string, limit: number, offset: number, 
+        cb: (p: DiagnosticReportModel[]) => void): void;
+}

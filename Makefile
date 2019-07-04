@@ -1,9 +1,18 @@
 FILES=src/index.ts
 
-test:
-	./node_modules/.bin/mocha -r ts-node/register tests/appointment.test.ts && \
-		./node_modules/.bin/mocha -r ts-node/register tests/appointmentResult.test.ts && \
+test: test_appointment test_appointmentResult test_prescription test_diagnosticReports
+
+test_appointment:
+	./node_modules/.bin/mocha -r ts-node/register tests/appointment.test.ts
+
+test_appointmentResult:
+		./node_modules/.bin/mocha -r ts-node/register tests/appointmentResult.test.ts
+
+test_prescription:
 		./node_modules/.bin/mocha -r ts-node/register tests/prescription.test.ts
+
+test_diagnosticReports:
+		./node_modules/.bin/mocha -r ts-node/register tests/diagnosticReport.test.ts
 
 build: build_commonjs build_es5 build_browser
 
