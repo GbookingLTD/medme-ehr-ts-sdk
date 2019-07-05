@@ -67,13 +67,28 @@ export class DiagnosticReportModel implements IJsonModel {
      */
     get attachments(): string[] { return this._attachments; }
 
+    constructor() {
+        this._issuedDate = new Date();
+        this._effectivePeriod = new Period();
+        this._result = [];
+        this._resultInterpreter = [];
+        this._resultInterpretation = [];
+        this._imagineMedia = [];
+        this._attachments = [];
+    }
+
     fromJson(json: any): DiagnosticReportModel {
         this._id = json.id;
         this._status = json.status;
         this._type = json.type;
-        this._effectivePeriod = json.effectivePeriod;
-        this._issuedDate = json.issuedDate;
-        this._result = json.result;
+        this._effectivePeriod = (new Period).fromJson(json.effectivePeriod);
+        this._issuedDate = new Date(json.issuedDate);
+
+        this._result = [];
+        if (json.result)
+            for (let i: number = 0; i < json.result.length; ++i)
+                this._result.push((new Observation).fromJson(json.result[i]));
+
         this._resultInterpreter = json.resultInterpreter ? json.resultInterpreter.map((d: any) => (new Doctor).fromJson(d)) : [];
         this._resultInterpretation = json.resultInterpretation || [];
         this._imagineMedia = json.imagineMedia || [];

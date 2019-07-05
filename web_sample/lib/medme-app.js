@@ -46,6 +46,30 @@ function registerHandlebarsHelpers(Handlebars) {
     Handlebars.registerHelper('showPrescriptions', function(val) {
         return "";
     });
+
+    Handlebars.registerHelper('showDiagnosticReportStatus', function(val) {
+        return "";
+    });
+
+    Handlebars.registerHelper('showObservationType', function(val) {
+        var text = [
+            "Анализы",
+            "Исследования"
+        ];
+        return text[val];
+    });
+
+    Handlebars.registerHelper('links', function(val) {
+        if (!val)
+            return "";
+        return Handlebars.SafeString('<ul>' +
+            val.map(function(link) {
+                return "<li><a href=\"" + link + "\" /></li>";
+            }).join("\n") +
+        '</ul>');
+    });
+
+    
 }
 
 function route(hash, done) {
@@ -93,19 +117,23 @@ define('medme-app', ['src/index', 'handlebars'], function(MedMe, Handlebars) {
     var appointmentService;
     var appointmentResultService;
     var prescriptionService;
+    var diagnosticReportService;
     if (location.hostname === "localhost") {
         appointmentService = new JsonRPC.AppointmentService("http://localhost:9999/", JsonRPC.Transports.xhr);
         appointmentResultService = new JsonRPC.AppointmentResultService("http://localhost:9999/", JsonRPC.Transports.xhr);
         prescriptionService = new JsonRPC.PrescriptionService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://localhost:9999/", JsonRPC.Transports.xhr);
     } else {
         appointmentService = new JsonRPC.AppointmentService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
         appointmentResultService = new JsonRPC.AppointmentResultService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
         prescriptionService = new JsonRPC.PrescriptionService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
+        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
     }
 
     return {
         appointmentService: appointmentService,
         appointmentResultService: appointmentResultService,
-        prescriptionService: prescriptionService
+        prescriptionService: prescriptionService,
+        diagnosticReportService: diagnosticReportService
     };
 });
