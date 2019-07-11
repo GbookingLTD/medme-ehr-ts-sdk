@@ -2,13 +2,15 @@ define('analisys-screen', ['handlebars',
         'src/index',
         'medme-app',
         'text!../partials/analisys.html',
-        'text!../partials/analisys-line-template.html'
+        'text!../partials/analisys-line-template.html',
+        'analisys-details-dialog'
     ], function(Handlebars, MedMe, medmeApp, analisysTable, 
-        analisysLineTemplate) {
+        analisysLineTemplate, detailsDialog) {
     return {
         render: function() {
             document.getElementById('mainContent').innerHTML = '';
             document.getElementById('mainContent').insertAdjacentHTML('beforeend', analisysTable);
+            detailsDialog.render(document.getElementById('mainContent'));
 
             var analisysLineTemplateFn = Handlebars.compile(analisysLineTemplate);
             // infoklinika patient_id "10045940"

@@ -13,7 +13,8 @@ export class Service {
     fromJson(json: any): Service {
         this.id = json.id;
         this.name = json.name;
-        this.price.fromJson(json.price);
+        if (json.price)
+            this.price.fromJson(json.price);
         this.duration = json.duration;
         return this;
     }

@@ -4,6 +4,7 @@ import { Period } from '../types/Period';
 import { DiagnosticReportStatus } from '../types/DiagnosticReportStatus';
 import { ObservationType } from '../types/ObservationType';
 import { Observation } from '../types/Observation'
+import { Service } from '../types/Service';
 
 /**
  * Класс модели медикаментозного назначения.
@@ -19,6 +20,8 @@ export class DiagnosticReportModel implements IJsonModel {
     private _resultInterpretation: string[];
     private _imagineMedia: string[];
     private _attachments: string[];
+    private _services: Service[];
+    private _category: string;
 
     get id(): string { return this._id; }
 
@@ -31,6 +34,17 @@ export class DiagnosticReportModel implements IJsonModel {
      * Тип обследования.
      */
     get type(): ObservationType { return this._type; }
+
+    /**
+     * Список оказанных на исследовании услуг.
+     */
+    get services(): Service[] { return this._services; }
+
+    /**
+     * Категория сервисов диагностики (код).
+     * @see http://hl7.org/fhir/valueset-diagnostic-service-sections.html
+     */
+    get category(): string { return this._category; }
 
     /**
      * Период дат, в течение которых результаты теста считать действительными.
@@ -75,6 +89,7 @@ export class DiagnosticReportModel implements IJsonModel {
         this._resultInterpretation = [];
         this._imagineMedia = [];
         this._attachments = [];
+        this._services = [];
     }
 
     fromJson(json: any): DiagnosticReportModel {
@@ -93,6 +108,14 @@ export class DiagnosticReportModel implements IJsonModel {
         this._resultInterpretation = json.resultInterpretation || [];
         this._imagineMedia = json.imagineMedia || [];
         this._attachments = json.attachments || [];
+
+        this._services = [];
+        if (json.services)
+            for (let i: number = 0; i < json.services.length; ++i)
+                this._services.push((new Service).fromJson(json.services[i]));
+
+        this._category = json.category;
+
         return this;
     }
     toJson(): object {

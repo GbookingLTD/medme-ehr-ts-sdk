@@ -13,6 +13,7 @@ export class Observation {
     createdDate: Date;
     patientInfo: PatientInfo;
     type: ObservationType;
+    observationKey: string;
     status: ObservationStatus;
     effectivePeriod: Period;
     issuedDate: Date;
@@ -40,6 +41,7 @@ export class Observation {
         this.createdDate = new Date(json.createdDate);
         this.patientInfo.fromJson(json.patientInfo);
         this.type = json.type;
+        this.observationKey = json.observationKey;
         this.status = json.status;
         this.effectivePeriod.fromJson(json.effectivePeriod);
         this.issuedDate = new Date(json.issuedDate);

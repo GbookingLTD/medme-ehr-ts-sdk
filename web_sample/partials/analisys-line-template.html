@@ -1,15 +1,9 @@
 <tr>
     <td>{{id}}</td>
-    <td>{{showDiagnosticReportStatus status}}</td>
-    <td>{{showObservationType type}}</td>
-    <td>{{showDate effectivePeriod.begin}}</td>
-    <td>{{showDate effectivePeriod.end}}</td>
+    <td>{{showNames services}}</td>
     <td>{{showDate issuedDate}}</td>
-    <td>{{resultInterpreter.name}} {{resultInterpreter.surname}}</td>
-    <td>{{joinParagrathes resultInterpretation}}</td>
-    <td>{{links imagineMedia}}</td>
-    <td>{{links attachments}}</td>
+    <td>{{resultInterpreter.0.name}} {{resultInterpreter.0.surname}}</td>
     <td>
-        <button type="button" class="btn btn-primary show-observations-btn" data-id="{{id}}" data-toggle="modal" data-target="#observations-dialog">Исследования/анализы</button>
+        <button type="button" class="btn btn-primary show-observations-btn" data-id="{{id}}" data-toggle="modal" data-target="#analisys-details-dialog">Показать подробнее</button>
     </td>
 </tr>

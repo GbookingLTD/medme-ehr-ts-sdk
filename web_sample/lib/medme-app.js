@@ -69,6 +69,9 @@ function registerHandlebarsHelpers(Handlebars) {
         '</ul>');
     });
 
+    Handlebars.registerHelper('showNames', function(val) {
+        return val.map(function(item) { return item.name; }).join(", ");
+    });
     
 }
 

@@ -7,6 +7,8 @@ import { Service } from "../types/Service";
 import { ProcedureType } from "../types/ProcedureType";
 import { ProcedureExecStatus } from "../types/ProcedureExecStatus";
 import { Period } from "../types/Period";
+import { DiagnosticReportModel } from "../models/DiagnosticReportModel";
+import { Observation } from "../types/Observation";
 
 
 function alignStrings(obj: object, keys: string[]) {
@@ -62,6 +64,7 @@ export class SimpleTextFormatter {
             "MINUTE_UNIT": "мин.",
             "YES": "Да",
             "NO": "Нет",
+            "CREATED": "Дата создания",
             "appointmentResult": {
                 "created": "Дата создания",
                 "start": "Дата и время начала",
@@ -100,6 +103,13 @@ export class SimpleTextFormatter {
             "Period": {
                 "begin": "Дата начала",
                 "end": "Дата окончания"
+            },
+            "DiagnosticReport": {
+                "Doctor": "Врач",
+                "EffectivePeriod": "Период, в течение которого данные пригодны",
+                "Result": "Результаты",
+                "Images": "Изображения",
+                "Attachments": "Документы"
             }
         }
     };
@@ -133,7 +143,7 @@ export class SimpleTextFormatter {
         return n.toString() + " " + this._localize["MINUTE_UNIT"];
     }
 
-    public doctor(d: Doctor, offset: string): string {
+    public doctor(d: Doctor, offset: string = ""): string {
         return d.name + " " + d.surname;
     }
 
@@ -197,11 +207,50 @@ export class SimpleTextFormatter {
     }
 
     public procedureExecStatus(status: ProcedureExecStatus): string {
-        return this ._localize["ProcedureExecStatus"][status];
+        return this._localize["ProcedureExecStatus"][status];
     }
     public period(period: Period, offset: string): string {
-        return "\n" + offset + this ._localize["Period"]["begin"] + " " + dateFormat(period.begin) + "\n" + 
-            offset + this ._localize["Period"]["end"] + " " + dateFormat(period.end) + "\n";
+        return "\n" + offset + this._localize["Period"]["begin"] + " " + dateFormat(period.begin) + "\n" + 
+            offset + this._localize["Period"]["end"] + " " + dateFormat(period.end) + "\n";
     }
-    
+
+    public diagnosticReport(dr: DiagnosticReportModel, offset: string = ""): string {
+        let _this = this;
+        return offset + this.diagnosticReportTitle(dr)
+            + "\n"
+            + "\n" + offset + this._localize["CREATED"] + " " + dateFormat(dr.issuedDate)
+            + "\n" + offset + this._localize["DiagnosticReport"]["Doctor"] + " " +
+                dr.resultInterpreter.map(d => _this.doctor(d))
+            + "\n" + offset + this._localize["DiagnosticReport"]["Result"]
+            + "\n" + offset + this.observations(dr.result, offset + "  ")
+
+            + (dr.effectivePeriod && dr.effectivePeriod.begin ? 
+              "\n" + offset + this._localize["DiagnosticReport"]["EffectivePeriod"]
+            +        this.period(dr.effectivePeriod, offset + "  ") : "")
+
+            + (dr.resultInterpretation && dr.resultInterpretation.length ?
+              "\n" + offset
+            + "\n" + paragrathes_nl(dr.resultInterpretation, offset) : "")
+
+            + (dr.imagineMedia && dr.imagineMedia.length ?
+              "\n" + offset
+            + "\n" + offset + this._localize["DiagnosticReport"]["Images"]
+            + dr.imagineMedia.map(img => + "\n" + offset + img) : "")
+
+            + (dr.attachments && dr.attachments.length ?
+              "\n" + offset
+            + "\n" + offset + this._localize["DiagnosticReport"]["Attachments"]
+            + dr.attachments.map(a => + "\n" + offset + a) : "")
+            ;
+    }
+    public diagnosticReportTitle(dr: DiagnosticReportModel) {
+        return dr.services.map(s => s.name).join(", ");
+    }
+    public observations(o: Observation[], offset: string): string {
+        let _this = this;
+        return o.map(o => _this.observation(o, offset)).join("\n");
+    }
+    public observation(o: Observation, offset: string): string {
+        return offset + o.observationKey + ": " + o.value.value;
+    }
 }
