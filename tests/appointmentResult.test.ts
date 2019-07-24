@@ -4,6 +4,8 @@ import * as assert from 'assert';
 import JsonRPC from '../src/services/jsonRPC/index';
 import { IAppointmentResultService } from '../src/services/AppointmentResultService';
 import { AppointmentResultModel } from "../src/models/AppointmentResultModel";
+import { Credentials } from '../src/services/Credentials';
+import { getCreateServiceFn } from './login';
 
 describe('AppointmentResult', function() {
     function getOneById(service: IAppointmentResultService, id: string, done: (err: Error, appointmentResult: AppointmentResultModel) => void) {
@@ -25,12 +27,20 @@ describe('AppointmentResult', function() {
     }
 
     describe("JsonRPC", function() {
-        let service = new JsonRPC.AppointmentResultService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        const createAppointmentResultService = getCreateServiceFn<IAppointmentResultService>(function(authCred: Credentials) {
+            return new JsonRPC.AppointmentResultService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
+        });
         it("GetOneById", function(done: (err?: any) => void) {
-            getOneById(service, "1", done);
+            createAppointmentResultService(function(err: any, service?: IAppointmentResultService) {
+                if (err) return done(err);
+                getOneById(service, "1", done);
+            });
         });
         it('GetPatientAppointmentResults', function(done: (err?: any) => void) {
-            getPatientAppointmentResults(service, "1", 10, 0, done);
+            createAppointmentResultService(function(err: any, service?: IAppointmentResultService) {
+                if (err) return done(err);
+                getPatientAppointmentResults(service, "1", 10, 0, done);
+            });
         });
     });
 });

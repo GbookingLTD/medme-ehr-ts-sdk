@@ -4,6 +4,8 @@ import * as assert from 'assert';
 import JsonRPC from '../src/services/jsonRPC/index';
 import { IDiagnosticReportService } from '../src/services/DiagnosticReportService';
 import { DiagnosticReportModel } from '../src/models/DiagnosticReportModel';
+import { Credentials } from '../src/services/Credentials';
+import { getCreateServiceFn } from './login';
 
 describe('DiagnosticReport', function() {
     function getOneById(service: IDiagnosticReportService, id: string, done: (err: Error, p: DiagnosticReportModel) => void) {
@@ -26,12 +28,20 @@ describe('DiagnosticReport', function() {
     }
 
     describe.only('JsonRPC', function() {
-        let service = new JsonRPC.DiagnosticReportService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        const createService = getCreateServiceFn<IDiagnosticReportService>(function(authCred: Credentials) {
+            return new JsonRPC.DiagnosticReportService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
+        });
         it('GetOneById', function(done: (err?: any) => void) {
-            getOneById(service, "1", done);
+            createService(function(err: any, service?: IDiagnosticReportService) {
+                if (err) return done(err);
+                getOneById(service, "1", done);
+            });
         });
         it('GetPatientDiagnosticReports', function(done: (err?: any) => void) {
-            getPatientDiagnosticReports(service, "1", 10, 0, done);
+            createService(function(err: any, service?: IDiagnosticReportService) {
+                if (err) return done(err);
+                getPatientDiagnosticReports(service, "1", 10, 0, done);
+            });
         });
     });
 

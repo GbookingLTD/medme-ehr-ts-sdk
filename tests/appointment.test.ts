@@ -13,6 +13,8 @@ import BinRPC from '../src/services/binRPC/index';
 import JsonRPC from '../src/services/jsonRPC/index';
 import { IAppointmentService } from '../src/services/AppointmentService';
 import { AppointmentInputProperties } from "../src/types/AppointmentInputProperties";
+import { Credentials } from '../src/services/Credentials';
+import { getCreateServiceFn } from './login';
 
 describe('Appointment', function() {
     function getOneById(service: IAppointmentService, id: string, done: (err: Error, appointment: AppointmentModel) => void) {
@@ -69,15 +71,26 @@ describe('Appointment', function() {
     });
 
     describe.only('JsonRPC', function() {
-        let service = new JsonRPC.AppointmentService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        const createAppointmentService = getCreateServiceFn<IAppointmentService>(function(authCred: Credentials) {
+            return new JsonRPC.AppointmentService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
+        });
         it('GetOneById', function(done: (err?: any) => void) {
-            getOneById(service, "1", done);
+            createAppointmentService(function(err: any, service?: IAppointmentService) {
+                if (err) return done(err);
+                getOneById(service, "1", done);
+            });
         });
         it('SaveModel', function(done: (err?: any) => void) {
-            saveOneAppointment(service, done);
+            createAppointmentService(function(err: any, service?: IAppointmentService) {
+                if (err) return done(err);
+                saveOneAppointment(service, done);
+            });
         });
         it('GetPatientAppointments', function(done: (err?: any) => void) {
-            getPatientAppointments(service, "1", 10, 0, done);
+            createAppointmentService(function(err: any, service?: IAppointmentService) {
+                if (err) return done(err);
+                getPatientAppointments(service, "1", 10, 0, done);
+            });
         });
     });
 });

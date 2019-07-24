@@ -1,9 +1,9 @@
-import { JsonRPCService } from "./jsonRpcService";
+import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 import { PrescriptionModel } from "../../models/PrescriptionModel";
 import { IPrescriptionService } from "../PrescriptionService";
 
-export class PrescriptionService extends JsonRPCService implements IPrescriptionService {
+export class PrescriptionService extends JsonRPCCredService implements IPrescriptionService {
     
 
     /**

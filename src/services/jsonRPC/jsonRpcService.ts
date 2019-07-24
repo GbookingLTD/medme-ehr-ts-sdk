@@ -1,4 +1,5 @@
 import { IJsonRPCRequest, IJsonRpcResponseCallback, JsonRpcHeader } from "./jsonRpcRequest";
+import { Credentials } from "../Credentials";
 
 export class JsonRPCService {
     public static id: number = 1;
@@ -19,9 +20,31 @@ export class JsonRPCService {
         return this._request;
     }
 
-    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback): void {
-        this._request(this._endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod), 
+    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback, 
+            optionalEndpoint: string = undefined, optionalCred: Credentials = undefined): void {
+        this.request(optionalEndpoint || this._endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, optionalCred), 
             payload, cb);
     }
 }
 
+export class JsonRPCCredService extends JsonRPCService {
+    private cred_: Credentials;
+    public constructor(endpoint: string, cred: Credentials, request: IJsonRPCRequest) {
+        super(endpoint, request);
+        this.cred_ = cred;
+    }
+
+    get cred(): Credentials {
+        return this.cred_;
+    }
+
+    set cred(value: Credentials) {
+        this.cred_ = value;
+    }
+
+    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback, 
+        optionalEndpoint: string = undefined): void {
+    this.request(optionalEndpoint || this.endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred), 
+        payload, cb);
+}
+}

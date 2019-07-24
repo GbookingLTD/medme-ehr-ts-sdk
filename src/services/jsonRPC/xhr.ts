@@ -4,8 +4,8 @@ if (typeof window === "undefined") {
     var XMLHttpRequest = (<any>window).XMLHttpRequest;
 }
 
-import * as jsonrpc from '../../../node_modules/jsonrpc-lite/jsonrpc';
 import { IJsonRpcHeader, IJsonRpcResponseCallback, IJsonRPCRequest } from "./jsonRpcRequest";
+import { requestCred } from './jsonrpc_cred';
 
 export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcHeader, requestPayload: object, 
             cb: IJsonRpcResponseCallback) {
@@ -35,6 +35,7 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
     req.open('POST', endpoint, true);
     req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    let jsonRpcRequest = jsonrpc.request(header.id, header.method, requestPayload);
+    let jsonRpcRequest = requestCred(header.id, header.method, header.cred, requestPayload);
+    console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };

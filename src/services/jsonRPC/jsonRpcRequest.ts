@@ -1,6 +1,9 @@
+import { Credentials } from "../Credentials";
+
 export interface IJsonRpcHeader {
     id: string;
     method: string;
+    cred: Credentials;
 }
 
 export interface IJsonRpcResponseCallback {
@@ -14,10 +17,12 @@ export interface IJsonRPCRequest {
 export class JsonRpcHeader implements IJsonRpcHeader {
     private _id: string;
     private _method: string;
+    private _cred: Credentials;
 
-    public constructor(id: string, method: string) {
+    public constructor(id: string, method: string, cred: Credentials = null) {
         this._id = id;
         this._method = method;
+        this._cred = cred;
     }
 
     public get id(): string {
@@ -26,5 +31,9 @@ export class JsonRpcHeader implements IJsonRpcHeader {
 
     public get method(): string {
         return this._method;
+    }
+
+    public get cred(): Credentials {
+        return this._cred;
     }
 }

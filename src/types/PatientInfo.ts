@@ -7,7 +7,7 @@ export class PatientInfo {
     phone: string;
     email: string;
     gender: Gender;
-    birthdate: Date;
+    date: Date;
 
     fromJson(json: any): PatientInfo {
         this.id = json.id;
@@ -16,7 +16,7 @@ export class PatientInfo {
         this.phone = json.phone;
         this.email = json.email;
         this.gender = json.gender;
-        this.birthdate = json.birthdate;
+        this.date = json.date;
         return this;
     }
 }

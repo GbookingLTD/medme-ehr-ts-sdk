@@ -1,10 +1,10 @@
 import { IAppointmentService } from "../AppointmentService";
 import { AppointmentModel } from "../../models/AppointmentModel";
 import { AppointmentInputProperties } from "../../types/AppointmentInputProperties";
-import { JsonRPCService } from "./jsonRpcService";
+import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 
-export class AppointmentService extends JsonRPCService
+export class AppointmentService extends JsonRPCCredService
         implements IAppointmentService {
 
     public getAppointmentModelById(id: string, cb: (appointment: AppointmentModel) => void): void {

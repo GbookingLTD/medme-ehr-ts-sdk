@@ -1,9 +1,9 @@
 import { IAppointmentResultService } from "../AppointmentResultService";
 import { AppointmentResultModel } from "../../models/AppointmentResultModel";
-import { JsonRPCService } from "./jsonRpcService";
+import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 
-export class AppointmentResultService extends JsonRPCService implements IAppointmentResultService {
+export class AppointmentResultService extends JsonRPCCredService implements IAppointmentResultService {
     
 
     /**

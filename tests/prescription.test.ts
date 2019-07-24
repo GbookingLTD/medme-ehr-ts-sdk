@@ -4,6 +4,8 @@ import * as assert from 'assert';
 import JsonRPC from '../src/services/jsonRPC/index';
 import { IPrescriptionService } from '../src/services/PrescriptionService';
 import { PrescriptionModel } from '../src/models/PrescriptionModel';
+import { Credentials } from '../src/services/Credentials';
+import { getCreateServiceFn } from './login';
 
 describe('Prescription', function() {
     function getOneById(service: IPrescriptionService, id: string, done: (err: Error, p: PrescriptionModel) => void) {
@@ -26,12 +28,20 @@ describe('Prescription', function() {
     }
 
     describe.only('JsonRPC', function() {
-        let service = new JsonRPC.PrescriptionService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        const createService = getCreateServiceFn<IPrescriptionService>(function(authCred: Credentials) {
+            return new JsonRPC.PrescriptionService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
+        });
         it('GetOneById', function(done: (err?: any) => void) {
-            getOneById(service, "1", done);
+            createService(function(err: any, service?: IPrescriptionService) {
+                if (err) return done(err);
+                getOneById(service, "1", done);
+            });
         });
         it('GetPatientPrescriptions', function(done: (err?: any) => void) {
-            getPatientPrescriptions(service, "1", 10, 0, done);
+            createService(function(err: any, service?: IPrescriptionService) {
+                if (err) return done(err);
+                getPatientPrescriptions(service, "1", 10, 0, done);
+            });
         });
     });
 

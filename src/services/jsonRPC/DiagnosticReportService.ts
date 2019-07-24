@@ -1,9 +1,9 @@
-import { JsonRPCService } from "./jsonRpcService";
+import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 import { DiagnosticReportModel } from "../../models/DiagnosticReportModel";
 import { IDiagnosticReportService } from "../DiagnosticReportService";
 
-export class DiagnosticReportService extends JsonRPCService implements IDiagnosticReportService {
+export class DiagnosticReportService extends JsonRPCCredService implements IDiagnosticReportService {
     
 
     /**
