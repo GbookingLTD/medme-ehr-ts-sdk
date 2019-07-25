@@ -13,7 +13,7 @@ define('appointment-results-screen', ['handlebars',
 
             var appointmentResultLineTemplateFn = Handlebars.compile(appointmentResultLineTemplate);
             // infoklinika patient_id "10045940"
-            medmeApp.appointmentResultService.getPatientAppointmentResults("1", 10, 0, function(appointmentResults) {
+            medmeApp.appointmentResultService.getPatientAppointmentResults(medMe.PATIENT_ID, 10, 0, function(appointmentResults) {
                 appointmentResults.forEach(function(app) {
                     var html = appointmentResultLineTemplateFn(app);
                     document.getElementById('appointment-results-table-body')

@@ -14,7 +14,7 @@ define('analisys-screen', ['handlebars',
 
             var analisysLineTemplateFn = Handlebars.compile(analisysLineTemplate);
             // infoklinika patient_id "10045940"
-            medmeApp.diagnosticReportService.getPatientDiagnosticReports("1", 10, 0, function(reports) {
+            medmeApp.diagnosticReportService.getPatientDiagnosticReports(medMe.PATIENT_ID, 10, 0, function(reports) {
                 reports.forEach(function(app) {
                     var html = analisysLineTemplateFn(app);
                     document.getElementById('analisys-table-body')

@@ -139,6 +139,10 @@ define('medme-app', ['index', 'handlebars'], function(MedMe, Handlebars) {
         appointmentService: appointmentService,
         appointmentResultService: appointmentResultService,
         prescriptionService: prescriptionService,
-        diagnosticReportService: diagnosticReportService
+        diagnosticReportService: diagnosticReportService,
+        env: {
+            PATIENT_ID: "1",
+            //PATIENT_ID: "10045940"
+        }
     };
 });

@@ -18,7 +18,7 @@ define('appointment-screen', ['handlebars',
 
             var appointmentLineTemplateFn = Handlebars.compile(appointmentLineTemplate);
             // infoklinika patient_id "10045940"
-            medmeApp.appointmentService.getPatientAppointments("1", 10, 0, function(appointments) {
+            medmeApp.appointmentService.getPatientAppointments(medMe.PATIENT_ID, 10, 0, function(appointments) {
                 appointments.forEach(function(app) {
                     var html = appointmentLineTemplateFn(app);
                     document.getElementById('appointments-table-body')
