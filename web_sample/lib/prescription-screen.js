@@ -10,7 +10,7 @@ define('prescription-screen', ['handlebars',
             document.getElementById('mainContent').insertAdjacentHTML('beforeend', prescriptionTable);
 
             var prescriptionLineTemplateFn = Handlebars.compile(prescriptionLineTemplate);
-            medmeApp.prescriptionService.getPatientPrescriptions(MedMe.env.PATIENT_ID, 10, 0, function(prescriptions) {
+            medmeApp.prescriptionService.getPatientPrescriptions(medmeApp.env.PATIENT_ID, 10, 0, function(prescriptions) {
                 prescriptions.forEach(function(app) {
                     var html = prescriptionLineTemplateFn(app);
                     document.getElementById('prescriptions-table-body')
