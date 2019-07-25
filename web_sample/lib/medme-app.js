@@ -92,7 +92,7 @@ function route(hash, done) {
         requirejs(['investigation-screen'], fn);
 }
 
-define('medme-app', ['src/index', 'handlebars'], function(MedMe, Handlebars) {
+define('medme-app', ['index', 'handlebars'], function(MedMe, Handlebars) {
     registerHandlebarsHelpers(Handlebars);
 
     // setup default routing
@@ -117,20 +117,22 @@ define('medme-app', ['src/index', 'handlebars'], function(MedMe, Handlebars) {
     // Initialize API services
     var JsonRPC = MedMe.EHR.Services.JsonRPC;
 
+    var cred = new MedMe.EHR.Services.Credentials('User123', 'token_4444');
+
     var appointmentService;
     var appointmentResultService;
     var prescriptionService;
     var diagnosticReportService;
     if (location.hostname === "localhost") {
-        appointmentService = new JsonRPC.AppointmentService("http://localhost:9999/", JsonRPC.Transports.xhr);
-        appointmentResultService = new JsonRPC.AppointmentResultService("http://localhost:9999/", JsonRPC.Transports.xhr);
-        prescriptionService = new JsonRPC.PrescriptionService("http://localhost:9999/", JsonRPC.Transports.xhr);
-        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://localhost:9999/", JsonRPC.Transports.xhr);
+        appointmentService = new JsonRPC.AppointmentService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
+        appointmentResultService = new JsonRPC.AppointmentResultService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
+        prescriptionService = new JsonRPC.PrescriptionService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
+        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
     } else {
-        appointmentService = new JsonRPC.AppointmentService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
-        appointmentResultService = new JsonRPC.AppointmentResultService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
-        prescriptionService = new JsonRPC.PrescriptionService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
-        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://ehr.dev.gbooking.ru/", JsonRPC.Transports.xhr);
+        appointmentService = new JsonRPC.AppointmentService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
+        appointmentResultService = new JsonRPC.AppointmentResultService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
+        prescriptionService = new JsonRPC.PrescriptionService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
+        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
     }
 
     return {

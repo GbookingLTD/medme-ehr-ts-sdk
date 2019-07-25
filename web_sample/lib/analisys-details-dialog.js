@@ -1,5 +1,5 @@
 // диалог для сохранения записи на прием
-define('analisys-details-dialog', ['jquery', 'src/index', 'medme-app', 
+define('analisys-details-dialog', ['jquery', 'index', 'medme-app', 
         'text!../partials/analisys-details-dialog.html',
         'bootstrap'],
         function($, MedMe, medmeApp, dialog) {

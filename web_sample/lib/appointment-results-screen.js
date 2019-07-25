@@ -1,5 +1,5 @@
 define('appointment-results-screen', ['handlebars',
-        'src/index', 
+        'index', 
         'medme-app',
         'text!../partials/appointment-results.html',
         'text!../partials/appointment-result-line-template.html',

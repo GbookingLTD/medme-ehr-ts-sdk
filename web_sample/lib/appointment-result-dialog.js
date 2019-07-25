@@ -1,5 +1,5 @@
 // диалог для сохранения записи на прием
-define('appointment-result-dialog', ['jquery', 'src/index', 'medme-app', 
+define('appointment-result-dialog', ['jquery', 'index', 'medme-app', 
         'text!../partials/appointment-result-dialog.html', 'bootstrap'],
         function($, MedMe, medmeApp, appointmentResultDialog) {
     return {

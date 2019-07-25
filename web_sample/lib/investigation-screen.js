@@ -1,5 +1,5 @@
 define('investigation-screen', ['handlebars',
-        'src/index',
+        'index',
         'medme-app',
         'text!../partials/investigation.html',
         'text!../partials/investigation-line-template.html'
