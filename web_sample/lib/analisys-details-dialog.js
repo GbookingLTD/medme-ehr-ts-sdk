@@ -8,7 +8,8 @@ define('analisys-details-dialog', ['jquery', 'index', 'medme-app',
             containerElement.insertAdjacentHTML('beforeend', dialog);
 
             $('#analisys-details-dialog').on('shown.bs.modal', function (e) {
-                medmeApp.diagnosticReportService.getDiagnosticReportModelById("1", function (dr) {
+                var id = $(e.relatedTarget).data("id");
+                medmeApp.diagnosticReportService.getDiagnosticReportModelById(id, function (dr) {
                     console.log('dr.id:' + dr.id);
                     var formatter = new MedMe.EHR.Formatters.SimpleTextFormatter(
                         MedMe.EHR.Formatters.SimpleTextFormatter.LOCALIZE["ru-ru"]);

@@ -20,6 +20,7 @@ define('appointment-screen', ['handlebars',
             // infoklinika patient_id "10045940"
             medmeApp.appointmentService.getPatientAppointments(medmeApp.env.PATIENT_ID, 10, 0, function(appointments) {
                 appointments.forEach(function(app) {
+                    app.hasResultId = app.resultId && app.resultId != "0";
                     var html = appointmentLineTemplateFn(app);
                     document.getElementById('appointments-table-body')
                         .insertAdjacentHTML('beforeend', html);

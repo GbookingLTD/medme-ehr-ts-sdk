@@ -7,7 +7,8 @@ define('appointment-result-dialog', ['jquery', 'index', 'medme-app',
             containerElement.insertAdjacentHTML('beforeend', appointmentResultDialog);
 
             $('#appointment-result-dialog').on('shown.bs.modal', function (e) {
-                medmeApp.appointmentResultService.getAppointmentResultModelById("1", (appresult) => {
+                var id = $(e.relatedTarget).data("id");
+                medmeApp.appointmentResultService.getAppointmentResultModelById(id, (appresult) => {
                     console.log('app_res.id:' + appresult.id);
                     //var template = Templates["appointment-result-template"];
                     //var html = template(appresult);

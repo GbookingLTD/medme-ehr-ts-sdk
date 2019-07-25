@@ -9,6 +9,9 @@
     <td>{{showConfirmationStatus confirmationStatus}}</td>
     <td>{{boolYesNo clientAppear}}</td>
     <td>{{showPrice clientPrice}}</td>
-    <td><button type="button" class="btn btn-primary appointment-result-btn" data-id="{{id}}" data-toggle="modal" data-target="#appointment-result-dialog">Результаты</button>
+    <td>
+    {{#if hasResultId}}
+        <button type="button" class="btn btn-primary appointment-result-btn" data-id="{{resultId}}" data-toggle="modal" data-target="#appointment-result-dialog">Результаты</button>
+    {{/if}}
     </td>
 </tr>
