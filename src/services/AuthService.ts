@@ -1,6 +1,6 @@
 import { PatientInfo } from "../types/PatientInfo";
 import { PatientModel } from "../models/PatientModel";
-import { IPatientService } from "./PatientService";
+import {IPatientService, NotAuthenticatedError} from "./PatientService";
 
 export class ExchangeTokenResponse {
     public exchangeToken: string;
@@ -83,10 +83,10 @@ export class AuthenticatedPatient {
  * @param {Promise<PatientInfo>} patientInput
  * @param {function} cb
  */
-export function getPatientOrLogin(patientService: IPatientService, authService: IAuthService, 
-        patientInput: Promise<PatientInfo>, cb: (authenticated: AuthenticatedPatient) => void) {
+export function getPatientOrLogin(patientService: IPatientService, authService: IAuthService,
+                                  patientInput: Promise<PatientInfo>, cb: (authenticated: AuthenticatedPatient) => void) {
     patientService.getPatient((err: any, patient?: PatientModel) => {
-        if (err.notAuthenticate) {
+        if (err as NotAuthenticatedError) {
             return authService.getExchangeToken((res: ExchangeTokenResponse) => {
                 let exchangeToken = res.exchangeToken;
                 patientInput.then((patientInfo: PatientInfo) => {
