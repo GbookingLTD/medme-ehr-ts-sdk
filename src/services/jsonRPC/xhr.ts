@@ -20,7 +20,7 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
             if (jsonRpcResponse.result)
                 cb(null, jsonRpcResponse.result);
             else if (jsonRpcResponse.error)
-                cb(new Error(jsonRpcResponse.error));
+                cb(jsonRpcResponse.error);
             else
                 cb(new Error("wrong json-rpc format " + jsonRpcResponse));
         } else

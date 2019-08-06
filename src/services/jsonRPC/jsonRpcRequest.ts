@@ -6,8 +6,14 @@ export interface IJsonRpcHeader {
     cred: Credentials;
 }
 
+export interface IJsonRpcError {
+    code: number;
+    message: string;
+    data: any;
+}
+
 export interface IJsonRpcResponseCallback {
-    (err: Error, payload?: object): void;
+    (err: IJsonRpcError | Error, payload?: object): void;
 }
 
 export interface IJsonRPCRequest {

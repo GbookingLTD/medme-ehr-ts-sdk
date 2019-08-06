@@ -2,12 +2,14 @@
 
 import * as assert from 'assert';
 import JsonRPC from '../src/services/jsonRPC/index';
-import { IAuthService, ExchangeTokenResponse, AuthInfo } from '../src/services/AuthService';
+import { IAuthService, ExchangeTokenResponse, getPatientOrLogin, AuthInfo } from '../src/services/AuthService';
 import { Credentials } from '../src/services/Credentials';
 import { PatientInfo } from '../src/types/PatientInfo';
 import { Gender } from '../src/types/Gender';
 import { PatientModel } from '../src/models/PatientModel';
 import { login, AUTH_SERVER_ENDPOINT, EHR_SERVER_ENDPOINT } from './login';
+import {rejects} from "assert";
+import {NotAuthenticatedError} from "../src/services/PatientService";
 
 describe('Auth', function() {
     // Для выполения запросов аутентификации мы должны получить от сервера авторизации user, token.
@@ -103,4 +105,20 @@ describe('Auth', function() {
         });
     });
 
+    describe('getPatientOrLogin', function () {
+        it ('not_authenticated', done => {
+            login("User123c", false, function(err: any, authCred?: Credentials) {
+                if (err) return done(err);
+
+                let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
+
+                patientService.getPatient((err1, patient) => {
+                    if (err1 as NotAuthenticatedError)
+                        done()
+                    else
+                        done(err1)
+                })
+            });
+        });
+    })
 });
