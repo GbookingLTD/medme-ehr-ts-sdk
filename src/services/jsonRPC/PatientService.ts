@@ -3,7 +3,7 @@ import {IPatientService, NotAuthenticatedError} from "../PatientService";
 import {PatientInfo} from "../../types/PatientInfo";
 import {Handlers} from "../../Handlers";
 import {PatientModel} from "../../models/PatientModel";
-import {NotAuthorizedError} from "./jsonRpcRequest";
+import {RpcErrorCodes} from "./RpcErrorCodes";
 
 export class PatientService extends JsonRPCCredService
     implements IPatientService {
@@ -11,7 +11,7 @@ export class PatientService extends JsonRPCCredService
     public getPatient(cb: (err?: any, patient?: PatientModel) => void): void {
         this.exec(Handlers.HANDLER_GET_PATIENT_METHOD, {}, (err: any, payload: object) => {
             if (err) {
-                if (err as NotAuthorizedError)
+                if (err.code === RpcErrorCodes.NotAuthenticated)
                     cb(new NotAuthenticatedError(err.message))
                 else
                     cb(err)

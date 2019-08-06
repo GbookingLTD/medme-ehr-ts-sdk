@@ -16,8 +16,6 @@ export interface IJsonRpcResponseCallback {
     (err: IJsonRpcError | Error, payload?: object): void;
 }
 
-export type NotAuthorizedError = IJsonRpcError & { code: 33000 }
-
 export interface IJsonRPCRequest {
     (endpoint: string, header: IJsonRpcHeader, requestPayload: object, cb?: IJsonRpcResponseCallback): void;
 }
