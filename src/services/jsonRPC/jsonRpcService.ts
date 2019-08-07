@@ -1,5 +1,6 @@
-import { IJsonRPCRequest, IJsonRpcResponseCallback, JsonRpcHeader } from "./jsonRpcRequest";
-import { Credentials } from "../Credentials";
+import {IJsonRPCRequest, IJsonRpcResponseCallback, JsonRpcHeader} from "./jsonRpcRequest";
+import {Credentials} from "../Credentials";
+import {RpcErrorCodes} from "./RpcErrorCodes";
 
 export class JsonRPCService {
     public static id: number = 1;
@@ -20,15 +21,16 @@ export class JsonRPCService {
         return this._request;
     }
 
-    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback, 
-            optionalEndpoint: string = undefined, optionalCred: Credentials = undefined): void {
-        this.request(optionalEndpoint || this._endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, optionalCred), 
+    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback,
+                optionalEndpoint: string = undefined, optionalCred: Credentials = undefined): void {
+        this.request(optionalEndpoint || this._endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, optionalCred),
             payload, cb);
     }
 }
 
 export class JsonRPCCredService extends JsonRPCService {
     private cred_: Credentials;
+
     public constructor(endpoint: string, cred: Credentials, request: IJsonRPCRequest) {
         super(endpoint, request);
         this.cred_ = cred;
@@ -42,9 +44,24 @@ export class JsonRPCCredService extends JsonRPCService {
         this.cred_ = value;
     }
 
-    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback, 
-        optionalEndpoint: string = undefined): void {
-    this.request(optionalEndpoint || this.endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred), 
-        payload, cb);
-}
+    onAuthNotAuthorized: () => void;
+    onAuthTokenExpired: () => void;
+
+    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback,
+                optionalEndpoint: string = undefined): void {
+        const service = this;
+
+        function auth(cb) {
+            let this_ = this;
+            return function () {
+                let args = arguments;
+                if (args[0] && args[0].code === RpcErrorCodes.NotAuthenticated && service.onAuthNotAuthorized) service.onAuthNotAuthorized();
+                if (args[0] && args[0].code === RpcErrorCodes.TokenExpired && service.onAuthTokenExpired) service.onAuthTokenExpired();
+                cb.apply(this_, args);
+            }
+        }
+
+        this.request(optionalEndpoint || this.endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred),
+            payload, auth(cb));
+    }
 }

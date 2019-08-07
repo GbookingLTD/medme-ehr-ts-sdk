@@ -1,3 +1,4 @@
 export enum RpcErrorCodes {
-    NotAuthenticated = -33000
+    NotAuthenticated = -33000,
+    TokenExpired = -33001
 }
