@@ -121,4 +121,18 @@ describe('Auth', function() {
             });
         });
     })
+
+    describe('callbackHandlers', function () {
+        it ('not_authenticated', done => {
+            login("User123c", false, function(err: any, authCred?: Credentials) {
+                if (err) return done(err);
+
+                let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
+
+                patientService.onAuthNotAuthorized = () => done();
+
+                patientService.getPatient((err1, patient) => {})
+            });
+        });
+    })
 });
