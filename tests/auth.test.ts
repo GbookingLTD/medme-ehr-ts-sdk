@@ -10,6 +10,8 @@ import { PatientModel } from '../src/models/PatientModel';
 import { login, AUTH_SERVER_ENDPOINT, EHR_SERVER_ENDPOINT } from './login';
 import {rejects} from "assert";
 import {NotAuthenticatedError} from "../src/services/PatientService";
+import {IJsonRpcHeader, IJsonRpcResponseCallback} from "../src/services/jsonRPC/jsonRpcRequest";
+import {RpcErrorCodes} from "../src/services/jsonRPC/RpcErrorCodes";
 
 describe('Auth', function() {
     // Для выполения запросов аутентификации мы должны получить от сервера авторизации user, token.
@@ -131,7 +133,30 @@ describe('Auth', function() {
 
                 patientService.onAuthNotAuthorized = () => done();
 
-                patientService.getPatient((err1, patient) => {})
+                patientService.getPatient((err1, patient) => {
+                    if (err1 as NotAuthenticatedError) return;
+                    done(err1);
+                });
+            });
+        });
+
+        function fakeXhr(endpoint: string, header: IJsonRpcHeader, requestPayload: object,
+                         cb: IJsonRpcResponseCallback) {
+            cb({code: RpcErrorCodes.TokenExpired, message: '', data:null})
+        }
+
+        it ('expired', done => {
+            login("User123c", false, function(err: any, authCred?: Credentials) {
+                if (err) return done(err);
+
+                let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, fakeXhr);
+
+                patientService.onAuthTokenExpired = () => done();
+
+                patientService.getPatient((err1, patient) => {
+                    if (err1 as NotAuthenticatedError) return;
+                    done(err1);
+                });
             });
         });
     })
