@@ -83,7 +83,7 @@ describe('Auth', function() {
         // Запрос на аутентификацию должен пройти успешно - привязывать одного и того же 
         // EHR пациента к новому пользователю (параметр user).
         it('authenticate', function(done) {
-            login("User" + Date.now(), false, function(err: any, authCred: Credentials) {
+            login("User" + Date.now(), undefined, function(err: any, authCred: Credentials) {
                 if (err) return done(err);
 
                 exchangeTokenAuthenticate(authCred, done);
@@ -95,21 +95,26 @@ describe('Auth', function() {
         //    Он должен отправить эти данные на EHR сервер.
         // 2. Сделать запрос на получение данных пациента - данные должны вернуться успешно.
         it('loginWithExistsUser', function(done) {
-            login("User123", true, function(err: any, authCred?: Credentials) {
+            login("user123", 'user_sign_222', function(err: any, authCred?: Credentials) {
                 if (err) return done(err);
 
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
-                patientService.getPatient(function(patient: PatientModel) {
+                patientService.getPatient(function(patErr?: any, patient?: PatientModel) {
+                    if (patErr) return done(patErr);
                     checkPatient(patient);
                     done();
                 });
             });
         });
+
+        // it('loginAndNotAuthenticate', function(done) {
+        //     done();
+        // });
     });
 
     describe('getPatientOrLogin', function () {
         it ('not_authenticated', done => {
-            login("User123c", false, function(err: any, authCred?: Credentials) {
+            login("User123c", undefined, function(err: any, authCred?: Credentials) {
                 if (err) return done(err);
 
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
@@ -126,12 +131,13 @@ describe('Auth', function() {
 
     describe('callbackHandlers', function () {
         it ('not_authenticated', done => {
-            login("User123c", false, function(err: any, authCred?: Credentials) {
+            login("User123c", undefined, function(err: any, authCred?: Credentials) {
                 if (err) return done(err);
 
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
 
                 patientService.onAuthNotAuthorized = () => done();
+                patientService.onAuthUnknownAuthError = () => done();
 
                 patientService.getPatient((err1, patient) => {
                     if (err1 as NotAuthenticatedError) return;
@@ -146,7 +152,7 @@ describe('Auth', function() {
         }
 
         it ('expired', done => {
-            login("User123c", false, function(err: any, authCred?: Credentials) {
+            login("User123c", undefined, function(err: any, authCred?: Credentials) {
                 if (err) return done(err);
 
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, fakeXhr);

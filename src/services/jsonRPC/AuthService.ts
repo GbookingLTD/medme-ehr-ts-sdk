@@ -26,7 +26,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
      */
     public getExchangeToken(cb: (res: ExchangeTokenResponse) => void): void {
         this.exec(Handlers.HANDLER_GET_EXCHANGE_TOKEN_METHOD, {}, (err: any, payload: object) => {
-            if (err) throw new Error("failed to get exchange token: " + err);
+            if (err) throw new Error("failed to get exchange token: " + JSON.stringify(err));
             let etr = new ExchangeTokenResponse();
             etr.exchangeToken = payload['exchangeToken'];
             cb(etr);
@@ -39,12 +39,14 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param {string} exchangeToken короткоживущий токен обмена
      * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
      */
-    public authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (patient: PatientModel) => void): void {
+    public authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (patient: PatientModel, userSign: string) => void): void {
         this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, {exchangeToken, patientProperties: patientInfo}, (err: any, payload: object) => {
-            if (err) throw new Error("failed to authenticate: " + err);
+            if (err) throw new Error("failed to authenticate: " + JSON.stringify(err));
             let patient = new PatientModel();
             patient.fromJson(payload['patient']);
-            cb(patient);
+            if (!payload['userSign'])
+                throw new Error("expect userSign");
+            cb(patient, payload['userSign']);
         }, this.ehrServerEndpoint_);
     }
 }

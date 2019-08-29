@@ -30,30 +30,8 @@ export interface IAuthService {
      * @param {string} exchangeToken короткоживущий токен обмена
      * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
      */
-    authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (patient: PatientModel) => void): void;
+    authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (patient: PatientModel, userSign: string) => void): void;
     
-}
-
-/**
- * Интерфейс предоставляет доступ к методам аутентификации пользователя для сервера авторизации.
- */
-export interface IBackgroundAuthService {
-
-    /**
-     * Запрос сохранение данных авторизации на EHR сервер.
-     * 
-     * @param authInfo 
-     */
-    saveAuthInfo(authInfo: AuthInfo): void;
-
-    /**
-     * Запрос на сохранение токена обмена по EHR сервер.
-     * 
-     * @param exchangeToken 
-     * @param authInfo 
-     */
-    saveExchangeToken(exchangeToken: string, authInfo: AuthInfo): void;
-
 }
 
 export class AuthenticatedPatient {
@@ -84,12 +62,14 @@ export class AuthenticatedPatient {
  * @param {function} cb
  */
 export function getPatientOrLogin(patientService: IPatientService, authService: IAuthService,
-                                  patientInput: Promise<PatientInfo>, cb: (authenticated: AuthenticatedPatient) => void) {
+                                  patientInput: Promise<PatientInfo>, cb: (/* err: Error, */authenticated: AuthenticatedPatient) => void) {
     patientService.getPatient((err: any, patient?: PatientModel) => {
+        // TODO Токен истек
         if (err as NotAuthenticatedError) {
             return authService.getExchangeToken((res: ExchangeTokenResponse) => {
                 let exchangeToken = res.exchangeToken;
                 patientInput.then((patientInfo: PatientInfo) => {
+                    // TODO Ошибка аутентификации
                     authService.authenticate(exchangeToken, patientInfo, (patient: PatientModel) => {
                         let authenticated = new AuthenticatedPatient();
                         authenticated.patient = patient;

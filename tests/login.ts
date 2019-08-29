@@ -5,9 +5,9 @@ export const AUTH_SERVER_ENDPOINT = "http://localhost:4321/";
 export const EHR_SERVER_ENDPOINT = "http://localhost:9999/";
 
 // В боевом окружении этот метод должен предоставлять API сервера авторизации.
-export function login(user: string, user_is_authenticate: boolean, cb: (err: any, authCred?: Credentials) => void) {
+export function login(user: string, ehr_user_sign: string, cb: (err: any, authCred?: Credentials) => void) {
     let header = new JsonRPC.JsonRpcHeader("1", "auth.login", null);
-    JsonRPC.Transports.xhr(AUTH_SERVER_ENDPOINT, header, {user, user_is_authenticate}, function(err: any, jsonResp?: any) {
+    JsonRPC.Transports.xhr(AUTH_SERVER_ENDPOINT, header, {user, ehr_user_sign}, function(err: any, jsonResp?: any) {
         if (err) return cb(err);
         console.log('AuthLoginResult:', jsonResp);
         if (jsonResp.authInfo) {
@@ -28,7 +28,7 @@ export function getCreateServiceFn<T>(ctor: (authCred: Credentials) => T) {
         if (authCred)
             return _create(cb);
 
-        login("User123", true, function(err: any, authCred_?: Credentials) {
+        login("user123", 'user_sign_222', function(err: any, authCred_?: Credentials) {
             if (err) return cb(err);
             authCred = authCred_;
             _create(cb);
