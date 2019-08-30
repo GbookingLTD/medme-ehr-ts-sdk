@@ -5,9 +5,8 @@
  Тестовый сервер, выполняющий роль сервера авторизации, для запуска юнит-тестов.
 */
 
-// TODO Использовать ehr-js-sdk для отправки запросов на EHR сервер.
-
 const http = require('http');
+const ehrAuth = require('../../node-ehr/auth');
 
 const Tokens = [{user:"1", token:"test", ttl: 1440}, {user: "User123", token: "token_4444", ttl: 1440}];
 const findToken = (cred) => {
@@ -16,6 +15,14 @@ const findToken = (cred) => {
             return Tokens[i];
 
     return false;
+};
+
+const config = {
+    host: '127.0.0.1',
+    port: 9999,
+    path: '/',
+    internalUser: 'test_user',
+    internalPassword: 'test_password'
 };
 
 const server = http.createServer((req, res) => {
@@ -56,12 +63,12 @@ const server = http.createServer((req, res) => {
         let foundAuthInfo;
         if (!(foundAuthInfo = findToken(jsonReq.cred)))
             return error(jsonReq, res, 401, "Not authorized");
-        
+
         // Генерируем exchangeToken.
         let exchangeToken = makeid(12);
 
         // Отправляем exchangeToken и AuthInfo на EHR сервер.
-        exchangeTokenRequestPost(exchangeToken, foundAuthInfo, (err2, res2) => {
+        ehrAuth.exchangeTokenRequestPost(config, exchangeToken, foundAuthInfo, (err2, res2) => {
             if (err2)
                 return error(jsonReq, res, 500, "Error when send an exchangeToken to the EHR server " + err2);
 
@@ -98,8 +105,8 @@ const server = http.createServer((req, res) => {
             }));
         };
 
-        if (jsonReq.params.user_is_authenticate)
-            saveAuthInfoPostRequest(authInfo, sendResponse);
+        if (jsonReq.params.ehr_user_sign)
+            ehrAuth.saveAuthInfoRequestPost(config, authInfo, jsonReq.params.ehr_user_sign, sendResponse);
         else
             sendResponse();
         
@@ -117,66 +124,3 @@ function makeid(length) {
     }
     return result;
 }
-
-function postJson(data, cb) {
-    // Build the post string from an object
-    var post_data = JSON.stringify(data);
-
-    // An object of options to indicate where to post to
-    var post_options = {
-        host: process.env.EHR_HOST,
-        port: process.env.EHR_PORT,
-        path: process.env.EHR_PATH,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(post_data)
-        }
-    };
-
-    // Set up the request
-    var post_req = http.request(post_options, function(res) {
-        res.setEncoding('utf8');
-        
-        res.on('data', function (chunk) {
-            console.log("EHR Server Response Chunk: " + chunk);
-            cb(null, chunk);
-        });
-    });
-
-    // post the data
-    post_req.write(post_data);
-    post_req.end();
-}
-
-let jsonRpcIdCounter = 1;
-let internalCred = {
-    user: 'Test',
-    token: 'Test'
-};
-function exchangeTokenRequestPost(exchangeToken, authInfo, cb) {
-    console.log('exchangeToken=', exchangeToken, authInfo);
-    postJson({
-        jsonrpc: "2.0",
-        id: jsonRpcIdCounter++,
-        cred: internalCred,
-        method: "embedded_storage.save_exchange_token",
-        params: {
-            exchangeToken,
-            authInfo
-        }
-    }, cb);
-}
-function saveAuthInfoPostRequest(authInfo, cb) {
-    console.log('saveAuthInfo=', authInfo);
-    postJson({
-        jsonrpc: "2.0",
-        id: jsonRpcIdCounter++,
-        cred: internalCred,
-        method: "embedded_storage.save_auth_info",
-        params: {
-            authInfo
-        }
-    }, cb);
-}
- 

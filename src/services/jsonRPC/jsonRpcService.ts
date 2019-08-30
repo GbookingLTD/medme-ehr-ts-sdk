@@ -46,19 +46,21 @@ export class JsonRPCCredService extends JsonRPCService {
 
     onAuthNotAuthorized: () => void;
     onAuthTokenExpired: () => void;
+    onAuthUnknownAuthError: () => void;
 
     public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback,
                 optionalEndpoint: string = undefined): void {
         const service = this;
 
-        function auth(cb) {
+        function auth(cb: any) {
             let this_ = this;
             return function () {
                 let args = arguments;
                 if (args[0] && args[0].code === RpcErrorCodes.NotAuthenticated && service.onAuthNotAuthorized) service.onAuthNotAuthorized();
-                if (args[0] && args[0].code === RpcErrorCodes.TokenExpired && service.onAuthTokenExpired) service.onAuthTokenExpired();
+                else if (args[0] && args[0].code === RpcErrorCodes.TokenExpired && service.onAuthTokenExpired) service.onAuthTokenExpired();
+                else if (args[0] && args[0].code === RpcErrorCodes.UnknownAuthError && service.onAuthUnknownAuthError) service.onAuthUnknownAuthError();
                 cb.apply(this_, args);
-            }
+            };
         }
 
         this.request(optionalEndpoint || this.endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred),

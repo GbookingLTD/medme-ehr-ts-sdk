@@ -3,9 +3,10 @@ define('analisys-screen', ['handlebars',
         'medme-app',
         'text!../partials/analisys.html',
         'text!../partials/analisys-line-template.html',
-        'analisys-details-dialog'
+        'analisys-details-dialog',
+        'login'
     ], function(Handlebars, MedMe, medmeApp, analisysTable, 
-        analisysLineTemplate, detailsDialog) {
+        analisysLineTemplate, detailsDialog, login) {
     return {
         render: function() {
             document.getElementById('mainContent').innerHTML = '';
@@ -14,13 +15,13 @@ define('analisys-screen', ['handlebars',
 
             var analisysLineTemplateFn = Handlebars.compile(analisysLineTemplate);
             // infoklinika patient_id "10045940"
-            medmeApp.diagnosticReportService.getPatientDiagnosticReports(medmeApp.env.PATIENT_ID, 10, 0, function(reports) {
+            login(medmeApp.diagnosticReportService.getPatientDiagnosticReports(medmeApp.env.PATIENT_ID, 10, 0, function(reports) {
                 reports.forEach(function(app) {
                     var html = analisysLineTemplateFn(app);
                     document.getElementById('analisys-table-body')
                         .insertAdjacentHTML('beforeend', html);
                 });
-            });
+            }));
         }
     };
 });
