@@ -17,7 +17,7 @@ function registerHandlebarsHelpers(Handlebars) {
         return val ? "Да" : "Нет";
     });
 
-    // TODO It should goes to i18n resources.
+    // TODO It should be moved to i18n resources.
     var AppointmentConfirmationStatus = [
         "Временная",
         "Подтверждена клиентом",
@@ -92,7 +92,7 @@ function route(hash, done) {
         requirejs(['investigation-screen'], fn);
 }
 
-define('medme-app', ['index', 'handlebars'], function(MedMe, Handlebars) {
+define('medme-app', ['handlebars', 'medme-services', 'auth'], function(Handlebars, medMeServices, auth) {
     registerHandlebarsHelpers(Handlebars);
 
     // setup default routing
@@ -114,35 +114,7 @@ define('medme-app', ['index', 'handlebars'], function(MedMe, Handlebars) {
         });
     });
 
-    // Initialize API services
-    var JsonRPC = MedMe.EHR.Services.JsonRPC;
+    medMeServices.env.PATIENT_ID = auth.getAuthenticatedPatient().id;
 
-    var cred = new MedMe.EHR.Services.Credentials('User123', 'token_4444');
-
-    var appointmentService;
-    var appointmentResultService;
-    var prescriptionService;
-    var diagnosticReportService;
-    if (location.hostname === "localhost") {
-        appointmentService = new JsonRPC.AppointmentService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
-        appointmentResultService = new JsonRPC.AppointmentResultService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
-        prescriptionService = new JsonRPC.PrescriptionService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
-        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://localhost:9999/", cred, JsonRPC.Transports.xhr);
-    } else {
-        appointmentService = new JsonRPC.AppointmentService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
-        appointmentResultService = new JsonRPC.AppointmentResultService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
-        prescriptionService = new JsonRPC.PrescriptionService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
-        diagnosticReportService = new JsonRPC.DiagnosticReportService("http://ehr.dev.gbooking.ru/", cred, JsonRPC.Transports.xhr);
-    }
-
-    return {
-        appointmentService: appointmentService,
-        appointmentResultService: appointmentResultService,
-        prescriptionService: prescriptionService,
-        diagnosticReportService: diagnosticReportService,
-        env: {
-            PATIENT_ID: "1",
-            //PATIENT_ID: "10045940"
-        }
-    };
+    return medMeServices;
 });

@@ -1,6 +1,6 @@
 import {IJsonRPCRequest, IJsonRpcResponseCallback, JsonRpcHeader} from "./jsonRpcRequest";
 import {Credentials} from "../Credentials";
-import {RpcErrorCodes} from "./RpcErrorCodes";
+import {RpcErrorCodes} from "../RpcErrorCodes";
 
 export class JsonRPCService {
     public static id: number = 1;
@@ -45,10 +45,10 @@ export class JsonRPCCredService extends JsonRPCService {
     }
 
     onAuthNotAuthorized: () => void;
-    onAuthTokenExpired: () => void;
+    onAuthExpired: () => void;
     onAuthUnknownAuthError: () => void;
 
-    public exec(rpcMethod: string, payload: object, cb?: IJsonRpcResponseCallback,
+    public exec(rpcMethod: string, payload: object, cb: IJsonRpcResponseCallback,
                 optionalEndpoint: string = undefined): void {
         const service = this;
 
@@ -56,8 +56,8 @@ export class JsonRPCCredService extends JsonRPCService {
             let this_ = this;
             return function () {
                 let args = arguments;
-                if (args[0] && args[0].code === RpcErrorCodes.NotAuthenticated && service.onAuthNotAuthorized) service.onAuthNotAuthorized();
-                else if (args[0] && args[0].code === RpcErrorCodes.TokenExpired && service.onAuthTokenExpired) service.onAuthTokenExpired();
+                if (args[0] && args[0].code === RpcErrorCodes.NotAuthorized && service.onAuthNotAuthorized) service.onAuthNotAuthorized();
+                else if (args[0] && args[0].code === RpcErrorCodes.AuthExpired && service.onAuthExpired) service.onAuthExpired();
                 else if (args[0] && args[0].code === RpcErrorCodes.UnknownAuthError && service.onAuthUnknownAuthError) service.onAuthUnknownAuthError();
                 cb.apply(this_, args);
             };

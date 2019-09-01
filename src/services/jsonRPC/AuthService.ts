@@ -12,11 +12,19 @@ export class AuthService extends JsonRPCService implements IAuthService {
     private authServerEndpoint_: string;
     private ehrServerEndpoint_: string;
 
-    public constructor(authServerEndpoint: string, ehrServerEndpoint: string, request: IJsonRPCRequest, authCred: Credentials) {
+    /**
+     * В конструктор передается endpoint сервера авторизации и endpoint сервера мед данных.
+     * 
+     * @param authServerEndpoint endpoint сервера авторизации
+     * @param ehrServerEndpoint endpoint сервера мед данных
+     * @param request функция, выполняющая запрос
+     * @param authCred параметры доступа к обоим серверам
+     */
+    public constructor(ehrServerEndpoint: string, authServerEndpoint: string, cred: Credentials, request: IJsonRPCRequest) {
         super(null, request);
-        this.authCred_ = authCred;
-        this.authServerEndpoint_ = authServerEndpoint;
         this.ehrServerEndpoint_ = ehrServerEndpoint;
+        this.authServerEndpoint_ = authServerEndpoint;
+        this.authCred_ = cred;
     }
 
     /**
@@ -24,29 +32,36 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * 
      * @param {Function} cb
      */
-    public getExchangeToken(cb: (res: ExchangeTokenResponse) => void): void {
+    public getExchangeToken(cb: (err: any, res: ExchangeTokenResponse) => void): void {
         this.exec(Handlers.HANDLER_GET_EXCHANGE_TOKEN_METHOD, {}, (err: any, payload: object) => {
-            if (err) throw new Error("failed to get exchange token: " + JSON.stringify(err));
+            if (err)
+                return cb(err, null);
+
             let etr = new ExchangeTokenResponse();
             etr.exchangeToken = payload['exchangeToken'];
-            cb(etr);
+            cb(null, etr);
         }, this.authServerEndpoint_, this.authCred_);
     }
 
     /**
      * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
      * 
+     * Авторизация выполняется через ранее полученный exchangeToken.
+     * 
      * @param {string} exchangeToken короткоживущий токен обмена
      * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
      */
-    public authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (patient: PatientModel, userSign: string) => void): void {
+    public authenticate(exchangeToken: string, patientInfo: PatientInfo, 
+                        cb: (err: any, patient: PatientModel, userSign: string) => void): void {
         this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, {exchangeToken, patientProperties: patientInfo}, (err: any, payload: object) => {
-            if (err) throw new Error("failed to authenticate: " + JSON.stringify(err));
+            if (err)
+                return cb(err, null, null);
+
             let patient = new PatientModel();
             patient.fromJson(payload['patient']);
             if (!payload['userSign'])
                 throw new Error("expect userSign");
-            cb(patient, payload['userSign']);
+            cb(null, patient, payload['userSign']);
         }, this.ehrServerEndpoint_);
     }
 }

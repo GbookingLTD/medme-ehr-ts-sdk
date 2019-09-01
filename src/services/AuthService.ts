@@ -1,6 +1,7 @@
 import { PatientInfo } from "../types/PatientInfo";
 import { PatientModel } from "../models/PatientModel";
-import {IPatientService, NotAuthenticatedError} from "./PatientService";
+import {IPatientService} from "./PatientService";
+import { RpcErrorCodes, isAuthorizationError } from "./RpcErrorCodes";
 
 export class ExchangeTokenResponse {
     public exchangeToken: string;
@@ -22,7 +23,7 @@ export interface IAuthService {
      * 
      * @param {Function} cb
      */
-    getExchangeToken(cb: (res: ExchangeTokenResponse) => void): void;
+    getExchangeToken(cb: (err: any, res: ExchangeTokenResponse) => void): void;
 
     /**
      * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
@@ -30,18 +31,60 @@ export interface IAuthService {
      * @param {string} exchangeToken короткоживущий токен обмена
      * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
      */
-    authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (patient: PatientModel, userSign: string) => void): void;
+    authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (err: any, patient: PatientModel, userSign: string) => void): void;
     
 }
 
-export class AuthenticatedPatient {
+export class PatientAuthenticationResult {
     public patientAuthenticated: boolean;
     public patientFound: boolean;
     public patient: PatientModel;
+    public userSign: string;
     public constructor() {
         this.patientAuthenticated = false;
         this.patientFound = false;
         this.patient = null;
+        this.userSign = null;
+    }
+}
+
+/**
+ * Перечисление шагов сценария аутентификации пациента.
+ */
+export enum PatientAuthenticationStep {
+    patient = 1,
+    exchangeToken,
+    input,
+    authenticate
+};
+
+/**
+ * Ошибка сценария аутентификации пациента.
+ * Инкапсулирует внутри себя ошибку запроса, предоставляет информацию о типе ошибки и 
+ * информацию о шаге сценария аутентификации, на котором произошла ошибка.
+ */
+export class PatientAuthenticationError extends Error {
+    public static isAuthorizationError(err: PatientAuthenticationError): boolean {
+        return err.internalError && isAuthorizationError(err.internalError);
+    }
+
+    public static isAuthenticationError(err: PatientAuthenticationError): boolean {
+        return err.step === PatientAuthenticationStep.authenticate &&
+        err.internalError.code === RpcErrorCodes.PatientNotAuthenticated;
+    }
+
+    public static patientAlreadyMatched(err: PatientAuthenticationError): boolean {
+        return err.step === PatientAuthenticationStep.authenticate &&
+        err.internalError.code === RpcErrorCodes.PatientAlreadyMatched;
+    }
+
+    public readonly step: PatientAuthenticationStep;
+    public readonly internalError: any;
+    
+    public constructor(aStep: PatientAuthenticationStep, anInternalError: any) {
+        super('Patient authentication error');
+        this.step = aStep;
+        this.internalError = anInternalError;
     }
 }
 
@@ -58,31 +101,49 @@ export class AuthenticatedPatient {
  * 
  * @param {IPatientService} patientService
  * @param {IAuthService} patientInputPromise
- * @param {Promise<PatientInfo>} patientInput
+ * @param {function} patientInput
  * @param {function} cb
  */
-export function getPatientOrLogin(patientService: IPatientService, authService: IAuthService,
-                                  patientInput: Promise<PatientInfo>, cb: (/* err: Error, */authenticated: AuthenticatedPatient) => void) {
-    patientService.getPatient((err: any, patient?: PatientModel) => {
-        // TODO Токен истек
-        if (err as NotAuthenticatedError) {
-            return authService.getExchangeToken((res: ExchangeTokenResponse) => {
+export function getAuthenticatedPatient(patientService: IPatientService, authService: IAuthService,
+        patientInput: (next: (err: any, patientInfo: PatientInfo) => void) => void,
+        cb: (err: any, authenticated?: PatientAuthenticationResult) => void) {
+
+    patientService.getPatient((err: any, patient?: PatientModel, userSign?: string) => {
+        // TODO ошибка соединения с интернетом
+        if (err && isAuthorizationError(err))
+            return authService.getExchangeToken((err: any, res: ExchangeTokenResponse) => {
+                if (err)
+                    return cb(new PatientAuthenticationError(PatientAuthenticationStep.exchangeToken, err), null);
+
                 let exchangeToken = res.exchangeToken;
-                patientInput.then((patientInfo: PatientInfo) => {
-                    // TODO Ошибка аутентификации
-                    authService.authenticate(exchangeToken, patientInfo, (patient: PatientModel) => {
-                        let authenticated = new AuthenticatedPatient();
+                patientInput((err: any, patientInfo: PatientInfo) => {
+                    if (err)
+                        return cb(new PatientAuthenticationError(PatientAuthenticationStep.input, err), null);
+
+                    authService.authenticate(exchangeToken, patientInfo, (err: any, patient: PatientModel, userSign: string) => {
+                        // Возможные типы ошибок:
+                        // - пользователь не найден (ошибка аутентификации) - сообщение пользователю
+                        // - пользователь уже аутентифицирован - перелогиниться
+                        if (err)
+                            return cb(new PatientAuthenticationError(PatientAuthenticationStep.authenticate, err), null);
+
+                        let authenticated = new PatientAuthenticationResult();
                         authenticated.patient = patient;
                         authenticated.patientAuthenticated = true;
-                        cb(authenticated);
+                        authenticated.userSign = userSign;
+                        cb(null, authenticated);
                     });
                 });
             });
-        }
 
-        let authenticated = new AuthenticatedPatient();
+        // Если возникла какая-то другая ошибка при получении пациента - возвращаем сообщение об ошибке
+        if (err)
+            return cb(new PatientAuthenticationError(PatientAuthenticationStep.patient, err), null);
+
+        let authenticated = new PatientAuthenticationResult();
         authenticated.patient = patient;
         authenticated.patientFound = true;
-        cb(authenticated);
+        authenticated.userSign = userSign;
+        return cb(null, authenticated);
     });
 }

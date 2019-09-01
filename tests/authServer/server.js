@@ -8,7 +8,7 @@
 const http = require('http');
 const ehrAuth = require('../../node-ehr/auth');
 
-const Tokens = [{user:"1", token:"test", ttl: 1440}, {user: "User123", token: "token_4444", ttl: 1440}];
+const Tokens = [{user: "user123", token: "token456", ttl: 1440}];
 const findToken = (cred) => {
     for (let i = 0; i < Tokens.length; ++i)
         if (Tokens[i].user === cred.user && Tokens[i].token === cred.token)
@@ -32,8 +32,27 @@ const server = http.createServer((req, res) => {
     req.on('data', (chunk) => {
         body.push(chunk);
     }).on('end', () => {
+        if (req.method === 'OPTIONS') {
+            console.log("<--> [OPTIONS]");
+            res.writeHead(200, {
+                'Content-Type':'text/plain',
+                'Access-Control-Allow-Credentials':true,
+                'Access-Control-Allow-Headers':'Content-Type, Authorization, Content-Length',
+                'Access-Control-Allow-Origin':'http://localhost:9900'
+            });
+            res.end();
+            return;
+        }
+
+        if (req.method !== 'POST') {
+            console.error('<--- 405. Method not allowed. Expected http methods POST, OPTIONS');
+            res.writeHead(405, { 'Content-Type': 'text/plain' });
+            res.end('405. Method not allowed');
+            return;
+        }
+
         let bodyAsString = Buffer.concat(body).toString();
-        console.log("---> ", bodyAsString);
+        console.log("---> [POST]", bodyAsString);
         let jsonReq = JSON.parse(bodyAsString);
         if (jsonReq.method === 'auth.exchange_token')
             exchangeTokenCallback(jsonReq);
@@ -42,8 +61,13 @@ const server = http.createServer((req, res) => {
     });
 
     let response = (res, json) => {
-        console.log("<--- ", json);
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        console.log("<--- [POST]", json);
+        res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Credentials':true,
+            'Access-Control-Allow-Headers':'Content-Type, Authorization, Content-Length',
+            'Access-Control-Allow-Origin':'http://localhost:9900'
+        });
         res.end(json);
     };
 

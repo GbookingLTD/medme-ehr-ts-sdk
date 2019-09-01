@@ -1,0 +1,55 @@
+<div class="modal " tabindex="-1" role="dialog" id="auth-dialog"
+        data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Для получения доступа к ЭМК введите информацию о себе</h5>
+        </div>
+        <div class="modal-body">
+            <form>
+            <div class="form-group">
+                <label for="auth_family">ФИО</label>
+                <input type="text" class="form-control" id="auth_name" placeholder="Имя">
+                <small class="form-text text-muted">John</small>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="auth_surname" placeholder="Фамилия">
+                <small class="form-text text-muted">Smith</small>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="auth_patname" placeholder="Отчество">
+                <small class="form-text text-muted"><i>empty string</i></small>
+            </div>
+            <div class="form-group">
+                <label for="auth_phone">Телефон</label>
+                <input type="text" class="form-control" id="auth_phone" aria-describedby="authPhoneHelp" placeholder="">
+                <small id="authPhoneHelp" class="form-text text-muted">1111111111</small>
+            </div>
+            <div class="form-group">
+                <label for="auth_gender">Пол</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="auth_gender" id="auth_gender_m" value="m">
+                    <label class="form-check-label" for="auth_gender_m">
+                      Мужчина
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="auth_gender" id="auth_gender_w" value="w">
+                    <label class="form-check-label" for="auth_gender_w">
+                      Женщина
+                    </label>
+                  </div>
+            </div>
+            <div class="form-group">
+                <label for="auth_berthday">Дата рождения</label>
+                <input type="text" class="form-control" id="auth_berthday" aria-describedby="authBerthdayHelp" placeholder="">
+                <small id="authBerthdayHelp" class="form-text text-muted">2000-01-01</small>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Войти</button>
+        </div>
+        </div>
+    </div>
+    </div>
