@@ -2,16 +2,15 @@
 
 import * as assert from 'assert';
 import JsonRPC from '../src/services/jsonRPC/index';
-import { IAuthService, ExchangeTokenResponse, getPatientOrLogin, AuthInfo } from '../src/services/AuthService';
+import { IAuthService, ExchangeTokenResponse, getAuthenticatedPatient, AuthInfo } from '../src/services/AuthService';
 import { Credentials } from '../src/services/Credentials';
 import { PatientInfo } from '../src/types/PatientInfo';
 import { Gender } from '../src/types/Gender';
 import { PatientModel } from '../src/models/PatientModel';
 import { login, AUTH_SERVER_ENDPOINT, EHR_SERVER_ENDPOINT } from './login';
 import {rejects} from "assert";
-import {NotAuthenticatedError} from "../src/services/PatientService";
 import {IJsonRpcHeader, IJsonRpcResponseCallback} from "../src/services/jsonRPC/jsonRpcRequest";
-import {RpcErrorCodes} from "../src/services/jsonRPC/RpcErrorCodes";
+import {RpcErrorCodes, isAuthorizationError} from "../src/services/RpcErrorCodes";
 
 describe('Auth', function() {
     // Для выполения запросов аутентификации мы должны получить от сервера авторизации user, token.
@@ -24,22 +23,31 @@ describe('Auth', function() {
     // Если user_is_authenticate=1 - данные авторизации идут в EHR.
     // На реальном сервере авторизации этот параметр должен быть сохранен во внутреннем состоянии сервера.
 
-    function getExchangeToken(service: IAuthService, cb: (res: ExchangeTokenResponse) => void) {
-        service.getExchangeToken(function(res) {
-            cb(res);
+    function getExchangeToken(service: IAuthService, cb: (err: any, res: ExchangeTokenResponse) => void) {
+        service.getExchangeToken(function(err, res) {
+            cb(err, res);
         });
     }
 
     function authenticate(service: IAuthService, exchangeToken: string, patientInfo: PatientInfo, cb: (err?: any) => void) {
-        service.authenticate(exchangeToken, patientInfo, function(patient: PatientModel) {
+        service.authenticate(exchangeToken, patientInfo, function(err: any, patient: PatientModel, userSign: string) {
+            if (err)
+                return cb(err);
+
+            if (!userSign)
+                return cb("userSign expected");
+
             checkPatient(patient);
             cb();
         });
     }
 
     function exchangeTokenAuthenticate(authCred: Credentials, done: (err?: any) => void) {
-        let authService = new JsonRPC.AuthService(AUTH_SERVER_ENDPOINT, EHR_SERVER_ENDPOINT, JsonRPC.Transports.xhr, authCred);
-        getExchangeToken(authService, function(res: ExchangeTokenResponse) {
+        let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, AUTH_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
+        getExchangeToken(authService, function(err: any, res: ExchangeTokenResponse) {
+            if (err)
+                return done("expected exchange token");
+
             if (!(res && res.exchangeToken))
                 return done("expected exchangeToken");
 
@@ -99,7 +107,7 @@ describe('Auth', function() {
                 if (err) return done(err);
 
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
-                patientService.getPatient(function(patErr?: any, patient?: PatientModel) {
+                patientService.getPatient(function(patErr?: any, patient?: PatientModel, userSign?: string) {
                     if (patErr) return done(patErr);
                     checkPatient(patient);
                     done();
@@ -112,7 +120,7 @@ describe('Auth', function() {
         // });
     });
 
-    describe('getPatientOrLogin', function () {
+    describe('getAuthenticatedPatient', function () {
         it ('not_authenticated', done => {
             login("User123c", undefined, function(err: any, authCred?: Credentials) {
                 if (err) return done(err);
@@ -120,7 +128,7 @@ describe('Auth', function() {
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
 
                 patientService.getPatient((err1, patient) => {
-                    if (err1 as NotAuthenticatedError)
+                    if (err1 && isAuthorizationError(err1))
                         done()
                     else
                         done(err1)
@@ -140,7 +148,7 @@ describe('Auth', function() {
                 patientService.onAuthUnknownAuthError = () => done();
 
                 patientService.getPatient((err1, patient) => {
-                    if (err1 as NotAuthenticatedError) return;
+                    if (err1 && isAuthorizationError(err1)) return;
                     done(err1);
                 });
             });
@@ -148,7 +156,7 @@ describe('Auth', function() {
 
         function fakeXhr(endpoint: string, header: IJsonRpcHeader, requestPayload: object,
                          cb: IJsonRpcResponseCallback) {
-            cb({code: RpcErrorCodes.TokenExpired, message: '', data:null})
+            cb({code: RpcErrorCodes.AuthExpired, message: '', data:null})
         }
 
         it ('expired', done => {
@@ -157,10 +165,10 @@ describe('Auth', function() {
 
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, fakeXhr);
 
-                patientService.onAuthTokenExpired = () => done();
+                patientService.onAuthExpired = () => done();
 
                 patientService.getPatient((err1, patient) => {
-                    if (err1 as NotAuthenticatedError) return;
+                    if (err1 && isAuthorizationError(err1)) return;
                     done(err1);
                 });
             });
