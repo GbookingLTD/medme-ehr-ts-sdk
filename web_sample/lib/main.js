@@ -16,5 +16,10 @@ requirejs.config({
 
 
 requirejs([
-    'medme-app'
-], function() {});
+    'auth'
+], function(auth) {
+    auth.login(document.getElementById('mainContent'), function(authenticatedPatient) {
+        if (authenticatedPatient)
+            requirejs(['medme-app']);
+    });
+});

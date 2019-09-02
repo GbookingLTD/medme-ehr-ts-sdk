@@ -13,6 +13,7 @@ import { ProcedureType } from "./ProcedureType";
 import { ProcedureInfo } from "./ProcedureInfo";
 import { Procedure } from "./Procedure";
 import { PrescriptionInfo } from "./PrescriptionInfo";
+import { PatientInfo } from "./PatientInfo";
 
 export {
     BusinessInfo,
@@ -29,5 +30,6 @@ export {
     ProcedureType,
     ProcedureInfo,
     Procedure,
-    PrescriptionInfo
+    PrescriptionInfo,
+    PatientInfo
 };
