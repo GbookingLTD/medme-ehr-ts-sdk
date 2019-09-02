@@ -47,7 +47,8 @@ define('medme-services', ['index'], function(MedMe) {
             authEndpoint: "http://localhost:4321"
         },
         "default": {
-            ehrEndpoint: "http://ehr.dev.gbooking.ru/"
+            ehrEndpoint: "http://ehr.dev.gbooking.ru/",
+            authEndpoint: "http://api2.dev.gbooking.ru/"
         }
     };
 
