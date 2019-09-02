@@ -11,6 +11,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
     private authCred_: Credentials;
     private authServerEndpoint_: string;
     private ehrServerEndpoint_: string;
+    private authExchangeTokenMethod_: string;
 
     /**
      * В конструктор передается endpoint сервера авторизации и endpoint сервера мед данных.
@@ -20,11 +21,13 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param request функция, выполняющая запрос
      * @param authCred параметры доступа к обоим серверам
      */
-    public constructor(ehrServerEndpoint: string, authServerEndpoint: string, cred: Credentials, request: IJsonRPCRequest) {
+    public constructor(ehrServerEndpoint: string, authServerEndpoint: string, cred: Credentials, request: IJsonRPCRequest,
+            exchangeTokenMethod: string) {
         super(null, request);
         this.ehrServerEndpoint_ = ehrServerEndpoint;
         this.authServerEndpoint_ = authServerEndpoint;
         this.authCred_ = cred;
+        this.authExchangeTokenMethod_ = exchangeTokenMethod;
     }
 
     /**
@@ -33,7 +36,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param {Function} cb
      */
     public getExchangeToken(cb: (err: any, res: ExchangeTokenResponse) => void): void {
-        this.exec(Handlers.HANDLER_GET_EXCHANGE_TOKEN_METHOD, {}, (err: any, payload: object) => {
+        this.exec(this.authExchangeTokenMethod_, {}, (err: any, payload: object) => {
             if (err)
                 return cb(err, null);
 

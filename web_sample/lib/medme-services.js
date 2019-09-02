@@ -44,11 +44,13 @@ define('medme-services', ['index'], function(MedMe) {
     var envSettings = {
         "localhost": {
             ehrEndpoint: "http://localhost:9999/",
-            authEndpoint: "http://localhost:4321"
+            authEndpoint: "http://localhost:4321",
+            exchangeTokenMethod: "auth.exchange_token"
         },
         "default": {
             ehrEndpoint: "http://ehr.dev.gbooking.ru/",
-            authEndpoint: "http://api2.dev.gbooking.ru/rpc"
+            authEndpoint: "http://api2.dev.gbooking.ru/rpc",
+            exchangeTokenMethod: "client.get_exchange_token"
         }
     };
 
@@ -59,7 +61,8 @@ define('medme-services', ['index'], function(MedMe) {
     var prescriptionService = new JsonRPC.PrescriptionService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var diagnosticReportService = new JsonRPC.DiagnosticReportService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var patientService = new JsonRPC.PatientService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
-    var authService = new JsonRPC.AuthService(env.ehrEndpoint, env.authEndpoint, cred, JsonRPC.Transports.xhr);
+    var authService = new JsonRPC.AuthService(env.ehrEndpoint, env.authEndpoint, cred, JsonRPC.Transports.xhr,
+        );
 
     return {
         appointmentService: appointmentService,

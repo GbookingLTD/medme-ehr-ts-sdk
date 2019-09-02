@@ -3,6 +3,7 @@
 import JsonRPC from './jsonRPC/index';
 import { PatientAuthenticationResult, PatientAuthenticationStep, PatientAuthenticationError, getAuthenticatedPatient } from './AuthService';
 import { Credentials } from './Credentials';
+import { RpcErrorCodes } from './RpcErrorCodes';
 
 export default {
     // InMemory
@@ -12,5 +13,6 @@ export default {
     PatientAuthenticationStep,
     PatientAuthenticationError,
     getAuthenticatedPatient,
-    Credentials
+    Credentials,
+    RpcErrorCodes
 }
