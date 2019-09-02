@@ -62,7 +62,7 @@ define('medme-services', ['index'], function(MedMe) {
     var diagnosticReportService = new JsonRPC.DiagnosticReportService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var patientService = new JsonRPC.PatientService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var authService = new JsonRPC.AuthService(env.ehrEndpoint, env.authEndpoint, cred, JsonRPC.Transports.xhr,
-        );
+        env.exchangeTokenMethod);
 
     return {
         appointmentService: appointmentService,
