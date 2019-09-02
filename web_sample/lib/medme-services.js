@@ -29,6 +29,7 @@ define('medme-services', ['index'], function(MedMe) {
     var JsonRPC = MedMe.EHR.Services.JsonRPC;
 
     var cred = new MedMe.EHR.Services.Credentials();
+    var clientRef = {};
     setupCredentials(cred, clientRef);
 
     // Показываем креденшиалы в специальной плашке.
@@ -36,7 +37,7 @@ define('medme-services', ['index'], function(MedMe) {
     var credUserEl = document.getElementById('credentials_user');
     var credTokenEl = document.getElementById('credentials_token');
     var credClientEl = document.getElementById('credentials_client');
-    if (!(cred && cred.user && cred.token && cred.client)) {
+    if (!(cred && cred.user && cred.token && clientRef.client)) {
         if (credUserEl) credUserEl.innerText = 'unknown';
         if (credTokenEl) credTokenEl.innerText = 'unknown';
         if (credClientEl) credClientEl.innerText = 'unknown';
