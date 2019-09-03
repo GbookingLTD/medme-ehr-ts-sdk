@@ -30,6 +30,40 @@ define('auth', [
         return step;
     }
 
+    var containerElement;
+    
+    function handleAuthorizationError(err) {
+        containerElement.innerHTML = '';
+        var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
+        containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
+            message: "Ошибка авторизации! Пожалуйста, переавторизуйтесь!",
+            step: getStepName(err),
+            stack: err.stack
+        }));
+        $('#auth-error').modal('show');
+    }
+
+    function handleAuthenticationError(err) {
+        containerElement.innerHTML = '';
+        var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
+        containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
+            message: "ЭМК не найдено! Пожалуйста, обратитесь в клинику для получения доступа к вашей мед карте по телефону ...",
+            step: getStepName(err),
+            stack: err.stack
+        }));
+        $('#auth-error').modal('show');
+    }
+
+    function handleCommonError(err) {
+        containerElement.innerHTML = '';
+        var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
+        containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
+            step: getStepName(err),
+            stack: err.stack
+        }));
+        $('#auth-error').modal('show');
+    }
+
     // локальный in_memory кеш данных аутентификации
     var _authenticatedPatient;
     return {
@@ -40,43 +74,13 @@ define('auth', [
 
             return _authenticatedPatient.patient;
         },
-        login: function (containerElement, cb) {
+        login: function (containerEl, cb) {
             // Сохраняем данные аутентификации в локальную область видимости и
             // берем оттуда, если уже есть аутентификация.
             if (_authenticatedPatient)
                 return cb(_authenticatedPatient);
 
-            function handleAuthorizationError(err) {
-                containerElement.innerHTML = '';
-                var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
-                containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
-                    message: "Ошибка авторизации! Пожалуйста, переавторизуйтесь!",
-                    step: getStepName(err),
-                    stack: err.stack
-                }));
-                $('#auth-error').modal('show');
-            }
-
-            function handleAuthenticationError(err) {
-                containerElement.innerHTML = '';
-                var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
-                containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
-                    message: "ЭМК не найдено! Пожалуйста, обратитесь в клинику для получения доступа к вашей мед карте по телефону ...",
-                    step: getStepName(err),
-                    stack: err.stack
-                }));
-                $('#auth-error').modal('show');
-            }
-
-            function handleCommonError(err) {
-                containerElement.innerHTML = '';
-                var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
-                containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
-                    step: getStepName(err),
-                    stack: err.stack
-                }));
-                $('#auth-error').modal('show');
-            }
+            containerElement = containerEl;
 
             // здесь вызывается базовый сценарий логина.
             // когда пользователь авторизован вернуть данные по нему.
@@ -112,8 +116,9 @@ define('auth', [
                 });
         },
         // удаляем пользовательскую сессию.
-        logout: function (cb) {
-            medmeApp.authService.removeAuthInfo(function(err) {
+        logout: function (containerEl, cb) {
+            containerElement = containerEl;
+            medmeServices.authService.removeAuthInfo(function(err) {
                 // Обрабатываем ошибку авторизации
                 // Поскольку цель данного метода удалить сессию, то ошибка авторизации означает, что сессия уже неактивна
                 var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
@@ -130,8 +135,9 @@ define('auth', [
         },
         // Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
         // Удаляет так же все активные сессии данного пользователя.
-        closeAccess: function(cb) {
-            medmeApp.authService.removeAuthentication(function(err) {
+        closeAccess: function(containerEl, cb) {
+            containerElement = containerEl;
+            medmeServices.authService.removeAuthentication(function(err) {
                 // Обрабатываем ошибку авторизации
                 var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
                 if (err && PatientAuthenticationError.isAuthorizationError(err))

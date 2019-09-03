@@ -116,7 +116,7 @@ define('medme-app', ['handlebars', 'medme-services', 'auth'], function(Handlebar
 
     // logout event handler
     document.querySelector('#logout-btn').addEventListener('click', function(ev) {
-        auth.logout(function() {
+        auth.logout(document.getElementById('mainContent'), function() {
             alert("Вы вышли из вашей ЭМК");
             location.refresh();
         });
@@ -124,7 +124,7 @@ define('medme-app', ['handlebars', 'medme-services', 'auth'], function(Handlebar
 
     // remove account event handler
     document.querySelector('#close-access-btn').addEventListener('click', function(ev) {
-        auth.logout(function() {
+        auth.closeAccess(document.getElementById('mainContent'), function() {
             alert("Вы закрыли доступ к вашей ЭМК");
             location.refresh();
         });
