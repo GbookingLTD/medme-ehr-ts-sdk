@@ -110,6 +110,9 @@ define('auth', [
                     if (err)
                         return handleCommonError(err);
 
+                    containerElement.innerHTML = '';
+                    $('.modal-backdrop').remove();
+
                     // Сохраняем данные аутентификации в локальный in_memory кеш
                     _authenticatedPatient = data;
                     cb(data);
