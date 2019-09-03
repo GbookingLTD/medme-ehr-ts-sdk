@@ -114,6 +114,22 @@ define('medme-app', ['handlebars', 'medme-services', 'auth'], function(Handlebar
         });
     });
 
+    // logout event handler
+    document.querySelector('#logout-btn').addEventListener('click', function(ev) {
+        auth.logout(function() {
+            alert("Вы вышли из вашей ЭМК");
+            location.refresh();
+        });
+    });
+
+    // remove account event handler
+    document.querySelector('#close-access-btn').addEventListener('click', function(ev) {
+        auth.logout(function() {
+            alert("Вы закрыли доступ к вашей ЭМК");
+            location.refresh();
+        });
+    });
+
     medMeServices.env.PATIENT_ID = auth.getAuthenticatedPatient().id;
 
     return medMeServices;

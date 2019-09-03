@@ -33,14 +33,13 @@ define('auth', [
     // локальный in_memory кеш данных аутентификации
     var _authenticatedPatient;
     return {
+        // доступ к кешу данных аутентификации
         getAuthenticatedPatient: function() {
             if (!_authenticatedPatient)
                 throw Error("expected login before");
 
             return _authenticatedPatient.patient;
         },
-        // функция логина возвращает promise.
-        // в ответ от прамиса приходит авторизованный пользователь.
         login: function (containerElement, cb) {
             // Сохраняем данные аутентификации в локальную область видимости и
             // берем оттуда, если уже есть аутентификация.
@@ -112,9 +111,39 @@ define('auth', [
                     cb(data);
                 });
         },
+        // удаляем пользовательскую сессию.
         logout: function (cb) {
-            // навешиваем на  удаляем пользовательскую сессию.
-            // medmeApp.authService.removeAuthInfo(cb);
+            medmeApp.authService.removeAuthInfo(function(err) {
+                // Обрабатываем ошибку авторизации
+                // Поскольку цель данного метода удалить сессию, то ошибка авторизации означает, что сессия уже неактивна
+                var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
+                if (err && PatientAuthenticationError.isAuthorizationError(err))
+                    return cb();
+
+                // Обрабатываем остальные ошибки
+                // Показать пользователю, что что-то пошло не так, дать сообщение с просьбой отправить тех. информацию
+                if (err)
+                    return handleCommonError(err);
+
+                cb();
+            });
+        },
+        // Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
+        // Удаляет так же все активные сессии данного пользователя.
+        closeAccess: function(cb) {
+            medmeApp.authService.removeAuthentication(function(err) {
+                // Обрабатываем ошибку авторизации
+                var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
+                if (err && PatientAuthenticationError.isAuthorizationError(err))
+                    return handleAuthorizationError(err);
+
+                // Обрабатываем остальные ошибки
+                // Показать пользователю, что что-то пошло не так, дать сообщение с просьбой отправить тех. информацию
+                if (err)
+                    return handleCommonError(err);
+
+                cb();
+            });
         }
     };
 });

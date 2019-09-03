@@ -32,7 +32,21 @@ export interface IAuthService {
      * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
      */
     authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (err: any, patient: PatientModel, userSign: string) => void): void;
-    
+
+    /**
+     * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
+     * Удаляет так же все активные сессии данного пользователя.
+     * 
+     * @param cb 
+     */
+    removeAuthentication(cb: (err: any) => void): void;
+
+    /**
+     * Удаление пользовательской сессии.
+     * 
+     * @param cb 
+     */
+    removeAuthInfo(cb: (err: any) => void): void;
 }
 
 export class PatientAuthenticationResult {

@@ -69,4 +69,23 @@ export class AuthService extends JsonRPCService implements IAuthService {
             cb(null, patient, payload['userSign']);
         }, this.ehrServerEndpoint_);
     }
+
+    /**
+     * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
+     * Удаляет так же все активные сессии данного пользователя.
+     * 
+     * @param cb 
+     */
+    public removeAuthentication(cb: (err: any) => void): void {
+        this.exec(Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD, {}, cb, this.ehrServerEndpoint_);
+    }
+
+    /**
+     * Удаление пользовательской сессии.
+     * 
+     * @param cb 
+     */
+    public removeAuthInfo(cb: (err: any) => void): void {
+        this.exec(Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD, {}, cb, this.ehrServerEndpoint_);
+    }
 }

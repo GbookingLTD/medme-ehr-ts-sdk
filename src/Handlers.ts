@@ -18,12 +18,23 @@ export namespace Handlers {
     export const HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD = "diagnostic_report.get_diagnostic_report_by_id";
     export const HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS = 401;
     export const HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_METHOD = "diagnostic_report.get_patient_diagnostic_reports";
-    export const HANDLER_GET_EXCHANGE_TOKEN = 500;
-    export const HANDLER_GET_EXCHANGE_TOKEN_METHOD = "auth.exchange_token";
-    export const HANDLER_AUTHENTICATE = 501;
+    
+    export const HANDLER_SAVE_AUTH_INFO = 500;
+    export const HANDLER_SAVE_AUTH_INFO_METHOD = "embedded_storage.save_auth_info";
+    export const HANDLER_SAVE_EXCHANGE_TOKEN = 501;
+    export const HANDLER_SAVE_EXCHANGE_TOKEN_METHOD = "embedded_storage.save_exchange_token";
+    export const HANDLER_AUTHENTICATE = 502;
     export const HANDLER_AUTHENTICATE_METHOD = "embedded_storage.authenticate";
+    export const HANDLER_REMOVE_AUTH_INFO = 503;
+    export const HANDLER_REMOVE_AUTH_INFO_METHOD = "embedded_storage.remove_auth_info";
+    export const HANDLER_REMOVE_AUTHENTICATION = 504;
+    export const HANDLER_REMOVE_AUTHENTICATION_METHOD = "embedded_storage.remove_authentication";
+
     export const HANDLER_GET_PATIENT = 600;
     export const HANDLER_GET_PATIENT_METHOD = "patient.get_patient";
+    
+    
+        
 
 
 }
