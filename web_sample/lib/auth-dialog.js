@@ -19,7 +19,7 @@ define('auth-dialog', [
                 patientInfo.name = document.getElementById('auth_name').value;
                 patientInfo.surname = document.getElementById('auth_surname').value;
                 patientInfo.phone = document.getElementById('auth_phone').value;
-                patientInfo.gender = document.getElementsByName('auth_gender')[0].checked ? 1 : 0;
+                patientInfo.gender = document.getElementsByName('auth_gender')[0].checked ? 0 : 1;
                 patientInfo.date = document.getElementById('auth_berthday').value + " 00:00:00Z";
 
                 _onLoginFn(null, patientInfo);
