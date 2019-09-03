@@ -1,5 +1,5 @@
 export enum Gender {
-    Male = 1,
+    Male = 0,
     Fename,
     Other,
     Unknown
