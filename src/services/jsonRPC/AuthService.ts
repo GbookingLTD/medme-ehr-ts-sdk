@@ -77,7 +77,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param cb 
      */
     public removeAuthentication(cb: (err: any) => void): void {
-        this.exec(Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD, {}, cb, this.ehrServerEndpoint_);
+        this.exec(Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
     }
 
     /**
@@ -86,6 +86,6 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param cb 
      */
     public removeAuthInfo(cb: (err: any) => void): void {
-        this.exec(Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD, {}, cb, this.ehrServerEndpoint_);
+        this.exec(Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
     }
 }

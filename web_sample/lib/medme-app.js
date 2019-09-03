@@ -118,7 +118,7 @@ define('medme-app', ['handlebars', 'medme-services', 'auth'], function(Handlebar
     document.querySelector('#logout-btn').addEventListener('click', function(ev) {
         auth.logout(document.getElementById('mainContent'), function() {
             alert("Вы вышли из вашей ЭМК");
-            location.refresh();
+            location.reload();
         });
     });
 
@@ -126,7 +126,7 @@ define('medme-app', ['handlebars', 'medme-services', 'auth'], function(Handlebar
     document.querySelector('#close-access-btn').addEventListener('click', function(ev) {
         auth.closeAccess(document.getElementById('mainContent'), function() {
             alert("Вы закрыли доступ к вашей ЭМК");
-            location.refresh();
+            location.reload();
         });
     });
 
