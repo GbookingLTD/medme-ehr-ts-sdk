@@ -44,7 +44,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
 
             let etr = new ExchangeTokenResponse();
             etr.exchangeToken = payload['exchangeToken'];
-            cb(null, etr);
+            return cb(null, etr);
         }, this.authServerEndpoint_, this.authCred_);
     }
 
@@ -66,7 +66,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
             patient.fromJson(payload['patient']);
             if (!payload['userSign'])
                 throw new Error("expect userSign");
-            cb(null, patient, payload['userSign']);
+            return cb(null, patient, payload['userSign']);
         }, this.ehrServerEndpoint_);
     }
 
