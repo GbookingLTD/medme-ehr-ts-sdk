@@ -7,33 +7,33 @@ import { Handlers } from "../../Handlers";
 export class AppointmentService extends JsonRPCCredService
         implements IAppointmentService {
 
-    public getAppointmentModelById(id: string, cb: (appointment: AppointmentModel) => void): void {
+    public getAppointmentModelById(id: string, cb: (err: any, appointment: AppointmentModel) => void): void {
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
-            if (err) throw new Error("failed to load appointment (id="+id+"): " + err);
+            if (err) return cb(err, null);
             let app = new AppointmentModel();
             app.fromJson(payload['appointment']);
-            cb(app);
+            return cb(null, app);
         });
     }
 
-    public saveAppointment(appointmentProperties: AppointmentInputProperties, cb: (appointmentId: string) => void): void {
+    public saveAppointment(appointmentProperties: AppointmentInputProperties, cb: (err: any, appointmentId: string) => void): void {
         this.exec(Handlers.HANDLER_SAVE_APPOINTMENT_METHOD, {appointmentProperties: appointmentProperties}, (err: any, payload: object) => {
-            if (err) throw new Error("failed to save appointment (id="+appointmentProperties.start+") " + err);
-            cb(payload["id"]);
+            if (err) return cb(err, null);
+            return cb(null, payload["id"]);
         });
     }
 
     public getPatientAppointments(patientId: string, limit: number, offset: number, 
-        cb: (appointments: AppointmentModel[]) => void): void {
+        cb: (err: any, appointments: AppointmentModel[]) => void): void {
             let params = {patientId: patientId, limit: limit, offset: offset};
             this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_METHOD, params, (err: any, payload: object) => {
-                if (err) throw new Error("failed to load patient appointments (patientId="+patientId+"): " + err);
+                if (err) return cb(err, null);
                 let appointments = payload['appointments'].map((jsonApp: object) => {
                     let app = new AppointmentModel();
                     app.fromJson(jsonApp);
                     return app;
                 });
-                cb(appointments);
+                return cb(null, appointments);
             });
     }
 }

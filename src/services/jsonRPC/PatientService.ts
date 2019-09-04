@@ -17,7 +17,7 @@ export class PatientService extends JsonRPCCredService
 
             let patient = new PatientModel();
             patient.fromJson(payload['patient']);
-            cb(err, patient, payload['userSign']);
+            return cb(err, patient, payload['userSign']);
         });
     }
 }
