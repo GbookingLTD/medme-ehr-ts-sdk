@@ -4,7 +4,7 @@ export class PatientInfo {
     id: string;
     surname: string;
     name: string;
-    phone: string;
+    phones: string[];
     email: string;
     gender: Gender;
     date: Date;
@@ -13,7 +13,7 @@ export class PatientInfo {
         this.id = json.id;
         this.surname = json.surname;
         this.name = json.name;
-        this.phone = json.phone;
+        this.phones = json.phones;
         this.email = json.email;
         this.gender = json.gender;
         this.date = json.date;
