@@ -61,7 +61,7 @@ describe('Auth', function() {
             patientInfo.name = "John";
             patientInfo.surname = "Smith";
             patientInfo.date = new Date(Date.parse("2000-01-01 00:00:00Z"));
-            patientInfo.phone = "1111111111";
+            patientInfo.phones = ["1111111111"];
             patientInfo.gender = Gender.Male;
             authenticate(authService, exchangeToken, patientInfo, done);
         });
@@ -80,7 +80,7 @@ describe('Auth', function() {
         assert.equal(patient.surname, "Smith");
         assert.equal(isSameDates(patient.birthdate, new Date(Date.parse("2000-01-01 00:00:00Z"))), true);
         assert.equal(patient.gender, Gender.Male);
-        assert.equal(patient.phone, "1111111111");
+        assert.equal(patient.phones, ["1111111111"]);
     }
 
     describe('jsonRPC', function() {
