@@ -9,7 +9,8 @@
   "scripts": {
     "test": "mocha -r ts-node/register \"tests/**/*.test.ts\"",
     "testWithCoverage": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register tests/**/*.test.ts && nyc report",
-    "rollup": "./node_modules/.bin/rollup -c"
+    "rollup": "./node_modules/.bin/rollup -c",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "author": "swvitaliy",
   "license": "ISC",
@@ -23,7 +24,8 @@
     "nyc": "^14.0.0",
     "ts-node": "^8.0.3",
     "typescript": "^3.4.3",
-    "xhr2": "^0.1.4"
+    "xhr2": "^0.1.4",
+    "tslint": "^5.19.0"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
