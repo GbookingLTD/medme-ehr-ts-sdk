@@ -114,10 +114,6 @@ describe('Auth', function() {
                 });
             });
         });
-
-        // it('loginAndNotAuthenticate', function(done) {
-        //     done();
-        // });
     });
 
     describe('getAuthenticatedPatient', function () {
