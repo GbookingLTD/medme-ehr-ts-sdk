@@ -5,6 +5,7 @@ import { Handlers } from "../../Handlers";
 import { Credentials } from "../Credentials";
 import { IJsonRPCRequest } from "./jsonRpcRequest";
 import { PatientModel } from "../../models/PatientModel";
+import {UserSign} from "../../types/UserSign";
 
 export class AuthService extends JsonRPCService implements IAuthService {
 
@@ -57,7 +58,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
      */
     public authenticate(exchangeToken: string, patientInfo: PatientInfo, 
-                        cb: (err: any, patient: PatientModel, userSign: string) => void): void {
+                        cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void {
         this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, {exchangeToken, patientProperties: patientInfo}, (err: any, payload: object) => {
             if (err)
                 return cb(err, null, null);
