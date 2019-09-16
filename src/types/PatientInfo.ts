@@ -4,6 +4,7 @@ export class PatientInfo {
     id: string;
     surname: string;
     name: string;
+    middlename: string;
     phone: string;
     email: string;
     gender: Gender;
@@ -13,6 +14,7 @@ export class PatientInfo {
         this.id = json.id;
         this.surname = json.surname;
         this.name = json.name;
+        this.middlename = json.middlename;
         this.phone = json.phone;
         this.email = json.email;
         this.gender = json.gender;
