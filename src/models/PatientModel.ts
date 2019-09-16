@@ -10,7 +10,7 @@ export class PatientModel implements IJsonModel {
     private _active: boolean;
     private _surname: string;
     private _name: string;
-    private _phone: string;
+    private _phones: string;
     private _email: string;
     private _gender: Gender;
     private _birthdate: Date;
@@ -28,7 +28,7 @@ export class PatientModel implements IJsonModel {
     public get active(): boolean { return this._active; }
     public get surname(): string { return this._surname; }
     public get name(): string { return this._name; }
-    public get phone(): string { return this._phone; }
+    public get phones(): string { return this._phones; }
     public get email(): string { return this._email; }
     public get gender(): Gender { return this._gender; }
     public get birthdate(): Date { return this._birthdate; }
@@ -45,7 +45,7 @@ export class PatientModel implements IJsonModel {
         this._active = json.active;
         this._surname = json.surname;
         this._name = json.name;
-        this._phone = json.phone;
+        this._phones = json.phones;
         this._email = json.email;
         this._gender = json.gender;
         if (json.birthdate && json.birthdate.length && 

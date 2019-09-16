@@ -6,7 +6,7 @@
 */
 
 const http = require('http');
-const ehrAuth = require('../../node-ehr/auth');
+const ehrAuth = require('medme-ehr');
 
 const Tokens = [{user: "user123", token: "token456", ttl: 1440}];
 const findToken = (cred) => {
