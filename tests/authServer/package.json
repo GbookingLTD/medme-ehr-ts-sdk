@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "medme-ehr": "http://git.dev.gbooking.ru/gbooking/node-medme-ehr/repository/archive.tar.gz?ref=1.0.0"
+    "medme-ehr": "http://git.dev.gbooking.ru/gbooking/node-medme-ehr/repository/archive.tar.gz?ref=1.0.1"
   }
 }

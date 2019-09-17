@@ -18,5 +18,5 @@ export interface IPrescriptionService {
      * @param cb callback
      */
     getPatientPrescriptions(patientId: string, limit: number, offset: number, 
-        cb: (p: PrescriptionModel[]) => void): void;
+        cb: (err: any, p: PrescriptionModel[]) => void): void;
 }
