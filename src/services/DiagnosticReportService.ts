@@ -18,5 +18,5 @@ export interface IDiagnosticReportService {
      * @param cb callback
      */
     getPatientDiagnosticReports(patientId: string, limit: number, offset: number, 
-        cb: (p: DiagnosticReportModel[]) => void): void;
+        cb: (err: any, p: DiagnosticReportModel[]) => void): void;
 }

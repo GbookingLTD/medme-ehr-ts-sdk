@@ -17,5 +17,5 @@ export interface IAppointmentResultService {
      * @param cb callback
      */
     getPatientAppointmentResults(patientId: string, limit: number, offset: number, 
-        cb: (appointmentResults: AppointmentResultModel[]) => void): void;
+        cb: (err: any, appointmentResults: AppointmentResultModel[]) => void): void;
 }

@@ -115,7 +115,8 @@ const server = http.createServer((req, res) => {
         let authInfo = {
             user: jsonReq.params.user,
             token: makeid(12),
-            ttl: 1440
+            ttl: 1440,
+            created: new Date()
         };
         Tokens.push(authInfo);
 

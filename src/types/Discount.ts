@@ -5,8 +5,11 @@ export class Discount {
     discountPercent: number;
 
     fromJson(json: any): Discount {
-        this.discountType = json.discountType;
-        this.discountPercent = json.discountPercent;
+        if (json)
+        {
+            this.discountType = json.discountType;
+            this.discountPercent = json.discountPercent;
+        }
         return this;
     }
 
