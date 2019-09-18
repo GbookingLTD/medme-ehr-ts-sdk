@@ -20,7 +20,7 @@ define('appointment-screen', ['handlebars',
             // infoklinika patient_id "10045940"
             medmeApp.appointmentService.getPatientAppointments(medmeApp.env.PATIENT_ID, 10, 0, function(err, appointments) {
                 if (err) {
-                    if (err instanceof MedMe.EHR.Types.ConnectionError){
+                    if (err instanceof MedMe.EHR.Services.ConnectionError){
                         return alert("Не удалось установить соединение")
                     } else return alert("Ошибка запроса к ЭМК");
                 }

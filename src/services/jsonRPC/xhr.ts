@@ -1,4 +1,4 @@
-import { ConnectionError } from "../../types/ConnectionError";
+import { ConnectionError } from "../AuthService";
 
 if (typeof window === "undefined") {
     var XMLHttpRequest = require('xhr2');

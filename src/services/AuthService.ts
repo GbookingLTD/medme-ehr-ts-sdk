@@ -88,6 +88,10 @@ export class PatientAuthenticationError extends Error {
         err.internalError.code === RpcErrorCodes.PatientNotAuthenticated;
     }
 
+    public static isConnectionError(err: PatientAuthenticationError): boolean {
+        return err.internalError && err.internalError instanceof ConnectionError;
+    }
+
     public static patientAlreadyMatched(err: PatientAuthenticationError): boolean {
         return err.step === PatientAuthenticationStep.authenticate &&
         err.internalError.code === RpcErrorCodes.PatientAlreadyMatched;
@@ -100,6 +104,15 @@ export class PatientAuthenticationError extends Error {
         super('Patient authentication error');
         this.step = aStep;
         this.internalError = anInternalError;
+    }
+}
+
+export class ConnectionError extends Error {
+    __proto__: Error;
+    constructor(){
+        super("Connection cannot be established");
+        // https://github.com/Microsoft/TypeScript/issues/13965
+        this.__proto__ = new.target.prototype;
     }
 }
 

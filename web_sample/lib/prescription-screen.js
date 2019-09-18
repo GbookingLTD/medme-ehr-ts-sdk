@@ -12,7 +12,7 @@ define('prescription-screen', ['handlebars',
             var prescriptionLineTemplateFn = Handlebars.compile(prescriptionLineTemplate);
             medmeApp.prescriptionService.getPatientPrescriptions(medmeApp.env.PATIENT_ID, 10, 0, function(err, prescriptions) {
                 if (err) {
-                    if (err instanceof MedMe.EHR.Types.ConnectionError){
+                    if (err instanceof MedMe.EHR.Services.ConnectionError){
                         return alert("Не удалось установить соединение")
                     } else return alert("Ошибка запроса к ЭМК");
                 }

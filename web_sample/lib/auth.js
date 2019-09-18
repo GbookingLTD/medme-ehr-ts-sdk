@@ -96,10 +96,10 @@ define('auth', [
                 function authenticatedPatient(err, data) {
                     // Обрабатываем ошибку авторизации
                     // В реальном приложении для этой ошибки необходимо перелогинить пользователя
-                    if (err && err.internalError && err.internalError instanceof MedMe.EHR.Types.ConnectionError){
+                    var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
+                    if (PatientAuthenticationError.isConnectionError(err)){
                         return alert("Не удалось установить соединение")
                     }
-                    var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
                     if (err && (PatientAuthenticationError.isAuthorizationError(err) ||
                             PatientAuthenticationError.patientAlreadyMatched(err)))
                         return handleAuthorizationError(err);

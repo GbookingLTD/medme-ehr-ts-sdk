@@ -14,7 +14,6 @@ import { ProcedureInfo } from "./ProcedureInfo";
 import { Procedure } from "./Procedure";
 import { PrescriptionInfo } from "./PrescriptionInfo";
 import { PatientInfo } from "./PatientInfo";
-import { ConnectionError } from "./ConnectionError";
 
 export {
     BusinessInfo,
@@ -32,6 +31,5 @@ export {
     ProcedureInfo,
     Procedure,
     PrescriptionInfo,
-    PatientInfo,
-    ConnectionError
+    PatientInfo
 };
