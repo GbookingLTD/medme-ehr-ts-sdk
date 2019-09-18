@@ -10,7 +10,8 @@
     "test": "mocha -r ts-node/register \"tests/**/*.test.ts\"",
     "testWithCoverage": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register tests/**/*.test.ts && nyc report",
     "rollup": "./node_modules/.bin/rollup -c",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "build-browser": "tsc --module AMD --target ES5 --outfile dist/browser/bundle.js src/index.ts"
   },
   "author": "swvitaliy",
   "license": "ISC",

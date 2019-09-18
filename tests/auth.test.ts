@@ -43,7 +43,7 @@ describe('Auth', function() {
     }
 
     function exchangeTokenAuthenticate(authCred: Credentials, done: (err?: any) => void) {
-        let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, AUTH_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
+        let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, AUTH_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr, null, null);
         getExchangeToken(authService, function(err: any, res: ExchangeTokenResponse) {
             if (err)
                 return done("expected exchange token");
