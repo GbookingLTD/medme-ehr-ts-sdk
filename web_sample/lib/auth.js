@@ -97,6 +97,9 @@ define('auth', [
                     // Обрабатываем ошибку авторизации
                     // В реальном приложении для этой ошибки необходимо перелогинить пользователя
                     var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
+                    if (PatientAuthenticationError.isConnectionError(err)){
+                        return alert("Не удалось установить соединение")
+                    }
                     if (err && (PatientAuthenticationError.isAuthorizationError(err) ||
                             PatientAuthenticationError.patientAlreadyMatched(err)))
                         return handleAuthorizationError(err);

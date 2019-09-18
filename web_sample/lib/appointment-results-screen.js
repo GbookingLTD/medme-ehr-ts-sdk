@@ -14,7 +14,11 @@ define('appointment-results-screen', ['handlebars',
             var appointmentResultLineTemplateFn = Handlebars.compile(appointmentResultLineTemplate);
             // infoklinika patient_id "10045940"
             medmeApp.appointmentResultService.getPatientAppointmentResults(medmeApp.env.PATIENT_ID, 10, 0, function(err, appointmentResults) {
-                if (err) return alert("Ошибка запроса к ЭМК");
+                if (err) {
+                    if (err instanceof MedMe.EHR.Services.ConnectionError){
+                        return alert("Не удалось установить соединение")
+                    } else return alert("Ошибка запроса к ЭМК");
+                }
                 appointmentResults.forEach(function(app) {
                     var html = appointmentResultLineTemplateFn(app);
                     document.getElementById('appointment-results-table-body')
