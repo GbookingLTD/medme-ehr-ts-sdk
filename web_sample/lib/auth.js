@@ -43,6 +43,17 @@ define('auth', [
         $('#auth-error').modal('show');
     }
 
+    function handleEhrServerDisabledError(err) {
+        containerElement.innerHTML = '';
+        var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
+        containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
+            message: "ЭМК в настоящее время недоступна. В скором времени мы вернем доступ. Пожайлуста, сохраняйте терпение.",
+            step: getStepName(err),
+            stack: err.stack
+        }));
+        $('#auth-error').modal('show');
+    }
+
     function handleAuthenticationError(err) {
         containerElement.innerHTML = '';
         var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
@@ -97,7 +108,10 @@ define('auth', [
                     // Обрабатываем ошибку авторизации
                     // В реальном приложении для этой ошибки необходимо перелогинить пользователя
                     var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
-                    if (PatientAuthenticationError.isConnectionError(err)){
+                    if (PatientAuthenticationError.isEhrServerDisabled(err)) {
+                        return handleEhrServerDisabledError(err);
+                    }
+                    if (PatientAuthenticationError.isConnectionError(err)) {
                         return alert("Не удалось установить соединение")
                     }
                     if (err && (PatientAuthenticationError.isAuthorizationError(err) ||
