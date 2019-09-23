@@ -92,6 +92,10 @@ export class PatientAuthenticationError extends Error {
         return err.internalError && err.internalError instanceof ConnectionError;
     }
 
+    public static isEhrServerDisabled(err: PatientAuthenticationError): boolean {
+        return err.step === PatientAuthenticationStep.patient && this.isConnectionError(err);
+    }
+
     public static patientAlreadyMatched(err: PatientAuthenticationError): boolean {
         return err.step === PatientAuthenticationStep.authenticate &&
         err.internalError.code === RpcErrorCodes.PatientAlreadyMatched;
