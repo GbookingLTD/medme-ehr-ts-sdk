@@ -37,7 +37,7 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
         cb(new Error("error request " + endpoint + " method #" + header.method), null);
     };
     req.open('POST', endpoint, true);
-    req.overrideMimeType('application/json;charset=UTF-8');
+    //req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     let jsonRpcRequest = requestCred(header.id, header.method, header.cred, requestPayload);
     console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
