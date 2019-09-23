@@ -2,6 +2,7 @@ import { PatientInfo } from "../types/PatientInfo";
 import { PatientModel } from "../models/PatientModel";
 import {IPatientService} from "./PatientService";
 import { RpcErrorCodes, isAuthorizationError } from "./RpcErrorCodes";
+import {UserSign} from "../types/UserSign";
 
 export class ExchangeTokenResponse {
     public exchangeToken: string;
@@ -31,7 +32,7 @@ export interface IAuthService {
      * @param {string} exchangeToken короткоживущий токен обмена
      * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
      */
-    authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (err: any, patient: PatientModel, userSign: string) => void): void;
+    authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
 
     /**
      * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
@@ -53,7 +54,7 @@ export class PatientAuthenticationResult {
     public patientAuthenticated: boolean;
     public patientFound: boolean;
     public patient: PatientModel;
-    public userSign: string;
+    public userSign: UserSign;
     public constructor() {
         this.patientAuthenticated = false;
         this.patientFound = false;
@@ -87,6 +88,10 @@ export class PatientAuthenticationError extends Error {
         err.internalError.code === RpcErrorCodes.PatientNotAuthenticated;
     }
 
+    public static isConnectionError(err: PatientAuthenticationError): boolean {
+        return err.internalError && err.internalError instanceof ConnectionError;
+    }
+
     public static patientAlreadyMatched(err: PatientAuthenticationError): boolean {
         return err.step === PatientAuthenticationStep.authenticate &&
         err.internalError.code === RpcErrorCodes.PatientAlreadyMatched;
@@ -99,6 +104,15 @@ export class PatientAuthenticationError extends Error {
         super('Patient authentication error');
         this.step = aStep;
         this.internalError = anInternalError;
+    }
+}
+
+export class ConnectionError extends Error {
+    __proto__: Error;
+    constructor(){
+        super("Connection cannot be established");
+        // https://github.com/Microsoft/TypeScript/issues/13965
+        this.__proto__ = new.target.prototype;
     }
 }
 

@@ -6,6 +6,7 @@ import { IAppointmentResultService } from '../src/services/AppointmentResultServ
 import { AppointmentResultModel } from "../src/models/AppointmentResultModel";
 import { Credentials } from '../src/services/Credentials';
 import { getCreateServiceFn } from './login';
+import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
 
 describe('AppointmentResult', function() {
     function getOneById(service: IAppointmentResultService, id: string, done: (err: Error, appointmentResult: AppointmentResultModel) => void) {
@@ -18,7 +19,7 @@ describe('AppointmentResult', function() {
 
     function getPatientAppointmentResults(service: IAppointmentResultService, patientId: string, limit: number, offset: number,
             done: (err: Error, appointments: AppointmentResultModel[]) => void) {
-        service.getPatientAppointmentResults(patientId, limit, offset, (appointments: AppointmentResultModel[]) => {
+        service.getPatientAppointmentResults(patientId, limit, offset, (err: any, appointments: AppointmentResultModel[]) => {
             appointments.forEach(function(app) {
                 assert.strictEqual(app.patientId, patientId);
             });
@@ -40,6 +41,14 @@ describe('AppointmentResult', function() {
             createAppointmentResultService(function(err: any, service?: IAppointmentResultService) {
                 if (err) return done(err);
                 getPatientAppointmentResults(service, "1", 10, 0, done);
+            });
+        });
+        it('GetOtherPatientAppointmentResults', function(done: (err?: any) => void) {
+            createAppointmentResultService(function(err: any, service?: IAppointmentResultService) {
+                if (err) return done(err);
+                service.getPatientAppointmentResults("2", 10, 0, (err: any, appointments: AppointmentResultModel[]) => {
+                    if (err && err.code === RpcErrorCodes.AccessForbidden) return done();
+                });
             });
         });
     });

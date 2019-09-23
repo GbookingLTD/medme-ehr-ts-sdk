@@ -15,6 +15,7 @@ import { IAppointmentService } from '../src/services/AppointmentService';
 import { AppointmentInputProperties } from "../src/types/AppointmentInputProperties";
 import { Credentials } from '../src/services/Credentials';
 import { getCreateServiceFn } from './login';
+import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
 
 describe('Appointment', function() {
     function getOneById(service: IAppointmentService, id: string, done: (err: Error, appointment: AppointmentModel) => void) {
@@ -90,6 +91,14 @@ describe('Appointment', function() {
             createAppointmentService(function(err: any, service?: IAppointmentService) {
                 if (err) return done(err);
                 getPatientAppointments(service, "1", 10, 0, done);
+            });
+        });
+        it('GetOtherPatientAppointments', function(done: (err?: any) => void) {
+            createAppointmentService(function(err: any, service?: IAppointmentService) {
+                if (err) return done(err);
+                service.getPatientAppointments("2", 10, 0, (err:any, appointments: AppointmentModel[]) => {
+                    if (err && err.code === RpcErrorCodes.AccessForbidden) return done();
+                });
             });
         });
     });

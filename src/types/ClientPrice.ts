@@ -17,7 +17,8 @@ export class ClientPrice {
         this.originValue = json.originValue;
         this.discountValue = json.discountValue;
         this.value = json.value;
-        this.discount.fromJson(json.discount);
+        if(json.discount)
+            this.discount.fromJson(json.discount);
         return this;
     }
 }

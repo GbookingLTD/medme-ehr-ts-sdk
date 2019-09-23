@@ -52,7 +52,7 @@ export class AppointmentService implements IAppointmentService {
     }
 
     getPatientAppointments(patientId: string, limit: number, offset: number, 
-        cb: (appointments: AppointmentModel[]) => void): void {
+        cb: (err:any, appointments: AppointmentModel[]) => void): void {
         throw new Error("not implemented");
     }
 }

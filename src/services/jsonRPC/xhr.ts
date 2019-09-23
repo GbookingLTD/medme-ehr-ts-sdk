@@ -1,3 +1,5 @@
+import { ConnectionError } from "../AuthService";
+
 if (typeof window === "undefined") {
     var XMLHttpRequest = require('xhr2');
 } else {
@@ -30,6 +32,8 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
     req.onerror = (res: any) => {
         let target: XMLHttpRequest = res.target;
         console.info('onerror ' + this.status + "\n" + target.response);
+        if (target.status === 0)
+            return cb(new ConnectionError(), null)
         cb(new Error("error request " + endpoint + " method #" + header.method), null);
     };
     req.open('POST', endpoint, true);

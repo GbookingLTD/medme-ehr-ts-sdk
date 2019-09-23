@@ -6,6 +6,7 @@ import { IDiagnosticReportService } from '../src/services/DiagnosticReportServic
 import { DiagnosticReportModel } from '../src/models/DiagnosticReportModel';
 import { Credentials } from '../src/services/Credentials';
 import { getCreateServiceFn } from './login';
+import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
 
 describe('DiagnosticReport', function() {
     function getOneById(service: IDiagnosticReportService, id: string, done: (err: Error, p: DiagnosticReportModel) => void) {
@@ -18,7 +19,7 @@ describe('DiagnosticReport', function() {
 
     function getPatientDiagnosticReports(service: IDiagnosticReportService, patientId: string, limit: number, offset: number,
             done: (err: Error, appointments: DiagnosticReportModel[]) => void) {
-        service.getPatientDiagnosticReports(patientId, limit, offset, (reports: DiagnosticReportModel[]) => {
+        service.getPatientDiagnosticReports(patientId, limit, offset, (err: any, reports: DiagnosticReportModel[]) => {
             reports.forEach(function(r) {
                 assert.strictEqual(r.id, "1");
             });
@@ -41,6 +42,14 @@ describe('DiagnosticReport', function() {
             createService(function(err: any, service?: IDiagnosticReportService) {
                 if (err) return done(err);
                 getPatientDiagnosticReports(service, "1", 10, 0, done);
+            });
+        });
+        it('GetOtherPatientDiagnosticReports', function(done: (err?: any) => void) {
+            createService(function(err: any, service?: IDiagnosticReportService) {
+                if (err) return done(err);
+                service.getPatientDiagnosticReports("2", 10, 0, (err: any, reports: DiagnosticReportModel[]) => {
+                    if (err && err.code === RpcErrorCodes.AccessForbidden) return done();
+                });
             });
         });
     });
