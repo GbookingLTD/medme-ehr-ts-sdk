@@ -1,4 +1,4 @@
-import { PatientInfo } from "../types/PatientInfo";
+import { PatientInputProperties } from "../types/PatientInputProperties";
 import { PatientModel } from "../models/PatientModel";
 import {IPatientService} from "./PatientService";
 import { RpcErrorCodes, isAuthorizationError } from "./RpcErrorCodes";
@@ -30,9 +30,9 @@ export interface IAuthService {
      * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
      * 
      * @param {string} exchangeToken короткоживущий токен обмена
-     * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
+     * @param {PatientInputProperties} patientProperties информация о пациенте для сопоставления
      */
-    authenticate(exchangeToken: string, patientInfo: PatientInfo, cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
+    authenticate(exchangeToken: string, patientProperties: PatientInputProperties, cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
 
     /**
      * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
@@ -137,7 +137,7 @@ export class ConnectionError extends Error {
  * @param {function} cb
  */
 export function getAuthenticatedPatient(patientService: IPatientService, authService: IAuthService,
-        patientInput: (next: (err: any, patientInfo: PatientInfo) => void) => void,
+        patientInput: (next: (err: any, patientProperties: PatientInputProperties) => void) => void,
         cb: (err: any, authenticated?: PatientAuthenticationResult) => void) {
 
     patientService.getPatient((err: any, patient?: PatientModel, userSign?: string) => {
@@ -148,11 +148,11 @@ export function getAuthenticatedPatient(patientService: IPatientService, authSer
                     return cb(new PatientAuthenticationError(PatientAuthenticationStep.exchangeToken, err), null);
 
                 let exchangeToken = res.exchangeToken;
-                patientInput((err: any, patientInfo: PatientInfo) => {
+                patientInput((err: any, patientProperties: PatientInputProperties) => {
                     if (err)
                         return cb(new PatientAuthenticationError(PatientAuthenticationStep.input, err), null);
 
-                    authService.authenticate(exchangeToken, patientInfo, (err: any, patient: PatientModel, userSign: string) => {
+                    authService.authenticate(exchangeToken, patientProperties, (err: any, patient: PatientModel, userSign: string) => {
                         // Возможные типы ошибок:
                         // - пользователь не найден (ошибка аутентификации) - сообщение пользователю
                         // - пользователь уже аутентифицирован - перелогиниться

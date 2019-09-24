@@ -14,6 +14,7 @@ import { ProcedureInfo } from "./ProcedureInfo";
 import { Procedure } from "./Procedure";
 import { PrescriptionInfo } from "./PrescriptionInfo";
 import { PatientInfo } from "./PatientInfo";
+import { PatientInputProperties } from "./PatientInputProperties";
 
 export {
     BusinessInfo,
@@ -31,5 +32,6 @@ export {
     ProcedureInfo,
     Procedure,
     PrescriptionInfo,
-    PatientInfo
+    PatientInfo,
+    PatientInputProperties
 };

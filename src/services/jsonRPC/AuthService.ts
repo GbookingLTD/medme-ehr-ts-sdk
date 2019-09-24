@@ -1,6 +1,6 @@
 import { JsonRPCService } from "./jsonRpcService";
 import { IAuthService, ExchangeTokenResponse } from "../AuthService";
-import { PatientInfo } from "../../types/PatientInfo";
+import { PatientInputProperties } from "../../types/PatientInputProperties";
 import { Handlers } from "../../Handlers";
 import { Credentials } from "../Credentials";
 import { IJsonRPCRequest } from "./jsonRpcRequest";
@@ -55,11 +55,11 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * Авторизация выполняется через ранее полученный exchangeToken.
      * 
      * @param {string} exchangeToken короткоживущий токен обмена
-     * @param {PatientInfo} patientInfo информация о пациенте для сопоставления
+     * @param {PatientInputProperties} patientProperties информация о пациенте для сопоставления
      */
-    public authenticate(exchangeToken: string, patientInfo: PatientInfo, 
+    public authenticate(exchangeToken: string, patientProperties: PatientInputProperties, 
                         cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void {
-        this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, {exchangeToken, patientProperties: patientInfo}, (err: any, payload: object) => {
+        this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, {exchangeToken, patientProperties: patientProperties}, (err: any, payload: object) => {
             if (err)
                 return cb(err, null, null);
 
