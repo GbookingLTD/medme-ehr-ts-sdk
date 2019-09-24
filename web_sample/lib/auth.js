@@ -105,15 +105,20 @@ define('auth', [
                     authDialog.onLogin(next);
                 },
                 function authenticatedPatient(err, data) {
-                    // Обрабатываем ошибку авторизации
-                    // В реальном приложении для этой ошибки необходимо перелогинить пользователя
+                    // Обрабатываем ошибки авторизации
                     var PatientAuthenticationError = MedMe.EHR.Services.PatientAuthenticationError;
+
+                    // Ошибка - сервер ЭМК недоступен.
+                    // Проверку на ошибку недоступности ЭМК необходимо производить перед 
+                    // проверкой на ошибку соединения сети.
                     if (err && PatientAuthenticationError.isEhrServerDisabled(err))
                         return handleEhrServerDisabledError(err);
 
+                    // Ошибка соединения сети
                     if (err && PatientAuthenticationError.isConnectionError(err))
                         return alert("Не удалось установить соединение");
 
+                    // Ошибка авторизации
                     if (err && (PatientAuthenticationError.isAuthorizationError(err) ||
                             PatientAuthenticationError.patientAlreadyMatched(err)))
                         return handleAuthorizationError(err);
