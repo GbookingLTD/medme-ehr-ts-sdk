@@ -18,7 +18,7 @@ define('auth-dialog', [
                 var patientInfo = new MedMe.EHR.Types.PatientInfo();
                 patientInfo.name = document.getElementById('auth_name').value;
                 patientInfo.surname = document.getElementById('auth_surname').value;
-                patientInfo.phones = [document.getElementById('auth_phone').value];
+                patientInfo.phone = document.getElementById('auth_phone').value;
                 patientInfo.gender = document.getElementsByName('auth_gender')[0].checked ? 0 : 1;
                 patientInfo.date = document.getElementById('auth_berthday').value + " 00:00:00Z";
 
