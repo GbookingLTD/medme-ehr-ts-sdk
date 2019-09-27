@@ -119,6 +119,19 @@ export class DiagnosticReportModel implements IJsonModel {
         return this;
     }
     toJson(): object {
-        return this as object;
+        let payload: any = {};
+        payload.id = this._id;
+        payload.status = this._status;
+        payload.type = this._type;
+        payload.effectivePeriod = this._effectivePeriod;
+        payload.issuedDate = this._issuedDate;
+        payload.result = this._result;
+        payload.resultInterpreter = this._resultInterpreter;
+        payload.resultInterpretation = this._resultInterpretation;
+        payload.imagineMedia = this._imagineMedia;
+        payload.attachments = this._attachments;
+        payload.services = this._services;
+        payload.category = this._category;
+        return payload;
     }
 }
