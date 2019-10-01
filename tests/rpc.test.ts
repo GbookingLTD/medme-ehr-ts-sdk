@@ -26,7 +26,11 @@ describe('Rpc', function () {
                 let header = new JsonRPC.JsonRpcHeader("1", "appointment.get_appointment_by_id", authCred);
                 JsonRPC.Transports.xhr(EHR_SERVER_ENDPOINT, header, {}, function(err: any) {
                     const rpcError = err as IJsonRpcError;
-                    if (rpcError && rpcError.code && rpcError.code === RpcErrorCodes.InvalidParams)
+                    if (rpcError
+                        && rpcError.code
+                        && rpcError.code === RpcErrorCodes.InvalidParams
+                        && rpcError.data.errors
+                        && rpcError.data.errors.filter(i => i.includes('Id')))
                         done()
                     else
                         done(err)
