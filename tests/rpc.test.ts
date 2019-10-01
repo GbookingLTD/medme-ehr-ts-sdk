@@ -53,7 +53,7 @@ describe('Rpc', function () {
                 let target: XMLHttpRequest = res.target;
                 if (target.response && target.response.error && target.response.error.code === RpcErrorCodes.ParseError) {
                     done();
-                }
+                } else done(new Error('error'))
             })
         })
 
@@ -65,7 +65,7 @@ describe('Rpc', function () {
                 let target: XMLHttpRequest = res.target;
                 if (target.response && target.response.error && target.response.error.code === RpcErrorCodes.InvalidRequest) {
                     done();
-                }
+                } else done(new Error('error'))
             })
         })
     })
