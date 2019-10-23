@@ -30,8 +30,8 @@ describe('Auth', function() {
         });
     }
 
-    function authenticate(service: IAuthService, exchangeToken: string, patientInfo: PatientInputProperties, cb: (err?: any) => void) {
-        service.authenticate(exchangeToken, "PHONE", patientInfo, "", function(err: any, patient: PatientModel, userSign: string) {
+    function authenticate(service: IAuthService, exchangeToken: string, searchStrategy: string, patientInfo: PatientInputProperties, medCardId: string, cb: (err?: any) => void) {
+        service.authenticate(exchangeToken, searchStrategy, patientInfo, medCardId, function(err: any, patient: PatientModel, userSign: string) {
             if (err)
                 return cb(err);
 
@@ -43,7 +43,13 @@ describe('Auth', function() {
         });
     }
 
-    function exchangeTokenAuthenticate(authCred: Credentials, done: (err?: any) => void) {
+    /**
+     * Authenticate patient by patient properties. 
+     * 
+     * @param authCred
+     * @param done
+     */
+    function exchangeTokenAuthenticateByPhone(authCred: Credentials, done: (err?: any) => void) {
         let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, 
             AUTH_SERVER_ENDPOINT,
             authCred, 
@@ -68,7 +74,42 @@ describe('Auth', function() {
             patientProperties.date = new Date(Date.parse("2000-01-01 00:00:00Z"));
             patientProperties.phone = "1111111111";
             patientProperties.gender = Gender.Male;
-            authenticate(authService, exchangeToken, patientProperties, done);
+            authenticate(authService, exchangeToken, "PHONE", patientProperties, "", done);
+        });
+    }
+
+    /**
+     * Authenticate patient by patient properties. 
+     * 
+     * @param authCred
+     * @param done
+     */
+    function exchangeTokenAuthenticateByMedCard(authCred: Credentials, done: (err?: any) => void) {
+        let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, 
+            AUTH_SERVER_ENDPOINT,
+            authCred, 
+            JsonRPC.Transports.xhr,
+            "auth.exchange_token",
+            []);
+        getExchangeToken(authService, function(err: any, res: ExchangeTokenResponse) {
+            if (err)
+                return done("expected exchange token");
+
+            if (!(res && res.exchangeToken))
+                return done("expected exchangeToken");
+
+            let exchangeToken: string = res.exchangeToken;
+            if (!exchangeToken)
+                return done("expected finished previous test");
+
+            let patientProperties = new PatientInputProperties();
+            patientProperties.name = "John";
+            patientProperties.surname = "Smith";
+            patientProperties.middleName = "";
+            patientProperties.date = new Date(Date.parse("2000-01-01 00:00:00Z"));
+            patientProperties.phone = "1111111111";
+            patientProperties.gender = Gender.Male;
+            authenticate(authService, exchangeToken, "MEDCARD", patientProperties, "123", done);
         });
     }
 
@@ -95,11 +136,18 @@ describe('Auth', function() {
         // 3. Отправляем запрос на аутентификацию
         // Запрос на аутентификацию должен пройти успешно - привязывать одного и того же 
         // EHR пациента к новому пользователю (параметр user).
-        it('authenticate', function(done) {
+        it('authenticateByPhone', function(done) {
             login("User" + Date.now(), undefined, function(err: any, authCred: Credentials) {
                 if (err) return done(err);
 
-                exchangeTokenAuthenticate(authCred, done);
+                exchangeTokenAuthenticateByPhone(authCred, done);
+            });
+        });
+        it('authenticateByMedCard', function(done) {
+            login("User" + Date.now(), undefined, function(err: any, authCred: Credentials) {
+                if (err) return done(err);
+
+                exchangeTokenAuthenticateByMedCard(authCred, done);
             });
         });
 
