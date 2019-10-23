@@ -75,6 +75,13 @@ export class AppointmentResultModel implements IJsonModel {
         payload.start = this._start;
         payload.doctor = this._doctor;
         payload.duration = this._duration;
+        payload.anamnesis = this._anamnesis;
+        payload.medicalExaminationResult = this._medicalExaminationResult;
+        payload.diagnosis = this._diagnosis;
+        payload.recommendations = this._recommendations;
+        payload.scheduledProcedures = this._scheduledProcedures;
+        payload.prescriptions = this._prescriptions;
+        payload.diagnosticReportIds = this._diagnosticReportIds;
         return payload;
     }
 }
