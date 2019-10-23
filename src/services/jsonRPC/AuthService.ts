@@ -55,11 +55,26 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * Авторизация выполняется через ранее полученный exchangeToken.
      * 
      * @param {string} exchangeToken короткоживущий токен обмена
+     * @param {string} searchStrategy
      * @param {PatientInputProperties} patientProperties информация о пациенте для сопоставления
+     * @param {string} medCardId
+     * @param {Function} cb
      */
-    public authenticate(exchangeToken: string, patientProperties: PatientInputProperties, 
+    public authenticate(exchangeToken: string, searchStrategy: string,
+                        patientProperties: PatientInputProperties,
+                        medCardId: string,
                         cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void {
-        this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, {exchangeToken, patientProperties: patientProperties}, (err: any, payload: object) => {
+        if (["PHONE", "MEDCARD"].indexOf(searchStrategy) < 0)
+            throw Error("Argument searchStrategy is out of range.");
+        
+        let requestData = {
+            exchangeToken,
+            searchStrategy,
+            patientProperties,
+            medCardId
+        };
+        
+        this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, requestData, (err: any, payload: object) => {
             if (err)
                 return cb(err, null, null);
 

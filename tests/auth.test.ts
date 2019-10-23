@@ -11,6 +11,7 @@ import { login, AUTH_SERVER_ENDPOINT, EHR_SERVER_ENDPOINT } from './login';
 import {rejects} from "assert";
 import {IJsonRpcHeader, IJsonRpcResponseCallback} from "../src/services/jsonRPC/jsonRpcRequest";
 import {RpcErrorCodes, isAuthorizationError} from "../src/services/RpcErrorCodes";
+import {PatientInputProperties} from "../src/types";
 
 describe('Auth', function() {
     // Для выполения запросов аутентификации мы должны получить от сервера авторизации user, token.
@@ -29,8 +30,8 @@ describe('Auth', function() {
         });
     }
 
-    function authenticate(service: IAuthService, exchangeToken: string, patientInfo: PatientInfo, cb: (err?: any) => void) {
-        service.authenticate(exchangeToken, patientInfo, function(err: any, patient: PatientModel, userSign: string) {
+    function authenticate(service: IAuthService, exchangeToken: string, patientInfo: PatientInputProperties, cb: (err?: any) => void) {
+        service.authenticate(exchangeToken, "PHONE", patientInfo, "", function(err: any, patient: PatientModel, userSign: string) {
             if (err)
                 return cb(err);
 
@@ -43,7 +44,12 @@ describe('Auth', function() {
     }
 
     function exchangeTokenAuthenticate(authCred: Credentials, done: (err?: any) => void) {
-        let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, AUTH_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr, null, null);
+        let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, 
+            AUTH_SERVER_ENDPOINT,
+            authCred, 
+            JsonRPC.Transports.xhr,
+            "auth.exchange_token",
+            []);
         getExchangeToken(authService, function(err: any, res: ExchangeTokenResponse) {
             if (err)
                 return done("expected exchange token");
@@ -51,19 +57,18 @@ describe('Auth', function() {
             if (!(res && res.exchangeToken))
                 return done("expected exchangeToken");
 
-            let exchangeToken: string = null;
-            exchangeToken = res.exchangeToken;
-
+            let exchangeToken: string = res.exchangeToken;
             if (!exchangeToken)
                 return done("expected finished previous test");
 
-            let patientInfo = new PatientInfo();
-            patientInfo.name = "John";
-            patientInfo.surname = "Smith";
-            patientInfo.date = new Date(Date.parse("2000-01-01 00:00:00Z"));
-            patientInfo.phones = ["1111111111"];
-            patientInfo.gender = Gender.Male;
-            authenticate(authService, exchangeToken, patientInfo, done);
+            let patientProperties = new PatientInputProperties();
+            patientProperties.name = "John";
+            patientProperties.surname = "Smith";
+            patientProperties.middleName = "";
+            patientProperties.date = new Date(Date.parse("2000-01-01 00:00:00Z"));
+            patientProperties.phone = "1111111111";
+            patientProperties.gender = Gender.Male;
+            authenticate(authService, exchangeToken, patientProperties, done);
         });
     }
 
@@ -80,7 +85,7 @@ describe('Auth', function() {
         assert.equal(patient.surname, "Smith");
         assert.equal(isSameDates(patient.birthdate, new Date(Date.parse("2000-01-01 00:00:00Z"))), true);
         assert.equal(patient.gender, Gender.Male);
-        assert.equal(patient.phones, ["1111111111"]);
+        assert.deepStrictEqual(patient.phones, ["1111111111"]);
     }
 
     describe('jsonRPC', function() {

@@ -30,9 +30,15 @@ export interface IAuthService {
      * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
      * 
      * @param {string} exchangeToken короткоживущий токен обмена
+     * @param {string} searchStrategy
      * @param {PatientInputProperties} patientProperties информация о пациенте для сопоставления
+     * @param {string} medCardId
+     * @param {Function} cb
      */
-    authenticate(exchangeToken: string, patientProperties: PatientInputProperties, cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
+    authenticate(exchangeToken: string, searchStrategy: string,
+                 patientProperties: PatientInputProperties,
+                 medCardId: string,
+                 cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
 
     /**
      * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
@@ -121,6 +127,13 @@ export class ConnectionError extends Error {
 }
 
 /**
+ * Тип колбека для функции ввода аутентификационных данных пользователем.
+ */
+export type AuthenticateInputResultCallback = (err: any, searchStrategy: string, 
+                                               patientProperties: PatientInputProperties,
+                                               medCardId: string) => void;
+
+/**
  * Функция, реализующая сценарий проверки аутентификации при заходе пользователя в Мед.карту.
  * 
  * 1. Запрос на получение данных пациента.
@@ -132,27 +145,27 @@ export class ConnectionError extends Error {
  *   (+статус, что пациента аутентифицировали)
  * 
  * @param {IPatientService} patientService
- * @param {IAuthService} patientInputPromise
+ * @param {IAuthService} authService
  * @param {function} patientInput
  * @param {function} cb
  */
 export function getAuthenticatedPatient(patientService: IPatientService, authService: IAuthService,
-        patientInput: (next: (err: any, patientProperties: PatientInputProperties) => void) => void,
+        patientInput: (next: AuthenticateInputResultCallback) => void,
         cb: (err: any, authenticated?: PatientAuthenticationResult) => void) {
 
     patientService.getPatient((err: any, patient?: PatientModel, userSign?: string) => {
-        // TODO ошибка соединения с интернетом
         if (err && isAuthorizationError(err))
             return authService.getExchangeToken((err: any, res: ExchangeTokenResponse) => {
                 if (err)
                     return cb(new PatientAuthenticationError(PatientAuthenticationStep.exchangeToken, err), null);
 
                 let exchangeToken = res.exchangeToken;
-                patientInput((err: any, patientProperties: PatientInputProperties) => {
+                patientInput((err: any, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string) => {
                     if (err)
                         return cb(new PatientAuthenticationError(PatientAuthenticationStep.input, err), null);
 
-                    authService.authenticate(exchangeToken, patientProperties, (err: any, patient: PatientModel, userSign: string) => {
+                    authService.authenticate(exchangeToken, searchStrategy, patientProperties, medCardId, 
+                            (err: any, patient: PatientModel, userSign: UserSign) => {
                         // Возможные типы ошибок:
                         // - пользователь не найден (ошибка аутентификации) - сообщение пользователю
                         // - пользователь уже аутентифицирован - перелогиниться
