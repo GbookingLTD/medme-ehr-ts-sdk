@@ -2,16 +2,24 @@
 
 import * as assert from 'assert';
 import JsonRPC from '../src/services/jsonRPC/index';
-import { IAuthService, ExchangeTokenResponse, getAuthenticatedPatient, AuthInfo } from '../src/services/AuthService';
+import {
+    IAuthService,
+    ExchangeTokenResponse,
+    getAuthenticatedPatient,
+    AuthInfo,
+    PatientAuthenticationError, ConnectionError
+} from '../src/services/AuthService';
 import { Credentials } from '../src/services/Credentials';
 import { PatientInfo } from '../src/types/PatientInfo';
 import { Gender } from '../src/types/Gender';
 import { PatientModel } from '../src/models/PatientModel';
 import { login, AUTH_SERVER_ENDPOINT, EHR_SERVER_ENDPOINT } from './login';
 import {rejects} from "assert";
-import {IJsonRpcHeader, IJsonRpcResponseCallback} from "../src/services/jsonRPC/jsonRpcRequest";
+import {IJsonRpcHeader, IJsonRPCRequest, IJsonRpcResponseCallback} from "../src/services/jsonRPC/jsonRpcRequest";
 import {RpcErrorCodes, isAuthorizationError} from "../src/services/RpcErrorCodes";
 import {PatientInputProperties} from "../src/types";
+import {AuthService} from "../src/services/jsonRPC/AuthService";
+import {requestCred} from "../src/services/jsonRPC/jsonrpc_cred";
 
 describe('Auth', function() {
     // Для выполения запросов аутентификации мы должны получить от сервера авторизации user, token.
@@ -182,6 +190,35 @@ describe('Auth', function() {
                     else
                         done(err1)
                 })
+            });
+        });
+    })
+
+    const xhrConnectionError: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcHeader, requestPayload: object,
+                                                 cb: IJsonRpcResponseCallback) {
+        return cb(new ConnectionError(), null);
+    };
+
+    describe('error', function () {
+        it ('ehr_connection error', done => {
+            login("User123", undefined, function(err: any, authCred?: Credentials) {
+                if (err) return done(err);
+
+                let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, xhrConnectionError);
+                let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT,
+                    AUTH_SERVER_ENDPOINT,
+                    authCred,
+                    xhrConnectionError,
+                    "auth.exchange_token",
+                    []);
+
+                getAuthenticatedPatient(patientService,
+                    authService,
+                    next => next(null, null, null, null),
+                    function (err1) {
+                        assert(PatientAuthenticationError.isEhrServerDisabled(err1));
+                        done();
+                    });
             });
         });
     })
