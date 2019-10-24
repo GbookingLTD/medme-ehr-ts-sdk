@@ -4,6 +4,7 @@ import {IJsonRpcError} from "../src/services/jsonRPC/jsonRpcRequest";
 import {EHR_SERVER_ENDPOINT, login} from './login';
 import {Credentials} from "../src/services/Credentials";
 import {ConnectionError} from "../src/services/AuthService";
+import * as assert from 'assert'
 
 var XMLHttpRequest = require('xhr2');
 
@@ -77,10 +78,8 @@ describe('Rpc', function () {
         it('Connection error', function (done: (err?: any) => void){
             let header = new JsonRPC.JsonRpcHeader("1", "api_info.healthcheck");
             JsonRPC.Transports.xhr(EHR_SERVER_ENDPOINT, header, {}, function(err: any) {
-                if (err && err instanceof ConnectionError)
-                    done()
-                else
-                    done(new Error('error'))
+                assert(err instanceof ConnectionError);
+                done()
             });
         });
     })
