@@ -8,7 +8,7 @@
 const http = require('http');
 const ehrAuth = require('medme-ehr');
 
-const Tokens = [{user: "user123", token: "token456", ttl: 1440}];
+const Tokens = [{user: "user123", token: "token456", ttl: 1440, created: (new Date).toISOString()}];
 const findToken = (cred) => {
     for (let i = 0; i < Tokens.length; ++i)
         if (Tokens[i].user === cred.user && Tokens[i].token === cred.token)

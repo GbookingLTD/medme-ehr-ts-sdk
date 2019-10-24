@@ -3,12 +3,22 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Для получения доступа к ЭМК введите информацию о себе</h5>
+            <h5 class="modal-title">Получение доступа к ЭМК</h5>
         </div>
         <div class="modal-body">
+            
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-user-properties-tab" data-toggle="tab" href="#nav-user-properties" role="tab" aria-controls="nav-user-properties" aria-selected="true">По данным пациента</a>
+                <a class="nav-item nav-link" id="nav-medcard-tab" data-toggle="tab" href="#nav-medcard" role="tab" aria-controls="nav-medcard" aria-selected="false">По номеру медкарты</a>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-user-properties" role="tabpanel" aria-labelledby="nav-user-properties-tab">
+
             <form>
             <div class="form-group">
-                <label for="auth_family">ФИО</label>
+                <label for="auth_name">ФИО</label>
                 <input type="text" class="form-control" id="auth_name" placeholder="Имя">
                 <small class="form-text text-muted">John</small>
             </div>
@@ -26,7 +36,7 @@
                 <small id="authPhoneHelp" class="form-text text-muted">79853596605</small>
             </div>
             <div class="form-group">
-                <label for="auth_gender">Пол</label>
+                <label for="auth_gender_m">Пол</label>
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="auth_gender" id="auth_gender_m" value="m">
                     <label class="form-check-label" for="auth_gender_m">
@@ -46,6 +56,27 @@
                 <small id="authBerthdayHelp" class="form-text text-muted">2000-01-01</small>
             </div>
             </form>
+                  
+              </div>
+              <div class="tab-pane fade" id="nav-medcard" role="tabpanel" aria-labelledby="nav-medcard-tab">
+                  
+                  
+            <form>
+            <div class="form-group">
+                <label for="medcard_id">Номер мед. карты</label>
+                <input type="text" class="form-control" id="medcard_id" aria-describedby="medcard_id_help" placeholder="">
+                <small id="medcard_id_help" class="form-text text-muted">123456</small>
+            </div>
+            <div class="form-group">
+                <label for="auth_phone_1">Телефон</label>
+                <input type="text" class="form-control" id="auth_phone_1" aria-describedby="authPhoneHelp_1" placeholder="">
+                <small id="authPhoneHelp_1" class="form-text text-muted">79853596605</small>
+            </div>
+            </form>
+                  
+                  
+              </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary">Войти</button>
