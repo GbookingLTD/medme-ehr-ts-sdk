@@ -77,7 +77,8 @@ describe('Rpc', function () {
 
         it('Connection error', function (done: (err?: any) => void){
             let header = new JsonRPC.JsonRpcHeader("1", "api_info.healthcheck");
-            JsonRPC.Transports.xhr(EHR_SERVER_ENDPOINT, header, {}, function(err: any) {
+            let mockEndpoint = "http://localhost:10123/";
+            JsonRPC.Transports.xhr(mockEndpoint, header, {}, function(err: any) {
                 assert(err instanceof ConnectionError);
                 done()
             });
