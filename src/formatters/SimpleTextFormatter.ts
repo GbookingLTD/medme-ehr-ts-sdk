@@ -9,6 +9,7 @@ import { ProcedureExecStatus } from "../types/ProcedureExecStatus";
 import { Period } from "../types/Period";
 import { DiagnosticReportModel } from "../models/DiagnosticReportModel";
 import { Observation } from "../types/Observation";
+import {Medication} from "../types/Medication";
 
 
 function alignStrings(obj: object, keys: string[]) {
@@ -110,6 +111,21 @@ export class SimpleTextFormatter {
                 "Result": "Результаты",
                 "Images": "Изображения",
                 "Attachments": "Документы"
+            },
+            "Prescription": {
+                "title": "Название",
+                "created": "Дата создания",
+                "recorderDoctor": "Врач, выписавший рецепт",
+                "medications": "Список лекарств",
+                "dosageText": "Дозировка",
+                "reasonText": "Причина назначения",
+                "validityPeriod": "Время, в течение которого рецепт действует",
+                "numberOfRepeats": "Сколько раз по этому рецепту можно получить лекарства",
+            },
+            "MedicationForm": {
+                0: "Порошок",
+                1: "Таблетки",
+                2: "Капсулы"
             }
         }
     };
@@ -191,7 +207,27 @@ export class SimpleTextFormatter {
     }
 
     public prescription(p: PrescriptionInfo, offset: string): string {
-        return "";
+        let keys = ["created", "title", "recorderDoctor", "medications", "dosageText", "reasonText", "validityPeriod"
+            , "numberOfRepeats"];
+        let propFormats = {
+            recorderDoctor: this.doctor.bind(this),
+            validityPeriod: this.period.bind(this),
+            medications: this.medications.bind(this),
+            created: dateFormat.bind(this)
+        };
+        let notAlignedKeys = {
+            validityPeriod: 1
+        };
+        return formatObject(p, keys, notAlignedKeys, propFormats, this._localize["Prescription"], offset);
+    }
+
+    public medications(s: Medication[], offset: string): string {
+        return "\n" + s.map(item => this.medication(item, offset)).join("\n");
+    }
+
+    public medication(s: Medication, offset: string): string {
+        return this._localize["MedicationForm"][s.form] + ". " + s.amount
+            + " шт. Срок годности:" + dateFormat(s.expirationDate);
     }
 
     public services(s: Service[], offset: string): string {

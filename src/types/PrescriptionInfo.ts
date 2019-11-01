@@ -12,7 +12,8 @@ export class PrescriptionInfo {
     reasonText: string;
     validityPeriod: Period;
     numberOfRepeats: number;
-    
+    title: string;
+
     fromJson(json: any): PrescriptionInfo {
         this.id = json.id;
         this.created = new Date(json.created);
@@ -22,6 +23,7 @@ export class PrescriptionInfo {
         this.reasonText = json.reasonText;
         this.validityPeriod = json.validityPeriod ? (new Period()).fromJson(json.validityPeriod) : new Period();
         this.numberOfRepeats = json.numberOfRepeats;
+        this.title = json.title;
         return this;
     }
 }
