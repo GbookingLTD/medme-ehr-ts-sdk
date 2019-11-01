@@ -60,10 +60,23 @@ define('medme-services', ['index'], function(MedMe) {
             authEndpoint: "http://api2.dev.gbooking.ru/rpc",
             exchangeTokenMethod: "client.get_exchange_token",
             businessId: "4000000006771"
+        },
+        "remedi": {
+            ehrEndpoint: "https://195.218.187.26:9443/",
+            authEndpoint: "http://api2.dev.gbooking.ru/rpc",
+            exchangeTokenMethod: "client.get_exchange_token",
+            businessId: "4000000006714"
+        },
+        "medline": {
+            ehrEndpoint: "https://195.9.237.14:9443/",
+            authEndpoint: "http://api2.dev.gbooking.ru/rpc",
+            exchangeTokenMethod: "client.get_exchange_token",
+            businessId: "4000000004097"
         }
     };
 
-    var env = envSettings[location.hostname] || envSettings["default"];
+    var urlParams = new URLSearchParams(window.location.search);
+    var env = envSettings[urlParams.get('env')] || envSettings[location.hostname] || envSettings["default"];
 
     var appointmentService = new JsonRPC.AppointmentService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var appointmentResultService = new JsonRPC.AppointmentResultService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
