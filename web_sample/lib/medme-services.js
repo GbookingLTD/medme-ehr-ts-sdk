@@ -63,9 +63,9 @@ define('medme-services', ['index'], function(MedMe) {
         },
         "remedi": {
             ehrEndpoint: "https://195.218.187.26:9443/",
-            authEndpoint: "http://api2.dev.gbooking.ru/rpc",
+            authEndpoint: "http://apiv2.gbooking.ru/rpc",
             exchangeTokenMethod: "client.get_exchange_token",
-            businessId: "4000000007040"
+            businessId: "4000000006714"
         },
         "medline": {
             ehrEndpoint: "https://195.9.237.14:9443/",
