@@ -19,4 +19,13 @@ export class ObservationComponent {
         
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.type = this.type;
+        payload.value = this.value;
+        payload.interpretation = this.interpretation;
+        payload.ranges = this.ranges ? this.ranges.map(r => r.toJson()) : null;
+        return payload;
+    }
 }

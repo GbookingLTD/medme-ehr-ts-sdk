@@ -24,4 +24,15 @@ export class ObservationRange {
         this.text = json.text;
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.low = this.low;
+        payload.high = this.high;
+        payload.unit = this.unit;
+        payload.type = this.type;
+        payload.age = this.age ? this.age.toJson() : null;
+        payload.text = this.text;
+        return payload;
+    }
 }

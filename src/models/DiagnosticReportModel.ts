@@ -123,14 +123,14 @@ export class DiagnosticReportModel implements IJsonModel {
         payload.id = this._id;
         payload.status = this._status;
         payload.type = this._type;
-        payload.effectivePeriod = this._effectivePeriod;
+        payload.effectivePeriod = this._effectivePeriod ? this._effectivePeriod.toJson() : null;
         payload.issuedDate = this._issuedDate;
-        payload.result = this._result;
-        payload.resultInterpreter = this._resultInterpreter;
+        payload.result = this._result ? this._result.map(value => value.toJson()) : null;
+        payload.resultInterpreter = this._resultInterpreter ? this._resultInterpreter.map(i => i.toJson()) : null;
         payload.resultInterpretation = this._resultInterpretation;
         payload.imagineMedia = this._imagineMedia;
         payload.attachments = this._attachments;
-        payload.services = this._services;
+        payload.services = this._services ? this._services.map(s => s.toJson()) : null;
         payload.category = this._category;
         return payload;
     }

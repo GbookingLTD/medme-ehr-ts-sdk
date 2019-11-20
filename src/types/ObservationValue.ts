@@ -14,4 +14,13 @@ export class ObservationValue
         this.value = json.value;
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.serializedValue = this.serializedValue;
+        payload.unit = this.unit;
+        payload.code = this.code;
+        payload.value = this.value;
+        return payload;
+    }
 }

@@ -18,4 +18,13 @@ export class Service {
         this.duration = json.duration;
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.id = this.id;
+        payload.name = this.name;
+        payload.price = this.price ? this.price.toJson() : null;
+        payload.duration = this.duration;
+        return payload;
+    }
 }

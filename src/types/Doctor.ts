@@ -13,4 +13,13 @@ export class Doctor {
         this.specialization = json.specialization ? (new Specialization()).fromJson(json.specialization) : new Specialization();
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.id = this.id;
+        payload.surname = this.surname;
+        payload.name = this.name;
+        payload.specialization = this.specialization ? this.specialization.toJson() : null;
+        return payload;
+    }
 }

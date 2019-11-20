@@ -7,4 +7,11 @@ export class Period {
         this.end = new Date(json.end);
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {}
+        payload.begin = this.begin;
+        payload.end = this.end;
+        return payload;
+    }
 }
