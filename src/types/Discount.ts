@@ -10,4 +10,10 @@ export class Discount {
         return this;
     }
 
+    toJson(): object {
+        let payload: any = {};
+        payload.discountType = this.discountType;
+        payload.discountPercent = this.discountPercent;
+        return payload;
+    }
 }

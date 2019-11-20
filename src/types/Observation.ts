@@ -67,4 +67,24 @@ export class Observation {
 
         return this;
     }
+
+    toJson(): object{
+        let payload: any = {};
+        payload.id = this.id;
+        payload.createdDate = this.createdDate;
+        payload.patientInfo = this.patientInfo ? this.patientInfo.toJson() : null;
+        payload.type = this.type;
+        payload.observationKey = this.observationKey;
+        payload.status = this.status;
+        payload.effectivePeriod = this.effectivePeriod ? this.effectivePeriod.toJson() : null;
+        payload.issuedDate = this.issuedDate;
+        payload.performerDoctor = this.performerDoctor ? this.performerDoctor.toJson() : null;
+        payload.performerBusiness = this.performerBusiness ? this.performerBusiness.toJson() : null;
+        payload.value = this.value ? this.value.toJson() : null;
+        payload.note = this.note;
+        payload.interpretation = this.interpretation;
+        payload.ranges = this.ranges ? this.ranges.map(r => r.toJson()) : null;
+        payload.components = this.components ? this.components.map(c => c.toJson()) : null;
+        return payload;
+    }
 }

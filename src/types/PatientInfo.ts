@@ -21,4 +21,17 @@ export class PatientInfo {
         this.date = json.date;
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.id = this.id;
+        payload.surname = this.surname;
+        payload.name = this.name;
+        payload.middleName = this.middleName;
+        payload.phones = this.phones;
+        payload.email = this.email;
+        payload.gender = this.gender;
+        payload.date = this.date;
+        return payload;
+    }
 }

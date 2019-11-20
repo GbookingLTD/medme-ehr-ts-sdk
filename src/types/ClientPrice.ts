@@ -21,4 +21,14 @@ export class ClientPrice {
             this.discount.fromJson(json.discount);
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.currency = this.currency;
+        payload.originValue = this.originValue;
+        payload.discountValue = this.discountValue;
+        payload.value = this.value;
+        payload.discount = this.discount ? this.discount.toJson() : null;
+        return payload;
+    }
 }

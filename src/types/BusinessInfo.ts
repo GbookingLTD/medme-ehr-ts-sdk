@@ -12,4 +12,13 @@ export class BusinessInfo {
         this.networkId = json.networkId;
         return this;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.id = this.id;
+        payload.name = this.name;
+        payload.location = this.location;
+        payload.networkId = this.networkId;
+        return payload;
+    }
 }
