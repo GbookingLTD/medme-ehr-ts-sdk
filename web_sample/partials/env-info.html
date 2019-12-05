@@ -1,0 +1,18 @@
+<div id="env-info" style="padding: .5rem 1rem; color:gray">
+    <small class="sdk-version-line">SDK version: <span id="sdk-version-value">{{SDK_VERSION}}</span></small><br>
+    
+    <div>
+        <small class="server-name-line">Server:
+            <select id="server-name-value">
+                {{#each list}}
+                <option value="{{value}}" {{#selected}}selected="selected"{{/selected}}>{{name}}</option>
+                {{/each}}
+            </select>
+        </small><br>
+        <small class="server-role-line">Role: <span id="server-role-value">{{current.role}}</span></small><br>
+        <small class="server-endpoint-line">Endpoint URL: <span id="server-endpoint-value">{{current.ehrEndpoint}}</span></small><br>
+        <small class="server-auth-line">Auth Server URL: <span id="server-auth-value">{{current.authEndpoint}}</span></small><br>
+        <small class="server-businessid-line">Business ID: <span id="server-businessid-value">{{current.businessId}}</span></small><br>
+
+    </div>
+</div>

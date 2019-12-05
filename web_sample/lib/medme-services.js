@@ -24,7 +24,7 @@ function setupCredentials(cred, clientRef) {
     }
 }
 
-define('medme-services', ['index'], function(MedMe) {
+define('medme-services', ['index', 'env'], function(MedMe, envModule) {
     // Initialize API services
     var JsonRPC = MedMe.EHR.Services.JsonRPC;
 
@@ -41,42 +41,14 @@ define('medme-services', ['index'], function(MedMe) {
         if (credUserEl) credUserEl.innerText = 'unknown';
         if (credTokenEl) credTokenEl.innerText = 'unknown';
         if (credClientEl) credClientEl.innerText = 'unknown';
-        alert("Укажите в адресной строке GET параметры user, token, client");
+        alert("Укvажите в адресной строке GET параметры user, token, client");
     } else {
         if (credUserEl) credUserEl.innerText = cred.user;
         if (credTokenEl) credTokenEl.innerText = cred.token;
         if (credClientEl) credClientEl.innerText = clientRef.client;
     }
 
-    var envSettings = {
-        "localhost": {
-            ehrEndpoint: "http://localhost:9999/",
-            authEndpoint: "http://localhost:4321",
-            exchangeTokenMethod: "auth.exchange_token",
-            businessId: null
-        },
-        "default": {
-            ehrEndpoint: "http://ehr.dev.gbooking.ru/",
-            authEndpoint: "http://api2.dev.gbooking.ru/rpc",
-            exchangeTokenMethod: "client.get_exchange_token",
-            businessId: "4000000006771"
-        },
-        "remedi": {
-            ehrEndpoint: "https://195.218.187.26:9443/",
-            authEndpoint: "http://apiv2.gbooking.ru/rpc",
-            exchangeTokenMethod: "client.get_exchange_token",
-            businessId: "4000000006714"
-        },
-        "medline": {
-            ehrEndpoint: "https://195.9.237.14:9443/",
-            authEndpoint: "http://api2.dev.gbooking.ru/rpc",
-            exchangeTokenMethod: "client.get_exchange_token",
-            businessId: "4000000004097"
-        }
-    };
-
-    var urlParams = new URLSearchParams(window.location.search);
-    var env = envSettings[urlParams.get('env')] || envSettings[location.hostname] || envSettings["default"];
+    var env = envModule.current;
 
     var appointmentService = new JsonRPC.AppointmentService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var appointmentResultService = new JsonRPC.AppointmentResultService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);

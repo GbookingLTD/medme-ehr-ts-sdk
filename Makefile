@@ -36,7 +36,7 @@ build_es5: clean_es5
 build_browser: clean_browser
 	tsc --module AMD --target ES5 --outfile dist/browser/bundle.js ${FILES}
 
-web_sample_start:
+web_sample_run:
 	python -mSimpleHTTPServer 9900
 
 web_sample_open:
