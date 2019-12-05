@@ -1,6 +1,6 @@
 # Javascript/typescript SDK client for MedMe EHR
 
-## Installation
+## Build for development
 
 ````
     npm install -g typescript
@@ -8,3 +8,4 @@
     make build
 ````
 
+For configutaion the test app edit thsis file `web_sample/lib/env.js`.
