@@ -1,0 +1,18 @@
+<div id="medme-client-info" style="padding: .5rem 0; color:gray">
+    <div>
+        <small class="medme-client-line"><b>MedMe Test Client</b>:
+            <select id="medme-client-value">
+                {{#each list}}
+                <option value="{{value}}" {{#selected}}selected="selected"{{/selected}}>{{name}}</option>
+                {{/each}}
+            </select>
+        </small><br>
+        <small class="medme-client-user-line">UserID: <span id="medme-client-user-value">{{current.user}}</span></small><br>
+        <small class="medme-client-token-line">Token: <span id="medme-client-token-value">{{current.token}}</span></small><br>
+        <small class="medme-client-client-line">ClientID: <span id="medme-client-client-value">{{current.client}}</span></small><br>
+        <small class="medme-client-business-name-line">BusinessName: <span id="medme-client-business-name-value">{{current.business_name}}</span></small><br>
+        <small class="medme-client-business-line">BusinessID: <span id="medme-client-business-value">{{current.business}}</span></small><br>
+        <small class="medme-client-backoffice">Backoffice: <a target="_blank" href="http://{{current.backoffice}}" id="medme-client-backoffice">{{current.backoffice}}</a></small><br>
+        <small class="medme-client-backoffice-loginpass">BO Login/Password: <br><span id="medme-client-backoffice-loginpass">{{current.backoffice_loginpass}}</span></small><br>
+    </div>
+</div>

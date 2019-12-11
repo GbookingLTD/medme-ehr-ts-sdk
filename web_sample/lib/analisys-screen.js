@@ -14,7 +14,7 @@ define('analisys-screen', ['handlebars',
 
             var analisysLineTemplateFn = Handlebars.compile(analisysLineTemplate);
             // infoklinika patient_id "10045940"
-            medmeApp.diagnosticReportService.getPatientDiagnosticReports(medmeApp.env.PATIENT_ID, 10, 0, function(err, reports) {
+            medmeApp.diagnosticReportService.getPatientDiagnosticReports(medmeApp.env.PATIENT_ID, 100, 0, function(err, reports) {
                 if (err) return alert("Ошибка запроса к ЭМК");
                 reports.forEach(function(app) {
                     var html = analisysLineTemplateFn(app);

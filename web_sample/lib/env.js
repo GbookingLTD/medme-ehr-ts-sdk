@@ -6,7 +6,13 @@ define('env', ['env-prod'], function(envProd) {
             authEndpoint: "http://api2.dev.gbooking.ru/rpc",
             exchangeTokenMethod: "client.get_exchange_token",
             businessId: "4000000006771",
-            role: "development"
+            role: "development",
+            patient: {
+                fio: "John Smith",
+                gender: "M",
+                phone: "79853596605",
+                bithdate: "2000-01-01"
+            }
         };
     };
 
@@ -17,7 +23,13 @@ define('env', ['env-prod'], function(envProd) {
             authEndpoint: "http://localhost:4321",
             exchangeTokenMethod: "auth.exchange_token",
             businessId: null,
-            role: "development"
+            role: "development",
+            patient: {
+                fio: "John Smith",
+                gender: "M",
+                phone: "79853596605",
+                bithdate: "2000-01-01"
+            }
         },
         "default": {
             name: "development",
@@ -25,7 +37,13 @@ define('env', ['env-prod'], function(envProd) {
             authEndpoint: "http://api2.dev.gbooking.ru/rpc",
             exchangeTokenMethod: "client.get_exchange_token",
             businessId: "4000000006771",
-            role: "development"
+            role: "development",
+            patient: {
+                fio: "John Smith",
+                gender: "M",
+                phone: "79853596605",
+                bithdate: "2000-01-01"
+            }
         },
         "dev-demo-1.4.4": getSandboxEnv("ehr-demo", "1.4.4-alpha"),
         "dev-demo-1.5.5": getSandboxEnv("ehr-demo", "1.5.5-alpha"),

@@ -2,4 +2,5 @@ node_modules
 dist
 .idea
 web_sample/lib/env-prod.js
+web_sample/lib/clients-data.js
 

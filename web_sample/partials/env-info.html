@@ -1,8 +1,8 @@
-<div id="env-info" style="padding: .5rem 1rem; color:gray">
-    <small class="sdk-version-line">SDK version: <span id="sdk-version-value">{{SDK_VERSION}}</span></small><br>
+<div id="env-info" style="padding: .5rem 0; color:gray">
+    <small class="sdk-version-line"><b>SDK version: <span id="sdk-version-value">{{SDK_VERSION}}</span></b></small><br>
     
     <div>
-        <small class="server-name-line">Server:
+        <small class="server-name-line"><b>EHR Server</b>:
             <select id="server-name-value">
                 {{#each list}}
                 <option value="{{value}}" {{#selected}}selected="selected"{{/selected}}>{{name}}</option>
@@ -15,4 +15,16 @@
         <small class="server-businessid-line">Business ID: <span id="server-businessid-value">{{current.businessId}}</span></small><br>
 
     </div>
+
+    <small class="ehr-client-line"><b>EHR Test Client</b></small><br>
+    
+    <div>
+        <small class="ehr-client-fio-line">FIO: <span id="ehr-client-fio-value">{{current.patient.fio}}</span></small><br>
+        <small class="ehr-client-gender-line">Gender: <span id="ehr-client-gender-value">{{current.patient.gender}}</span></small><br>
+        <small class="ehr-client-bithdate-line">Bithdate: <span id="ehr-client-bithdate-value">{{current.patient.bithdate}}</span></small><br>
+        <small class="ehr-client-phone-line">Phone: <span id="ehr-client-phone-value">{{current.patient.phone}}</span></small><br>
+
+    </div>
+
+
 </div>
