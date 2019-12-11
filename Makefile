@@ -37,6 +37,8 @@ build_browser: clean_browser
 	tsc --module AMD --target ES5 --outfile dist/browser/bundle.js ${FILES}
 
 web_sample_run:
+	cp -pr ../../medme-ehr-api-settings/clients-data.js web_sample/lib
+	cp -pr ../../medme-ehr-api-settings/env-prod.js web_sample/lib
 	python -mSimpleHTTPServer 9900
 
 web_sample_open:

@@ -11,7 +11,8 @@ define('env', ['env-prod'], function(envProd) {
                 fio: "John Smith",
                 gender: "M",
                 phone: "79853596605",
-                bithdate: "2000-01-01"
+                bithdate: "2000-01-01",
+                mdcard: ""
             }
         };
     };
@@ -28,7 +29,8 @@ define('env', ['env-prod'], function(envProd) {
                 fio: "John Smith",
                 gender: "M",
                 phone: "79853596605",
-                bithdate: "2000-01-01"
+                bithdate: "2000-01-01",
+                medcard: ""
             }
         },
         "default": {
@@ -42,7 +44,8 @@ define('env', ['env-prod'], function(envProd) {
                 fio: "John Smith",
                 gender: "M",
                 phone: "79853596605",
-                bithdate: "2000-01-01"
+                bithdate: "2000-01-01",
+                medcard: ""
             }
         },
         "dev-demo-1.4.4": getSandboxEnv("ehr-demo", "1.4.4-alpha"),
