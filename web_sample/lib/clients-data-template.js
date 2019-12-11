@@ -6,6 +6,7 @@ define('clients-data', function() {
             backoffice: "newbo.dev.gbooking.ru",
             backoffice_loginpass: "ehr_demo@gbooking.ru/supersecret",
             business: "4000000006771",
+            network: null,
             business_name: "EHR Demo",
             name: "John Smith",
             user: "55d98d643ef4d79e909cdbfc",

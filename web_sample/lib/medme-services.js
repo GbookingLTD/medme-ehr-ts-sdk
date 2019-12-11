@@ -56,7 +56,7 @@ define('medme-services', ['index', 'env'], function(MedMe, envModule) {
     var diagnosticReportService = new JsonRPC.DiagnosticReportService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var patientService = new JsonRPC.PatientService(env.ehrEndpoint, cred, JsonRPC.Transports.xhr);
     var authService = new JsonRPC.AuthService(env.ehrEndpoint, env.authEndpoint, cred, JsonRPC.Transports.xhr,
-        env.exchangeTokenMethod, {business:{id: env.businessId}, client:{id: clientRef.client}});
+        env.exchangeTokenMethod, {business:{id: env.businessId}, network: {id: env.networkId}, client:{id: clientRef.client}});
 
     return {
         appointmentService: appointmentService,
