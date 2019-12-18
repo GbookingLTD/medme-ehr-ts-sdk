@@ -1,3 +1,4 @@
+///<amd-module name='MedMe'/>
 import * as Types from './types/index';
 import Models from './models/index';
 import Services from './services/index';
