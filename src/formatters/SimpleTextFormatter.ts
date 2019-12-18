@@ -10,7 +10,7 @@ import { Period } from "../types/Period";
 import { DiagnosticReportModel } from "../models/DiagnosticReportModel";
 import { Observation } from "../types/Observation";
 import {Medication} from "../types/Medication";
-import l10n from "./l10n"
+import l10n from "./l10n/index"
 
 function alignStrings(obj: object, keys: string[]) {
     // find max strings length
