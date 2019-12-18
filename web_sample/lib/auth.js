@@ -1,5 +1,5 @@
 define('auth', [
-    'index',
+    'MedMe',
     'medme-services',
     'handlebars',
     'auth-dialog', 

@@ -17,7 +17,7 @@ requirejs.config({
 
 requirejs([
     'auth',
-    'index',
+    'MedMe',
     'env',
     'env-info',
     'clients-settings',

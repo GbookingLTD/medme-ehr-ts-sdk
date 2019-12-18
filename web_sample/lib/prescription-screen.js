@@ -1,5 +1,5 @@
 define('prescription-screen', ['handlebars',
-        'index',
+        'MedMe',
         'medme-app',
         'text!../partials/prescriptions.html',
         'text!../partials/prescription-line-template.html',

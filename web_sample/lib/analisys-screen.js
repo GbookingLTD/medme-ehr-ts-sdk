@@ -1,5 +1,5 @@
 define('analisys-screen', ['handlebars',
-        'index',
+        'MedMe',
         'medme-app',
         'text!../partials/analisys.html',
         'text!../partials/analisys-line-template.html',

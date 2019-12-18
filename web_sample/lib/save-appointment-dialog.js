@@ -1,5 +1,5 @@
 // диалог для сохранения записи на прием
-define('save-appointment-dialog', ['jquery', 'index', 'medme-app', 
+define('save-appointment-dialog', ['jquery', 'MedMe', 'medme-app',
         'text!../partials/save-appointment-dialog.html', 'bootstrap'],
         function($, MedMe, medmeApp, saveAppointmentDialog) {
     function saveAppointment() {

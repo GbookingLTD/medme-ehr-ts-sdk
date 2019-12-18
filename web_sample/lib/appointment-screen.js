@@ -1,6 +1,6 @@
 // aggregate resources of appointmnts screen
 define('appointment-screen', ['handlebars',
-        'index',
+        'MedMe',
         'medme-app',
         'text!../partials/appointments.html',
         'text!../partials/appointment-line-template.html',

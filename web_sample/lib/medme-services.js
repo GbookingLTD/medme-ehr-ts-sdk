@@ -24,7 +24,7 @@ function setupCredentials(cred, clientRef) {
     }
 }
 
-define('medme-services', ['index', 'env'], function(MedMe, envModule) {
+define('medme-services', ['MedMe', 'env'], function(MedMe, envModule) {
     // Initialize API services
     var JsonRPC = MedMe.EHR.Services.JsonRPC;
 

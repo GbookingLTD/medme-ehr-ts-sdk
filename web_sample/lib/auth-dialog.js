@@ -1,7 +1,7 @@
 // модальное окно для ввода аутентификационных данных пациента 
 define('auth-dialog', [
     'jquery', 
-    'index',
+    'MedMe',
     'text!../partials/auth-dialog.html',
     'bootstrap'
 ], function($, MedMe, authDialogHtml) {
