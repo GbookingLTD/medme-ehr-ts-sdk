@@ -15,12 +15,6 @@ export const xhr: IBinaryRequest = function(header: RpcRequestHeader, body: Uint
     req.responseType = "arraybuffer";
     req.onload = (res: any) => {
         let target: XMLHttpRequest = res.target;
-        //console.log("status="+target.status+" "+target.response.constructor.name+"\n"+ab2str(target.response));
-
-        //var buf = new flatbuffers.ByteBuffer(new Uint8Array(target.response));
-        //var responseHeader = MedMe.EHR.FlatBuffers.ResponseHeader.getRootAsResponseHeader(buf);
-        //console.log("responseHeader:\n  success_code=" + responseHeader.successCode() + "\n  error_code=" + 
-        //    responseHeader.errorCode() + "\n  error_message=" + responseHeader.errorMessage() + "\n");
 
         cb(target.status === 200 ? null : new Error("status code " + target.status), target.response);
     };

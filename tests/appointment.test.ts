@@ -2,13 +2,7 @@
 
 import * as assert from 'assert';
 
-const flatbuffers = require('../../flatbuffer/dist/ts/flatbuffers').flatbuffers;
-
-import '../../flatbuffer/dist/ts/medme-ehr_generated';
-import '../../flatbuffer/dist/ts/medme-ehr-appointment_generated';
-
 import { AppointmentModel } from '../src/models/AppointmentModel';
-import InMemory from '../src/services/inMemory/index';
 import BinRPC from '../src/services/binRPC/index';
 import JsonRPC from '../src/services/jsonRPC/index';
 import { IAppointmentService } from '../src/services/AppointmentService';
@@ -50,16 +44,6 @@ describe('Appointment', function() {
             done(null, appointments);
         });
     }
-
-    describe('InMemory', function() {
-        let service = new InMemory.AppointmentService();
-        it('GetOneById', function(done: (err?: any) => void) {
-            getOneById(service, "1", done);
-        });
-        it('SaveModel', function(done: (err?: any) => void) {
-            saveOneAppointment(service, done);
-        });
-    });
 
     describe('BinRPC', function() {
         let service = new BinRPC.AppointmentService("http://localhost:9999/", BinRPC.Transports.xhr);
