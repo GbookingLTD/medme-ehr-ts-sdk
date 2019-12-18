@@ -14,15 +14,17 @@ requirejs.config({
     }
 });
 
+define('3dparts', ['handlebars', 'bootstrap', 'jquery']);
 
 requirejs([
+    '3dparts',
     'auth',
     'MedMe',
     'env',
     'env-info',
     'clients-settings',
     'clients-info'
-], function(auth, MedMe, env, envInfo, clients, clientsInfo) {
+], function(_, auth, MedMe, env, envInfo, clients, clientsInfo) {
     // берем бизнес и нетворк из данных пользователя
     if (clients.current) {
         env.current.businessId = clients.current.business;
