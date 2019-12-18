@@ -17,7 +17,6 @@
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/flatbuffers": "^1.9.1",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.13.13",
     "chai": "^4.2.0",

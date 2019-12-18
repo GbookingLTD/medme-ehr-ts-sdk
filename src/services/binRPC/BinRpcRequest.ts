@@ -81,10 +81,6 @@ export interface IBodyWriter {
     (payload: {buffer: Uint8Array}): void;
 }
 
-let flatBuffersWriter: IBodyWriter = function(payload: {buffer: Uint8Array, replace: boolean}): void {
-    // ...
-};
-
 export interface IRpcResponseCallback {
     (err: Error, payload: ArrayBuffer): void;
 }
