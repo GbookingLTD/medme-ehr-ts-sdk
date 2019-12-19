@@ -79,6 +79,7 @@ export class SimpleTextFormatter {
         let keys = ["created", "start", "doctor", "duration", "anamnesis", 
             "medicalExaminationResult", "diagnosis", "recommendations", "scheduledProcedures", "prescriptions"];
         let propFormats = {
+            created: this._dateFormat.bind(this),
             doctor: this.doctor.bind(this),
             anamnesis: paragrathes,
             medicalExaminationResult: paragrathes,
