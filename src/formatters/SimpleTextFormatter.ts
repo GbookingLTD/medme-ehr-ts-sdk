@@ -55,9 +55,11 @@ function paragrathes_nl(a: string[], offset: string): string {
     return "\n" + offset + a.join("\n\n");
 }
 
-function dateFormat(d: Date): string {
+export type DateFormatFunc = (d: Date) => string;
+
+const dateISOFormat: DateFormatFunc = function(d: Date): string {
     return d.toISOString();
-}
+};
 
 export class SimpleTextFormatter {
     public static LOCALIZE = {
@@ -66,9 +68,11 @@ export class SimpleTextFormatter {
     };
 
     private _localize: object;
+    private _dateFormat: DateFormatFunc;
 
-    public constructor(localize: object) {
+    public constructor(localize: object, dateFormat: DateFormatFunc = dateISOFormat) {
         this._localize = localize;
+        this._dateFormat = dateFormat;
     }
 
     public appointmentResult(ar: AppointmentResultModel, offset: string = ""): string {
@@ -148,7 +152,7 @@ export class SimpleTextFormatter {
             recorderDoctor: this.doctor.bind(this),
             validityPeriod: this.period.bind(this),
             medications: this.medications.bind(this),
-            created: dateFormat.bind(this)
+            created: this._dateFormat.bind(this)
         };
         let notAlignedKeys = {
             validityPeriod: 1
@@ -162,7 +166,7 @@ export class SimpleTextFormatter {
 
     public medication(s: Medication, offset: string): string {
         return this._localize["MedicationForm"][s.form] + ". " + s.amount
-            + " шт. Срок годности:" + dateFormat(s.expirationDate);
+            + " шт. Срок годности:" + this._dateFormat(s.expirationDate);
     }
 
     public services(s: Service[], offset: string): string {
@@ -181,15 +185,15 @@ export class SimpleTextFormatter {
         return this._localize["ProcedureExecStatus"][status];
     }
     public period(period: Period, offset: string): string {
-        return "\n" + offset + this._localize["Period"]["begin"] + " " + dateFormat(period.begin) + "\n" + 
-            offset + this._localize["Period"]["end"] + " " + dateFormat(period.end) + "\n";
+        return "\n" + offset + this._localize["Period"]["begin"] + " " + this._dateFormat(period.begin) + "\n" +
+            offset + this._localize["Period"]["end"] + " " + this._dateFormat(period.end) + "\n";
     }
 
     public diagnosticReport(dr: DiagnosticReportModel, offset: string = ""): string {
         let _this = this;
         return offset + this.diagnosticReportTitle(dr)
             + "\n"
-            + "\n" + offset + this._localize["CREATED"] + " " + dateFormat(dr.issuedDate)
+            + "\n" + offset + this._localize["CREATED"] + " " + this._dateFormat(dr.issuedDate)
             + "\n" + offset + this._localize["DiagnosticReport"]["Doctor"] + " " +
                 dr.resultInterpreter.map(d => _this.doctor(d))
             + "\n" + offset + this._localize["DiagnosticReport"]["Result"]
