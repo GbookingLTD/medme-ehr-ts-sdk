@@ -61,7 +61,8 @@ function dateFormat(d: Date): string {
 
 export class SimpleTextFormatter {
     public static LOCALIZE = {
-        "ru-ru": l10n.ru
+        "ru-ru": l10n.ruRU,
+        "en-us": l10n.enUS
     };
 
     private _localize: object;

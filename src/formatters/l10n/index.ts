@@ -1,5 +1,7 @@
-import ru from "./ru-ru"
+import ruRU from "./ru-ru"
+import enUS from "./en-us"
 
 export default {
-    ru
+    ruRU,
+    enUS
 }
