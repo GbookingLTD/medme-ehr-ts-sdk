@@ -58,7 +58,7 @@ function paragrathes_nl(a: string[], offset: string): string {
 export type DateFormatFunc = (d: Date) => string;
 
 const dateISOFormat: DateFormatFunc = function(d: Date): string {
-    return d.toISOString();
+    return typeof d === "string" ? d : d.toISOString();
 };
 
 export class SimpleTextFormatter {
