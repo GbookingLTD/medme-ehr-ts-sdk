@@ -26,4 +26,18 @@ export class PrescriptionInfo {
         this.title = json.title;
         return this;
     }
+
+    toJson(): object {
+        let payload: any;
+        payload.id = this.id;
+        payload.created = this.created;
+        payload.recorderDoctor = this.recorderDoctor.toJson();
+        payload.medications = this.medications ? this.medications.map(m => m.toJson()) : [];
+        payload.dosageText = this.dosageText;
+        payload.reasonText = this.reasonText;
+        payload.validityPeriod = this.validityPeriod;
+        payload.numberOfRepeats = this.numberOfRepeats;
+        payload.title = this.title;
+        return payload;
+    }
 }

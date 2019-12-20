@@ -44,5 +44,22 @@ export class Procedure  {
         this.requiredPreparations = json.requiredPreparations;
         this.appointmentResultId = this.appointmentResultId;
         return this;
-    } 
+    }
+
+    toJson(): object {
+        let payload: any;
+        payload.id = this.id;
+        payload.created = this.created;
+        payload.title = this.title;
+        payload.services = this.services ? this.services.map(s => s.toJson()) : [];
+        payload.type = this.type;
+        payload.required = this.required;
+        payload.status = this.status;
+        payload.period = this.period.toJson();
+        payload.strictPeriod = this.strictPeriod.toJson();
+        payload.preparations = this.preparations;
+        payload.requiredPreparations = this.requiredPreparations;
+        payload.appointmentResultId = this.appointmentResultId;
+        return payload;
+    }
 }

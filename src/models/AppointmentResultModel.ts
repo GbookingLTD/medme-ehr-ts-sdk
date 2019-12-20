@@ -70,17 +70,17 @@ export class AppointmentResultModel implements IJsonModel {
             id: this._id,
             patientId: this._patientId
         };
-        payload.business = this._business;
+        payload.business = this._business.toJson();
         payload.created = this._created;
         payload.start = this._start;
-        payload.doctor = this._doctor;
+        payload.doctor = this._doctor.toJson();
         payload.duration = this._duration;
         payload.anamnesis = this._anamnesis;
         payload.medicalExaminationResult = this._medicalExaminationResult;
-        payload.diagnosis = this._diagnosis;
-        payload.recommendations = this._recommendations;
-        payload.scheduledProcedures = this._scheduledProcedures;
-        payload.prescriptions = this._prescriptions;
+        payload.diagnosis = this._diagnosis ? this._diagnosis.map(d => d.toJson()) : [];
+        payload.recommendations = this._recommendations ? this._recommendations.map(r => r.toJson()) : [];
+        payload.scheduledProcedures = this._scheduledProcedures ? this._scheduledProcedures.map(r => r.toJson()) : [];
+        payload.prescriptions = this._prescriptions ? this._prescriptions.map(p => p.toJson()) : [];
         payload.diagnosticReportIds = this._diagnosticReportIds;
         return payload;
     }
