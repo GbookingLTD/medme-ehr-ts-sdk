@@ -10,4 +10,11 @@ export class Diagnosis {
         this.description = json.description;
         this.cd10 = json.cd10;
     }
+
+    toJson(): object {
+        let payload: any = {};
+        payload.description = this.description;
+        payload.cd10 = this.cd10;
+        return payload;
+    }
 }

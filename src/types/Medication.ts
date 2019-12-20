@@ -10,4 +10,12 @@ export class Medication {
         this.amount = json.amount;
         this.expirationDate = json.expirationDate;
     }
+
+    toJson(): object {
+        let payload: any;
+        payload.form = this.form;
+        payload.amount = this.amount;
+        payload.expirationDate = this.expirationDate;
+        return payload;
+    }
 }
