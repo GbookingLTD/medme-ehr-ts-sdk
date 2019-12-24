@@ -109,7 +109,7 @@ export class SimpleTextFormatter {
 
             return line;
         });
-        return "\n" + offset + paragrathes(ar, offset) + "\n\n";
+        return "\n" + paragrathes(ar, offset) + "\n\n";
     }
 
     public anamnesis(ar: string[], offset: string): string {
