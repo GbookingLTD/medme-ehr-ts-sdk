@@ -1,8 +1,8 @@
-
+import { IResourceService } from './ResourceService';
 import { AppointmentModel } from "../models/AppointmentModel";
 import { AppointmentInputProperties } from "../types/AppointmentInputProperties";
 
-export interface IAppointmentService {
+export interface IAppointmentService extends IResourceService {
 
     /**
      * Возвращает запись по идентификатору.

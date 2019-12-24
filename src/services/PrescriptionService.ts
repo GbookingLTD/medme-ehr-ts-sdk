@@ -1,7 +1,7 @@
-
+import { IResourceService } from './ResourceService';
 import { PrescriptionModel } from "../models/PrescriptionModel";
 
-export interface IPrescriptionService {
+export interface IPrescriptionService extends IResourceService {
 
     /**
      * Возвращает назначение по идентификатору.
