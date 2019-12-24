@@ -46,7 +46,7 @@ function paragrathes(a: string[], offset: string): string {
     // this is simple string
     if (a.length == 1 && a[0].length < 100 && a[0].indexOf("\n") < 0)
         return a[0];
-    return offset + a.join("\n\n");
+    return a.join("\n\n");
 }
 
 function paragrathes_nl(a: string[], offset: string): string {
@@ -60,6 +60,9 @@ export type DateFormatFunc = (d: Date) => string;
 const dateISOFormat: DateFormatFunc = function(d: Date): string {
     return typeof d === "string" ? d : d.toISOString();
 };
+
+const trim = (str) =>
+    str.replace(/^\s+/, "").replace(/\s+$/, "");
 
 export class SimpleTextFormatter {
     public static LOCALIZE = {
@@ -82,8 +85,8 @@ export class SimpleTextFormatter {
             created: this._dateFormat.bind(this),
             start: this._dateFormat.bind(this),
             doctor: this.doctor.bind(this),
-            anamnesis: paragrathes,
-            medicalExaminationResult: paragrathes,
+            anamnesis: this.anamnesis.bind(this),
+            medicalExaminationResult: this.medicalExaminationResult.bind(this),
             diagnosis: this.diagnosis.bind(this),
             recommendations: this.procedures.bind(this),
             scheduledProcedures: this.procedures.bind(this),
@@ -96,6 +99,23 @@ export class SimpleTextFormatter {
         return formatObject(ar, keys, notAlignedKeys, propFormats, this._localize["appointmentResult"], offset);
     }
 
+    public medicalExaminationResult(ar: string[], offset: string): string {
+        ar = ar.map(line => {
+            let m = line.match(/([^:]*):(.*)/);
+            if (m) {
+                m[1] = trim(m[1]);
+                return (m[1] ? m[1] + ": " : "") + trim(m[2]);
+            }
+
+            return line;
+        });
+        return "\n" + offset + paragrathes(ar, offset) + "\n\n";
+    }
+
+    public anamnesis(ar: string[], offset: string): string {
+        return "\n" + paragrathes(ar, offset) + "\n";
+    }
+
     public duration(n: number): string {
         return n.toString() + " " + this._localize["MINUTE_UNIT"];
     }
@@ -105,11 +125,18 @@ export class SimpleTextFormatter {
     }
 
     public diagnosis(d: Diagnosis[], offset: string): string {
-        if (d.length == 1 && d[0].description.length < 100 && d[0].description.indexOf("\n") < 0)
-            return d[0].description + " (cd10: " + d[0].cd10 + ")";
+        const itemToString = (item: Diagnosis) =>
+            item.description + item.cd10 ? " (cd10: " + item.cd10 + ")" : "";
 
-        return d.map((item) =>
-            item.description + " (cd10: " + item.cd10 + ")").join("\n\n");
+        if (d.length === 0)
+            return "";
+
+        if (d.length == 1 && d[0].description.length < 100 && d[0].description.indexOf("\n") < 0) {
+            let hasKeyValue = typeof d[0].description === "string" && d[0].description.match(/([^:]*):(.*)/);
+            return (hasKeyValue ? "\n" : "") + itemToString(d[0]);
+        }
+
+        return "\n" + d.map(itemToString).join("\n\n");
     }
 
     public procedures(p: Procedure[], offset: string): string {
@@ -225,9 +252,26 @@ export class SimpleTextFormatter {
     }
     public observations(o: Observation[], offset: string): string {
         let _this = this;
-        return o.map(o => _this.observation(o, offset)).join("\n");
+        return o.filter(o => typeof o.value.value === "string").map(o => _this.observation(o, offset) + "\n").join("\n");
     }
     public observation(o: Observation, offset: string): string {
-        return offset + o.observationKey + ": " + o.value.value;
+        let prefix;
+        if (o.observationKey)
+            prefix = offset + o.observationKey + ": ";
+        else
+            prefix = offset;
+
+        let text = "";
+        if (typeof o.value.value === "string") {
+            // multiline text
+            if (o.value.value.indexOf("\n") >= 0)
+                text = (prefix !== offset ? prefix + "\n" : "") + trim(o.value.value).split("\n")
+                    .map(line => offset + trim(line))
+                    .join("\n");
+            else
+                text = prefix + trim(o.value.value);
+        }
+
+        return text;
     }
 }
