@@ -126,7 +126,7 @@ export class SimpleTextFormatter {
 
     public diagnosis(d: Diagnosis[], offset: string): string {
         const itemToString = (item: Diagnosis) =>
-            item.description + item.cd10 ? " (cd10: " + item.cd10 + ")" : "";
+            item.description + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
 
         if (d.length === 0)
             return "";
