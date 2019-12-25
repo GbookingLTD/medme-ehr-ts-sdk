@@ -70,10 +70,10 @@ export class AppointmentResultModel implements IJsonModel {
             id: this._id,
             patientId: this._patientId
         };
-        payload.business = this._business.toJson();
+        payload.business = this._business;
         payload.created = this._created;
         payload.start = this._start;
-        payload.doctor = this._doctor.toJson();
+        payload.doctor = this._doctor;
         payload.duration = this._duration;
         payload.anamnesis = this._anamnesis;
         payload.medicalExaminationResult = this._medicalExaminationResult;
