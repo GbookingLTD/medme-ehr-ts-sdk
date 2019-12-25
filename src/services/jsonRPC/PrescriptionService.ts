@@ -15,6 +15,7 @@ export class PrescriptionService extends JsonRPCCredService implements IPrescrip
         this.exec(Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
             if (err) return cb(err, null);
             let app = new PrescriptionModel();
+            this.lastValidationErrors_ = payload['validationErrors'];
             app.fromJson(payload['prescription']);
             cb(null, app);
         });
@@ -27,6 +28,7 @@ export class PrescriptionService extends JsonRPCCredService implements IPrescrip
             if (err) return cb(err, null);
             let prescriptions = payload['prescriptions'].map((jsonApp: object) => {
                 let app = new PrescriptionModel();
+                this.lastValidationErrorsOfList_ = payload['validationErrors'];
                 app.fromJson(jsonApp);
                 return app;
             });

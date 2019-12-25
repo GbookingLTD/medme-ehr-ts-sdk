@@ -1,6 +1,7 @@
 import {IJsonRPCRequest, IJsonRpcResponseCallback, JsonRpcHeader} from "./jsonRpcRequest";
 import {Credentials} from "../Credentials";
 import {RpcErrorCodes} from "../RpcErrorCodes";
+import { IResourceService } from '../ResourceService';
 
 export class JsonRPCService {
     public static id: number = 1;
@@ -28,8 +29,10 @@ export class JsonRPCService {
     }
 }
 
-export class JsonRPCCredService extends JsonRPCService {
+export class JsonRPCCredService extends JsonRPCService implements IResourceService {
     private cred_: Credentials;
+    protected lastValidationErrors_: string[];
+    protected lastValidationErrorsOfList_: string[][];
 
     public constructor(endpoint: string, cred: Credentials, request: IJsonRPCRequest) {
         super(endpoint, request);
@@ -65,5 +68,13 @@ export class JsonRPCCredService extends JsonRPCService {
 
         this.request(optionalEndpoint || this.endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred),
             payload, auth(cb));
+    }
+
+    public getLastValidationErrors(): string[] {
+        return this.lastValidationErrors_;
+    }
+
+    public getLastValidationErrorsOfList(): string[][] {
+        return this.lastValidationErrorsOfList_;
     }
 }

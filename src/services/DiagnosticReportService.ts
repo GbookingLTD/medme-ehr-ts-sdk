@@ -1,7 +1,7 @@
-
+import { IResourceService } from './ResourceService';
 import { DiagnosticReportModel } from "../models/DiagnosticReportModel";
 
-export interface IDiagnosticReportService {
+export interface IDiagnosticReportService extends IResourceService {
 
     /**
      * Возвращает назначение по идентификатору.

@@ -15,6 +15,7 @@ export class AppointmentResultService extends JsonRPCCredService implements IApp
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
             if (err) return cb(err, null);
             let app = new AppointmentResultModel();
+            this.lastValidationErrors_ = payload['validationErrors'];
             app.fromJson(payload['appointmentResult']);
             return cb(null, app);
         });
@@ -25,6 +26,7 @@ export class AppointmentResultService extends JsonRPCCredService implements IApp
         let params = {patientId: patientId, limit: limit, offset: offset};
         this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD, params, (err: any, payload: object) => {
             if (err) return cb(err, null);
+            this.lastValidationErrorsOfList_ = payload['validationErrors'];
             let appointmentResults = payload['appointmentResults'].map((jsonApp: object) => {
                 let app = new AppointmentResultModel();
                 app.fromJson(jsonApp);

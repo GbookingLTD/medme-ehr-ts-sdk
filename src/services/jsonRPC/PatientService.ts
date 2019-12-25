@@ -17,6 +17,7 @@ export class PatientService extends JsonRPCCredService
                 return cb(new Error("userSign not found"));
 
             let patient = new PatientModel();
+            this.lastValidationErrors_ = payload['validationErrors'];
             patient.fromJson(payload['patient']);
             return cb(err, patient, payload['userSign']);
         });

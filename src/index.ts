@@ -6,7 +6,7 @@ import Formatters from "./formatters/index";
 import { Handlers } from './Handlers';
 
 export const EHR = {
-    SDK_VERSION: '1.5.11',
+    SDK_VERSION: '1.7.0',
     Types,
     Models,
     Services,

@@ -15,6 +15,7 @@ export class DiagnosticReportService extends JsonRPCCredService implements IDiag
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
             if (err) return cb(err, null);
             let app = new DiagnosticReportModel();
+            this.lastValidationErrors_ = payload['validationErrors'];
             app.fromJson(payload['diagnosticReport']);
             return cb(null, app);
         });
@@ -27,6 +28,7 @@ export class DiagnosticReportService extends JsonRPCCredService implements IDiag
             if (err) return cb(err, null);
             let diagnosticReports = payload['diagnosticReports'].map((jsonApp: object) => {
                 let app = new DiagnosticReportModel();
+                this.lastValidationErrorsOfList_ = payload['validationErrors'];
                 app.fromJson(jsonApp);
                 return app;
             });

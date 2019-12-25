@@ -19,6 +19,7 @@ export class AppointmentService extends JsonRPCCredService
     public saveAppointment(appointmentProperties: AppointmentInputProperties, cb: (err: any, appointmentId: string) => void): void {
         this.exec(Handlers.HANDLER_SAVE_APPOINTMENT_METHOD, {appointmentProperties: appointmentProperties}, (err: any, payload: object) => {
             if (err) return cb(err, null);
+            this.lastValidationErrors_ = payload['validationErrors'];
             return cb(null, payload["id"]);
         });
     }
@@ -28,6 +29,7 @@ export class AppointmentService extends JsonRPCCredService
             let params = {patientId: patientId, limit: limit, offset: offset};
             this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_METHOD, params, (err: any, payload: object) => {
                 if (err) return cb(err, null);
+                this.lastValidationErrorsOfList_ = payload['validationErrors'];
                 let appointments = payload['appointments'].map((jsonApp: object) => {
                     let app = new AppointmentModel();
                     app.fromJson(jsonApp);

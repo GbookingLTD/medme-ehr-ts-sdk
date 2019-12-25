@@ -1,6 +1,7 @@
+import { IResourceService } from './ResourceService';
 import { AppointmentResultModel } from "../models/AppointmentResultModel";
 
-export interface IAppointmentResultService {
+export interface IAppointmentResultService extends IResourceService {
 
     /**
      * Возвращает результаты записи по идентификатору.
