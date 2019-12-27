@@ -35,7 +35,7 @@ export class PrescriptionInfo {
         payload.medications = this.medications ? this.medications.map(m => m.toJson()) : [];
         payload.dosageText = this.dosageText;
         payload.reasonText = this.reasonText;
-        payload.validityPeriod = this.validityPeriod;
+        payload.validityPeriod = this.validityPeriod.toJson();
         payload.numberOfRepeats = this.numberOfRepeats;
         payload.title = this.title;
         return payload;
