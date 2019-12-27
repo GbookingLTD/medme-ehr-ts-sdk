@@ -28,7 +28,7 @@ export class PrescriptionInfo {
     }
 
     toJson(): object {
-        let payload: any;
+        let payload: any = {};
         payload.id = this.id;
         payload.created = this.created;
         payload.recorderDoctor = this.recorderDoctor.toJson();
