@@ -3,7 +3,6 @@
 import * as assert from 'assert';
 
 import { AppointmentModel } from '../src/models/AppointmentModel';
-import BinRPC from '../src/services/binRPC/index';
 import JsonRPC from '../src/services/jsonRPC/index';
 import { IAppointmentService } from '../src/services/AppointmentService';
 import { AppointmentInputProperties } from "../src/types/AppointmentInputProperties";
@@ -13,7 +12,7 @@ import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
 
 describe('Appointment', function() {
     function getOneById(service: IAppointmentService, id: string, done: (err: Error, appointment: AppointmentModel) => void) {
-        service.getAppointmentModelById(id, (appointment: AppointmentModel) => {
+        service.getAppointmentModelById(id, (err: any, appointment: AppointmentModel) => {
             // console.log("appointment.patientId:", appointment.patientId);
             assert.strictEqual(appointment.id, id);
             done(null, appointment);
@@ -37,23 +36,13 @@ describe('Appointment', function() {
 
     function getPatientAppointments(service: IAppointmentService, patientId: string, limit: number, offset: number,
             done: (err: Error, appointments: AppointmentModel[]) => void) {
-        service.getPatientAppointments(patientId, limit, offset, (appointments: AppointmentModel[]) => {
+        service.getPatientAppointments(patientId, limit, offset, (err: any, appointments: AppointmentModel[]) => {
             appointments.forEach(function(app) {
                 assert.strictEqual(app.patientId, patientId);
             });
             done(null, appointments);
         });
     }
-
-    describe('BinRPC', function() {
-        let service = new BinRPC.AppointmentService("http://localhost:9999/", BinRPC.Transports.xhr);
-        it('GetOneById', function(done: (err?: any) => void) {
-            getOneById(service, "1", done);
-        });
-        it('SaveModel', function(done: (err?: any) => void) {
-            saveOneAppointment(service, done);
-        });
-    });
 
     describe.only('JsonRPC', function() {
         const createAppointmentService = getCreateServiceFn<IAppointmentService>(function(authCred: Credentials) {
