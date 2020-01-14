@@ -8,7 +8,7 @@ export interface IPrescriptionService extends IResourceService {
      * @param id идентификатор записи
      * @param cb callback
      */
-    getPrescriptionModelById(id: string, cb: (p: PrescriptionModel) => void): void;
+    getPrescriptionModelById(id: string, cb: (err: any, p: PrescriptionModel) => void): void;
 
     /**
      * Возвращает список назначений пациента.

@@ -1,15 +1,15 @@
 {
-  "name": "auth",
-  "version": "1.0.0",
-  "description": "",
+  "name": "medme-ehr-auth-mock-server",
+  "version": "1.0.1",
+  "description": "MedMe EHR Auth Mock Server for tests",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "swvitaliy",
   "license": "ISC",
   "dependencies": {
-    "medme-ehr": "http://git.dev.gbooking.ru/gbooking/node-medme-ehr/repository/archive.tar.gz?ref=1.0.2"
+    "medme-ehr": "http://git.dev.gbooking.ru/gbooking/node-medme-ehr/repository/archive.tar.gz?ref=1.0.3"
   }
 }

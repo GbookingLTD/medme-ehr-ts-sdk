@@ -3,7 +3,15 @@ import { IJsonModel } from './JsonModel';
 
 import { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus,
     ClientPrice, AppointmentSource, AppointmentHistoryItem } from "../types/index";
-import { AppointmentInputProperties } from '../types/AppointmentInputProperties';
+
+export function copyCommonPropertiesFromJson(json: any) {
+    this._id = json.id;
+    this._patientId = json.patientId;
+    this._business = json.business;
+    this._created = json.created;
+    this._start = json.start;
+    this._doctor = json.doctor;
+}
 
 /**
  * Класс модели записи.
@@ -47,12 +55,7 @@ export class AppointmentModel implements IJsonModel {
      * @param json 
      */
     public fromJson(json: any) {
-        this._id = json.id;
-        this._patientId = json.patientId;
-        this._business = json.business;
-        this._created = json.created;
-        this._start = json.start;
-        this._doctor = json.doctor;
+        copyCommonPropertiesFromJson.call(this, json);
         this._services = json.services;
         this._duration = json.duration;
         this._confirmationStatus = json.confirmationStatus;

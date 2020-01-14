@@ -8,7 +8,7 @@ export interface IDiagnosticReportService extends IResourceService {
      * @param id идентификатор записи
      * @param cb callback
      */
-    getDiagnosticReportModelById(id: string, cb: (p: DiagnosticReportModel) => void): void;
+    getDiagnosticReportModelById(id: string, cb: (err: any, p: DiagnosticReportModel) => void): void;
 
     /**
      * Возвращает список назначений пациента.

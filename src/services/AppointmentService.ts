@@ -9,7 +9,7 @@ export interface IAppointmentService extends IResourceService {
      * @param id идентификатор записи
      * @param cb callback
      */
-    getAppointmentModelById(id: string, cb: (appointment: AppointmentModel) => void): void;
+    getAppointmentModelById(id: string, cb: (err: any, appointment: AppointmentModel) => void): void;
 
     /**
      * Сохраняет данные записи.

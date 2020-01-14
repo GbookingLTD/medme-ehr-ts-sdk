@@ -8,7 +8,13 @@ auth_server_test:
 	curl http://localhost:4321 -X POST -H "Content-Type: application/json" \
 		-d '{"jsonrpc":"2.0","id":1,"method":"auth.exchange_token","params":[],"cred":{"user":"1","token":"test"}}'
 
-test: test_appointment test_appointmentResult test_prescription test_diagnosticReports test_auth
+test:	test_appointment \
+	test_appointmentResult \
+	test_prescription \
+	test_diagnosticReports \
+	test_auth \
+	test_formatters \
+	test_rpc
 
 test_appointment:
 	./node_modules/.bin/mocha -r ts-node/register tests/appointment.test.ts
@@ -24,6 +30,12 @@ test_diagnosticReports:
 
 test_auth:
 	./node_modules/.bin/mocha -r ts-node/register tests/auth.test.ts
+
+test_formatters:
+	./node_modules/.bin/mocha -r ts-node/register tests/formatters.test.ts
+
+test_rpc:
+	./node_modules/.bin/mocha -r ts-node/register tests/rpc.test.ts
 
 build: build_commonjs build_es5 build_browser
 

@@ -8,7 +8,7 @@ export interface IAppointmentResultService extends IResourceService {
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    getAppointmentResultModelById(id: string, cb: (appointmentResult: AppointmentResultModel) => void): void;
+    getAppointmentResultModelById(id: string, cb: (err: any, appointmentResult: AppointmentResultModel) => void): void;
 
     /**
      * Возвращает список результатов приема пациента.

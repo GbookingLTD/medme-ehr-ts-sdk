@@ -10,7 +10,7 @@ import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
 
 describe('AppointmentResult', function() {
     function getOneById(service: IAppointmentResultService, id: string, done: (err: Error, appointmentResult: AppointmentResultModel) => void) {
-        service.getAppointmentResultModelById(id, (appointment: AppointmentResultModel) => {
+        service.getAppointmentResultModelById(id, (err: any, appointment: AppointmentResultModel) => {
             // console.log("appointment_result.id:", appointment.id);
             assert.strictEqual(appointment.id, id);
             done(null, appointment);
