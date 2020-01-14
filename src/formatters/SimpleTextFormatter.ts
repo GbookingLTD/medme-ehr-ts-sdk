@@ -31,6 +31,8 @@ function formatObject(obj: object, keys: string[], notAlignedKeys: object, propF
     }, {});
     alignStrings(localizedKeys, keys.filter((key) => !notAlignedKeys[key]));
     keys.forEach((key) => {
+        if (!obj[key] || Array.isArray(obj[key]) && !obj[key].length)
+            return;
         if (propFormats[key])
             ret += offset + localizedKeys[key] + " " + propFormats[key](obj[key], offset + "    ") + "\n";
         else
