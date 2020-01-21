@@ -137,6 +137,16 @@ describe('Auth', function() {
         assert.deepStrictEqual(patient.phones, ["1111111111"]);
     }
 
+    function checkLinkedError(err, done: (err?: any) => void){
+        if (err)
+        {
+            if(err.code == RpcErrorCodes.PatientAlreadyLinked)
+                return done();
+            else
+                return done(err);
+        }
+    }
+
     describe('jsonRPC', function() {
         // Сценарий аутентификации:
         // 1. Получаем от тестового сервера user, token (user_is_authenticate=0)
@@ -175,7 +185,25 @@ describe('Auth', function() {
                 });
             });
         });
-    });
+
+        it('patientLinkConflict', function(done) {
+            login("User" + Date.now(), undefined, function(err: any, authCred: Credentials) {
+                if (err) return done(err);
+
+                exchangeTokenAuthenticateByPhone(authCred, function (err) {
+                    if (err)
+                        return checkLinkedError(err, done);
+
+                    exchangeTokenAuthenticateByPhone(authCred, function (err) {
+                        if (err)
+                            return checkLinkedError(err, done);
+
+                        done('Linked error must be thrown');
+                    })
+                });
+            });
+        });
+    })
 
     describe('getAuthenticatedPatient', function () {
         it ('not_authenticated', done => {

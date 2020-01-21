@@ -107,6 +107,11 @@ export class PatientAuthenticationError extends Error {
         err.internalError.code === RpcErrorCodes.PatientAlreadyMatched;
     }
 
+    public static patientAlreadyLinked(err: PatientAuthenticationError): boolean {
+        return err.step === PatientAuthenticationStep.authenticate &&
+            err.internalError.code === RpcErrorCodes.PatientAlreadyLinked;
+    }
+
     public readonly step: PatientAuthenticationStep;
     public readonly internalError: any;
     
