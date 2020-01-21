@@ -65,6 +65,17 @@ define('auth', [
         $('#auth-error').modal('show');
     }
 
+    function handlePatientLinkedError(err) {
+        containerElement.innerHTML = '';
+        var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
+        containerElement.insertAdjacentHTML('beforeend', authErrorMessageFn({
+            message: "Данный пациент уже привязан к другому пользователю",
+            step: getStepName(err),
+            stack: err.stack
+        }));
+        $('#auth-error').modal('show');
+    }
+
     function handleCommonError(err) {
         containerElement.innerHTML = '';
         var authErrorMessageFn = Handlebars.compile(authErrorMessageTemplate);
@@ -126,6 +137,9 @@ define('auth', [
                     // Обрабатываем ошибку аутентификации
                     if (err && PatientAuthenticationError.isAuthenticationError(err))
                         return handleAuthenticationError(err);
+
+                    if (err && PatientAuthenticationError.patientAlreadyLinked(err))
+                        return handlePatientLinkedError(err);
 
                     // Обрабатываем остальные ошибки
                     // Показать пользователю, что что-то пошло не так, дать сообщение с просьбой отправить тех. информацию
