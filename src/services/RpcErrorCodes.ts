@@ -18,6 +18,7 @@ export class RpcErrorCodes {
     public static readonly UserNotFound: number = -34007;
     public static readonly PrescriptionNotFound: number = -34008;
     public static readonly PatientAlreadyLinked: number = -34009;
+    public static readonly AppointmentResultNotFound: number = -34010;
 }
 
 export function isAuthorizationError(err: any) {
