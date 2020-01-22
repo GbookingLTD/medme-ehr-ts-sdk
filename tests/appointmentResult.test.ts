@@ -37,6 +37,20 @@ describe('AppointmentResult', function() {
                 getOneById(service, "1", done);
             });
         });
+        it("GetOneById Not Found", function(done: (err?: any) => void) {
+            createAppointmentResultService(function(err: any, service?: IAppointmentResultService) {
+                if (err) return done(err);
+                service.getAppointmentResultModelById("123456", function (err: any, doc: AppointmentResultModel) {
+                    if (!err) {
+                        return done('expected not found error');
+                    }
+                    assert.strictEqual(err.code, RpcErrorCodes.AppointmentResultNotFound);
+                    const msg = "Request #-1 appointment_result.get_appointment_result_by_id: AppointmentResult #123456 not found";
+                    assert.strictEqual(err.message, msg);
+                    done();
+                });
+            });
+        });
         it('GetPatientAppointmentResults', function(done: (err?: any) => void) {
             createAppointmentResultService(function(err: any, service?: IAppointmentResultService) {
                 if (err) return done(err);
