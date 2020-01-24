@@ -28,7 +28,7 @@ describe('Prescription', function() {
    
     }
 
-    describe.only('JsonRPC', function() {
+    describe('JsonRPC', function() {
         const createService = getCreateServiceFn<IPrescriptionService>(function(authCred: Credentials) {
             return new JsonRPC.PrescriptionService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
         });

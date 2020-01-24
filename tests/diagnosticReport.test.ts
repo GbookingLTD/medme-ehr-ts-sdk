@@ -28,7 +28,7 @@ describe('DiagnosticReport', function() {
    
     }
 
-    describe.only('JsonRPC', function() {
+    describe('JsonRPC', function() {
         const createService = getCreateServiceFn<IDiagnosticReportService>(function(authCred: Credentials) {
             return new JsonRPC.DiagnosticReportService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
         });

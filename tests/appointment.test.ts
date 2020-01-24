@@ -44,7 +44,7 @@ describe('Appointment', function() {
         });
     }
 
-    describe.only('JsonRPC', function() {
+    describe('JsonRPC', function() {
         const createAppointmentService = getCreateServiceFn<IAppointmentService>(function(authCred: Credentials) {
             return new JsonRPC.AppointmentService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
         });
