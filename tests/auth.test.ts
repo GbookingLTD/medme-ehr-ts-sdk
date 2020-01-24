@@ -155,14 +155,26 @@ describe('Auth', function() {
         // Запрос на аутентификацию должен пройти успешно - привязывать одного и того же 
         // EHR пациента к новому пользователю (параметр user).
         it('authenticateByPhone', function(done) {
-            login("User" + Date.now(), undefined, function(err: any, authCred: Credentials) {
+            const userPublicID = "user999";
+            login(userPublicID, undefined, function(err: any, authCred: Credentials) {
                 if (err) return done(err);
 
-                exchangeTokenAuthenticateByPhone(authCred, done);
+                let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT,
+                    AUTH_SERVER_ENDPOINT,
+                    authCred,
+                    JsonRPC.Transports.xhr,
+                    "auth.exchange_token__not_used",
+                    []);
+                authService.removeAuthInfo(function(err) {
+                    if (err) return done(err);
+                    exchangeTokenAuthenticateByPhone(authCred, done);
+                });
             });
         });
         it('authenticateByMedCard', function(done) {
-            login("User" + Date.now(), undefined, function(err: any, authCred: Credentials) {
+            const userPublicID = "user999";
+            // TODO Remove matching by user public id
+            login(userPublicID, undefined, function(err: any, authCred: Credentials) {
                 if (err) return done(err);
 
                 exchangeTokenAuthenticateByMedCard(authCred, done);
