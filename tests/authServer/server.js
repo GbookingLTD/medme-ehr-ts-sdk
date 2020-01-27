@@ -112,7 +112,7 @@ const server = http.createServer((req, res) => {
 
     loginCallback = (jsonReq) => {
         // Сохраняем в Tokens новую пару user, token.
-        // Если user_is_authenticate=1 - данные авторизации идут в EHR.
+        // Если передан параметр ehr_user_sign, то данные авторизации идут в EHR.
         // Для этого пользователь (параметр user) должен быть аутентифицирован в EHR
         // (присутствовать в таблице userIdMap).
         let authInfo = {

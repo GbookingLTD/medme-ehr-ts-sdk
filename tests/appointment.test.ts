@@ -14,6 +14,7 @@ describe('Appointment', function() {
     function getOneById(service: IAppointmentService, id: string, done: (err: Error, appointment: AppointmentModel) => void) {
         service.getAppointmentModelById(id, (err: any, appointment: AppointmentModel) => {
             // console.log("appointment.patientId:", appointment.patientId);
+            if (err) return done(err, null);
             assert.strictEqual(appointment.id, id);
             done(null, appointment);
         });

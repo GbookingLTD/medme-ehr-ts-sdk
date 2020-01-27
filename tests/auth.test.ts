@@ -20,16 +20,19 @@ import {RpcErrorCodes, isAuthorizationError} from "../src/services/RpcErrorCodes
 import {PatientInputProperties} from "../src/types";
 import {AuthService} from "../src/services/jsonRPC/AuthService";
 import {requestCred} from "../src/services/jsonRPC/jsonrpc_cred";
+import * as fs from "fs";
+
+const getUserSignFile = (user) => __dirname + "/" + user + "_ehr_user_sign.txt";
 
 describe('Auth', function() {
-    // Для выполения запросов аутентификации мы должны получить от сервера авторизации user, token.
+    // Для выполения запросов аутентификации мы должны предварительно получить от сервера авторизации user, token.
     //
     // В одном из сценариев, когда пользователь аутентифицирован на EHR сервер,
-    // сервер авторизации должен отправить user, token на EHR сервер. 
+    // сервер авторизации должен отправить user, token на EHR сервер.
     // Когда пользователь не аутентифицирован - должен не отправлять (отдельный запрос на exchange_token).
     // 
-    // В случае тестового сервера авторизации в запросе на получение user, token отправляем параметр "user_is_authenticate".
-    // Если user_is_authenticate=1 - данные авторизации идут в EHR.
+    // В случае тестового сервера авторизации в запросе на получение user, token отправляем параметр user_ehr_sign.
+    // При этом внутри сервера авторизации отправляется запрос на ЭМК сервер на сохранение данных сессии.
     // На реальном сервере авторизации этот параметр должен быть сохранен во внутреннем состоянии сервера.
 
     function getExchangeToken(service: IAuthService, cb: (err: any, res: ExchangeTokenResponse) => void) {
@@ -38,16 +41,16 @@ describe('Auth', function() {
         });
     }
 
-    function authenticate(service: IAuthService, exchangeToken: string, searchStrategy: string, patientInfo: PatientInputProperties, medCardId: string, cb: (err?: any) => void) {
+    function authenticate(service: IAuthService, exchangeToken: string, searchStrategy: string, patientInfo: PatientInputProperties, medCardId: string, cb: (err: any, patient: PatientModel, userSign: string) => void) {
         service.authenticate(exchangeToken, searchStrategy, patientInfo, medCardId, function(err: any, patient: PatientModel, userSign: string) {
             if (err)
-                return cb(err);
+                return cb(err, null, null);
 
             if (!userSign)
-                return cb("userSign expected");
+                return cb("userSign expected", null, null);
 
             checkPatient(patient);
-            cb();
+            cb(null, patient, userSign);
         });
     }
 
@@ -57,7 +60,7 @@ describe('Auth', function() {
      * @param authCred
      * @param done
      */
-    function exchangeTokenAuthenticateByPhone(authCred: Credentials, done: (err?: any) => void) {
+    function exchangeTokenAndAuthenticateByPhone(authCred: Credentials, done: (err?: any) => void) {
         let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, 
             AUTH_SERVER_ENDPOINT,
             authCred, 
@@ -82,7 +85,12 @@ describe('Auth', function() {
             patientProperties.date = new Date(Date.parse("2000-01-01 00:00:00Z"));
             patientProperties.phone = "1111111111";
             patientProperties.gender = Gender.Male;
-            authenticate(authService, exchangeToken, "PHONE", patientProperties, "", done);
+            authenticate(authService, exchangeToken, "PHONE", patientProperties, "",
+                function(err, patient: PatientModel, userSign: string) {
+                    if (err) return done(err);
+                    fs.writeFileSync(getUserSignFile(authCred.user), userSign);
+                    done();
+                });
         });
     }
 
@@ -92,7 +100,7 @@ describe('Auth', function() {
      * @param authCred
      * @param done
      */
-    function exchangeTokenAuthenticateByMedCard(authCred: Credentials, done: (err?: any) => void) {
+    function exchangeTokenAndAuthenticateByMedCard(authCred: Credentials, done: (err?: any) => void) {
         let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT, 
             AUTH_SERVER_ENDPOINT,
             authCred, 
@@ -117,7 +125,12 @@ describe('Auth', function() {
             patientProperties.date = new Date(Date.parse("2000-01-01 00:00:00Z"));
             patientProperties.phone = "1111111111";
             patientProperties.gender = Gender.Male;
-            authenticate(authService, exchangeToken, "MEDCARD", patientProperties, "123", done);
+            authenticate(authService, exchangeToken, "MEDCARD", patientProperties, "123",
+                function(err, patient: PatientModel, userSign: string) {
+                    if (err) return done(err);
+                    fs.writeFileSync(getUserSignFile(authCred.user), userSign);
+                    done();
+                });
         });
     }
 
@@ -147,46 +160,63 @@ describe('Auth', function() {
         }
     }
 
+    // Удаляем запись в таблице сопоставления на стороне ЭМК сервера.
+    // Авторизуемся через ehr_user_sign - на стороне ЭМК есть наша сессия.
+    function cleanAuthentication(userPublicID: string, done: (err?: any) => void, next: () => void) {
+        let ehrUserSign = fs.readFileSync(getUserSignFile(userPublicID)).toString() || undefined;
+        login(userPublicID, ehrUserSign, function(err: any, authCred: Credentials) {
+            let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT,
+                AUTH_SERVER_ENDPOINT,
+                authCred,
+                JsonRPC.Transports.xhr,
+                "",
+                []);
+            authService.removeAuthentication(function (err) {
+                if (err) return done(err);
+                next();
+            });
+        });
+    }
+
     describe('jsonRPC', function() {
         // Сценарий аутентификации:
-        // 1. Получаем от тестового сервера user, token (user_is_authenticate=0)
+        // 0. Удаляем запись в таблице сопоставления на стороне ЭМК сервера,
+        //    чтобы не получить ошибку PatientAlreadyLinked.
+        //    При этом, удалятся все сессии по этому профилю на стороне ЭМК.
+        // 1. Получаем от тестового сервера user, token (без ehr_user_sign)
         // 2. Отправляем запрос на exchange_token
         // 3. Отправляем запрос на аутентификацию
         // Запрос на аутентификацию должен пройти успешно - привязывать одного и того же 
         // EHR пациента к новому пользователю (параметр user).
         it('authenticateByPhone', function(done) {
             const userPublicID = "user999";
-            login(userPublicID, undefined, function(err: any, authCred: Credentials) {
-                if (err) return done(err);
 
-                let authService = new JsonRPC.AuthService(EHR_SERVER_ENDPOINT,
-                    AUTH_SERVER_ENDPOINT,
-                    authCred,
-                    JsonRPC.Transports.xhr,
-                    "auth.exchange_token__not_used",
-                    []);
-                authService.removeAuthInfo(function(err) {
+            cleanAuthentication(userPublicID, done, function() {
+                login(userPublicID, undefined, function(err: any, authCred: Credentials) {
                     if (err) return done(err);
-                    exchangeTokenAuthenticateByPhone(authCred, done);
+                    exchangeTokenAndAuthenticateByPhone(authCred, done);
                 });
             });
         });
         it('authenticateByMedCard', function(done) {
             const userPublicID = "user999";
-            // TODO Remove matching by user public id
-            login(userPublicID, undefined, function(err: any, authCred: Credentials) {
-                if (err) return done(err);
 
-                exchangeTokenAuthenticateByMedCard(authCred, done);
+            cleanAuthentication(userPublicID, done, function() {
+                login(userPublicID, undefined, function(err: any, authCred: Credentials) {
+                    if (err) return done(err);
+                    exchangeTokenAndAuthenticateByMedCard(authCred, done);
+                });
             });
         });
 
         // Сценарий логина аутентифицированного пользователя:
-        // 1. Получаем от тестового сервера user, token (user_is_authenticate=1).
+        // 1. Получаем от тестового сервера user, token (отправляем запрос с ehr_user_sign).
         //    Он должен отправить эти данные на EHR сервер.
         // 2. Сделать запрос на получение данных пациента - данные должны вернуться успешно.
         it('loginWithExistsUser', function(done) {
-            login("user123", 'user_sign_222', function(err: any, authCred?: Credentials) {
+            const userPublicID = "user999";
+            const ehrUserSign = fs.readFileSync(getUserSignFile(userPublicID)).toString() || undefined;
+            login(userPublicID, ehrUserSign, function(err: any, authCred?: Credentials) {
                 if (err) return done(err);
 
                 let patientService = new JsonRPC.PatientService(EHR_SERVER_ENDPOINT, authCred, JsonRPC.Transports.xhr);
@@ -202,11 +232,11 @@ describe('Auth', function() {
             login("User" + Date.now(), undefined, function(err: any, authCred: Credentials) {
                 if (err) return done(err);
 
-                exchangeTokenAuthenticateByPhone(authCred, function (err) {
+                exchangeTokenAndAuthenticateByPhone(authCred, function (err) {
                     if (err)
                         return checkLinkedError(err, done);
 
-                    exchangeTokenAuthenticateByPhone(authCred, function (err) {
+                    exchangeTokenAndAuthenticateByPhone(authCred, function (err) {
                         if (err)
                             return checkLinkedError(err, done);
 
@@ -215,7 +245,7 @@ describe('Auth', function() {
                 });
             });
         });
-    })
+    });
 
     describe('getAuthenticatedPatient', function () {
         it ('not_authenticated', done => {
