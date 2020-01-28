@@ -8,7 +8,10 @@
 const http = require('http');
 const ehrAuth = require('medme-ehr');
 
-const Tokens = [{user: "user123", token: "token456", ttl: 1440, created: (new Date).toISOString()}];
+const Tokens = [
+    {user: "user123", token: "token456", ttl: 1440, created: (new Date).toISOString()},
+    {user: "user999", token: "token999", ttl: 1440, created: (new Date).toISOString()},
+];
 const findToken = (cred) => {
     for (let i = 0; i < Tokens.length; ++i)
         if (Tokens[i].user === cred.user && Tokens[i].token === cred.token)
@@ -109,7 +112,7 @@ const server = http.createServer((req, res) => {
 
     loginCallback = (jsonReq) => {
         // Сохраняем в Tokens новую пару user, token.
-        // Если user_is_authenticate=1 - данные авторизации идут в EHR.
+        // Если передан параметр ehr_user_sign, то данные авторизации идут в EHR.
         // Для этого пользователь (параметр user) должен быть аутентифицирован в EHR
         // (присутствовать в таблице userIdMap).
         let authInfo = {

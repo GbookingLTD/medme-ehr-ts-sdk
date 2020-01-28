@@ -1,8 +1,11 @@
 import JsonRPC from '../src/services/jsonRPC/index';
 import { Credentials } from '../src/services/Credentials';
+import * as fs from "fs";
 
 export const AUTH_SERVER_ENDPOINT = "http://localhost:4321/";
 export const EHR_SERVER_ENDPOINT = "http://localhost:9999/";
+
+const getUserSignFile = (user) => __dirname + "/" + user + "_ehr_user_sign.txt";
 
 // В боевом окружении этот метод должен предоставлять API сервера авторизации.
 export function login(user: string, ehr_user_sign: string, cb: (err: any, authCred?: Credentials) => void) {
@@ -28,7 +31,9 @@ export function getCreateServiceFn<T>(ctor: (authCred: Credentials) => T) {
         if (authCred)
             return _create(cb);
 
-        login("user123", 'user_sign_222', function(err: any, authCred_?: Credentials) {
+        const userPublicID = "user999";
+        const ehrUserSign = fs.readFileSync(getUserSignFile(userPublicID)).toString() || undefined;
+        login(userPublicID, ehrUserSign, function(err: any, authCred_?: Credentials) {
             if (err) return cb(err);
             authCred = authCred_;
             _create(cb);
