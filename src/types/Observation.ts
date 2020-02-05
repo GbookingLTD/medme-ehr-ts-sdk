@@ -39,15 +39,28 @@ export class Observation {
     fromJson(json: any): Observation {
         this.id = json.id;
         this.createdDate = new Date(json.createdDate);
-        this.patientInfo.fromJson(json.patientInfo);
+
+        if (json.patientInfo)
+            this.patientInfo.fromJson(json.patientInfo);
+
         this.type = json.type;
         this.observationKey = json.observationKey;
         this.status = json.status;
-        this.effectivePeriod.fromJson(json.effectivePeriod);
+
+        if (json.effectivePeriod)
+            this.effectivePeriod.fromJson(json.effectivePeriod);
+
         this.issuedDate = new Date(json.issuedDate);
-        this.performerDoctor.fromJson(json.performerDoctor);
-        this.performerBusiness.fromJson(json.performerBusiness);
-        this.value.fromJson(json.value);
+
+        if (json.performerDoctor)
+            this.performerDoctor.fromJson(json.performerDoctor);
+
+        if (json.performerBusiness)
+            this.performerBusiness.fromJson(json.performerBusiness);
+
+        if (json.value)
+            this.value.fromJson(json.value);
+
         this.note = json.note;
         
         this.interpretation = [];
