@@ -7,6 +7,7 @@ import { DiagnosticReportModel } from '../src/models/DiagnosticReportModel';
 import { Credentials } from '../src/services/Credentials';
 import { getCreateServiceFn } from './login';
 import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
+import {medialogDiagnosticReportJson} from "./fixtures";
 
 describe('DiagnosticReport', function() {
     function getOneById(service: IDiagnosticReportService, id: string, done: (err: Error, p: DiagnosticReportModel) => void) {
@@ -52,6 +53,11 @@ describe('DiagnosticReport', function() {
                 });
             });
         });
-    });
 
+        it('From json test', function(done: (err?: any) => void) {
+            let diagnosticReport = (new DiagnosticReportModel).fromJson(medialogDiagnosticReportJson);
+
+            done();
+        });
+    });
 });
