@@ -36,7 +36,7 @@ build_ehr:
     - "SKIP_TESTS=1 ./scripts/build.sh"
 
 test:
-#  <<: *only-default
+  <<: *only-default
   cache:
     <<: *global-cache
     policy: pull
