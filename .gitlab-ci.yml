@@ -1,0 +1,58 @@
+image: node
+
+cache:
+  key: "node_modules"
+  paths:
+    - node_modules
+
+cache: &global-cache
+  key: ${CI_PIPELINE_ID}
+  paths:
+    - medme-ehr-api/dist/ubuntu.18.04-x64/EHRServer
+    - medme-ehr-api/csharp/MedMe/EHR.RPCServer/config.json
+    - medme-ehr-api/csharp/MedMe/EHR.Providers/SQLiteProvider/medme_ehr_test.db
+    - medme-ehr-api/csharp/MedMe/EHR.RPCServer/embedded.db
+
+stages:
+  - build_ehr
+  - test
+
+.only-default: &only-default
+  only:
+    refs:
+      - merge_requests
+      - branches
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /(master)/ || $CI_COMMIT_REF_NAME =~ /(master)/
+
+build_ehr:
+  stage: build_ehr
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1
+  script:
+    - "git clone --branch develop http://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.gbooking.ru/ehr/medme-ehr-api.git medme-ehr-api"
+    - "cd medme-ehr-api"
+    - "mkdir dist"
+    - "mkdir .csharp-packages"
+    - "SKIP_TESTS=1 ./scripts/build.sh"
+
+test:
+  <<: *only-default
+  cache:
+    <<: *global-cache
+    policy: pull
+  stage: test
+  variables:
+    RPCSERVER_SQLiteProvider__connectionString: "Data Source=${CI_PROJECT_DIR}/medme-ehr-api/csharp/MedMe/EHR.Providers/SQLiteProvider/medme_ehr_test.db;"
+    RPCSERVER_EmbeddedStorageSqlite__connectionString: "Data Source=${CI_PROJECT_DIR}/medme-ehr-api/csharp/MedMe/EHR.RPCServer/embedded.db;"
+  before_script:
+    - "npm install"
+    - "cd tests/authServer"
+    - "npm install"
+    - "cp ${CI_PROJECT_DIR}/medme-ehr-api/csharp/MedMe/EHR.RPCServer/config.json ${CI_PROJECT_DIR}/medme-ehr-api/dist/ubuntu.18.04-x64/EHRServer/"
+    - "cd ${CI_PROJECT_DIR}/medme-ehr-api/dist/ubuntu.18.04-x64/EHRServer/"
+    - "./MedMe.EHR.RPCServer > /dev/null &"
+    - "cd ${CI_PROJECT_DIR}"
+    - "make auth_server_run > /dev/null &"
+    - "COUNTER=0; while curl --output /dev/null --silent --head --fail http://localhost:9999; [ $? -eq '7' ] && [ $COUNTER -lt 10 ]; do sleep 1 && echo -n . && COUNTER=$((COUNTER+1)); done;"
+  script:
+    - "make test"
