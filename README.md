@@ -14,6 +14,12 @@
 Copy your UserSign to `tests/user999_ehr_user_sign.txt` without whitespaces and other symbols. You should to provide 
 only one record with internalID=1 in this table.
 
+You may also do initialize embedded.db using next command (path to embedded.db can be changed):
+
+````bash
+tests/init_embedded.sh ../csharp/MedMe/EHR.RPCServer/embedded.db
+````
+
 2. Start MedMe.EHRServer using `make run` from folder of the package sources or other way.
 
 3. Start mock Auth Server using `make auth_server_run` from root directory of Typescript SDK sources. 
