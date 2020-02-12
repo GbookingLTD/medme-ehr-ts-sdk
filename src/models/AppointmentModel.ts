@@ -7,10 +7,15 @@ import { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus,
 export function copyCommonPropertiesFromJson(json: any) {
     this._id = json.id;
     this._patientId = json.patientId;
-    this._business = json.business;
+
+    if (json.business)
+        this._business = json.business;
+
     this._created = json.created;
     this._start = json.start;
-    this._doctor = json.doctor;
+
+    if (json.doctor)
+        this._doctor = json.doctor;
 }
 
 /**
