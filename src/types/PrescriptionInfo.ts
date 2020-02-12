@@ -17,7 +17,10 @@ export class PrescriptionInfo {
     fromJson(json: any): PrescriptionInfo {
         this.id = json.id;
         this.created = new Date(json.created);
-        this.recorderDoctor = (new Doctor()).fromJson(json.recorderDoctor);
+
+        if (json.recorderDoctor)
+            this.recorderDoctor = (new Doctor()).fromJson(json.recorderDoctor);
+
         this.medications = json.medications ? json.medications.map((m: any) => (new Medication()).fromJson(m)) : [];
         this.dosageText = json.dosageText;
         this.reasonText = json.reasonText;
