@@ -15,19 +15,34 @@ define('env-info', ['handlebars',
                     envModule.list[k].name === envModule.current.name;
             }
 
+            fetch(env.current.ehrEndpoint, {
+                method: 'POST',
+                body: JSON.stringify({
+                    "jsonrpc": "2.0",
+                    "id": 1,
+                    "method": "api_info.healthcheck",
+                    "params": {}
+                })
+            }).then(response => response.json())
+                .then(function (data) {
+                    if (data && data.result){
+                        env.current.version = data.result.version;
+                    }
+                })
+                .catch(r => env.current.version = "NA")
+                .finally(function() {
+                    var templateFn = Handlebars.compile(template);
+                    var html = templateFn(env);
+                    document.getElementById('env-info-container').innerHTML = '';
+                    document.getElementById('env-info-container').insertAdjacentHTML('beforeend', html);
 
-
-            var templateFn = Handlebars.compile(template);
-            var html = templateFn(env);
-            document.getElementById('env-info-container').innerHTML = '';
-            document.getElementById('env-info-container').insertAdjacentHTML('beforeend', html);
-
-            document.getElementById('server-name-value').addEventListener('change', function(ev) {
-                // при указании нового сервера устанавливаем его в GET параметр перегружаем страницу
-                var urlParams = new URLSearchParams(window.location.search);
-                urlParams.set('env', ev.target.selectedOptions[0].value);
-                window.location.search = '?' + urlParams.toString();
-            });
+                    document.getElementById('server-name-value').addEventListener('change', function(ev) {
+                        // при указании нового сервера устанавливаем его в GET параметр перегружаем страницу
+                        var urlParams = new URLSearchParams(window.location.search);
+                        urlParams.set('env', ev.target.selectedOptions[0].value);
+                        window.location.search = '?' + urlParams.toString();
+                    });
+                })
         }
     };
 });
