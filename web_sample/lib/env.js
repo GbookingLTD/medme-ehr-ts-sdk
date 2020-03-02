@@ -89,6 +89,22 @@ define('env', ['env-prod'], function(envProd) {
                 bithdate: "2000-01-01",
                 mdcard: ""
             }
+        },
+        "dev-app-1.7.1": getSandboxEnv("ehr-app", "1.7.1-alpha"),
+        "dev-app-1.7.1-en": {
+            name: "ehr-app - 1.7.1-alpha-en",
+            ehrEndpoint: "https://ehr-app.gbooking.ru/1.7.1-alpha-en/",
+            authEndpoint: "http://oauth2.gbooking.ru/rpc",
+            exchangeTokenMethod: "client.get_exchange_token",
+            networkId: 318,
+            role: "production",
+            patient: {
+                fio: "John Smith",
+                gender: "M",
+                phone: "79853596605",
+                bithdate: "2000-01-01",
+                mdcard: ""
+            }
         }
     };
 
