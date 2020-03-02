@@ -54,6 +54,7 @@ define('env', ['env-prod'], function(envProd) {
         "dev-demo-1.5.5": getSandboxEnv("ehr-demo", "1.5.5-alpha"),
         "dev-demo-1.6.1": getSandboxEnv("ehr-demo", "1.6.1-alpha"),
         "dev-demo-1.7.0": getSandboxEnv("ehr-demo", "1.7.0-alpha"),
+        "dev-demo-1.7.1": getSandboxEnv("ehr-demo", "1.7.1-alpha"),
         "dev-app-1.3.9.0": getSandboxEnv("ehr-app", "1.3.9.0-alpha"),
         "dev-app-1.4.4": getSandboxEnv("ehr-app", "1.4.4-alpha"),
         "dev-app-1.5.1": getSandboxEnv("ehr-app", "1.5.1-alpha"),
