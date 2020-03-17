@@ -26,6 +26,7 @@ stages:
       - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /(master)/ || $CI_COMMIT_REF_NAME =~ /(master)/
 
 build_ehr:
+  <<: *only-default
   stage: build_ehr
   image: mcr.microsoft.com/dotnet/core/sdk:3.1
   script:
