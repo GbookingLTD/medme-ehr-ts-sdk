@@ -8,7 +8,8 @@ function registerHandlebarsHelpers(Handlebars) {
         }).join(', ');
     });
     Handlebars.registerHelper('showDate', function(val) {
-        return (new Date(val)).toISOString();
+        var date = new Date(val);
+        return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
     });
     Handlebars.registerHelper('showPrice', function(price) {
         return price ? price.originValue + " руб." : "0 руб.";
