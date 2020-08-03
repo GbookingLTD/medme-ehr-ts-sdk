@@ -4,9 +4,12 @@
     ],
     "compilerOptions": {
         "target": "es5",
+        "module": "AMD",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
+        "outDir": "dist/es5_AMD",
         "declaration": true,
+        "declarationDir": "dist/es5_AMD",
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,

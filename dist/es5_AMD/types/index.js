@@ -1,0 +1,21 @@
+define(["require", "exports", "./BusinessInfo", "./Doctor", "./Service", "./AppointmentConfirmationStatus", "./ClientPrice", "./AppointmentHistoryItem", "./AppointmentInputProperties", "./Currency", "./Diagnosis", "./ProcedureExecStatus", "./ProcedureType", "./ProcedureInfo", "./Procedure", "./PrescriptionInfo", "./PatientInfo", "./PatientInputProperties"], function (require, exports, BusinessInfo_1, Doctor_1, Service_1, AppointmentConfirmationStatus_1, ClientPrice_1, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
+    Object.defineProperty(exports, "BusinessInfo", { enumerable: true, get: function () { return BusinessInfo_1.BusinessInfo; } });
+    Object.defineProperty(exports, "Doctor", { enumerable: true, get: function () { return Doctor_1.Doctor; } });
+    Object.defineProperty(exports, "Service", { enumerable: true, get: function () { return Service_1.Service; } });
+    Object.defineProperty(exports, "AppointmentConfirmationStatus", { enumerable: true, get: function () { return AppointmentConfirmationStatus_1.AppointmentConfirmationStatus; } });
+    Object.defineProperty(exports, "ClientPrice", { enumerable: true, get: function () { return ClientPrice_1.ClientPrice; } });
+    Object.defineProperty(exports, "AppointmentHistoryItem", { enumerable: true, get: function () { return AppointmentHistoryItem_1.AppointmentHistoryItem; } });
+    Object.defineProperty(exports, "AppointmentInputProperties", { enumerable: true, get: function () { return AppointmentInputProperties_1.AppointmentInputProperties; } });
+    Object.defineProperty(exports, "Currency", { enumerable: true, get: function () { return Currency_1.Currency; } });
+    Object.defineProperty(exports, "Diagnosis", { enumerable: true, get: function () { return Diagnosis_1.Diagnosis; } });
+    Object.defineProperty(exports, "ProcedureExecStatus", { enumerable: true, get: function () { return ProcedureExecStatus_1.ProcedureExecStatus; } });
+    Object.defineProperty(exports, "ProcedureType", { enumerable: true, get: function () { return ProcedureType_1.ProcedureType; } });
+    Object.defineProperty(exports, "ProcedureInfo", { enumerable: true, get: function () { return ProcedureInfo_1.ProcedureInfo; } });
+    Object.defineProperty(exports, "Procedure", { enumerable: true, get: function () { return Procedure_1.Procedure; } });
+    Object.defineProperty(exports, "PrescriptionInfo", { enumerable: true, get: function () { return PrescriptionInfo_1.PrescriptionInfo; } });
+    Object.defineProperty(exports, "PatientInfo", { enumerable: true, get: function () { return PatientInfo_1.PatientInfo; } });
+    Object.defineProperty(exports, "PatientInputProperties", { enumerable: true, get: function () { return PatientInputProperties_1.PatientInputProperties; } });
+});
