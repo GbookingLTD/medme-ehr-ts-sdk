@@ -2,8 +2,8 @@
   "name": "medme-ehr-js-sdk",
   "version": "1.7.6",
   "description": "",
-  "main": "dist/es5/index.js",
-  "types": "dist/es5/index.d.ts",
+  "main": "dist/es5_AMD/index.js",
+  "types": "dist/es5_AMD/index.d.ts",
   "directories": {
     "test": "test"
   },
