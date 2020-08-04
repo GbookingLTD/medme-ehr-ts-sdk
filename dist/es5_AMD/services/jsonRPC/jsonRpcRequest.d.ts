@@ -10,7 +10,7 @@ export interface IJsonRpcError {
     data: any;
 }
 export interface IJsonRpcResponseCallback {
-    (err: IJsonRpcError | Error, payload?: object): void;
+    (err?: IJsonRpcError | Error, payload?: object): void;
 }
 export interface IJsonRPCRequest {
     (endpoint: string, header: IJsonRpcHeader, requestPayload: object, cb?: IJsonRpcResponseCallback): void;
