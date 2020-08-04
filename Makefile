@@ -35,10 +35,10 @@ test_rpc:
 build: build_commonjs build_es5 build_browser
 
 build_commonjs: clean_commonjs
-	tsc --module commonjs --target ES5 --outDir dist/cjs ${FILES}
+	tsc --module commonjs  --target ES5 --outDir dist/cjs ${FILES}
 
 build_es5: clean_es5
-	tsc --module es2015 --target ES5 --outDir dist/es5 ${FILES}
+	tsc --module es2015 --declaration true --target ES5 --outDir dist/es5 ${FILES}
 
 build_browser: clean_browser
 	tsc --module AMD --target ES5 --outfile dist/browser/bundle.js ${FILES}
