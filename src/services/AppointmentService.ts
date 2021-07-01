@@ -9,13 +9,8 @@ export interface IAppointmentService extends IResourceService {
      * @param id идентификатор записи
      * @param cb callback
      */
-    getAppointmentModelById(id: string, cb: (err: any, appointment: AppointmentModel) => void): void;
-
-    /**
-     * Сохраняет данные записи.
-     * @param appointment модель записи
-     */
-    saveAppointment(appointment: AppointmentInputProperties, cb: (appointmentId: string) => void): void;
+    getAppointmentById(id: string, cb: (err: any, appointment: AppointmentModel) => void): void;
+    getAppointmentByIdAsync(id: string): Promise<AppointmentModel>;
 
     /**
      * Возвращает список записей пациента.
@@ -26,4 +21,5 @@ export interface IAppointmentService extends IResourceService {
      */
     getPatientAppointments(patientId: string, limit: number, offset: number, 
         cb: (err: any, appointments: AppointmentModel[]) => void): void;
+    getPatientAppointmentsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentModel[]>
 }

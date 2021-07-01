@@ -9,10 +9,11 @@ if (typeof window === "undefined") {
 import { IJsonRpcHeader, IJsonRpcResponseCallback, IJsonRPCRequest } from "./jsonRpcRequest";
 import { requestCred } from './jsonrpc_cred';
 
-export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcHeader, requestPayload: object, 
+export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcHeader, requestPayload: object,
             cb: IJsonRpcResponseCallback) {
     let req = new XMLHttpRequest();
     req.responseType = 'json';
+
     req.onload = (res: any) => {
         let target: XMLHttpRequest = res.target;
         if (target.status >= 400)
@@ -27,8 +28,8 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
                 cb(new Error("wrong json-rpc format " + jsonRpcResponse));
         } else
             cb(new Error("wrong json format"));
-        
     };
+
     req.onerror = (res: any) => {
         let target: XMLHttpRequest = res.target;
         console.info('onerror ' + this.status + "\n" + target.response);
@@ -36,11 +37,13 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
             return cb(new ConnectionError(), null)
         cb(new Error("error request " + endpoint + " method #" + header.method), null);
     };
+
     req.open('POST', endpoint, true);
     //req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(`${header.method} ${JSON.stringify(header.cred)}\n${JSON.stringify(requestPayload)}`);
-    let jsonRpcRequest = requestCred(header.id, header.method, header.cred, requestPayload);
+    console.log(`${header.method} cred=${JSON.stringify(header.cred)} apikey=${header.apiKey}\n${JSON.stringify(requestPayload)}`);
+    //console.trace();
+    let jsonRpcRequest = requestCred(header.id, header.method, header.cred, header.apiKey, requestPayload);
     //console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };

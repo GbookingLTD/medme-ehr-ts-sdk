@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Diagnosis = void 0;
 var Diagnosis = /** @class */ (function () {
     /**
      * Cоздание объекта "диагноз" из json объекта.

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MaritalStatus = void 0;
 var MaritalStatus;
 (function (MaritalStatus) {
     MaritalStatus[MaritalStatus["Divorced"] = 1] = "Divorced";

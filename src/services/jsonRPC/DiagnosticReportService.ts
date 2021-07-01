@@ -11,13 +11,26 @@ export class DiagnosticReportService extends JsonRPCCredService implements IDiag
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    public getDiagnosticReportModelById(id: string, cb: (err: any, p: DiagnosticReportModel) => void): void {
+    public getDiagnosticReportById(id: string, cb: (err: any, p: DiagnosticReportModel) => void): void {
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
             if (err) return cb(err, null);
             let app = new DiagnosticReportModel();
             this.lastValidationErrors_ = payload['validationErrors'];
             app.fromJson(payload['diagnosticReport']);
             return cb(null, app);
+        });
+    }
+
+    public getDiagnosticReportByIdAsync(id: string): Promise<DiagnosticReportModel> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getDiagnosticReportById(id, (err: any, dr: DiagnosticReportModel) => {
+                if (err)
+                    return rej(err);
+
+                // console.log("prescription.id:", appointment.id);
+                res(dr);
+            });
         });
     }
 
@@ -33,6 +46,18 @@ export class DiagnosticReportService extends JsonRPCCredService implements IDiag
                 return app;
             });
             cb(null, diagnosticReports);
+        });
+    }
+    
+    public getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number): Promise<DiagnosticReportModel[]> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPatientDiagnosticReports(patientId, limit, offset, (err: any, reports: DiagnosticReportModel[]) => {
+                if (err)
+                    return rej(err);
+
+                res(reports);
+            });
         });
     }
 

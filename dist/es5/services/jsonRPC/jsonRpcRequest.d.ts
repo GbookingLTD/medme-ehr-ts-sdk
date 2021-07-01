@@ -3,6 +3,7 @@ export interface IJsonRpcHeader {
     id: string;
     method: string;
     cred: Credentials;
+    apiKey: string;
 }
 export interface IJsonRpcError {
     code: number;
@@ -19,8 +20,10 @@ export declare class JsonRpcHeader implements IJsonRpcHeader {
     private _id;
     private _method;
     private _cred;
-    constructor(id: string, method: string, cred?: Credentials);
-    readonly id: string;
-    readonly method: string;
-    readonly cred: Credentials;
+    private _apiKey;
+    constructor(id: string, method: string, cred?: Credentials, apiKey?: string);
+    get id(): string;
+    get method(): string;
+    get cred(): Credentials;
+    get apiKey(): string;
 }

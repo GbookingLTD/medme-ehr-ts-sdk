@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClientPrice = void 0;
 var Discount_1 = require("./Discount");
 var ClientPrice = /** @class */ (function () {
     function ClientPrice() {

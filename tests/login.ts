@@ -1,43 +1,32 @@
 import JsonRPC from '../src/services/jsonRPC/index';
 import { Credentials } from '../src/services/Credentials';
 import * as fs from "fs";
+import { AUTH_SERVER_ENDPOINT } from './env';
 
-export const AUTH_SERVER_ENDPOINT = "http://localhost:4321/";
-export const EHR_SERVER_ENDPOINT = "http://localhost:9999/";
+export const getUserSignFile = (user) => __dirname + "/" + user + "_ehr_user_sign.txt";
+export const readUserSignFile = (userPublicID: string) =>
+    fs.readFileSync(getUserSignFile(userPublicID)).toString() || undefined;
 
-const getUserSignFile = (user) => __dirname + "/" + user + "_ehr_user_sign.txt";
-
-// В боевом окружении этот метод должен предоставлять API сервера авторизации.
-export function login(user: string, ehr_user_sign: string, cb: (err: any, authCred?: Credentials) => void) {
-    let header = new JsonRPC.JsonRpcHeader("1", "auth.login", null);
-    JsonRPC.Transports.xhr(AUTH_SERVER_ENDPOINT, header, {user, ehr_user_sign}, function(err: any, jsonResp?: any) {
-        if (err) return cb(err);
-        console.log('AuthLoginResult:', jsonResp);
-        if (jsonResp.authInfo) {
-            let cred = new Credentials(jsonResp.authInfo.user, jsonResp.authInfo.token);
-            cb(null, cred);
-        } else 
-            cb(new Error("user not logged in"));
-    });
+export const writeUserSignFile = (user: string, val: string) => {
+    fs.writeFileSync(getUserSignFile(user), val);
 }
 
-export function getCreateServiceFn<T>(ctor: (authCred: Credentials) => T) {
-    let authCred: Credentials = null;
-    const _create = function(cb: (err: any, service?: T) => void) {
-        let service = ctor(authCred);
-        return cb(null, service);
-    };
-    const create = (cb: (err: any, service?: T) => void) => {
-        if (authCred)
-            return _create(cb);
+// В боевом окружении этот метод должен предоставлять API сервера авторизации.
+export async function login(user: string, ehr_user_sign: string): Promise<Credentials> {
+    let header = new JsonRPC.JsonRpcHeader("1", "auth.login", null);
 
-        const userPublicID = "user999";
-        const ehrUserSign = fs.readFileSync(getUserSignFile(userPublicID)).toString() || undefined;
-        login(userPublicID, ehrUserSign, function(err: any, authCred_?: Credentials) {
-            if (err) return cb(err);
-            authCred = authCred_;
-            _create(cb);
+    return new Promise((resolve, reject) => {
+
+        JsonRPC.Transports.xhr(AUTH_SERVER_ENDPOINT, header, {user, ehr_user_sign}, function(err: any, jsonResp?: any) {
+            if (err)
+                reject(err);
+
+            console.log('AuthLoginResult:', jsonResp);
+            if (!jsonResp.authInfo)
+                reject(new Error("user not logged in"));
+
+            resolve(new Credentials(jsonResp.authInfo.user, jsonResp.authInfo.token));
         });
-    };
-    return create;
-};
+
+    });
+}

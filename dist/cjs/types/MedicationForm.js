@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MedicationForm = void 0;
 var MedicationForm;
 (function (MedicationForm) {
     MedicationForm[MedicationForm["Powder"] = 0] = "Powder";

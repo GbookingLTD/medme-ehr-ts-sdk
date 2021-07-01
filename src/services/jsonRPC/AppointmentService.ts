@@ -7,7 +7,7 @@ import { Handlers } from "../../Handlers";
 export class AppointmentService extends JsonRPCCredService
         implements IAppointmentService {
 
-    public getAppointmentModelById(id: string, cb: (err: any, appointment: AppointmentModel) => void): void {
+    public getAppointmentById(id: string, cb: (err: any, appointment: AppointmentModel) => void): void {
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
             if (err) return cb(err, null);
             let app = new AppointmentModel();
@@ -16,11 +16,16 @@ export class AppointmentService extends JsonRPCCredService
         });
     }
 
-    public saveAppointment(appointmentProperties: AppointmentInputProperties, cb: (err: any, appointmentId: string) => void): void {
-        this.exec(Handlers.HANDLER_SAVE_APPOINTMENT_METHOD, {appointmentProperties: appointmentProperties}, (err: any, payload: object) => {
-            if (err) return cb(err, null);
-            this.lastValidationErrors_ = payload['validationErrors'];
-            return cb(null, payload["id"]);
+    public getAppointmentByIdAsync(id: string): Promise<AppointmentModel> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getAppointmentById(id, (err: any, appointment: AppointmentModel) => {
+                // console.log("appointment.patientId:", appointment.patientId);
+                if (err) 
+                    return rej(err);
+
+                res(appointment);
+            });
         });
     }
 
@@ -37,5 +42,17 @@ export class AppointmentService extends JsonRPCCredService
                 });
                 return cb(null, appointments);
             });
+    }
+    public async getPatientAppointmentsAsync(patientId: string, limit: number, 
+            offset: number): Promise<AppointmentModel[]> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPatientAppointments(patientId, limit, offset, (err: any, appointments: AppointmentModel[]) => {
+                if (err)
+                    return rej(err);
+
+                res(appointments);
+            });
+        });
     }
 }

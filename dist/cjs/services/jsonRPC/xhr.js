@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.xhr = void 0;
 var AuthService_1 = require("../AuthService");
 if (typeof window === "undefined") {
     var XMLHttpRequest = require('xhr2');
@@ -8,7 +9,7 @@ else {
     var XMLHttpRequest = window.XMLHttpRequest;
 }
 var jsonrpc_cred_1 = require("./jsonrpc_cred");
-exports.xhr = function (endpoint, header, requestPayload, cb) {
+var xhr = function (endpoint, header, requestPayload, cb) {
     var _this = this;
     var req = new XMLHttpRequest();
     req.responseType = 'json';
@@ -38,8 +39,10 @@ exports.xhr = function (endpoint, header, requestPayload, cb) {
     req.open('POST', endpoint, true);
     //req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(header.method + " " + JSON.stringify(header.cred) + "\n" + JSON.stringify(requestPayload));
-    var jsonRpcRequest = jsonrpc_cred_1.requestCred(header.id, header.method, header.cred, requestPayload);
+    console.log(header.method + " cred=" + JSON.stringify(header.cred) + " apikey=" + header.apiKey + "\n" + JSON.stringify(requestPayload));
+    //console.trace();
+    var jsonRpcRequest = jsonrpc_cred_1.requestCred(header.id, header.method, header.cred, header.apiKey, requestPayload);
     //console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };
+exports.xhr = xhr;

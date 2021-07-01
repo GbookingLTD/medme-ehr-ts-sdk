@@ -21,20 +21,20 @@ export declare class AppointmentModel implements IJsonModel {
     private _source;
     private _history;
     constructor();
-    readonly id: string;
-    readonly patientId: string;
-    readonly business: BusinessInfo;
-    readonly created: Date;
-    readonly start: Date;
-    readonly doctor: Doctor;
-    readonly services: Service[];
-    readonly duration: number;
-    readonly confirmationStatus: AppointmentConfirmationStatus;
-    readonly clientAppear: boolean;
-    readonly resultId: string;
-    readonly clientPrice: ClientPrice;
-    readonly source: AppointmentSource;
-    readonly history: AppointmentHistoryItem[];
+    get id(): string;
+    get patientId(): string;
+    get business(): BusinessInfo;
+    get created(): Date;
+    get start(): Date;
+    get doctor(): Doctor;
+    get services(): Service[];
+    get duration(): number;
+    get confirmationStatus(): AppointmentConfirmationStatus;
+    get clientAppear(): boolean;
+    get resultId(): string;
+    get clientPrice(): ClientPrice;
+    get source(): AppointmentSource;
+    get history(): AppointmentHistoryItem[];
     /**
      *
      * @param json

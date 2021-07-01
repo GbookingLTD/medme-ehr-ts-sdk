@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DiagnosticReportModel = void 0;
 var Doctor_1 = require("../types/Doctor");
 var Period_1 = require("../types/Period");
 var Observation_1 = require("../types/Observation");
@@ -20,7 +21,7 @@ var DiagnosticReportModel = /** @class */ (function () {
     }
     Object.defineProperty(DiagnosticReportModel.prototype, "id", {
         get: function () { return this._id; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "status", {
@@ -28,7 +29,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Статус диагностического отчета.
          */
         get: function () { return this._status; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "type", {
@@ -36,7 +37,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Тип обследования.
          */
         get: function () { return this._type; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "services", {
@@ -44,7 +45,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Список оказанных на исследовании услуг.
          */
         get: function () { return this._services; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "category", {
@@ -53,7 +54,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * @see http://hl7.org/fhir/valueset-diagnostic-service-sections.html
          */
         get: function () { return this._category; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "effectivePeriod", {
@@ -61,7 +62,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Период дат, в течение которых результаты теста считать действительными.
          */
         get: function () { return this._effectivePeriod; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "issuedDate", {
@@ -69,7 +70,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Дата публикации обследования пациенту.
          */
         get: function () { return this._issuedDate; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "result", {
@@ -77,7 +78,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Результаты обследования в нормализованном виде.
          */
         get: function () { return this._result; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "resultInterpreter", {
@@ -85,7 +86,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Врач, который интерпретировал результаты.
          */
         get: function () { return this._resultInterpreter; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "resultInterpretation", {
@@ -93,7 +94,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Интерпретация результатов обследования/анализов.
          */
         get: function () { return this._resultInterpretation; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "imagineMedia", {
@@ -101,7 +102,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Список ссылок на флюорографии, ЭКГ и т.п.
          */
         get: function () { return this._imagineMedia; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportModel.prototype, "attachments", {
@@ -109,7 +110,7 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Весь отчет, как документ ворд, pdf  т.п.
          */
         get: function () { return this._attachments; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     DiagnosticReportModel.prototype.fromJson = function (json) {

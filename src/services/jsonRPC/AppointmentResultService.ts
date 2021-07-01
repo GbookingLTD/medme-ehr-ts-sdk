@@ -11,13 +11,26 @@ export class AppointmentResultService extends JsonRPCCredService implements IApp
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    public getAppointmentResultModelById(id: string, cb: (err: any, appointmentResult: AppointmentResultModel) => void): void {
+    public getAppointmentResultById(id: string, cb: (err: any, appointmentResult: AppointmentResultModel) => void): void {
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
             if (err) return cb(err, null);
             let app = new AppointmentResultModel();
             this.lastValidationErrors_ = payload['validationErrors'];
             app.fromJson(payload['appointmentResult']);
             return cb(null, app);
+        });
+    }
+
+    public getAppointmentResultByIdAsync(id: string): Promise<AppointmentResultModel> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getAppointmentResultById(id, (err: any, appointment: AppointmentResultModel) => {
+                if (err)
+                    return rej(err);
+
+                // console.log("appointment_result.id:", appointment.id);
+                res(appointment);
+            });
         });
     }
 
@@ -34,6 +47,18 @@ export class AppointmentResultService extends JsonRPCCredService implements IApp
             });
             return cb(null, appointmentResults);
         });
+    }
+
+    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultModel[]> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPatientAppointmentResults(patientId, limit, offset, (err: any, appResults: AppointmentResultModel[]) => {
+                if (err)
+                    return rej(err);
+
+                res(appResults);
+            });
+        })
     }
 
 }

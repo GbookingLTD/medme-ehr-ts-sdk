@@ -2,18 +2,57 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 define("types/BusinessInfo", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.BusinessInfo = void 0;
     var BusinessInfo = /** @class */ (function () {
         function BusinessInfo() {
         }
@@ -39,6 +78,7 @@ define("types/BusinessInfo", ["require", "exports"], function (require, exports)
 define("types/Specialization", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Specialization = void 0;
     var Specialization = /** @class */ (function () {
         function Specialization() {
         }
@@ -60,6 +100,7 @@ define("types/Specialization", ["require", "exports"], function (require, export
 define("types/Doctor", ["require", "exports", "types/Specialization"], function (require, exports, Specialization_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Doctor = void 0;
     var Doctor = /** @class */ (function () {
         function Doctor() {
         }
@@ -85,6 +126,7 @@ define("types/Doctor", ["require", "exports", "types/Specialization"], function 
 define("types/Currency", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Currency = void 0;
     var Currency;
     (function (Currency) {
         Currency[Currency["Rur"] = 0] = "Rur";
@@ -95,6 +137,7 @@ define("types/Currency", ["require", "exports"], function (require, exports) {
 define("types/DiscountType", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DiscountType = void 0;
     var DiscountType;
     (function (DiscountType) {
         DiscountType[DiscountType["Percent"] = 0] = "Percent";
@@ -105,6 +148,7 @@ define("types/DiscountType", ["require", "exports"], function (require, exports)
 define("types/Discount", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Discount = void 0;
     var Discount = /** @class */ (function () {
         function Discount() {
         }
@@ -126,6 +170,7 @@ define("types/Discount", ["require", "exports"], function (require, exports) {
 define("types/ClientPrice", ["require", "exports", "types/Discount"], function (require, exports, Discount_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ClientPrice = void 0;
     var ClientPrice = /** @class */ (function () {
         function ClientPrice() {
             this.discount = new Discount_1.Discount();
@@ -155,6 +200,7 @@ define("types/ClientPrice", ["require", "exports", "types/Discount"], function (
 define("types/Service", ["require", "exports", "types/ClientPrice"], function (require, exports, ClientPrice_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Service = void 0;
     var Service = /** @class */ (function () {
         function Service() {
             this.price = new ClientPrice_1.ClientPrice();
@@ -182,6 +228,7 @@ define("types/Service", ["require", "exports", "types/ClientPrice"], function (r
 define("types/AppointmentConfirmationStatus", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentConfirmationStatus = void 0;
     var AppointmentConfirmationStatus;
     (function (AppointmentConfirmationStatus) {
         AppointmentConfirmationStatus[AppointmentConfirmationStatus["Tentative"] = 0] = "Tentative";
@@ -199,6 +246,7 @@ define("types/AppointmentSource", ["require", "exports"], function (require, exp
 define("types/AppointmentHistoryItem", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentHistoryItem = void 0;
     var AppointmentHistoryItem = /** @class */ (function () {
         function AppointmentHistoryItem() {
         }
@@ -209,6 +257,7 @@ define("types/AppointmentHistoryItem", ["require", "exports"], function (require
 define("types/AppointmentInputProperties", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentInputProperties = void 0;
     var AppointmentInputProperties = /** @class */ (function () {
         function AppointmentInputProperties() {
         }
@@ -219,6 +268,7 @@ define("types/AppointmentInputProperties", ["require", "exports"], function (req
 define("types/Diagnosis", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Diagnosis = void 0;
     var Diagnosis = /** @class */ (function () {
         /**
          * Cоздание объекта "диагноз" из json объекта.
@@ -241,6 +291,7 @@ define("types/Diagnosis", ["require", "exports"], function (require, exports) {
 define("types/ProcedureExecStatus", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ProcedureExecStatus = void 0;
     var ProcedureExecStatus;
     (function (ProcedureExecStatus) {
         ProcedureExecStatus[ProcedureExecStatus["Scheduled"] = 0] = "Scheduled";
@@ -252,6 +303,7 @@ define("types/ProcedureExecStatus", ["require", "exports"], function (require, e
 define("types/ProcedureType", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ProcedureType = void 0;
     var ProcedureType;
     (function (ProcedureType) {
         ProcedureType[ProcedureType["Recomendation"] = 0] = "Recomendation";
@@ -263,6 +315,7 @@ define("types/ProcedureType", ["require", "exports"], function (require, exports
 define("types/ProcedureInfo", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ProcedureInfo = void 0;
     var ProcedureInfo = /** @class */ (function () {
         /**
          * Создание объекта "информация о процедуре" по объекту json.
@@ -283,6 +336,7 @@ define("types/ProcedureInfo", ["require", "exports"], function (require, exports
 define("types/Period", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Period = void 0;
     var Period = /** @class */ (function () {
         function Period() {
         }
@@ -304,6 +358,7 @@ define("types/Period", ["require", "exports"], function (require, exports) {
 define("types/Procedure", ["require", "exports", "types/Service", "types/Period"], function (require, exports, Service_1, Period_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Procedure = void 0;
     var Procedure = /** @class */ (function () {
         function Procedure() {
             this.services = [];
@@ -352,6 +407,7 @@ define("types/Procedure", ["require", "exports", "types/Service", "types/Period"
 define("types/Gender", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Gender = void 0;
     var Gender;
     (function (Gender) {
         Gender[Gender["Male"] = 1] = "Male";
@@ -364,6 +420,7 @@ define("types/Gender", ["require", "exports"], function (require, exports) {
 define("types/PatientInfo", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientInfo = void 0;
     var PatientInfo = /** @class */ (function () {
         function PatientInfo() {
         }
@@ -397,6 +454,7 @@ define("types/PatientInfo", ["require", "exports"], function (require, exports) 
 define("types/MedicationForm", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.MedicationForm = void 0;
     var MedicationForm;
     (function (MedicationForm) {
         MedicationForm[MedicationForm["Powder"] = 0] = "Powder";
@@ -408,6 +466,7 @@ define("types/MedicationForm", ["require", "exports"], function (require, export
 define("types/Medication", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Medication = void 0;
     var Medication = /** @class */ (function () {
         function Medication() {
         }
@@ -430,6 +489,7 @@ define("types/Medication", ["require", "exports"], function (require, exports) {
 define("types/PrescriptionInfo", ["require", "exports", "types/Doctor", "types/Medication", "types/Period"], function (require, exports, Doctor_1, Medication_1, Period_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PrescriptionInfo = void 0;
     var PrescriptionInfo = /** @class */ (function () {
         function PrescriptionInfo() {
         }
@@ -466,6 +526,7 @@ define("types/PrescriptionInfo", ["require", "exports", "types/Doctor", "types/M
 define("types/PatientInputProperties", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientInputProperties = void 0;
     var PatientInputProperties = /** @class */ (function () {
         function PatientInputProperties() {
         }
@@ -487,22 +548,23 @@ define("types/PatientInputProperties", ["require", "exports"], function (require
 define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/Service", "types/AppointmentConfirmationStatus", "types/ClientPrice", "types/AppointmentHistoryItem", "types/AppointmentInputProperties", "types/Currency", "types/Diagnosis", "types/ProcedureExecStatus", "types/ProcedureType", "types/ProcedureInfo", "types/Procedure", "types/PrescriptionInfo", "types/PatientInfo", "types/PatientInputProperties"], function (require, exports, BusinessInfo_1, Doctor_2, Service_2, AppointmentConfirmationStatus_1, ClientPrice_2, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.BusinessInfo = BusinessInfo_1.BusinessInfo;
-    exports.Doctor = Doctor_2.Doctor;
-    exports.Service = Service_2.Service;
-    exports.AppointmentConfirmationStatus = AppointmentConfirmationStatus_1.AppointmentConfirmationStatus;
-    exports.ClientPrice = ClientPrice_2.ClientPrice;
-    exports.AppointmentHistoryItem = AppointmentHistoryItem_1.AppointmentHistoryItem;
-    exports.AppointmentInputProperties = AppointmentInputProperties_1.AppointmentInputProperties;
-    exports.Currency = Currency_1.Currency;
-    exports.Diagnosis = Diagnosis_1.Diagnosis;
-    exports.ProcedureExecStatus = ProcedureExecStatus_1.ProcedureExecStatus;
-    exports.ProcedureType = ProcedureType_1.ProcedureType;
-    exports.ProcedureInfo = ProcedureInfo_1.ProcedureInfo;
-    exports.Procedure = Procedure_1.Procedure;
-    exports.PrescriptionInfo = PrescriptionInfo_1.PrescriptionInfo;
-    exports.PatientInfo = PatientInfo_1.PatientInfo;
-    exports.PatientInputProperties = PatientInputProperties_1.PatientInputProperties;
+    exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
+    Object.defineProperty(exports, "BusinessInfo", { enumerable: true, get: function () { return BusinessInfo_1.BusinessInfo; } });
+    Object.defineProperty(exports, "Doctor", { enumerable: true, get: function () { return Doctor_2.Doctor; } });
+    Object.defineProperty(exports, "Service", { enumerable: true, get: function () { return Service_2.Service; } });
+    Object.defineProperty(exports, "AppointmentConfirmationStatus", { enumerable: true, get: function () { return AppointmentConfirmationStatus_1.AppointmentConfirmationStatus; } });
+    Object.defineProperty(exports, "ClientPrice", { enumerable: true, get: function () { return ClientPrice_2.ClientPrice; } });
+    Object.defineProperty(exports, "AppointmentHistoryItem", { enumerable: true, get: function () { return AppointmentHistoryItem_1.AppointmentHistoryItem; } });
+    Object.defineProperty(exports, "AppointmentInputProperties", { enumerable: true, get: function () { return AppointmentInputProperties_1.AppointmentInputProperties; } });
+    Object.defineProperty(exports, "Currency", { enumerable: true, get: function () { return Currency_1.Currency; } });
+    Object.defineProperty(exports, "Diagnosis", { enumerable: true, get: function () { return Diagnosis_1.Diagnosis; } });
+    Object.defineProperty(exports, "ProcedureExecStatus", { enumerable: true, get: function () { return ProcedureExecStatus_1.ProcedureExecStatus; } });
+    Object.defineProperty(exports, "ProcedureType", { enumerable: true, get: function () { return ProcedureType_1.ProcedureType; } });
+    Object.defineProperty(exports, "ProcedureInfo", { enumerable: true, get: function () { return ProcedureInfo_1.ProcedureInfo; } });
+    Object.defineProperty(exports, "Procedure", { enumerable: true, get: function () { return Procedure_1.Procedure; } });
+    Object.defineProperty(exports, "PrescriptionInfo", { enumerable: true, get: function () { return PrescriptionInfo_1.PrescriptionInfo; } });
+    Object.defineProperty(exports, "PatientInfo", { enumerable: true, get: function () { return PatientInfo_1.PatientInfo; } });
+    Object.defineProperty(exports, "PatientInputProperties", { enumerable: true, get: function () { return PatientInputProperties_1.PatientInputProperties; } });
 });
 define("services/ResourceService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -519,6 +581,7 @@ define("models/JsonModel", ["require", "exports"], function (require, exports) {
 define("models/AppointmentModel", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentModel = exports.copyCommonPropertiesFromJson = void 0;
     function copyCommonPropertiesFromJson(json) {
         this._id = json.id;
         this._patientId = json.patientId;
@@ -539,72 +602,72 @@ define("models/AppointmentModel", ["require", "exports"], function (require, exp
         }
         Object.defineProperty(AppointmentModel.prototype, "id", {
             get: function () { return this._id; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "patientId", {
             get: function () { return this._patientId; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "business", {
             get: function () { return this._business; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "created", {
             get: function () { return this._created; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "start", {
             get: function () { return this._start; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "doctor", {
             get: function () { return this._doctor; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "services", {
             get: function () { return this._services; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "duration", {
             get: function () { return this._duration; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "confirmationStatus", {
             get: function () { return this._confirmationStatus; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "clientAppear", {
             get: function () { return this._clientAppear; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "resultId", {
             get: function () { return this._resultId; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "clientPrice", {
             get: function () { return this._clientPrice; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "source", {
             get: function () { return this._source; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentModel.prototype, "history", {
             get: function () { return this._history; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -659,6 +722,7 @@ define("models/index", ["require", "exports", "models/AppointmentModel"], functi
 define("types/MaritalStatus", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.MaritalStatus = void 0;
     var MaritalStatus;
     (function (MaritalStatus) {
         MaritalStatus[MaritalStatus["Divorced"] = 1] = "Divorced";
@@ -672,6 +736,7 @@ define("types/MaritalStatus", ["require", "exports"], function (require, exports
 define("types/FamilyMember", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.FamilyMember = exports.FamilyMemberType = void 0;
     var FamilyMemberType;
     (function (FamilyMemberType) {
         FamilyMemberType[FamilyMemberType["FamilyMember"] = 1] = "FamilyMember";
@@ -695,6 +760,7 @@ define("types/FamilyMember", ["require", "exports"], function (require, exports)
 define("types/Insurance", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Insurance = void 0;
     var Insurance = /** @class */ (function () {
         function Insurance() {
         }
@@ -705,82 +771,83 @@ define("types/Insurance", ["require", "exports"], function (require, exports) {
 define("models/PatientModel", ["require", "exports", "types/FamilyMember", "types/Insurance", "types/Period"], function (require, exports, FamilyMember_1, Insurance_1, Period_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientModel = void 0;
     var PatientModel = /** @class */ (function () {
         function PatientModel() {
         }
         Object.defineProperty(PatientModel.prototype, "id", {
             get: function () { return this._id; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "active", {
             get: function () { return this._active; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "surname", {
             get: function () { return this._surname; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "name", {
             get: function () { return this._name; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "phones", {
             get: function () { return this._phones; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "email", {
             get: function () { return this._email; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "gender", {
             get: function () { return this._gender; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "birthdate", {
             get: function () { return this._birthdate; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "deceased", {
             get: function () { return this._deceased; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "maritalStatus", {
             get: function () { return this._maritalStatus; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "photo", {
             get: function () { return this._photo; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "familyMembers", {
             get: function () { return this._familyMembers; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "address", {
             get: function () { return this._address; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "medcardNumber", {
             get: function () { return this._medcardNumber; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(PatientModel.prototype, "insurances", {
             get: function () { return this._insurances; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         PatientModel.prototype.fromJson = function (json) {
@@ -840,6 +907,7 @@ define("services/PatientService", ["require", "exports"], function (require, exp
 define("services/RpcErrorCodes", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.isAuthorizationError = exports.RpcErrorCodes = void 0;
     var RpcErrorCodes = /** @class */ (function () {
         function RpcErrorCodes() {
         }
@@ -877,6 +945,7 @@ define("services/RpcErrorCodes", ["require", "exports"], function (require, expo
 define("services/AuthService", ["require", "exports", "services/RpcErrorCodes"], function (require, exports, RpcErrorCodes_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.getAuthenticatedPatient = exports.ConnectionError = exports.PatientAuthenticationError = exports.PatientAuthenticationStep = exports.PatientAuthenticationResult = exports.AuthInfo = exports.ExchangeTokenResponse = void 0;
     var ExchangeTokenResponse = /** @class */ (function () {
         function ExchangeTokenResponse() {
         }
@@ -1014,6 +1083,7 @@ define("services/AuthService", ["require", "exports", "services/RpcErrorCodes"],
 define("services/Credentials", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Credentials = void 0;
     var Credentials = /** @class */ (function () {
         function Credentials(user, token) {
             this.user = user;
@@ -1026,32 +1096,42 @@ define("services/Credentials", ["require", "exports"], function (require, export
 define("services/jsonRPC/jsonRpcRequest", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.JsonRpcHeader = void 0;
     var JsonRpcHeader = /** @class */ (function () {
-        function JsonRpcHeader(id, method, cred) {
+        function JsonRpcHeader(id, method, cred, apiKey) {
             if (cred === void 0) { cred = null; }
+            if (apiKey === void 0) { apiKey = null; }
             this._id = id;
             this._method = method;
             this._cred = cred;
+            this._apiKey = apiKey;
         }
         Object.defineProperty(JsonRpcHeader.prototype, "id", {
             get: function () {
                 return this._id;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(JsonRpcHeader.prototype, "method", {
             get: function () {
                 return this._method;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(JsonRpcHeader.prototype, "cred", {
             get: function () {
                 return this._cred;
             },
-            enumerable: true,
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(JsonRpcHeader.prototype, "apiKey", {
+            get: function () {
+                return this._apiKey;
+            },
+            enumerable: false,
             configurable: true
         });
         return JsonRpcHeader;
@@ -1065,6 +1145,7 @@ define("services/jsonRPC/jsonrpc", ["require", "exports"], function (require, ex
     // **License:** MIT
     'use strict';
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.jsonrpc = exports.parseObject = exports.parse = exports.error = exports.success = exports.notification = exports.request = exports.JsonRpcError = exports.JsonRpcParsed = exports.RpcStatusType = exports.ErrorObject = exports.SuccessObject = exports.NotificationObject = exports.RequestObject = exports.JsonRpc = void 0;
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     var isInteger = typeof Number.isSafeInteger === 'function'
         ? Number.isSafeInteger // ECMAScript 2015
@@ -1442,11 +1523,13 @@ define("services/jsonRPC/jsonrpc", ["require", "exports"], function (require, ex
 define("services/jsonRPC/jsonrpc_cred", ["require", "exports", "services/jsonRPC/jsonrpc"], function (require, exports, jsonrpc) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.requestCred = exports.RequestCredObject = void 0;
     var RequestCredObject = /** @class */ (function (_super) {
         __extends(RequestCredObject, _super);
-        function RequestCredObject(id, method, cred, params) {
+        function RequestCredObject(id, method, cred, apiKey, params) {
             var _this = _super.call(this, id, method, params) || this;
             _this.cred = cred;
+            _this.apiKey = apiKey;
             return _this;
         }
         return RequestCredObject;
@@ -1462,23 +1545,24 @@ define("services/jsonRPC/jsonrpc_cred", ["require", "exports", "services/jsonRPC
      * @return {Object} JsonRpc object
      * @api public
      */
-    function requestCred(id, method, cred, params) {
+    function requestCred(id, method, cred, apiKey, params) {
         // call "standart" request function for validate message
         jsonrpc.request(id, method, params);
-        return new RequestCredObject(id, method, cred, params);
+        return new RequestCredObject(id, method, cred, apiKey, params);
     }
     exports.requestCred = requestCred;
 });
 define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "services/jsonRPC/jsonrpc_cred"], function (require, exports, AuthService_1, jsonrpc_cred_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.xhr = void 0;
     if (typeof window === "undefined") {
         var XMLHttpRequest = require('xhr2');
     }
     else {
         var XMLHttpRequest = window.XMLHttpRequest;
     }
-    exports.xhr = function (endpoint, header, requestPayload, cb) {
+    var xhr = function (endpoint, header, requestPayload, cb) {
         var _this = this;
         var req = new XMLHttpRequest();
         req.responseType = 'json';
@@ -1508,15 +1592,18 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
         req.open('POST', endpoint, true);
         //req.overrideMimeType('application/json;charset=UTF-8');
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        console.log(header.method + " " + JSON.stringify(header.cred) + "\n" + JSON.stringify(requestPayload));
-        var jsonRpcRequest = jsonrpc_cred_1.requestCred(header.id, header.method, header.cred, requestPayload);
+        console.log(header.method + " cred=" + JSON.stringify(header.cred) + " apikey=" + header.apiKey + "\n" + JSON.stringify(requestPayload));
+        //console.trace();
+        var jsonRpcRequest = jsonrpc_cred_1.requestCred(header.id, header.method, header.cred, header.apiKey, requestPayload);
         //console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
         req.send(jsonRpcRequest.serialize());
     };
+    exports.xhr = xhr;
 });
 define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonRPC/jsonRpcRequest", "services/RpcErrorCodes"], function (require, exports, jsonRpcRequest_1, RpcErrorCodes_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.JsonRPCCredService = exports.JsonRPCService = void 0;
     var JsonRPCService = /** @class */ (function () {
         function JsonRPCService(endpoint, request) {
             this._endpoint = endpoint;
@@ -1526,14 +1613,14 @@ define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonR
             get: function () {
                 return this._endpoint;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(JsonRPCService.prototype, "request", {
             get: function () {
                 return this._request;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         JsonRPCService.prototype.exec = function (rpcMethod, payload, cb, optionalEndpoint, optionalCred) {
@@ -1547,9 +1634,10 @@ define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonR
     exports.JsonRPCService = JsonRPCService;
     var JsonRPCCredService = /** @class */ (function (_super) {
         __extends(JsonRPCCredService, _super);
-        function JsonRPCCredService(endpoint, cred, request) {
+        function JsonRPCCredService(endpoint, cred, apiKey, request) {
             var _this = _super.call(this, endpoint, request) || this;
             _this.cred_ = cred;
+            _this.apikey_ = apiKey;
             return _this;
         }
         Object.defineProperty(JsonRPCCredService.prototype, "cred", {
@@ -1559,7 +1647,17 @@ define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonR
             set: function (value) {
                 this.cred_ = value;
             },
-            enumerable: true,
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(JsonRPCCredService.prototype, "apiKey", {
+            get: function () {
+                return this.apikey_;
+            },
+            set: function (value) {
+                this.apikey_ = value;
+            },
+            enumerable: false,
             configurable: true
         });
         JsonRPCCredService.prototype.exec = function (rpcMethod, payload, cb, optionalEndpoint) {
@@ -1578,7 +1676,8 @@ define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonR
                     cb.apply(this_, args);
                 };
             }
-            this.request(optionalEndpoint || this.endpoint, new jsonRpcRequest_1.JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred), payload, auth(cb));
+            var header = new jsonRpcRequest_1.JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred, this.apiKey);
+            this.request(optionalEndpoint || this.endpoint, header, payload, auth(cb));
         };
         JsonRPCCredService.prototype.getLastValidationErrors = function () {
             return this.lastValidationErrors_;
@@ -1593,6 +1692,7 @@ define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonR
 define("Handlers", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Handlers = void 0;
     var Handlers = /** @class */ (function () {
         function Handlers() {
         }
@@ -1633,12 +1733,13 @@ define("Handlers", ["require", "exports"], function (require, exports) {
 define("services/jsonRPC/AppointmentService", ["require", "exports", "models/AppointmentModel", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, AppointmentModel_2, jsonRpcService_1, Handlers_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentService = void 0;
     var AppointmentService = /** @class */ (function (_super) {
         __extends(AppointmentService, _super);
         function AppointmentService() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        AppointmentService.prototype.getAppointmentModelById = function (id, cb) {
+        AppointmentService.prototype.getAppointmentById = function (id, cb) {
             this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -1647,13 +1748,15 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
                 return cb(null, app);
             });
         };
-        AppointmentService.prototype.saveAppointment = function (appointmentProperties, cb) {
-            var _this = this;
-            this.exec(Handlers_1.Handlers.HANDLER_SAVE_APPOINTMENT_METHOD, { appointmentProperties: appointmentProperties }, function (err, payload) {
-                if (err)
-                    return cb(err, null);
-                _this.lastValidationErrors_ = payload['validationErrors'];
-                return cb(null, payload["id"]);
+        AppointmentService.prototype.getAppointmentByIdAsync = function (id) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getAppointmentById(id, function (err, appointment) {
+                    // console.log("appointment.patientId:", appointment.patientId);
+                    if (err)
+                        return rej(err);
+                    res(appointment);
+                });
             });
         };
         AppointmentService.prototype.getPatientAppointments = function (patientId, limit, offset, cb) {
@@ -1671,6 +1774,21 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
                 return cb(null, appointments);
             });
         };
+        AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset) {
+            return __awaiter(this, void 0, void 0, function () {
+                var service;
+                return __generator(this, function (_a) {
+                    service = this;
+                    return [2 /*return*/, new Promise(function (res, rej) {
+                            service.getPatientAppointments(patientId, limit, offset, function (err, appointments) {
+                                if (err)
+                                    return rej(err);
+                                res(appointments);
+                            });
+                        })];
+                });
+            });
+        };
         return AppointmentService;
     }(jsonRpcService_1.JsonRPCCredService));
     exports.AppointmentService = AppointmentService;
@@ -1678,6 +1796,7 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
 define("models/AppointmentResultModel", ["require", "exports", "types/index", "models/AppointmentModel"], function (require, exports, index_1, AppointmentModel_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentResultModel = void 0;
     /**
      * Класс модели записи.
      * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.
@@ -1687,72 +1806,72 @@ define("models/AppointmentResultModel", ["require", "exports", "types/index", "m
         }
         Object.defineProperty(AppointmentResultModel.prototype, "id", {
             get: function () { return this._id; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "patientId", {
             get: function () { return this._patientId; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "business", {
             get: function () { return this._business; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "created", {
             get: function () { return this._created; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "start", {
             get: function () { return this._start; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "doctor", {
             get: function () { return this._doctor; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "duration", {
             get: function () { return this._duration; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "anamnesis", {
             get: function () { return this._anamnesis; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "medicalExaminationResult", {
             get: function () { return this._medicalExaminationResult; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "diagnosis", {
             get: function () { return this._diagnosis; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "recommendations", {
             get: function () { return this._recommendations; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "scheduledProcedures", {
             get: function () { return this._scheduledProcedures; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "prescriptions", {
             get: function () { return this._prescriptions; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentResultModel.prototype, "diagnosticReportIds", {
             get: function () { return this._diagnosticReportIds; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         /**
@@ -1804,6 +1923,7 @@ define("services/AppointmentResultService", ["require", "exports"], function (re
 define("services/jsonRPC/AppointmentResultService", ["require", "exports", "models/AppointmentResultModel", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, AppointmentResultModel_1, jsonRpcService_2, Handlers_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentResultService = void 0;
     var AppointmentResultService = /** @class */ (function (_super) {
         __extends(AppointmentResultService, _super);
         function AppointmentResultService() {
@@ -1814,7 +1934,7 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
          * @param id идентификатор результата записи
          * @param cb callback
          */
-        AppointmentResultService.prototype.getAppointmentResultModelById = function (id, cb) {
+        AppointmentResultService.prototype.getAppointmentResultById = function (id, cb) {
             var _this = this;
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
@@ -1823,6 +1943,17 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
                 _this.lastValidationErrors_ = payload['validationErrors'];
                 app.fromJson(payload['appointmentResult']);
                 return cb(null, app);
+            });
+        };
+        AppointmentResultService.prototype.getAppointmentResultByIdAsync = function (id) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getAppointmentResultById(id, function (err, appointment) {
+                    if (err)
+                        return rej(err);
+                    // console.log("appointment_result.id:", appointment.id);
+                    res(appointment);
+                });
             });
         };
         AppointmentResultService.prototype.getPatientAppointmentResults = function (patientId, limit, offset, cb) {
@@ -1840,6 +1971,16 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
                 return cb(null, appointmentResults);
             });
         };
+        AppointmentResultService.prototype.getPatientAppointmentResultsAsync = function (patientId, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getPatientAppointmentResults(patientId, limit, offset, function (err, appResults) {
+                    if (err)
+                        return rej(err);
+                    res(appResults);
+                });
+            });
+        };
         return AppointmentResultService;
     }(jsonRpcService_2.JsonRPCCredService));
     exports.AppointmentResultService = AppointmentResultService;
@@ -1847,6 +1988,7 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
 define("models/PrescriptionModel", ["require", "exports", "types/index", "types/PatientInfo"], function (require, exports, index_2, PatientInfo_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PrescriptionModel = void 0;
     /**
      * Класс модели медикаментозного назначения.
      */
@@ -1876,6 +2018,7 @@ define("services/PrescriptionService", ["require", "exports"], function (require
 define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers", "models/PrescriptionModel"], function (require, exports, jsonRpcService_3, Handlers_3, PrescriptionModel_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PrescriptionService = void 0;
     var PrescriptionService = /** @class */ (function (_super) {
         __extends(PrescriptionService, _super);
         function PrescriptionService() {
@@ -1886,7 +2029,7 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
          * @param id идентификатор результата записи
          * @param cb callback
          */
-        PrescriptionService.prototype.getPrescriptionModelById = function (id, cb) {
+        PrescriptionService.prototype.getPrescriptionById = function (id, cb) {
             var _this = this;
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
@@ -1895,6 +2038,16 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
                 _this.lastValidationErrors_ = payload['validationErrors'];
                 app.fromJson(payload['prescription']);
                 cb(null, app);
+            });
+        };
+        PrescriptionService.prototype.getPrescriptionByIdAsync = function (id) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getPrescriptionById(id, function (err, pm) {
+                    if (err)
+                        return rej(err);
+                    res(pm);
+                });
             });
         };
         PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, cb) {
@@ -1912,6 +2065,16 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
                 return cb(null, prescriptions);
             });
         };
+        PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getPatientPrescriptions(patientId, limit, offset, function (err, values) {
+                    if (err)
+                        return rej(err);
+                    res(values);
+                });
+            });
+        };
         return PrescriptionService;
     }(jsonRpcService_3.JsonRPCCredService));
     exports.PrescriptionService = PrescriptionService;
@@ -1919,6 +2082,7 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
 define("types/DiagnosticReportStatus", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DiagnosticReportStatus = void 0;
     var DiagnosticReportStatus;
     (function (DiagnosticReportStatus) {
     })(DiagnosticReportStatus = exports.DiagnosticReportStatus || (exports.DiagnosticReportStatus = {}));
@@ -1926,6 +2090,7 @@ define("types/DiagnosticReportStatus", ["require", "exports"], function (require
 define("types/ObservationType", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ObservationType = void 0;
     var ObservationType;
     (function (ObservationType) {
         ObservationType[ObservationType["Observation"] = 1] = "Observation";
@@ -1935,6 +2100,7 @@ define("types/ObservationType", ["require", "exports"], function (require, expor
 define("types/ObservationStatus", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ObservationStatus = void 0;
     var ObservationStatus;
     (function (ObservationStatus) {
     })(ObservationStatus = exports.ObservationStatus || (exports.ObservationStatus = {}));
@@ -1943,6 +2109,7 @@ define("types/ObservationStatus", ["require", "exports"], function (require, exp
 define("types/ObservationUnit", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ObservationUnit = void 0;
     var ObservationUnit;
     (function (ObservationUnit) {
     })(ObservationUnit = exports.ObservationUnit || (exports.ObservationUnit = {}));
@@ -1950,6 +2117,7 @@ define("types/ObservationUnit", ["require", "exports"], function (require, expor
 define("types/ObservationValue", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ObservationValue = void 0;
     var ObservationValue = /** @class */ (function () {
         function ObservationValue() {
         }
@@ -1975,6 +2143,7 @@ define("types/ObservationValue", ["require", "exports"], function (require, expo
 define("types/ObservationRange", ["require", "exports", "types/Period"], function (require, exports, Period_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ObservationRange = void 0;
     var ObservationRange = /** @class */ (function () {
         function ObservationRange() {
             this.age = new Period_4.Period();
@@ -2006,6 +2175,7 @@ define("types/ObservationRange", ["require", "exports", "types/Period"], functio
 define("types/ObservationComponent", ["require", "exports", "types/ObservationRange"], function (require, exports, ObservationRange_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ObservationComponent = void 0;
     var ObservationComponent = /** @class */ (function () {
         function ObservationComponent() {
         }
@@ -2034,6 +2204,7 @@ define("types/ObservationComponent", ["require", "exports", "types/ObservationRa
 define("types/Observation", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/PatientInfo", "types/Period", "types/ObservationValue", "types/ObservationRange", "types/ObservationComponent"], function (require, exports, BusinessInfo_2, Doctor_3, PatientInfo_3, Period_5, ObservationValue_1, ObservationRange_2, ObservationComponent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Observation = void 0;
     var Observation = /** @class */ (function () {
         function Observation() {
             this.patientInfo = new PatientInfo_3.PatientInfo();
@@ -2103,6 +2274,7 @@ define("types/Observation", ["require", "exports", "types/BusinessInfo", "types/
 define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "types/Period", "types/Observation", "types/Service"], function (require, exports, Doctor_4, Period_6, Observation_1, Service_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DiagnosticReportModel = void 0;
     /**
      * Класс модели медикаментозного назначения.
      */
@@ -2119,7 +2291,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
         }
         Object.defineProperty(DiagnosticReportModel.prototype, "id", {
             get: function () { return this._id; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "status", {
@@ -2127,7 +2299,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Статус диагностического отчета.
              */
             get: function () { return this._status; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "type", {
@@ -2135,7 +2307,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Тип обследования.
              */
             get: function () { return this._type; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "services", {
@@ -2143,7 +2315,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Список оказанных на исследовании услуг.
              */
             get: function () { return this._services; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "category", {
@@ -2152,7 +2324,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * @see http://hl7.org/fhir/valueset-diagnostic-service-sections.html
              */
             get: function () { return this._category; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "effectivePeriod", {
@@ -2160,7 +2332,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Период дат, в течение которых результаты теста считать действительными.
              */
             get: function () { return this._effectivePeriod; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "issuedDate", {
@@ -2168,7 +2340,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Дата публикации обследования пациенту.
              */
             get: function () { return this._issuedDate; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "result", {
@@ -2176,7 +2348,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Результаты обследования в нормализованном виде.
              */
             get: function () { return this._result; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "resultInterpreter", {
@@ -2184,7 +2356,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Врач, который интерпретировал результаты.
              */
             get: function () { return this._resultInterpreter; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "resultInterpretation", {
@@ -2192,7 +2364,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Интерпретация результатов обследования/анализов.
              */
             get: function () { return this._resultInterpretation; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "imagineMedia", {
@@ -2200,7 +2372,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Список ссылок на флюорографии, ЭКГ и т.п.
              */
             get: function () { return this._imagineMedia; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(DiagnosticReportModel.prototype, "attachments", {
@@ -2208,7 +2380,7 @@ define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "t
              * Весь отчет, как документ ворд, pdf  т.п.
              */
             get: function () { return this._attachments; },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         DiagnosticReportModel.prototype.fromJson = function (json) {
@@ -2259,6 +2431,7 @@ define("services/DiagnosticReportService", ["require", "exports"], function (req
 define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers", "models/DiagnosticReportModel"], function (require, exports, jsonRpcService_4, Handlers_4, DiagnosticReportModel_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DiagnosticReportService = void 0;
     var DiagnosticReportService = /** @class */ (function (_super) {
         __extends(DiagnosticReportService, _super);
         function DiagnosticReportService() {
@@ -2269,7 +2442,7 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
          * @param id идентификатор результата записи
          * @param cb callback
          */
-        DiagnosticReportService.prototype.getDiagnosticReportModelById = function (id, cb) {
+        DiagnosticReportService.prototype.getDiagnosticReportById = function (id, cb) {
             var _this = this;
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
@@ -2278,6 +2451,17 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
                 _this.lastValidationErrors_ = payload['validationErrors'];
                 app.fromJson(payload['diagnosticReport']);
                 return cb(null, app);
+            });
+        };
+        DiagnosticReportService.prototype.getDiagnosticReportByIdAsync = function (id) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getDiagnosticReportById(id, function (err, dr) {
+                    if (err)
+                        return rej(err);
+                    // console.log("prescription.id:", appointment.id);
+                    res(dr);
+                });
             });
         };
         DiagnosticReportService.prototype.getPatientDiagnosticReports = function (patientId, limit, offset, cb) {
@@ -2295,6 +2479,16 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
                 cb(null, diagnosticReports);
             });
         };
+        DiagnosticReportService.prototype.getPatientDiagnosticReportsAsync = function (patientId, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getPatientDiagnosticReports(patientId, limit, offset, function (err, reports) {
+                    if (err)
+                        return rej(err);
+                    res(reports);
+                });
+            });
+        };
         return DiagnosticReportService;
     }(jsonRpcService_4.JsonRPCCredService));
     exports.DiagnosticReportService = DiagnosticReportService;
@@ -2302,6 +2496,7 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
 define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/jsonRpcService", "services/AuthService", "Handlers", "models/PatientModel"], function (require, exports, jsonRpcService_5, AuthService_2, Handlers_5, PatientModel_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AuthService = void 0;
     var AuthService = /** @class */ (function (_super) {
         __extends(AuthService, _super);
         /**
@@ -2335,6 +2530,16 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
                 return cb(null, etr);
             }, this.authServerEndpoint_, this.authCred_);
         };
+        AuthService.prototype.getExchangeTokenAsync = function () {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getExchangeToken(function (err, et) {
+                    if (err)
+                        return rej(err);
+                    res(et);
+                });
+            });
+        };
         /**
          * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
          *
@@ -2365,6 +2570,16 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
                 return cb(null, patient, payload['userSign']);
             }, this.ehrServerEndpoint_);
         };
+        AuthService.prototype.authenticateAsync = function (exchangeToken, searchStrategy, patientProperties, medCardId) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.authenticate(exchangeToken, searchStrategy, patientProperties, medCardId, function (err, patient, userSign) {
+                    if (err)
+                        return rej(err);
+                    res({ patient: patient, userSign: userSign });
+                });
+            });
+        };
         /**
          * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
          * Удаляет так же все активные сессии данного пользователя.
@@ -2374,6 +2589,16 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
         AuthService.prototype.removeAuthentication = function (cb) {
             this.exec(Handlers_5.Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
         };
+        AuthService.prototype.removeAuthenticationAsync = function () {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.removeAuthentication(function (err) {
+                    if (err)
+                        return rej(err);
+                    res();
+                });
+            });
+        };
         /**
          * Удаление пользовательской сессии.
          *
@@ -2382,6 +2607,16 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
         AuthService.prototype.removeAuthInfo = function (cb) {
             this.exec(Handlers_5.Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
         };
+        AuthService.prototype.removeAuthInfoAsync = function () {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.removeAuthInfo(function (err) {
+                    if (err)
+                        return rej(err);
+                    res();
+                });
+            });
+        };
         return AuthService;
     }(jsonRpcService_5.JsonRPCService));
     exports.AuthService = AuthService;
@@ -2389,6 +2624,7 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
 define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers", "models/PatientModel"], function (require, exports, jsonRpcService_6, Handlers_6, PatientModel_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientService = void 0;
     var PatientService = /** @class */ (function (_super) {
         __extends(PatientService, _super);
         function PatientService() {
@@ -2405,6 +2641,16 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
                 _this.lastValidationErrors_ = payload['validationErrors'];
                 patient.fromJson(payload['patient']);
                 return cb(err, patient, payload['userSign']);
+            });
+        };
+        PatientService.prototype.getPatientAsync = function () {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getPatient(function (err, patient, userSign) {
+                    if (err)
+                        return rej(err);
+                    res({ patient: patient, userSign: userSign });
+                });
             });
         };
         return PatientService;
@@ -2596,6 +2842,7 @@ define("formatters/l10n/index", ["require", "exports", "formatters/l10n/ru-ru", 
 define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n/index"], function (require, exports, index_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.SimpleTextFormatter = void 0;
     function alignStrings(obj, keys) {
         // find max strings length
         var ml = 0;
@@ -2841,8 +3088,9 @@ define("formatters/index", ["require", "exports", "formatters/SimpleTextFormatte
 define("MedMe", ["require", "exports", "types/index", "models/index", "services/index", "formatters/index", "Handlers"], function (require, exports, Types, index_5, index_6, index_7, Handlers_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.EHR = void 0;
     exports.EHR = {
-        SDK_VERSION: '1.7.6',
+        SDK_VERSION: '1.8.13',
         Types: Types,
         Models: index_5.default,
         Services: index_6.default,

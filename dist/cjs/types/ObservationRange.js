@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ObservationRange = void 0;
 var Period_1 = require("./Period");
 var ObservationRange = /** @class */ (function () {
     function ObservationRange() {

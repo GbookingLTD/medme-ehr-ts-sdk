@@ -20,20 +20,20 @@ export declare class AppointmentResultModel implements IJsonModel {
     private _prescriptions;
     private _diagnosticReportIds;
     constructor();
-    readonly id: string;
-    readonly patientId: string;
-    readonly business: BusinessInfo;
-    readonly created: Date;
-    readonly start: Date;
-    readonly doctor: Doctor;
-    readonly duration: number;
-    readonly anamnesis: string[];
-    readonly medicalExaminationResult: string[];
-    readonly diagnosis: Diagnosis[];
-    readonly recommendations: Procedure[];
-    readonly scheduledProcedures: Procedure[];
-    readonly prescriptions: PrescriptionInfo[];
-    readonly diagnosticReportIds: string[];
+    get id(): string;
+    get patientId(): string;
+    get business(): BusinessInfo;
+    get created(): Date;
+    get start(): Date;
+    get doctor(): Doctor;
+    get duration(): number;
+    get anamnesis(): string[];
+    get medicalExaminationResult(): string[];
+    get diagnosis(): Diagnosis[];
+    get recommendations(): Procedure[];
+    get scheduledProcedures(): Procedure[];
+    get prescriptions(): PrescriptionInfo[];
+    get diagnosticReportIds(): string[];
     /**
      *
      * @param json

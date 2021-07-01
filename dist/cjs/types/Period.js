@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Period = void 0;
 var Period = /** @class */ (function () {
     function Period() {
     }

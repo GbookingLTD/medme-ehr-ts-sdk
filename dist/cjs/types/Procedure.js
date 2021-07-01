@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Procedure = void 0;
 var Service_1 = require("./Service");
 var Period_1 = require("./Period");
 var Procedure = /** @class */ (function () {

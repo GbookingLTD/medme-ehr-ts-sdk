@@ -2,10 +2,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -24,7 +26,7 @@ var DiagnosticReportService = /** @class */ (function (_super) {
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    DiagnosticReportService.prototype.getDiagnosticReportModelById = function (id, cb) {
+    DiagnosticReportService.prototype.getDiagnosticReportById = function (id, cb) {
         var _this = this;
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD, { id: id }, function (err, payload) {
             if (err)
@@ -33,6 +35,17 @@ var DiagnosticReportService = /** @class */ (function (_super) {
             _this.lastValidationErrors_ = payload['validationErrors'];
             app.fromJson(payload['diagnosticReport']);
             return cb(null, app);
+        });
+    };
+    DiagnosticReportService.prototype.getDiagnosticReportByIdAsync = function (id) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getDiagnosticReportById(id, function (err, dr) {
+                if (err)
+                    return rej(err);
+                // console.log("prescription.id:", appointment.id);
+                res(dr);
+            });
         });
     };
     DiagnosticReportService.prototype.getPatientDiagnosticReports = function (patientId, limit, offset, cb) {
@@ -48,6 +61,16 @@ var DiagnosticReportService = /** @class */ (function (_super) {
                 return app;
             });
             cb(null, diagnosticReports);
+        });
+    };
+    DiagnosticReportService.prototype.getPatientDiagnosticReportsAsync = function (patientId, limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getPatientDiagnosticReports(patientId, limit, offset, function (err, reports) {
+                if (err)
+                    return rej(err);
+                res(reports);
+            });
         });
     };
     return DiagnosticReportService;

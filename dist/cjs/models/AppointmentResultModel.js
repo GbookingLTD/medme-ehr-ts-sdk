@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppointmentResultModel = void 0;
 var index_1 = require("../types/index");
 var AppointmentModel_1 = require("./AppointmentModel");
 /**
@@ -11,72 +12,72 @@ var AppointmentResultModel = /** @class */ (function () {
     }
     Object.defineProperty(AppointmentResultModel.prototype, "id", {
         get: function () { return this._id; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "patientId", {
         get: function () { return this._patientId; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "business", {
         get: function () { return this._business; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "created", {
         get: function () { return this._created; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "start", {
         get: function () { return this._start; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "doctor", {
         get: function () { return this._doctor; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "duration", {
         get: function () { return this._duration; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "anamnesis", {
         get: function () { return this._anamnesis; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "medicalExaminationResult", {
         get: function () { return this._medicalExaminationResult; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "diagnosis", {
         get: function () { return this._diagnosis; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "recommendations", {
         get: function () { return this._recommendations; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "scheduledProcedures", {
         get: function () { return this._scheduledProcedures; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "prescriptions", {
         get: function () { return this._prescriptions; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentResultModel.prototype, "diagnosticReportIds", {
         get: function () { return this._diagnosticReportIds; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

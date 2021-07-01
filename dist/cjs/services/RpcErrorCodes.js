@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isAuthorizationError = exports.RpcErrorCodes = void 0;
 var RpcErrorCodes = /** @class */ (function () {
     function RpcErrorCodes() {
     }

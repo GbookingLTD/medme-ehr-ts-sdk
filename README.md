@@ -8,6 +8,10 @@
     make build
 ````
 
+## Описание тестов
+
+
+
 ## Running tests
 
 1. Previously install user with publicId=`user999` and internalId=1 into table UserIDMap of embedded.db database. 
@@ -17,7 +21,7 @@ only one record with internalID=1 in this table.
 You may also do initialize embedded.db using next command (path to embedded.db can be changed):
 
 ````bash
-tests/init_embedded.sh ../csharp/MedMe/EHR.RPCServer/embedded.db
+tests/init_embedded.sh ../cs/MedMe/EHR/RPCServer/embedded.db
 ````
 
 2. Start MedMe.EHRServer using `make run` from folder of the package sources or other way.

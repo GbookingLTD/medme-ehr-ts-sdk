@@ -6,7 +6,8 @@ export interface IAppointmentResultService extends IResourceService {
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    getAppointmentResultModelById(id: string, cb: (err: any, appointmentResult: AppointmentResultModel) => void): void;
+    getAppointmentResultById(id: string, cb: (err: any, appointmentResult: AppointmentResultModel) => void): void;
+    getAppointmentResultByIdAsync(id: string): Promise<AppointmentResultModel>;
     /**
      * Возвращает список результатов приема пациента.
      * @param patientId идентификатор пациента
@@ -15,4 +16,5 @@ export interface IAppointmentResultService extends IResourceService {
      * @param cb callback
      */
     getPatientAppointmentResults(patientId: string, limit: number, offset: number, cb: (err: any, appointmentResults: AppointmentResultModel[]) => void): void;
+    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultModel[]>;
 }

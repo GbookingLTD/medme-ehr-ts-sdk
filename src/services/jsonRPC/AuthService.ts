@@ -5,7 +5,7 @@ import { Handlers } from "../../Handlers";
 import { Credentials } from "../Credentials";
 import { IJsonRPCRequest } from "./jsonRpcRequest";
 import { PatientModel } from "../../models/PatientModel";
-import {UserSign} from "../../types/UserSign";
+import { UserSign } from "../../types/UserSign";
 
 export class AuthService extends JsonRPCService implements IAuthService {
 
@@ -24,7 +24,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param authCred параметры доступа к обоим серверам
      */
     public constructor(ehrServerEndpoint: string, authServerEndpoint: string, cred: Credentials, request: IJsonRPCRequest,
-            exchangeTokenMethod: string, exchangeTokenExtra: object) {
+        exchangeTokenMethod: string, exchangeTokenExtra: object) {
         super(null, request);
         this.ehrServerEndpoint_ = ehrServerEndpoint;
         this.authServerEndpoint_ = authServerEndpoint;
@@ -49,6 +49,18 @@ export class AuthService extends JsonRPCService implements IAuthService {
         }, this.authServerEndpoint_, this.authCred_);
     }
 
+    public getExchangeTokenAsync(): Promise<ExchangeTokenResponse> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getExchangeToken((err: any, et: ExchangeTokenResponse) => {
+                if (err)
+                    return rej(err);
+
+                res(et);
+            });
+        });
+    }
+
     /**
      * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
      * 
@@ -61,19 +73,19 @@ export class AuthService extends JsonRPCService implements IAuthService {
      * @param {Function} cb
      */
     public authenticate(exchangeToken: string, searchStrategy: string,
-                        patientProperties: PatientInputProperties,
-                        medCardId: string,
-                        cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void {
+        patientProperties: PatientInputProperties,
+        medCardId: string,
+        cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void {
         if (["PHONE", "MEDCARD"].indexOf(searchStrategy) < 0)
             throw Error("Argument searchStrategy is out of range.");
-        
+
         let requestData = {
             exchangeToken,
             searchStrategy,
             patientProperties,
             medCardId
         };
-        
+
         this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, requestData, (err: any, payload: object) => {
             if (err)
                 return cb(err, null, null);
@@ -86,6 +98,21 @@ export class AuthService extends JsonRPCService implements IAuthService {
         }, this.ehrServerEndpoint_);
     }
 
+    public authenticateAsync(exchangeToken: string, searchStrategy: string,
+        patientProperties: PatientInputProperties,
+        medCardId: string): Promise<{patient: PatientModel, userSign: UserSign}> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.authenticate(exchangeToken, searchStrategy, patientProperties, medCardId, 
+                (err: any, patient: PatientModel, userSign: UserSign) => {
+                    if (err)
+                        return rej(err);
+
+                    res({patient, userSign});
+                });
+        });
+    }
+
     /**
      * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
      * Удаляет так же все активные сессии данного пользователя.
@@ -96,6 +123,18 @@ export class AuthService extends JsonRPCService implements IAuthService {
         this.exec(Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
     }
 
+    public removeAuthenticationAsync(): Promise<void> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.removeAuthentication((err: any) => {
+                if (err)
+                    return rej(err);
+
+                res();
+            })
+        });
+    }
+
     /**
      * Удаление пользовательской сессии.
      * 
@@ -103,5 +142,17 @@ export class AuthService extends JsonRPCService implements IAuthService {
      */
     public removeAuthInfo(cb: (err: any) => void): void {
         this.exec(Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
+    }
+
+    public removeAuthInfoAsync(): Promise<void> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.removeAuthInfo((err: any) => {
+                if (err)
+                    return rej(err);
+
+                res();
+            })
+        });
     }
 }

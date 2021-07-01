@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Observation = void 0;
 var BusinessInfo_1 = require("./BusinessInfo");
 var Doctor_1 = require("./Doctor");
 var PatientInfo_1 = require("./PatientInfo");

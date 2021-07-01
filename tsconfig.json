@@ -4,7 +4,7 @@
     ],
     "compilerOptions": {
         "target": "es5",
-        "module": "AMD",
+        "module": "umd",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
         "outDir": "dist/es5_AMD",

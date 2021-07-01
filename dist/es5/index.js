@@ -5,7 +5,7 @@ import Services from './services/index';
 import Formatters from "./formatters/index";
 import { Handlers } from './Handlers';
 export var EHR = {
-    SDK_VERSION: '1.7.6',
+    SDK_VERSION: '1.8.13',
     Types: Types,
     Models: Models,
     Services: Services,

@@ -11,13 +11,25 @@ export class PrescriptionService extends JsonRPCCredService implements IPrescrip
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    public getPrescriptionModelById(id: string, cb: (err: any, p: PrescriptionModel) => void): void {
+    public getPrescriptionById(id: string, cb: (err: any, p: PrescriptionModel) => void): void {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
             if (err) return cb(err, null);
             let app = new PrescriptionModel();
             this.lastValidationErrors_ = payload['validationErrors'];
             app.fromJson(payload['prescription']);
             cb(null, app);
+        });
+    }
+    
+    public getPrescriptionByIdAsync(id: string): Promise<PrescriptionModel> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPrescriptionById(id, (err: any, pm: PrescriptionModel) => {
+                if (err)
+                    return rej(err);
+
+                res(pm);
+            });
         });
     }
 
@@ -36,4 +48,15 @@ export class PrescriptionService extends JsonRPCCredService implements IPrescrip
         });
     }
 
+    public getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionModel[]> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPatientPrescriptions(patientId, limit, offset, (err: any, values: PrescriptionModel[]) => {
+                if (err)
+                    return rej(err);
+
+                res(values);
+            });
+        });
+    }
 }

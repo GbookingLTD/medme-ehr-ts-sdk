@@ -7,6 +7,8 @@ export declare class PrescriptionService extends JsonRPCCredService implements I
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    getPrescriptionModelById(id: string, cb: (err: any, p: PrescriptionModel) => void): void;
+    getPrescriptionById(id: string, cb: (err: any, p: PrescriptionModel) => void): void;
+    getPrescriptionByIdAsync(id: string): Promise<PrescriptionModel>;
     getPatientPrescriptions(patientId: string, limit: number, offset: number, cb: (err: any, p: PrescriptionModel[]) => void): void;
+    getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionModel[]>;
 }

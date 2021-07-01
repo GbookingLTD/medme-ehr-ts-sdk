@@ -8,7 +8,8 @@ export interface IPrescriptionService extends IResourceService {
      * @param id идентификатор записи
      * @param cb callback
      */
-    getPrescriptionModelById(id: string, cb: (err: any, p: PrescriptionModel) => void): void;
+    getPrescriptionById(id: string, cb: (err: any, p: PrescriptionModel) => void): void;
+    getPrescriptionByIdAsync(id: string): Promise<PrescriptionModel>;
 
     /**
      * Возвращает список назначений пациента.
@@ -19,4 +20,5 @@ export interface IPrescriptionService extends IResourceService {
      */
     getPatientPrescriptions(patientId: string, limit: number, offset: number, 
         cb: (err: any, p: PrescriptionModel[]) => void): void;
+    getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionModel[]>;
 }

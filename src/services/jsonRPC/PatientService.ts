@@ -22,4 +22,16 @@ export class PatientService extends JsonRPCCredService
             return cb(err, patient, payload['userSign']);
         });
     }
+
+    public getPatientAsync(): Promise<{patient: PatientModel, userSign: UserSign}> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPatient((err, patient, userSign) => {
+                if (err)
+                    return rej(err);
+
+                res({patient, userSign});
+            })
+        });
+    }
 }

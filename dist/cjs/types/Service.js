@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Service = void 0;
 var ClientPrice_1 = require("./ClientPrice");
 var Service = /** @class */ (function () {
     function Service() {

@@ -2,78 +2,68 @@
 
 import * as assert from 'assert';
 
-import { AppointmentModel } from '../src/models/AppointmentModel';
-import JsonRPC from '../src/services/jsonRPC/index';
-import { IAppointmentService } from '../src/services/AppointmentService';
-import { AppointmentInputProperties } from "../src/types/AppointmentInputProperties";
-import { Credentials } from '../src/services/Credentials';
-import { getCreateServiceFn } from './login';
 import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
+import {sudoApiKey, patIdRange, appIdRange, authPatient} from "./fixtures";
+import JsonRPC from '../src/services/jsonRPC/index';
+import { login, readUserSignFile } from './login';
+import { EHR_SERVER_ENDPOINT} from "./env"
 
 describe('Appointment', function() {
-    function getOneById(service: IAppointmentService, id: string, done: (err: Error, appointment: AppointmentModel) => void) {
-        service.getAppointmentModelById(id, (err: any, appointment: AppointmentModel) => {
-            // console.log("appointment.patientId:", appointment.patientId);
-            if (err) return done(err, null);
-            assert.strictEqual(appointment.id, id);
-            done(null, appointment);
+    describe('JsonRPCWithApiKey', function() {
+        const service = new JsonRPC.AppointmentService(EHR_SERVER_ENDPOINT, null, sudoApiKey, 
+            JsonRPC.Transports.xhr);
+
+        it('GetFirstById', async function() {
+            const id = appIdRange.first.toString();
+            const app = await service.getAppointmentByIdAsync(id);
+            assert.strictEqual(app.id, id);
         });
+
+        it('GetFirstPatientAppointments', async function() {
+            const patid = patIdRange.first.toString();
+            const apps = await service.getPatientAppointmentsAsync(patid, 10, 0);
+            // console.info("apps", apps);
+            assert(apps.length > 0);
+            for (let app of apps)
+                assert.strictEqual(app.patientId, patid);
+        });
+    });
+
+    async function loggedInService() {
+        const userPublicID = authPatient.publicUserId;
+        const ehrUserSign = readUserSignFile(userPublicID);
+        const cred = await login(userPublicID, ehrUserSign);
+        return new JsonRPC.AppointmentService(EHR_SERVER_ENDPOINT, cred, null, JsonRPC.Transports.xhr);
     }
 
-    function saveOneAppointment(service: IAppointmentService, done: (err: Error, appId: string) => void) {
-        let props = new AppointmentInputProperties();
-        props.businessId = "1";
-        props.doctorId = "1";
-        props.duration = 123;
-        props.patientId = "1";
-        props.services = ["1"];
-        props.sourceId = "1";
-        props.start = new Date();
-        service.saveAppointment(props, (appId) => {
-            assert.notEqual(appId, "");
-            done(null, appId);
+    describe('JsonRPCWithCred', function() {
+        it('GetFirstById', async function() {
+            const service = await loggedInService();
+            const appid = authPatient.appointmentId;
+            const app = await service.getAppointmentByIdAsync(appid);
+            assert.strictEqual(app.id, appid);
         });
-    }
 
-    function getPatientAppointments(service: IAppointmentService, patientId: string, limit: number, offset: number,
-            done: (err: Error, appointments: AppointmentModel[]) => void) {
-        service.getPatientAppointments(patientId, limit, offset, (err: any, appointments: AppointmentModel[]) => {
-            appointments.forEach(function(app) {
-                assert.strictEqual(app.patientId, patientId);
-            });
-            done(null, appointments);
+        it('GetFirstPatientAppointments', async function() {
+            const service = await loggedInService();
+            const patid = patIdRange.first.toString();
+            const apps = await service.getPatientAppointmentsAsync(patid, 10, 0);
+            // console.info("apps", apps);
+            assert(apps.length > 0);
+            for (let app of apps)
+                assert.strictEqual(app.patientId, patid);
         });
-    }
 
-    describe('JsonRPC', function() {
-        const createAppointmentService = getCreateServiceFn<IAppointmentService>(function(authCred: Credentials) {
-            return new JsonRPC.AppointmentService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
-        });
-        it('GetOneById', function(done: (err?: any) => void) {
-            createAppointmentService(function(err: any, service?: IAppointmentService) {
-                if (err) return done(err);
-                getOneById(service, "1", done);
-            });
-        });
-        it('SaveModel', function(done: (err?: any) => void) {
-            createAppointmentService(function(err: any, service?: IAppointmentService) {
-                if (err) return done(err);
-                saveOneAppointment(service, done);
-            });
-        });
-        it('GetPatientAppointments', function(done: (err?: any) => void) {
-            createAppointmentService(function(err: any, service?: IAppointmentService) {
-                if (err) return done(err);
-                getPatientAppointments(service, "1", 10, 0, done);
-            });
-        });
-        it('GetOtherPatientAppointments', function(done: (err?: any) => void) {
-            createAppointmentService(function(err: any, service?: IAppointmentService) {
-                if (err) return done(err);
-                service.getPatientAppointments("2", 10, 0, (err:any, appointments: AppointmentModel[]) => {
-                    if (err && err.code === RpcErrorCodes.AccessForbidden) return done();
-                });
-            });
+        it('GetWrongPatientAppointments', async function() {
+            const service = await loggedInService();
+            const patId = patIdRange.first + (patIdRange.count / 2);
+
+            try {
+                await service.getPatientAppointmentsAsync(patId.toString(), 10, 0);
+                assert.fail("wrong passed");
+            } catch (err) {
+                assert(err && err.code === RpcErrorCodes.AccessForbidden);
+            }
         });
     });
 });

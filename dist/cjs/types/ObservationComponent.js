@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ObservationComponent = void 0;
 var ObservationRange_1 = require("./ObservationRange");
 var ObservationComponent = /** @class */ (function () {
     function ObservationComponent() {

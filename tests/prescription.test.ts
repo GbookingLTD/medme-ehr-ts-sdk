@@ -5,53 +5,63 @@ import JsonRPC from '../src/services/jsonRPC/index';
 import { IPrescriptionService } from '../src/services/PrescriptionService';
 import { PrescriptionModel } from '../src/models/PrescriptionModel';
 import { Credentials } from '../src/services/Credentials';
-import { getCreateServiceFn } from './login';
 import {RpcErrorCodes} from "../src/services/RpcErrorCodes";
+import { authPatient, patIdRange, pmIdRange, sudoApiKey } from './fixtures';
+import { EHR_SERVER_ENDPOINT } from './env';
+import { login, readUserSignFile } from './login';
 
 describe('Prescription', function() {
-    function getOneById(service: IPrescriptionService, id: string, done: (err: Error, p: PrescriptionModel) => void) {
-        service.getPrescriptionModelById(id, (err: any, appointment: PrescriptionModel) => {
-            // console.log("prescription.id:", appointment.id);
-            assert.strictEqual(appointment.id, id);
-            done(null, appointment);
-        });
-    }
 
-    function getPatientPrescriptions(service: IPrescriptionService, patientId: string, limit: number, offset: number,
-            done: (err: Error, appointments: PrescriptionModel[]) => void) {
-        service.getPatientPrescriptions(patientId, limit, offset, (err: any, appointments: PrescriptionModel[]) => {
-            appointments.forEach(function(app) {
-                assert.strictEqual(app.patientId, patientId);
-            });
-            done(null, appointments);
+    describe('JsonRPCWithApiKey', function() {
+        const service = new JsonRPC.PrescriptionService(EHR_SERVER_ENDPOINT, null, sudoApiKey, JsonRPC.Transports.xhr);
+        
+        it('GetFirstById', async function() {
+            const pmid = pmIdRange.first.toString();
+            const pm = await service.getPrescriptionByIdAsync(pmid);
+            assert.strictEqual(pm.id, pmid);
         });
-   
-    }
+        it('GetPatientPrescriptions', async function() {
+            const patid = patIdRange.first.toString();
+            const messages = await service.getPatientPrescriptionsAsync(patid, 10, 0);
+            for (const pm of messages)
+                assert.strictEqual(pm.patientId, patid);
 
-    describe('JsonRPC', function() {
-        const createService = getCreateServiceFn<IPrescriptionService>(function(authCred: Credentials) {
-            return new JsonRPC.PrescriptionService("http://localhost:9999/", authCred, JsonRPC.Transports.xhr);
-        });
-        it('GetOneById', function(done: (err?: any) => void) {
-            createService(function(err: any, service?: IPrescriptionService) {
-                if (err) return done(err);
-                getOneById(service, "1", done);
-            });
-        });
-        it('GetPatientPrescriptions', function(done: (err?: any) => void) {
-            createService(function(err: any, service?: IPrescriptionService) {
-                if (err) return done(err);
-                getPatientPrescriptions(service, "1", 10, 0, done);
-            });
-        });
-        it('GetOtherPatientPrescriptions', function(done: (err?: any) => void) {
-            createService(function(err: any, service?: IPrescriptionService) {
-                if (err) return done(err);
-                service.getPatientPrescriptions("2", 10, 0, (err: any, appointments: PrescriptionModel[]) => {
-                    if (err && err.code === RpcErrorCodes.AccessForbidden) return done();
-                });
-            });
         });
     });
 
+    async function loggedInService() {
+        const userPublicID = authPatient.publicUserId;
+        const ehrUserSign = readUserSignFile(userPublicID);
+        const cred = await login(userPublicID, ehrUserSign);
+        return new JsonRPC.PrescriptionService(EHR_SERVER_ENDPOINT, cred, null, JsonRPC.Transports.xhr);
+    }
+
+    describe('JsonRPCWithCred', function() {
+        it('GetFirstById', async function() {
+            const service = await loggedInService();
+            const pmid = authPatient.prescriptionId;
+            const pm = await service.getPrescriptionByIdAsync(pmid);
+            assert.strictEqual(pm.id, pmid);
+        });
+
+        it('GetPatientPrescriptions', async function() {
+            const service = await loggedInService();
+            const patid = authPatient.internalUserId.toString();
+            const messages = await service.getPatientPrescriptionsAsync(patid, 10, 0);
+            for (const pm of messages)
+                assert.strictEqual(pm.patientId, patid);
+                
+        });
+
+        it('GetOtherPatientPrescriptions', async function() {
+            const service = await loggedInService();
+            const patid = (patIdRange.last + 1).toString();
+            try {
+                await service.getPatientPrescriptionsAsync(patid, 10, 0);
+                assert.fail();
+            } catch (err) {
+                assert(err && err.code === RpcErrorCodes.AccessForbidden);
+            }
+        });
+    });
 });

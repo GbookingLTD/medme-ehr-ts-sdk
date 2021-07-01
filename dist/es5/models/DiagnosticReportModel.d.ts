@@ -21,52 +21,52 @@ export declare class DiagnosticReportModel implements IJsonModel {
     private _attachments;
     private _services;
     private _category;
-    readonly id: string;
+    get id(): string;
     /**
      * Статус диагностического отчета.
      */
-    readonly status: DiagnosticReportStatus;
+    get status(): DiagnosticReportStatus;
     /**
      * Тип обследования.
      */
-    readonly type: ObservationType;
+    get type(): ObservationType;
     /**
      * Список оказанных на исследовании услуг.
      */
-    readonly services: Service[];
+    get services(): Service[];
     /**
      * Категория сервисов диагностики (код).
      * @see http://hl7.org/fhir/valueset-diagnostic-service-sections.html
      */
-    readonly category: string;
+    get category(): string;
     /**
      * Период дат, в течение которых результаты теста считать действительными.
      */
-    readonly effectivePeriod: Period;
+    get effectivePeriod(): Period;
     /**
      * Дата публикации обследования пациенту.
      */
-    readonly issuedDate: Date;
+    get issuedDate(): Date;
     /**
      * Результаты обследования в нормализованном виде.
      */
-    readonly result: Observation[];
+    get result(): Observation[];
     /**
      * Врач, который интерпретировал результаты.
      */
-    readonly resultInterpreter: Doctor[];
+    get resultInterpreter(): Doctor[];
     /**
      * Интерпретация результатов обследования/анализов.
      */
-    readonly resultInterpretation: string[];
+    get resultInterpretation(): string[];
     /**
      * Список ссылок на флюорографии, ЭКГ и т.п.
      */
-    readonly imagineMedia: string[];
+    get imagineMedia(): string[];
     /**
      * Весь отчет, как документ ворд, pdf  т.п.
      */
-    readonly attachments: string[];
+    get attachments(): string[];
     constructor();
     fromJson(json: any): DiagnosticReportModel;
     toJson(): object;

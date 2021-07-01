@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SimpleTextFormatter = void 0;
 var index_1 = require("./l10n/index");
 function alignStrings(obj, keys) {
     // find max strings length

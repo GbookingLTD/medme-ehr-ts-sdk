@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FamilyMember = exports.FamilyMemberType = void 0;
 var FamilyMemberType;
 (function (FamilyMemberType) {
     FamilyMemberType[FamilyMemberType["FamilyMember"] = 1] = "FamilyMember";

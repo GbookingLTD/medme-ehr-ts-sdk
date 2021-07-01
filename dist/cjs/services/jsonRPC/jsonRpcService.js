@@ -3,16 +3,19 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JsonRPCCredService = exports.JsonRPCService = void 0;
 var jsonRpcRequest_1 = require("./jsonRpcRequest");
 var RpcErrorCodes_1 = require("../RpcErrorCodes");
 var JsonRPCService = /** @class */ (function () {
@@ -24,14 +27,14 @@ var JsonRPCService = /** @class */ (function () {
         get: function () {
             return this._endpoint;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(JsonRPCService.prototype, "request", {
         get: function () {
             return this._request;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     JsonRPCService.prototype.exec = function (rpcMethod, payload, cb, optionalEndpoint, optionalCred) {
@@ -45,9 +48,10 @@ var JsonRPCService = /** @class */ (function () {
 exports.JsonRPCService = JsonRPCService;
 var JsonRPCCredService = /** @class */ (function (_super) {
     __extends(JsonRPCCredService, _super);
-    function JsonRPCCredService(endpoint, cred, request) {
+    function JsonRPCCredService(endpoint, cred, apiKey, request) {
         var _this = _super.call(this, endpoint, request) || this;
         _this.cred_ = cred;
+        _this.apikey_ = apiKey;
         return _this;
     }
     Object.defineProperty(JsonRPCCredService.prototype, "cred", {
@@ -57,7 +61,17 @@ var JsonRPCCredService = /** @class */ (function (_super) {
         set: function (value) {
             this.cred_ = value;
         },
-        enumerable: true,
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(JsonRPCCredService.prototype, "apiKey", {
+        get: function () {
+            return this.apikey_;
+        },
+        set: function (value) {
+            this.apikey_ = value;
+        },
+        enumerable: false,
         configurable: true
     });
     JsonRPCCredService.prototype.exec = function (rpcMethod, payload, cb, optionalEndpoint) {
@@ -76,7 +90,8 @@ var JsonRPCCredService = /** @class */ (function (_super) {
                 cb.apply(this_, args);
             };
         }
-        this.request(optionalEndpoint || this.endpoint, new jsonRpcRequest_1.JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred), payload, auth(cb));
+        var header = new jsonRpcRequest_1.JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred, this.apiKey);
+        this.request(optionalEndpoint || this.endpoint, header, payload, auth(cb));
     };
     JsonRPCCredService.prototype.getLastValidationErrors = function () {
         return this.lastValidationErrors_;

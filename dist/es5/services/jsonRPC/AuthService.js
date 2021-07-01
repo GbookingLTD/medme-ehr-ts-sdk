@@ -2,10 +2,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -48,6 +50,16 @@ var AuthService = /** @class */ (function (_super) {
             return cb(null, etr);
         }, this.authServerEndpoint_, this.authCred_);
     };
+    AuthService.prototype.getExchangeTokenAsync = function () {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getExchangeToken(function (err, et) {
+                if (err)
+                    return rej(err);
+                res(et);
+            });
+        });
+    };
     /**
      * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
      *
@@ -78,6 +90,16 @@ var AuthService = /** @class */ (function (_super) {
             return cb(null, patient, payload['userSign']);
         }, this.ehrServerEndpoint_);
     };
+    AuthService.prototype.authenticateAsync = function (exchangeToken, searchStrategy, patientProperties, medCardId) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.authenticate(exchangeToken, searchStrategy, patientProperties, medCardId, function (err, patient, userSign) {
+                if (err)
+                    return rej(err);
+                res({ patient: patient, userSign: userSign });
+            });
+        });
+    };
     /**
      * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
      * Удаляет так же все активные сессии данного пользователя.
@@ -87,6 +109,16 @@ var AuthService = /** @class */ (function (_super) {
     AuthService.prototype.removeAuthentication = function (cb) {
         this.exec(Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
     };
+    AuthService.prototype.removeAuthenticationAsync = function () {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.removeAuthentication(function (err) {
+                if (err)
+                    return rej(err);
+                res();
+            });
+        });
+    };
     /**
      * Удаление пользовательской сессии.
      *
@@ -94,6 +126,16 @@ var AuthService = /** @class */ (function (_super) {
      */
     AuthService.prototype.removeAuthInfo = function (cb) {
         this.exec(Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD, {}, cb, this.ehrServerEndpoint_, this.authCred_);
+    };
+    AuthService.prototype.removeAuthInfoAsync = function () {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.removeAuthInfo(function (err) {
+                if (err)
+                    return rej(err);
+                res();
+            });
+        });
     };
     return AuthService;
 }(JsonRPCService));

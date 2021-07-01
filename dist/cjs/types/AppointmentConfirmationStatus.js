@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppointmentConfirmationStatus = void 0;
 var AppointmentConfirmationStatus;
 (function (AppointmentConfirmationStatus) {
     AppointmentConfirmationStatus[AppointmentConfirmationStatus["Tentative"] = 0] = "Tentative";

@@ -31,12 +31,14 @@ export class JsonRPCService {
 
 export class JsonRPCCredService extends JsonRPCService implements IResourceService {
     private cred_: Credentials;
+    private apikey_: string;
     protected lastValidationErrors_: string[];
     protected lastValidationErrorsOfList_: string[][];
 
-    public constructor(endpoint: string, cred: Credentials, request: IJsonRPCRequest) {
+    public constructor(endpoint: string, cred: Credentials, apiKey: string, request: IJsonRPCRequest) {
         super(endpoint, request);
         this.cred_ = cred;
+        this.apikey_ = apiKey;
     }
 
     get cred(): Credentials {
@@ -45,6 +47,14 @@ export class JsonRPCCredService extends JsonRPCService implements IResourceServi
 
     set cred(value: Credentials) {
         this.cred_ = value;
+    }
+
+    get apiKey(): string {
+        return this.apikey_;
+    }
+
+    set apiKey(value: string) {
+        this.apikey_ = value;
     }
 
     onAuthNotAuthorized: () => void;
@@ -66,8 +76,8 @@ export class JsonRPCCredService extends JsonRPCService implements IResourceServi
             };
         }
 
-        this.request(optionalEndpoint || this.endpoint, new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred),
-            payload, auth(cb));
+        const header = new JsonRpcHeader((JsonRPCService.id++).toString(), rpcMethod, this.cred, this.apiKey);
+        this.request(optionalEndpoint || this.endpoint, header, payload, auth(cb));
     }
 
     public getLastValidationErrors(): string[] {

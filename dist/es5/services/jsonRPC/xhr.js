@@ -36,8 +36,9 @@ export var xhr = function (endpoint, header, requestPayload, cb) {
     req.open('POST', endpoint, true);
     //req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(header.method + " " + JSON.stringify(header.cred) + "\n" + JSON.stringify(requestPayload));
-    var jsonRpcRequest = requestCred(header.id, header.method, header.cred, requestPayload);
+    console.log(header.method + " cred=" + JSON.stringify(header.cred) + " apikey=" + header.apiKey + "\n" + JSON.stringify(requestPayload));
+    //console.trace();
+    var jsonRpcRequest = requestCred(header.id, header.method, header.cred, header.apiKey, requestPayload);
     //console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };

@@ -26,6 +26,7 @@ export declare class AuthService extends JsonRPCService implements IAuthService 
      * @param {Function} cb
      */
     getExchangeToken(cb: (err: any, res: ExchangeTokenResponse) => void): void;
+    getExchangeTokenAsync(): Promise<ExchangeTokenResponse>;
     /**
      * Метод выполняет запрос к EHR серверу для аутентификации пользователя по его данным.
      *
@@ -38,6 +39,10 @@ export declare class AuthService extends JsonRPCService implements IAuthService 
      * @param {Function} cb
      */
     authenticate(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string, cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
+    authenticateAsync(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string): Promise<{
+        patient: PatientModel;
+        userSign: UserSign;
+    }>;
     /**
      * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
      * Удаляет так же все активные сессии данного пользователя.
@@ -45,10 +50,12 @@ export declare class AuthService extends JsonRPCService implements IAuthService 
      * @param cb
      */
     removeAuthentication(cb: (err: any) => void): void;
+    removeAuthenticationAsync(): Promise<void>;
     /**
      * Удаление пользовательской сессии.
      *
      * @param cb
      */
     removeAuthInfo(cb: (err: any) => void): void;
+    removeAuthInfoAsync(): Promise<void>;
 }

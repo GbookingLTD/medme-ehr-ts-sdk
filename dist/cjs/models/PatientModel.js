@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PatientModel = void 0;
 var FamilyMember_1 = require("../types/FamilyMember");
 var Insurance_1 = require("../types/Insurance");
 var Period_1 = require("../types/Period");
@@ -8,77 +9,77 @@ var PatientModel = /** @class */ (function () {
     }
     Object.defineProperty(PatientModel.prototype, "id", {
         get: function () { return this._id; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "active", {
         get: function () { return this._active; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "surname", {
         get: function () { return this._surname; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "name", {
         get: function () { return this._name; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "phones", {
         get: function () { return this._phones; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "email", {
         get: function () { return this._email; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "gender", {
         get: function () { return this._gender; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "birthdate", {
         get: function () { return this._birthdate; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "deceased", {
         get: function () { return this._deceased; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "maritalStatus", {
         get: function () { return this._maritalStatus; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "photo", {
         get: function () { return this._photo; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "familyMembers", {
         get: function () { return this._familyMembers; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "address", {
         get: function () { return this._address; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "medcardNumber", {
         get: function () { return this._medcardNumber; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "insurances", {
         get: function () { return this._insurances; },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     PatientModel.prototype.fromJson = function (json) {

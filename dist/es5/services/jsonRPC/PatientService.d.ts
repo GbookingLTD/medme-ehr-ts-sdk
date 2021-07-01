@@ -4,4 +4,8 @@ import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
 export declare class PatientService extends JsonRPCCredService implements IPatientService {
     getPatient(cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void): void;
+    getPatientAsync(): Promise<{
+        patient: PatientModel;
+        userSign: UserSign;
+    }>;
 }
