@@ -1,3 +1,5 @@
+import { JSONObject, JSONValue } from "../json";
+
 export class Diagnosis {
     description: string;
     cd10: string;
@@ -11,8 +13,8 @@ export class Diagnosis {
         this.cd10 = json.cd10;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.description = this.description;
         payload.cd10 = this.cd10;
         return payload;

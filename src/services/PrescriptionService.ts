@@ -1,5 +1,6 @@
 import { IResourceService } from './ResourceService';
 import { PrescriptionModel } from "../models/PrescriptionModel";
+import { PrescriptionMessage } from "../messages/PrescriptionMessage";
 
 export interface IPrescriptionService extends IResourceService {
 
@@ -8,8 +9,8 @@ export interface IPrescriptionService extends IResourceService {
      * @param id идентификатор записи
      * @param cb callback
      */
-    getPrescriptionById(id: string, cb: (err: any, p: PrescriptionModel) => void): void;
-    getPrescriptionByIdAsync(id: string): Promise<PrescriptionModel>;
+    getPrescriptionById(id: string, cb: (err: any, p: PrescriptionMessage) => void): void;
+    getPrescriptionByIdAsync(id: string): Promise<PrescriptionMessage>;
 
     /**
      * Возвращает список назначений пациента.
@@ -18,7 +19,17 @@ export interface IPrescriptionService extends IResourceService {
      * @param offset смещение относительно начала списка назначений
      * @param cb callback
      */
-    getPatientPrescriptions(patientId: string, limit: number, offset: number, 
-        cb: (err: any, p: PrescriptionModel[]) => void): void;
-    getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionModel[]>;
+    getPatientPrescriptions(patientId: string, limit: number, offset: number,
+        cb: (err: any, p: PrescriptionMessage[]) => void): void;
+    getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionMessage[]>;
+
+    getPrescriptions(limit: number, offset: number,
+        cb: (err: any, p: PrescriptionMessage[]) => void): void;
+    getPrescriptionsAsync(limit: number, offset: number): Promise<PrescriptionMessage[]>;
+
+    getPrescriptionsCount(cb: (err: any, count: number, support: boolean) => void): void;
+    getPrescriptionsCountAsync():Promise<{count: number, support: boolean}>
+
+    getPatientPrescriptionsCount(patientId: string, cb: (err: any, count: number, support: boolean) => void): void;
+    getPatientPrescriptionsCountAsync(patientId: string):Promise<{count: number, support: boolean}>
 }

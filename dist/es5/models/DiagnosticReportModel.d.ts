@@ -5,6 +5,7 @@ import { DiagnosticReportStatus } from '../types/DiagnosticReportStatus';
 import { ObservationType } from '../types/ObservationType';
 import { Observation } from '../types/Observation';
 import { Service } from '../types/Service';
+import { JSONValue } from "../json";
 /**
  * Класс модели медикаментозного назначения.
  */
@@ -69,5 +70,5 @@ export declare class DiagnosticReportModel implements IJsonModel {
     get attachments(): string[];
     constructor();
     fromJson(json: any): DiagnosticReportModel;
-    toJson(): object;
+    toJson(): JSONValue;
 }

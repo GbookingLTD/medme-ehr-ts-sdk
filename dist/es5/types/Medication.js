@@ -7,10 +7,10 @@ var Medication = /** @class */ (function () {
         this.expirationDate = json.expirationDate;
     };
     Medication.prototype.toJson = function () {
-        var payload;
+        var payload = {};
         payload.form = this.form;
         payload.amount = this.amount;
-        payload.expirationDate = this.expirationDate;
+        payload.expirationDate = this.expirationDate.toJSON();
         return payload;
     };
     return Medication;

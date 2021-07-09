@@ -1,3 +1,5 @@
+import { JSONObject, JSONValue } from "../json";
+
 export class Period {
     begin: Date;
     end: Date;
@@ -8,10 +10,10 @@ export class Period {
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {}
-        payload.begin = this.begin;
-        payload.end = this.end;
+    toJson(): JSONValue {
+        let payload: JSONObject = {}
+        payload.begin = this.begin.toJSON();
+        payload.end = this.end.toJSON();
         return payload;
     }
 }

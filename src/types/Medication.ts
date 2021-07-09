@@ -1,3 +1,4 @@
+import { JSONObject, JSONValue } from "../json";
 import { MedicationForm } from "./MedicationForm";
 
 export class Medication {
@@ -11,11 +12,11 @@ export class Medication {
         this.expirationDate = json.expirationDate;
     }
 
-    toJson(): object {
-        let payload: any;
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.form = this.form;
         payload.amount = this.amount;
-        payload.expirationDate = this.expirationDate;
+        payload.expirationDate = this.expirationDate.toJSON();
         return payload;
     }
 }

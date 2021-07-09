@@ -4,6 +4,7 @@ import {PatientInfo} from "../../types/PatientInfo";
 import {Handlers} from "../../Handlers";
 import {PatientModel} from "../../models/PatientModel";
 import {UserSign} from "../../types/UserSign";
+import { PatientMessage } from "../../messages/PatientMessage";
 
 export class PatientService extends JsonRPCCredService
     implements IPatientService {
@@ -31,6 +32,50 @@ export class PatientService extends JsonRPCCredService
                     return rej(err);
 
                 res({patient, userSign});
+            })
+        });
+    }
+
+    public getPatients(limit: number, offset: number,
+        cb: (err: any, patients: PatientMessage[]) => void): void {
+        this.exec(Handlers.HANDLER_GET_PATIENTS_METHOD, {limit, offset}, (err: any, payload: object) => {
+            if (err)
+                return cb(err, null);
+
+            return cb(err, payload['patients']);
+        });
+
+    }
+
+    public getPatientsAsync(limit: number,offset: number): Promise<PatientMessage[]> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPatients(limit, offset, (err, patients) => {
+                if (err)
+                    return rej(err);
+
+                res(patients);
+            })
+        });
+    }
+
+    public getPatientsCount(cb: (err: any, count: number, support: boolean) => void): void {
+        this.exec(Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD, {}, (err: any, payload: object) => {
+            if (err)
+                return cb(err, null, false);
+
+            return cb(err, payload['count'], payload['support']);
+        });
+    }
+
+    public getPatientsCountAsync():Promise<{count: number, support: boolean}> {
+        const service = this;
+        return new Promise((res, rej) => {
+            service.getPatientsCount((err, count, support) => {
+                if (err)
+                    return rej(err);
+
+                res({count, support});
             })
         });
     }

@@ -2,6 +2,7 @@ import { PatientInfo } from "./PatientInfo";
 import { Doctor } from "./Doctor";
 import { Medication } from "./Medication";
 import { Period } from "./Period";
+import { JSONObject, JSONValue } from "../json";
 
 export class PrescriptionInfo {
     id: string;
@@ -30,10 +31,10 @@ export class PrescriptionInfo {
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this.id;
-        payload.created = this.created;
+        payload.created = this.created.toJSON();
         payload.recorderDoctor = this.recorderDoctor.toJson();
         payload.medications = this.medications ? this.medications.map(m => m.toJson()) : [];
         payload.dosageText = this.dosageText;

@@ -1,6 +1,7 @@
 import { ObservationType } from './ObservationType';
 import { ObservationValue } from './ObservationValue';
 import { ObservationRange } from './ObservationRange';
+import { JSONObject, JSONValue } from "../json";
 
 export class ObservationComponent {
     type: ObservationType;
@@ -16,14 +17,14 @@ export class ObservationComponent {
         if (json.ranges)
             for (let i: number = 0; i < json.ranges.length; ++i)
                 this.ranges[i] = (new ObservationRange).fromJson(json.ranges[i]);
-        
+
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.type = this.type;
-        payload.value = this.value;
+        payload.value = this.value.toJson();
         payload.interpretation = this.interpretation;
         payload.ranges = this.ranges ? this.ranges.map(r => r.toJson()) : null;
         return payload;

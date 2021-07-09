@@ -1,6 +1,7 @@
 import { IJsonModel } from './JsonModel';
 import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo } from "../types/index";
 import { copyCommonPropertiesFromJson } from './AppointmentModel';
+import { JSONObject, JSONValue } from "../json";
 
 /**
  * Класс модели записи.
@@ -40,8 +41,8 @@ export class AppointmentResultModel implements IJsonModel {
     get diagnosticReportIds(): string[] { return this._diagnosticReportIds; }
 
     /**
-     * 
-     * @param json 
+     *
+     * @param json
      */
     public fromJson(json: any): AppointmentResultModel {
         copyCommonPropertiesFromJson.call(this, json);
@@ -57,26 +58,24 @@ export class AppointmentResultModel implements IJsonModel {
     }
 
     /**
-     * 
+     *
      */
-    public toJson(): object {
-        let payload: {
-            [key: string]: any
-        } = {
+    public toJson(): JSONValue {
+        let payload: JSONObject = {
             id: this._id,
             patientId: this._patientId
         };
-        payload.business = this._business;
-        payload.created = this._created;
-        payload.start = this._start;
-        payload.doctor = this._doctor;
+        payload.business = this._business.toJson();
+        payload.created = this._created.toJSON();
+        payload.start = this._start.toJSON();
+        payload.doctor = this._doctor.toJson();
         payload.duration = this._duration;
         payload.anamnesis = this._anamnesis;
         payload.medicalExaminationResult = this._medicalExaminationResult;
-        payload.diagnosis = this._diagnosis ? this._diagnosis.map(d => d.toJson()) : [];
-        payload.recommendations = this._recommendations ? this._recommendations.map(r => r.toJson()) : [];
-        payload.scheduledProcedures = this._scheduledProcedures ? this._scheduledProcedures.map(r => r.toJson()) : [];
-        payload.prescriptions = this._prescriptions ? this._prescriptions.map(p => p.toJson()) : [];
+        payload.diagnosis = Array.isArray(this._diagnosis) ? this._diagnosis.map(d => d.toJson()) : [];
+        payload.recommendations = Array.isArray(this._recommendations) ? this._recommendations.map(r => r.toJson()) : [];
+        payload.scheduledProcedures = Array.isArray(this._scheduledProcedures) ? this._scheduledProcedures.map(r => r.toJson()) : [];
+        payload.prescriptions = Array.isArray(this._prescriptions) ? this._prescriptions.map(p => p.toJson()) : [];
         payload.diagnosticReportIds = this._diagnosticReportIds;
         return payload;
     }

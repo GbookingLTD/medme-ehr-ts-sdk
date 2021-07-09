@@ -1,14 +1,26 @@
 import { JsonRPCCredService } from "./jsonRpcService";
-import { PrescriptionModel } from "../../models/PrescriptionModel";
 import { IPrescriptionService } from "../PrescriptionService";
+import { PrescriptionMessage } from "../../messages/PrescriptionMessage";
 export declare class PrescriptionService extends JsonRPCCredService implements IPrescriptionService {
     /**
      * Возвращает назначение по идентификатору.
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    getPrescriptionById(id: string, cb: (err: any, p: PrescriptionModel) => void): void;
-    getPrescriptionByIdAsync(id: string): Promise<PrescriptionModel>;
-    getPatientPrescriptions(patientId: string, limit: number, offset: number, cb: (err: any, p: PrescriptionModel[]) => void): void;
-    getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionModel[]>;
+    getPrescriptionById(id: string, cb: (err: any, p: PrescriptionMessage) => void): void;
+    getPrescriptionByIdAsync(id: string): Promise<PrescriptionMessage>;
+    getPatientPrescriptions(patientId: string, limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
+    getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionMessage[]>;
+    getPrescriptions(limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
+    getPrescriptionsAsync(limit: number, offset: number): Promise<PrescriptionMessage[]>;
+    getPrescriptionsCount(cb: (err: any, count: number, support: boolean) => void): void;
+    getPrescriptionsCountAsync(): Promise<{
+        count: number;
+        support: boolean;
+    }>;
+    getPatientPrescriptionsCount(patientId: string, cb: (err: any, count: number, support: boolean) => void): void;
+    getPatientPrescriptionsCountAsync(patientId: string): Promise<{
+        count: number;
+        support: boolean;
+    }>;
 }

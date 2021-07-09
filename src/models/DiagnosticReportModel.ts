@@ -5,6 +5,7 @@ import { DiagnosticReportStatus } from '../types/DiagnosticReportStatus';
 import { ObservationType } from '../types/ObservationType';
 import { Observation } from '../types/Observation'
 import { Service } from '../types/Service';
+import { JSONObject, JSONValue } from "../json";
 
 /**
  * Класс модели медикаментозного назначения.
@@ -60,7 +61,7 @@ export class DiagnosticReportModel implements IJsonModel {
      * Результаты обследования в нормализованном виде.
      */
     get result(): Observation[] { return this._result; }
-    
+
     /**
      * Врач, который интерпретировал результаты.
      */
@@ -118,13 +119,13 @@ export class DiagnosticReportModel implements IJsonModel {
 
         return this;
     }
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this._id;
         payload.status = this._status;
         payload.type = this._type;
         payload.effectivePeriod = this._effectivePeriod ? this._effectivePeriod.toJson() : null;
-        payload.issuedDate = this._issuedDate;
+        payload.issuedDate = this._issuedDate.toJSON();
         payload.result = this._result ? this._result.map(value => value.toJson()) : null;
         payload.resultInterpreter = this._resultInterpreter ? this._resultInterpreter.map(i => i.toJson()) : null;
         payload.resultInterpretation = this._resultInterpretation;

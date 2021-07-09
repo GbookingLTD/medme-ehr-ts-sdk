@@ -15,7 +15,7 @@ var ObservationComponent = /** @class */ (function () {
     ObservationComponent.prototype.toJson = function () {
         var payload = {};
         payload.type = this.type;
-        payload.value = this.value;
+        payload.value = this.value.toJson();
         payload.interpretation = this.interpretation;
         payload.ranges = this.ranges ? this.ranges.map(function (r) { return r.toJson(); }) : null;
         return payload;

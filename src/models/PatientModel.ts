@@ -4,6 +4,7 @@ import { MaritalStatus } from "../types/MaritalStatus";
 import { FamilyMember } from "../types/FamilyMember";
 import { Insurance } from "../types/Insurance";
 import { Period } from "../types/Period";
+import { JSONObject, JSONValue } from "../json";
 
 export class PatientModel implements IJsonModel {
     private _id: string;
@@ -48,7 +49,7 @@ export class PatientModel implements IJsonModel {
         this._phones = json.phones;
         this._email = json.email;
         this._gender = json.gender;
-        if (json.birthdate && json.birthdate.length && 
+        if (json.birthdate && json.birthdate.length &&
             json.birthdate[json.birthdate.length - 1] !== 'Z')
             json.birthdate += 'Z';
         this._birthdate = new Date(Date.parse(json.birthdate));
@@ -79,10 +80,10 @@ export class PatientModel implements IJsonModel {
                 this._insurances.push(insurance);
             }
         }
-        
+
     }
 
-    public toJson(): object {
-        return this;
+    public toJson(): JSONValue {
+        return this as unknown as JSONObject;
     }
 }

@@ -2,6 +2,7 @@ import { Service } from "./Service";
 import { ProcedureType } from "./ProcedureType";
 import { ProcedureExecStatus } from "./ProcedureExecStatus";
 import { Period } from "./Period";
+import { JSONArray, JSONObject, JSONValue } from "../json";
 
 export class Procedure  {
     public id: string;
@@ -33,10 +34,10 @@ export class Procedure  {
         this.type = json.type;
         this.required = json.required;
         this.status = json.status;
-        
+
         if (json.period)
             this.period.fromJson(json.period);
-        
+
         if (json.strictPeriod)
             this.strictPeriod.fromJson(json.strictPeriod);
 
@@ -46,10 +47,10 @@ export class Procedure  {
         return this;
     }
 
-    toJson(): object {
-        let payload: any;
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this.id;
-        payload.created = this.created;
+        payload.created = this.created.toJSON();
         payload.title = this.title;
         payload.services = this.services ? this.services.map(s => s.toJson()) : [];
         payload.type = this.type;

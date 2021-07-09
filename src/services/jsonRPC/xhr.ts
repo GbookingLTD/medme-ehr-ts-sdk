@@ -9,6 +9,12 @@ if (typeof window === "undefined") {
 import { IJsonRpcHeader, IJsonRpcResponseCallback, IJsonRPCRequest } from "./jsonRpcRequest";
 import { requestCred } from './jsonrpc_cred';
 
+const verbose = true;
+const debug = (...args) => {
+    if (verbose)
+        console.debug.apply(console, args);
+};
+
 export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcHeader, requestPayload: object,
             cb: IJsonRpcResponseCallback) {
     let req = new XMLHttpRequest();
@@ -32,7 +38,7 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
 
     req.onerror = (res: any) => {
         let target: XMLHttpRequest = res.target;
-        console.info('onerror ' + this.status + "\n" + target.response);
+        console.error('onerror ' + this.status + "\n" + target.response);
         if (target.status === 0)
             return cb(new ConnectionError(), null)
         cb(new Error("error request " + endpoint + " method #" + header.method), null);
@@ -41,9 +47,9 @@ export const xhr: IJsonRPCRequest = function(endpoint: string, header: IJsonRpcH
     req.open('POST', endpoint, true);
     //req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(`${header.method} cred=${JSON.stringify(header.cred)} apikey=${header.apiKey}\n${JSON.stringify(requestPayload)}`);
+    debug(`${header.method} cred=${JSON.stringify(header.cred)} apikey=${header.apiKey}\n${JSON.stringify(requestPayload)}`);
     //console.trace();
     let jsonRpcRequest = requestCred(header.id, header.method, header.cred, header.apiKey, requestPayload);
-    //console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
+    debug('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };

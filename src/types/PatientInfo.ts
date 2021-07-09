@@ -1,3 +1,4 @@
+import { JSONObject, JSONValue } from "../json";
 import { Gender } from "./Gender";
 
 export class PatientInfo {
@@ -22,8 +23,8 @@ export class PatientInfo {
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this.id;
         payload.surname = this.surname;
         payload.name = this.name;
@@ -31,7 +32,7 @@ export class PatientInfo {
         payload.phones = this.phones;
         payload.email = this.email;
         payload.gender = this.gender;
-        payload.date = this.date;
+        payload.date = this.date.toJSON();
         return payload;
     }
 }

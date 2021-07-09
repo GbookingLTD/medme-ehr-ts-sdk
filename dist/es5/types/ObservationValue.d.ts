@@ -1,3 +1,4 @@
+import { JSONValue } from "../json";
 import { ObservationUnit } from './ObservationUnit';
 export declare class ObservationValue {
     serializedValue: string;
@@ -5,5 +6,5 @@ export declare class ObservationValue {
     code: string;
     value: string;
     fromJson(json: any): ObservationValue;
-    toJson(): object;
+    toJson(): JSONValue;
 }

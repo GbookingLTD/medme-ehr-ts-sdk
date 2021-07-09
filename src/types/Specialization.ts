@@ -1,3 +1,4 @@
+import { JSONObject, JSONValue } from "../json";
 
 export class Specialization {
     id: string;
@@ -9,8 +10,8 @@ export class Specialization {
         return this;
     }
 
-    toJson(): object{
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this.id;
         payload.name = this.name;
         return payload;

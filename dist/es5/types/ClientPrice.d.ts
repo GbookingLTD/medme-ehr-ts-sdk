@@ -1,3 +1,4 @@
+import { JSONValue } from "../json";
 import { Currency } from "./Currency";
 import { Discount } from "./Discount";
 export declare class ClientPrice {
@@ -8,5 +9,5 @@ export declare class ClientPrice {
     discount: Discount;
     constructor();
     fromJson(json: any): ClientPrice;
-    toJson(): object;
+    toJson(): JSONValue;
 }

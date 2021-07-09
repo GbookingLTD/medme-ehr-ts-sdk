@@ -21,7 +21,7 @@ var PatientInfo = /** @class */ (function () {
         payload.phones = this.phones;
         payload.email = this.email;
         payload.gender = this.gender;
-        payload.date = this.date;
+        payload.date = this.date.toJSON();
         return payload;
     };
     return PatientInfo;

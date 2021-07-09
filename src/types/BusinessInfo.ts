@@ -1,3 +1,4 @@
+import { JSONObject, JSONValue } from "../json";
 
 export class BusinessInfo {
     id: string;
@@ -13,8 +14,8 @@ export class BusinessInfo {
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this.id;
         payload.name = this.name;
         payload.location = this.location;

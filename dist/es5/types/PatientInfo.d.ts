@@ -1,3 +1,4 @@
+import { JSONValue } from "../json";
 import { Gender } from "./Gender";
 export declare class PatientInfo {
     id: string;
@@ -9,5 +10,5 @@ export declare class PatientInfo {
     gender: Gender;
     date: Date;
     fromJson(json: any): PatientInfo;
-    toJson(): object;
+    toJson(): JSONValue;
 }

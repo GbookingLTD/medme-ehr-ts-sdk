@@ -34,10 +34,8 @@ var AppointmentResultService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD, { id: id }, function (err, payload) {
             if (err)
                 return cb(err, null);
-            var app = new AppointmentResultModel_1.AppointmentResultModel();
             _this.lastValidationErrors_ = payload['validationErrors'];
-            app.fromJson(payload['appointmentResult']);
-            return cb(null, app);
+            return cb(null, payload['appointmentResult']);
         });
     };
     AppointmentResultService.prototype.getAppointmentResultByIdAsync = function (id) {
@@ -73,6 +71,64 @@ var AppointmentResultService = /** @class */ (function (_super) {
                 if (err)
                     return rej(err);
                 res(appResults);
+            });
+        });
+    };
+    AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, cb) {
+        var _this = this;
+        var params = { limit: limit, offset: offset };
+        this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
+            return cb(null, payload['appointmentResults']);
+        });
+    };
+    AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getAppointmentResults(limit, offset, function (err, appResults) {
+                if (err)
+                    return rej(err);
+                res(appResults);
+            });
+        });
+    };
+    AppointmentResultService.prototype.getAppointmentResultsCount = function (cb) {
+        var _this = this;
+        this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_COUNT_METHOD, {}, function (err, payload) {
+            if (err)
+                return cb(err, null, false);
+            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
+            cb(null, payload['count'], payload['support']);
+        });
+    };
+    AppointmentResultService.prototype.getAppointmentResultsCountAsync = function () {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getAppointmentResultsCount(function (err, count, support) {
+                if (err)
+                    return rej(err);
+                res({ count: count, support: support });
+            });
+        });
+    };
+    AppointmentResultService.prototype.getPatientAppointmentResultsCount = function (patientId, cb) {
+        var _this = this;
+        this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
+            if (err)
+                return cb(err, null, false);
+            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
+            cb(null, payload['count'], payload['support']);
+        });
+    };
+    AppointmentResultService.prototype.getPatientAppointmentResultsCountAsync = function (patientId) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getPatientAppointmentResultsCount(patientId, function (err, count, support) {
+                if (err)
+                    return rej(err);
+                res({ count: count, support: support });
             });
         });
     };

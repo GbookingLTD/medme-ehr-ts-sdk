@@ -26,9 +26,9 @@ var Procedure = /** @class */ (function () {
         return this;
     };
     Procedure.prototype.toJson = function () {
-        var payload;
+        var payload = {};
         payload.id = this.id;
-        payload.created = this.created;
+        payload.created = this.created.toJSON();
         payload.title = this.title;
         payload.services = this.services ? this.services.map(function (s) { return s.toJson(); }) : [];
         payload.type = this.type;

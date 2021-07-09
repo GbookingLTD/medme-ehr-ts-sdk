@@ -104,17 +104,17 @@ var AppointmentResultModel = /** @class */ (function () {
             id: this._id,
             patientId: this._patientId
         };
-        payload.business = this._business;
-        payload.created = this._created;
-        payload.start = this._start;
-        payload.doctor = this._doctor;
+        payload.business = this._business.toJson();
+        payload.created = this._created.toJSON();
+        payload.start = this._start.toJSON();
+        payload.doctor = this._doctor.toJson();
         payload.duration = this._duration;
         payload.anamnesis = this._anamnesis;
         payload.medicalExaminationResult = this._medicalExaminationResult;
-        payload.diagnosis = this._diagnosis ? this._diagnosis.map(function (d) { return d.toJson(); }) : [];
-        payload.recommendations = this._recommendations ? this._recommendations.map(function (r) { return r.toJson(); }) : [];
-        payload.scheduledProcedures = this._scheduledProcedures ? this._scheduledProcedures.map(function (r) { return r.toJson(); }) : [];
-        payload.prescriptions = this._prescriptions ? this._prescriptions.map(function (p) { return p.toJson(); }) : [];
+        payload.diagnosis = Array.isArray(this._diagnosis) ? this._diagnosis.map(function (d) { return d.toJson(); }) : [];
+        payload.recommendations = Array.isArray(this._recommendations) ? this._recommendations.map(function (r) { return r.toJson(); }) : [];
+        payload.scheduledProcedures = Array.isArray(this._scheduledProcedures) ? this._scheduledProcedures.map(function (r) { return r.toJson(); }) : [];
+        payload.prescriptions = Array.isArray(this._prescriptions) ? this._prescriptions.map(function (p) { return p.toJson(); }) : [];
         payload.diagnosticReportIds = this._diagnosticReportIds;
         return payload;
     };

@@ -3,6 +3,7 @@ import { Gender } from "../types/Gender";
 import { MaritalStatus } from "../types/MaritalStatus";
 import { FamilyMember } from "../types/FamilyMember";
 import { Insurance } from "../types/Insurance";
+import { JSONValue } from "../json";
 export declare class PatientModel implements IJsonModel {
     private _id;
     private _active;
@@ -36,5 +37,5 @@ export declare class PatientModel implements IJsonModel {
     get medcardNumber(): string;
     get insurances(): Insurance[];
     fromJson(json: any): void;
-    toJson(): object;
+    toJson(): JSONValue;
 }

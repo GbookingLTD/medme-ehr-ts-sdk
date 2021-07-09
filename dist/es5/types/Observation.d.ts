@@ -7,6 +7,7 @@ import { Period } from './Period';
 import { ObservationValue } from './ObservationValue';
 import { ObservationRange } from './ObservationRange';
 import { ObservationComponent } from './ObservationComponent';
+import { JSONValue } from "../json";
 export declare class Observation {
     id: string;
     createdDate: Date;
@@ -25,5 +26,5 @@ export declare class Observation {
     components: ObservationComponent[];
     constructor();
     fromJson(json: any): Observation;
-    toJson(): object;
+    toJson(): JSONValue;
 }

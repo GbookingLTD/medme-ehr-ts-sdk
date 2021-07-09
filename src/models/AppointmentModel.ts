@@ -3,6 +3,7 @@ import { IJsonModel } from './JsonModel';
 
 import { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus,
     ClientPrice, AppointmentSource, AppointmentHistoryItem } from "../types/index";
+import { JSONObject, JSONValue } from "../json";
 
 export function copyCommonPropertiesFromJson(json: any) {
     this._id = json.id;
@@ -39,7 +40,7 @@ export class AppointmentModel implements IJsonModel {
     private _history: AppointmentHistoryItem[];
 
     constructor() {}
-    
+
     get id(): string { return this._id; }
     get patientId(): string { return this._patientId; }
     get business(): BusinessInfo { return this._business; }
@@ -56,8 +57,8 @@ export class AppointmentModel implements IJsonModel {
     get history(): AppointmentHistoryItem[] { return this._history; }
 
     /**
-     * 
-     * @param json 
+     *
+     * @param json
      */
     public fromJson(json: any) {
         copyCommonPropertiesFromJson.call(this, json);
@@ -73,27 +74,32 @@ export class AppointmentModel implements IJsonModel {
     }
 
     /**
-     * 
+     *
      */
-    public toJson(): object {
-        let payload: {
-            [key: string]: any
-        } = {
+    public toJson(): JSONValue {
+        let payload: JSONObject = {
             id: this._id,
             patientId: this._patientId
         };
-        payload.business = this._business;
-        payload.created = this._created;
-        payload.start = this._start;
-        payload.doctor = this._doctor;
-        payload.services = this._services;
+        payload.business = this._business.toJson();
+        payload.created = this._created.toJSON();
+        payload.start = this._start.toJSON();
+        payload.doctor = this._doctor.toJson();
+        payload.services = Array.isArray(this._services) ? this._services.map(s => s.toJson()) : null;
         payload.duration = this._duration;
         payload.status = this._confirmationStatus;
         payload.clientAppear = this._clientAppear;
         payload.resultId = this._resultId;
-        payload.clientPrice = this._clientPrice;
+        payload.clientPrice = this._clientPrice.toJson();
         payload.source = this._source;
-        payload.history = this._history;
         return payload;
+    }
+
+    public toJSON() {
+        return this.toJson();
+    }
+
+    public toString(): string {
+        return JSON.stringify(this.toJson());
     }
 }

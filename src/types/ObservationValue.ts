@@ -1,3 +1,4 @@
+import { JSONObject, JSONValue } from "../json";
 import { ObservationUnit } from './ObservationUnit';
 
 export class ObservationValue
@@ -15,8 +16,8 @@ export class ObservationValue
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.serializedValue = this.serializedValue;
         payload.unit = this.unit;
         payload.code = this.code;

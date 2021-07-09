@@ -1,3 +1,4 @@
+import { JSONObject, JSONValue } from "../json";
 import { Currency } from "./Currency";
 import { Discount } from "./Discount";
 
@@ -22,8 +23,8 @@ export class ClientPrice {
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.currency = this.currency;
         payload.originValue = this.originValue;
         payload.discountValue = this.discountValue;

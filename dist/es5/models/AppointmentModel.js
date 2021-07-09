@@ -109,19 +109,24 @@ var AppointmentModel = /** @class */ (function () {
             id: this._id,
             patientId: this._patientId
         };
-        payload.business = this._business;
-        payload.created = this._created;
-        payload.start = this._start;
-        payload.doctor = this._doctor;
-        payload.services = this._services;
+        payload.business = this._business.toJson();
+        payload.created = this._created.toJSON();
+        payload.start = this._start.toJSON();
+        payload.doctor = this._doctor.toJson();
+        payload.services = Array.isArray(this._services) ? this._services.map(function (s) { return s.toJson(); }) : null;
         payload.duration = this._duration;
         payload.status = this._confirmationStatus;
         payload.clientAppear = this._clientAppear;
         payload.resultId = this._resultId;
-        payload.clientPrice = this._clientPrice;
+        payload.clientPrice = this._clientPrice.toJson();
         payload.source = this._source;
-        payload.history = this._history;
         return payload;
+    };
+    AppointmentModel.prototype.toJSON = function () {
+        return this.toJson();
+    };
+    AppointmentModel.prototype.toString = function () {
+        return JSON.stringify(this.toJson());
     };
     return AppointmentModel;
 }());

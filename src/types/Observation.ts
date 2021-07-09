@@ -7,6 +7,7 @@ import { Period } from './Period';
 import { ObservationValue } from './ObservationValue';
 import { ObservationRange } from './ObservationRange';
 import { ObservationComponent } from './ObservationComponent';
+import { JSONObject, JSONValue } from "../json";
 
 export class Observation {
     id: string;
@@ -62,7 +63,7 @@ export class Observation {
             this.value.fromJson(json.value);
 
         this.note = json.note;
-        
+
         this.interpretation = [];
         if (json.interpretation)
             for (let i: number = 0; i < json.interpretation.length; ++i)
@@ -72,7 +73,7 @@ export class Observation {
         if (json.ranges)
             for (let i: number = 0; i < json.ranges.length; ++i)
                 this.ranges.push((new ObservationRange).fromJson(json.ranges[i]));
-        
+
         this.components = [];
         if (json.components)
             for (let i: number = 0; i < json.components.length; ++i)
@@ -81,16 +82,16 @@ export class Observation {
         return this;
     }
 
-    toJson(): object{
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this.id;
-        payload.createdDate = this.createdDate;
+        payload.createdDate = this.createdDate.toJSON();
         payload.patientInfo = this.patientInfo ? this.patientInfo.toJson() : null;
         payload.type = this.type;
         payload.observationKey = this.observationKey;
         payload.status = this.status;
         payload.effectivePeriod = this.effectivePeriod ? this.effectivePeriod.toJson() : null;
-        payload.issuedDate = this.issuedDate;
+        payload.issuedDate = this.issuedDate.toJSON();
         payload.performerDoctor = this.performerDoctor ? this.performerDoctor.toJson() : null;
         payload.performerBusiness = this.performerBusiness ? this.performerBusiness.toJson() : null;
         payload.value = this.value ? this.value.toJson() : null;

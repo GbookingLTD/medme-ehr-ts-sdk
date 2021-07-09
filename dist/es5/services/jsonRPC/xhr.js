@@ -6,6 +6,15 @@ else {
     var XMLHttpRequest = window.XMLHttpRequest;
 }
 import { requestCred } from './jsonrpc_cred';
+var verbose = true;
+var debug = function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    if (verbose)
+        console.debug.apply(console, args);
+};
 export var xhr = function (endpoint, header, requestPayload, cb) {
     var _this = this;
     var req = new XMLHttpRequest();
@@ -28,7 +37,7 @@ export var xhr = function (endpoint, header, requestPayload, cb) {
     };
     req.onerror = function (res) {
         var target = res.target;
-        console.info('onerror ' + _this.status + "\n" + target.response);
+        console.error('onerror ' + _this.status + "\n" + target.response);
         if (target.status === 0)
             return cb(new ConnectionError(), null);
         cb(new Error("error request " + endpoint + " method #" + header.method), null);
@@ -36,9 +45,9 @@ export var xhr = function (endpoint, header, requestPayload, cb) {
     req.open('POST', endpoint, true);
     //req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(header.method + " cred=" + JSON.stringify(header.cred) + " apikey=" + header.apiKey + "\n" + JSON.stringify(requestPayload));
+    debug(header.method + " cred=" + JSON.stringify(header.cred) + " apikey=" + header.apiKey + "\n" + JSON.stringify(requestPayload));
     //console.trace();
     var jsonRpcRequest = requestCred(header.id, header.method, header.cred, header.apiKey, requestPayload);
-    //console.log('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
+    debug('jsonRpcRequest.serialize()', jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };

@@ -1,3 +1,4 @@
+import { JSONValue } from "../json";
 export declare class Diagnosis {
     description: string;
     cd10: string;
@@ -6,5 +7,5 @@ export declare class Diagnosis {
      * @param json json object
      */
     constructor(json: any);
-    toJson(): object;
+    toJson(): JSONValue;
 }

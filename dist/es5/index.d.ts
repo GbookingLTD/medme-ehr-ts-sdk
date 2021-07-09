@@ -32,4 +32,7 @@ export declare const EHR: {
         SimpleTextFormatter: typeof import("./formatters/SimpleTextFormatter").SimpleTextFormatter;
     };
     Handlers: typeof Handlers;
+    Messages: {
+        AppointmentMessage: typeof import("./messages/AppointmentMessage").AppointmentMessage;
+    };
 };

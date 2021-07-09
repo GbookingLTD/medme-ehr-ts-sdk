@@ -2,6 +2,7 @@ import { Service } from "./Service";
 import { ProcedureType } from "./ProcedureType";
 import { ProcedureExecStatus } from "./ProcedureExecStatus";
 import { Period } from "./Period";
+import { JSONValue } from "../json";
 export declare class Procedure {
     id: string;
     created: Date;
@@ -17,5 +18,5 @@ export declare class Procedure {
     appointmentResultId: string;
     constructor();
     fromJson(json: any): Procedure;
-    toJson(): object;
+    toJson(): JSONValue;
 }

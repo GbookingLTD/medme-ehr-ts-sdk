@@ -1,5 +1,6 @@
 import { IJsonModel } from './JsonModel';
 import { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, AppointmentSource, AppointmentHistoryItem } from "../types/index";
+import { JSONValue } from "../json";
 export declare function copyCommonPropertiesFromJson(json: any): void;
 /**
  * Класс модели записи.
@@ -43,5 +44,7 @@ export declare class AppointmentModel implements IJsonModel {
     /**
      *
      */
-    toJson(): object;
+    toJson(): JSONValue;
+    toJSON(): JSONValue;
+    toString(): string;
 }

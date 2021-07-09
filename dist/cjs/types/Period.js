@@ -11,8 +11,8 @@ var Period = /** @class */ (function () {
     };
     Period.prototype.toJson = function () {
         var payload = {};
-        payload.begin = this.begin;
-        payload.end = this.end;
+        payload.begin = this.begin.toJSON();
+        payload.end = this.end.toJSON();
         return payload;
     };
     return Period;

@@ -110,6 +110,64 @@ var AppointmentService = /** @class */ (function (_super) {
             });
         });
     };
+    AppointmentService.prototype.getAppointments = function (limit, offset, cb) {
+        var _this = this;
+        var params = { limit: limit, offset: offset };
+        this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_METHOD, params, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
+            cb(null, payload['appointments']);
+        });
+    };
+    AppointmentService.prototype.getAppointmentsAsync = function (limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getAppointments(limit, offset, function (err, appointments) {
+                if (err)
+                    return rej(err);
+                res(appointments);
+            });
+        });
+    };
+    AppointmentService.prototype.getAppointmentsCount = function (cb) {
+        var _this = this;
+        this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_COUNT_METHOD, {}, function (err, payload) {
+            if (err)
+                return cb(err, null, false);
+            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
+            cb(null, payload['count'], payload['support']);
+        });
+    };
+    AppointmentService.prototype.getAppointmentsCountAsync = function () {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getAppointmentsCount(function (err, count, support) {
+                if (err)
+                    return rej(err);
+                res({ count: count, support: support });
+            });
+        });
+    };
+    AppointmentService.prototype.getPatientAppointmentsCount = function (patientId, cb) {
+        var _this = this;
+        this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
+            if (err)
+                return cb(err, null, false);
+            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
+            cb(null, payload['count'], payload['support']);
+        });
+    };
+    AppointmentService.prototype.getPatientAppointmentsCountAsync = function (patientId) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getPatientAppointmentsCount(patientId, function (err, count, support) {
+                if (err)
+                    return rej(err);
+                res({ count: count, support: support });
+            });
+        });
+    };
     return AppointmentService;
 }(jsonRpcService_1.JsonRPCCredService));
 exports.AppointmentService = AppointmentService;

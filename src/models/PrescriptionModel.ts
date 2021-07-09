@@ -1,6 +1,7 @@
 import { IJsonModel } from './JsonModel';
 import { PrescriptionInfo } from "../types/index";
 import { PatientInfo } from '../types/PatientInfo';
+import { JSONObject, JSONValue } from "../json";
 
 /**
  * Класс модели медикаментозного назначения.
@@ -15,7 +16,8 @@ export class PrescriptionModel extends PrescriptionInfo implements IJsonModel {
         this.patientInfo.fromJson(json.patientInfo);
         return this;
     }
-    toJson(): object {
-        return this as object;
+
+    toJson(): JSONValue {
+        return this as unknown as JSONObject;
     }
 }

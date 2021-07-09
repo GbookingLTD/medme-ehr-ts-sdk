@@ -1,6 +1,7 @@
 import { ObservationUnit } from './ObservationUnit';
 import { ObservationType } from './ObservationType';
 import { Period } from './Period';
+import { JSONObject, JSONValue } from "../json";
 
 export class ObservationRange {
     low: number;
@@ -25,8 +26,8 @@ export class ObservationRange {
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.low = this.low;
         payload.high = this.high;
         payload.unit = this.unit;

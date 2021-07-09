@@ -1,3 +1,4 @@
+import { JSONObject, JSONValue } from "../json";
 import { ClientPrice } from "./ClientPrice";
 
 export class Service {
@@ -19,8 +20,8 @@ export class Service {
         return this;
     }
 
-    toJson(): object {
-        let payload: any = {};
+    toJson(): JSONValue {
+        let payload: JSONObject = {};
         payload.id = this.id;
         payload.name = this.name;
         payload.price = this.price ? this.price.toJson() : null;

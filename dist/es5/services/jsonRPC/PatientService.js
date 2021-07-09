@@ -44,6 +44,40 @@ var PatientService = /** @class */ (function (_super) {
             });
         });
     };
+    PatientService.prototype.getPatients = function (limit, offset, cb) {
+        this.exec(Handlers.HANDLER_GET_PATIENTS_METHOD, { limit: limit, offset: offset }, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            return cb(err, payload['patients']);
+        });
+    };
+    PatientService.prototype.getPatientsAsync = function (limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getPatients(limit, offset, function (err, patients) {
+                if (err)
+                    return rej(err);
+                res(patients);
+            });
+        });
+    };
+    PatientService.prototype.getPatientsCount = function (cb) {
+        this.exec(Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD, {}, function (err, payload) {
+            if (err)
+                return cb(err, null, false);
+            return cb(err, payload['count'], payload['support']);
+        });
+    };
+    PatientService.prototype.getPatientsCountAsync = function () {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getPatientsCount(function (err, count, support) {
+                if (err)
+                    return rej(err);
+                res({ count: count, support: support });
+            });
+        });
+    };
     return PatientService;
 }(JsonRPCCredService));
 export { PatientService };

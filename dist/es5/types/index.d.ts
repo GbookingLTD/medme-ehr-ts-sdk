@@ -15,4 +15,6 @@ import { Procedure } from "./Procedure";
 import { PrescriptionInfo } from "./PrescriptionInfo";
 import { PatientInfo } from "./PatientInfo";
 import { PatientInputProperties } from "./PatientInputProperties";
-export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentSource, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties };
+import { Medication } from "./Medication";
+import { Period } from "./Period";
+export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentSource, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties, Medication, Period };
