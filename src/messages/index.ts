@@ -1,5 +1,5 @@
-import {AppointmentMessage} from './AppointmentMessage'
+import { AppointmentMessage } from "./AppointmentMessage";
 
 export default {
-    AppointmentMessage
+  AppointmentMessage,
 };

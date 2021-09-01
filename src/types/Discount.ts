@@ -2,19 +2,19 @@ import { JSONObject, JSONValue } from "../json";
 import { DiscountType } from "./DiscountType";
 
 export class Discount {
-    discountType: DiscountType;
-    discountPercent: number;
+  discountType: DiscountType;
+  discountPercent: number;
 
-    fromJson(json: any): Discount {
-        this.discountType = json.discountType;
-        this.discountPercent = json.discountPercent;
-        return this;
-    }
+  fromJson(json: any): Discount {
+    this.discountType = json.discountType;
+    this.discountPercent = json.discountPercent;
+    return this;
+  }
 
-    toJson(): JSONValue {
-        let payload: JSONObject = {};
-        payload.discountType = this.discountType;
-        payload.discountPercent = this.discountPercent;
-        return payload;
-    }
+  toJson(): JSONValue {
+    let payload: JSONObject = {};
+    payload.discountType = this.discountType;
+    payload.discountPercent = this.discountPercent;
+    return payload;
+  }
 }

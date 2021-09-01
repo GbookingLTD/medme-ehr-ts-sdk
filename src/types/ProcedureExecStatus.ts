@@ -1,7 +1,6 @@
-
 export enum ProcedureExecStatus {
-    Scheduled,
-    InProgress,
-    Rejected,
-    Completed
+  Scheduled,
+  InProgress,
+  Rejected,
+  Completed,
 }

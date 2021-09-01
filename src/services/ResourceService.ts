@@ -1,6 +1,5 @@
 export interface IResourceService {
+  getLastValidationErrors(): string[];
 
-    getLastValidationErrors(): string[];
-
-    getLastValidationErrorsOfList(): string[][];
+  getLastValidationErrorsOfList(): string[][];
 }

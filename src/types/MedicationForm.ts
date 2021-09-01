@@ -1,5 +1,5 @@
 export enum MedicationForm {
-    Powder,
-    Tablets,
-    Capsule
-};
+  Powder,
+  Tablets,
+  Capsule,
+}

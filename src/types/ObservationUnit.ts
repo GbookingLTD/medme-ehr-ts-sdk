@@ -1,3 +1,1 @@
-export enum ObservationUnit {
-    
-}
+export enum ObservationUnit {}

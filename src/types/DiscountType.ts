@@ -1,4 +1,4 @@
 export enum DiscountType {
-    Percent,
-    Absolute
-};
+  Percent,
+  Absolute,
+}

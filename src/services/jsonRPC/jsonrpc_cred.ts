@@ -2,13 +2,19 @@
  jsonrpc 2.0 extention for the "cred" property supports.
 */
 
-import * as jsonrpc from './jsonrpc';
+import * as jsonrpc from "./jsonrpc";
 import { Credentials } from "../Credentials";
 
 export class RequestCredObject extends jsonrpc.RequestObject {
   public cred: Credentials;
   public apiKey: string;
-  constructor(id: jsonrpc.ID, method: string, cred: Credentials, apiKey: string, params?: jsonrpc.RpcParams) {
+  constructor(
+    id: jsonrpc.ID,
+    method: string,
+    cred: Credentials,
+    apiKey: string,
+    params?: jsonrpc.RpcParams
+  ) {
     super(id, method, params);
     this.cred = cred;
     this.apiKey = apiKey;
@@ -25,16 +31,14 @@ export class RequestCredObject extends jsonrpc.RequestObject {
  * @return {Object} JsonRpc object
  * @api public
  */
-export function requestCred (
-    id: jsonrpc.ID,
-    method: string,
-    cred: Credentials,
-    apiKey: string,
-    params?: jsonrpc.RpcParams,
-  ): RequestCredObject {
-    // call "standart" request function for validate message
-    jsonrpc.request(id, method, params);
-    return new RequestCredObject(id, method, cred, apiKey, params);
-  }
-
-
+export function requestCred(
+  id: jsonrpc.ID,
+  method: string,
+  cred: Credentials,
+  apiKey: string,
+  params?: jsonrpc.RpcParams
+): RequestCredObject {
+  // call "standart" request function for validate message
+  jsonrpc.request(id, method, params);
+  return new RequestCredObject(id, method, cred, apiKey, params);
+}

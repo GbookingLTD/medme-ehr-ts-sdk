@@ -4,127 +4,174 @@ import { PrescriptionModel } from "../../models/PrescriptionModel";
 import { IPrescriptionService } from "../PrescriptionService";
 import { PrescriptionMessage } from "../../messages/PrescriptionMessage";
 
-export class PrescriptionService extends JsonRPCCredService implements IPrescriptionService {
+export class PrescriptionService
+  extends JsonRPCCredService
+  implements IPrescriptionService
+{
+  /**
+   * Возвращает назначение по идентификатору.
+   * @param id идентификатор результата записи
+   * @param cb callback
+   */
+  public getPrescriptionById(
+    id: string,
+    cb: (err: any, p: PrescriptionMessage) => void
+  ): void {
+    this.exec(
+      Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD,
+      { id: id },
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
 
+        this.lastValidationErrors_ = payload["validationErrors"];
+        cb(null, payload["prescription"]);
+      }
+    );
+  }
 
-    /**
-     * Возвращает назначение по идентификатору.
-     * @param id идентификатор результата записи
-     * @param cb callback
-     */
-    public getPrescriptionById(id: string, cb: (err: any, p: PrescriptionMessage) => void): void {
-        this.exec(Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, {id: id}, (err: any, payload: object) => {
-            if (err)
-                return cb(err, null);
+  public getPrescriptionByIdAsync(id: string): Promise<PrescriptionMessage> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getPrescriptionById(id, (err: any, pm: PrescriptionMessage) => {
+        if (err) return rej(err);
 
-            this.lastValidationErrors_ = payload['validationErrors'];
-            cb(null, payload['prescription']);
-        });
-    }
+        res(pm);
+      });
+    });
+  }
 
-    public getPrescriptionByIdAsync(id: string): Promise<PrescriptionMessage> {
-        const service = this;
-        return new Promise((res, rej) => {
-            service.getPrescriptionById(id, (err: any, pm: PrescriptionMessage) => {
-                if (err)
-                    return rej(err);
+  public getPatientPrescriptions(
+    patientId: string,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: PrescriptionMessage[]) => void
+  ): void {
+    let params = { patientId: patientId, limit: limit, offset: offset };
+    this.exec(
+      Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD,
+      params,
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
 
-                res(pm);
-            });
-        });
-    }
+        this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        return cb(null, payload["prescriptions"]);
+      }
+    );
+  }
 
-    public getPatientPrescriptions(patientId: string, limit: number, offset: number,
-            cb: (err: any, p: PrescriptionMessage[]) => void): void {
-        let params = {patientId: patientId, limit: limit, offset: offset};
-        this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, (err: any, payload: object) => {
-            if (err)
-                return cb(err, null);
+  public getPatientPrescriptionsAsync(
+    patientId: string,
+    limit: number,
+    offset: number
+  ): Promise<PrescriptionMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getPatientPrescriptions(
+        patientId,
+        limit,
+        offset,
+        (err: any, values: PrescriptionMessage[]) => {
+          if (err) return rej(err);
 
-            this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            return cb(null, payload['prescriptions']);
-        });
-    }
+          res(values);
+        }
+      );
+    });
+  }
 
-    public getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionMessage[]> {
-        const service = this;
-        return new Promise((res, rej) => {
-            service.getPatientPrescriptions(patientId, limit, offset, (err: any, values: PrescriptionMessage[]) => {
-                if (err)
-                    return rej(err);
+  getPrescriptions(
+    limit: number,
+    offset: number,
+    cb: (err: any, p: PrescriptionMessage[]) => void
+  ): void {
+    let params = { limit: limit, offset: offset };
+    this.exec(
+      Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD,
+      params,
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
 
-                res(values);
-            });
-        });
-    }
+        this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        return cb(null, payload["prescriptions"]);
+      }
+    );
+  }
 
-    getPrescriptions(limit: number, offset: number,
-        cb: (err: any, p: PrescriptionMessage[]) => void): void {
-        let params = {limit: limit, offset: offset};
-        this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, (err: any, payload: object) => {
-            if (err)
-                return cb(err, null);
+  getPrescriptionsAsync(
+    limit: number,
+    offset: number
+  ): Promise<PrescriptionMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getPrescriptions(
+        limit,
+        offset,
+        (err: any, values: PrescriptionMessage[]) => {
+          if (err) return rej(err);
 
-            this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            return cb(null, payload['prescriptions']);
-        });
-    }
+          res(values);
+        }
+      );
+    });
+  }
 
-    getPrescriptionsAsync(limit: number, offset: number): Promise<PrescriptionMessage[]> {
-        const service = this;
-        return new Promise((res, rej) => {
-            service.getPrescriptions(limit, offset, (err: any, values: PrescriptionMessage[]) => {
-                if (err)
-                    return rej(err);
+  getPrescriptionsCount(
+    cb: (err: any, count: number, support: boolean) => void
+  ): void {
+    this.exec(
+      Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD,
+      {},
+      (err: any, payload: object) => {
+        if (err) return cb(err, null, false);
 
-                res(values);
-            });
-        });
-    }
+        this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["count"], payload["support"]);
+      }
+    );
+  }
 
-    getPrescriptionsCount(cb: (err: any, count: number, support: boolean) => void): void {
-        this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD, {}, (err: any, payload: object) => {
-            if (err)
-                return cb(err, null, false);
+  getPrescriptionsCountAsync(): Promise<{ count: number; support: boolean }> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getPrescriptionsCount(
+        (err: any, count: number, support: boolean) => {
+          if (err) return rej(err);
 
-            this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
-        });
+          res({ count, support });
+        }
+      );
+    });
+  }
 
-    }
+  getPatientPrescriptionsCount(
+    patientId: string,
+    cb: (err: any, count: number, support: boolean) => void
+  ): void {
+    this.exec(
+      Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD,
+      { patientId },
+      (err: any, payload: object) => {
+        if (err) return cb(err, null, false);
 
-    getPrescriptionsCountAsync():Promise<{count: number, support: boolean}> {
-        const service = this;
-        return new Promise((res, rej) => {
-            service.getPrescriptionsCount((err: any, count: number, support: boolean) => {
-                if (err)
-                    return rej(err);
+        this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["count"], payload["support"]);
+      }
+    );
+  }
 
-                res({count, support});
-            });
-        });
+  getPatientPrescriptionsCountAsync(
+    patientId: string
+  ): Promise<{ count: number; support: boolean }> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getPatientPrescriptionsCount(
+        patientId,
+        (err: any, count: number, support: boolean) => {
+          if (err) return rej(err);
 
-    }
-
-    getPatientPrescriptionsCount(patientId: string, cb: (err: any, count: number, support: boolean) => void): void {
-        this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD, {patientId}, (err: any, payload: object) => {
-            if (err)
-                return cb(err, null, false);
-
-            this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
-        });
-    }
-
-    getPatientPrescriptionsCountAsync(patientId: string):Promise<{count: number, support: boolean}> {
-        const service = this;
-        return new Promise((res, rej) => {
-            service.getPatientPrescriptionsCount(patientId, (err: any, count: number, support: boolean) => {
-                if (err)
-                    return rej(err);
-
-                res({count, support});
-            });
-        });
-    }
+          res({ count, support });
+        }
+      );
+    });
+  }
 }

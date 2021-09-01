@@ -1,5 +1,5 @@
 export enum ProcedureType {
-    Recomendation,
-    Precedure,
-    Analisys
-};
+  Recomendation,
+  Precedure,
+  Analisys,
+}
