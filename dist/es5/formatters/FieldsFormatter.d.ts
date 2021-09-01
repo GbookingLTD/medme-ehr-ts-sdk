@@ -1,17 +1,23 @@
-import { Doctor } from "../types/Doctor";
-import { Diagnosis } from "../types/Diagnosis";
-import { Procedure } from "../types/Procedure";
-import { PrescriptionInfo } from "../types/PrescriptionInfo";
-import { Service } from "../types/Service";
-import { ProcedureType } from "../types/ProcedureType";
-import { ProcedureExecStatus } from "../types/ProcedureExecStatus";
-import { Period } from "../types/Period";
-import { Observation } from "../types/Observation";
-import { Medication } from "../types/Medication";
-import { DateFormatFunc, IFormatter } from "./Formatter";
+import { DateFormatFunc, IFormatter, LocaleCode } from "./Formatter";
 import { AppointmentResultMessage } from "../messages/AppointmentResultMessage";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
-export declare class SimpleTextFormatter implements IFormatter<string> {
+import { Diagnosis, Procedure, PrescriptionInfo, Medication, Period } from "../types/index";
+import { Observation } from "../types/Observation";
+export declare enum FieldType {
+    Text = "text",
+    List = "list",
+    FieldList = "fieldList",
+    Date = "date",
+    DateTime = "dateTime"
+}
+declare type FieldValue = string | Field[] | Date | string[];
+export declare class Field {
+    key: string;
+    title: string;
+    type: FieldType;
+    value: FieldValue;
+}
+export declare class FieldsFormatter implements IFormatter<Field[]> {
     static LOCALIZE: {
         "ru-ru": {
             MINUTE_UNIT: string;
@@ -130,31 +136,25 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
             };
         };
     };
+    static create(locale: LocaleCode, dateFormat?: DateFormatFunc): FieldsFormatter;
     private _localize;
     private _dateFormat;
-    private _baseOffset;
     constructor(localize: object, dateFormat?: DateFormatFunc);
-    appointmentResult(ar: AppointmentResultMessage, offset?: string): string;
-    medicalExaminationResult(ar: string[], offset: string): string;
-    anamnesis(ar: string[], offset: string): string;
+    appointmentResult(ar: AppointmentResultMessage): Field[];
+    diagnosis(d: Diagnosis[]): Field[];
+    procedure(p: Procedure): Field[];
+    procedures(p: Procedure[]): Field[];
+    prescriptions(p: PrescriptionInfo[]): string;
+    prescription(p: PrescriptionInfo): Field[];
+    medications(s: Medication[]): string;
+    medication(s: Medication): Field[];
+    diagnosticReport(dr: DiagnosticReportMessage): Field[];
+    observation(o: Observation): Field[];
+    anamnesis(a: string[]): string;
     duration(n: number): string;
-    doctor(d: Doctor, offset?: string): string;
-    diagnosis(d: Diagnosis[]): string;
-    diagnosisOffset(d: Diagnosis[], offset: string): string;
-    procedures(p: Procedure[], offset: string): string;
-    procedure(p: Procedure, offset?: string): string;
-    yesNo(b: boolean, offset: string): string;
-    prescriptions(p: PrescriptionInfo[], offset: string): string;
-    prescription(p: PrescriptionInfo, offset?: string): string;
-    medications(s: Medication[], offset: string): string;
-    medication(s: Medication, offset?: string): string;
-    services(s: Service[], offset: string): string;
-    service(s: Service, offset: string): string;
-    procedureType(type: ProcedureType): string;
-    procedureExecStatus(status: ProcedureExecStatus): string;
+    private doctor;
+    private yesNo;
+    medicalExaminationResult(ar: string[], offset: string): string;
     period(period: Period, offset: string): string;
-    diagnosticReport(dr: DiagnosticReportMessage, offset?: string): string;
-    diagnosticReportTitle(dr: DiagnosticReportMessage): string;
-    observations(o: Observation[], offset: string): string;
-    observation(o: Observation, offset?: string): string;
 }
+export {};

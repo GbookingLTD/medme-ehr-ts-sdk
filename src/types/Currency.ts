@@ -1,4 +1,4 @@
 export enum Currency {
-    Rur,
-    Usd,
-};
+  Rur,
+  Usd,
+}

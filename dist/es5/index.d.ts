@@ -29,7 +29,9 @@ export declare const EHR: {
         RpcErrorCodes: typeof import("./services/RpcErrorCodes").RpcErrorCodes;
     };
     Formatters: {
+        LocaleCode: typeof import("./formatters/Formatter").LocaleCode;
         SimpleTextFormatter: typeof import("./formatters/SimpleTextFormatter").SimpleTextFormatter;
+        FieldsFormatter: typeof import("./formatters/FieldsFormatter").FieldsFormatter;
     };
     Handlers: typeof Handlers;
     Messages: {
