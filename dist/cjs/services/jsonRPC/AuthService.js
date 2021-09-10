@@ -49,7 +49,7 @@ var AuthService = /** @class */ (function (_super) {
             if (err)
                 return cb(err, null);
             var etr = new AuthService_1.ExchangeTokenResponse();
-            etr.exchangeToken = payload['exchangeToken'];
+            etr.exchangeToken = payload["exchangeToken"];
             return cb(null, etr);
         }, this.authServerEndpoint_, this.authCred_);
     };
@@ -81,16 +81,16 @@ var AuthService = /** @class */ (function (_super) {
             exchangeToken: exchangeToken,
             searchStrategy: searchStrategy,
             patientProperties: patientProperties,
-            medCardId: medCardId
+            medCardId: medCardId,
         };
         this.exec(Handlers_1.Handlers.HANDLER_AUTHENTICATE_METHOD, requestData, function (err, payload) {
             if (err)
                 return cb(err, null, null);
             var patient = new PatientModel_1.PatientModel();
-            patient.fromJson(payload['patient']);
-            if (!payload['userSign'])
+            patient.fromJson(payload["patient"]);
+            if (!payload["userSign"])
                 throw new Error("expect userSign");
-            return cb(null, patient, payload['userSign']);
+            return cb(null, patient, payload["userSign"]);
         }, this.ehrServerEndpoint_);
     };
     AuthService.prototype.authenticateAsync = function (exchangeToken, searchStrategy, patientProperties, medCardId) {

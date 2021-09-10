@@ -1,4 +1,4 @@
-import { AppointmentMessage } from './AppointmentMessage';
+import { AppointmentMessage } from "./AppointmentMessage";
 declare const _default: {
     AppointmentMessage: typeof AppointmentMessage;
 };

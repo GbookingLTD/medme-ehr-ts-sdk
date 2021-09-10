@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { JsonRpcHeader } from "./jsonRpcRequest";
+import { JsonRpcHeader, } from "./jsonRpcRequest";
 import { RpcErrorCodes } from "../RpcErrorCodes";
 var JsonRPCService = /** @class */ (function () {
     function JsonRPCService(endpoint, request) {
@@ -78,11 +78,17 @@ var JsonRPCCredService = /** @class */ (function (_super) {
             var this_ = this;
             return function () {
                 var args = arguments;
-                if (args[0] && args[0].code === RpcErrorCodes.NotAuthorized && service.onAuthNotAuthorized)
+                if (args[0] &&
+                    args[0].code === RpcErrorCodes.NotAuthorized &&
+                    service.onAuthNotAuthorized)
                     service.onAuthNotAuthorized();
-                else if (args[0] && args[0].code === RpcErrorCodes.AuthExpired && service.onAuthExpired)
+                else if (args[0] &&
+                    args[0].code === RpcErrorCodes.AuthExpired &&
+                    service.onAuthExpired)
                     service.onAuthExpired();
-                else if (args[0] && args[0].code === RpcErrorCodes.UnknownAuthError && service.onAuthUnknownAuthError)
+                else if (args[0] &&
+                    args[0].code === RpcErrorCodes.UnknownAuthError &&
+                    service.onAuthUnknownAuthError)
                     service.onAuthUnknownAuthError();
                 cb.apply(this_, args);
             };

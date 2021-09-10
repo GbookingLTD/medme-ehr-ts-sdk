@@ -30,8 +30,8 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, { id: id }, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrors_ = payload['validationErrors'];
-            cb(null, payload['prescription']);
+            _this.lastValidationErrors_ = payload["validationErrors"];
+            cb(null, payload["prescription"]);
         });
     };
     PrescriptionService.prototype.getPrescriptionByIdAsync = function (id) {
@@ -50,8 +50,8 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            return cb(null, payload['prescriptions']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            return cb(null, payload["prescriptions"]);
         });
     };
     PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset) {
@@ -70,8 +70,8 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            return cb(null, payload['prescriptions']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            return cb(null, payload["prescriptions"]);
         });
     };
     PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset) {
@@ -89,8 +89,8 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     PrescriptionService.prototype.getPrescriptionsCountAsync = function () {
@@ -108,8 +108,8 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     PrescriptionService.prototype.getPatientPrescriptionsCountAsync = function (patientId) {

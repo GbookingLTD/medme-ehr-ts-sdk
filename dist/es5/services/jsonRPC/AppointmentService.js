@@ -62,7 +62,7 @@ var AppointmentService = /** @class */ (function (_super) {
             if (err)
                 return cb(err, null);
             var app = new AppointmentModel();
-            app.fromJson(payload['appointment']);
+            app.fromJson(payload["appointment"]);
             return cb(null, app);
         });
     };
@@ -83,8 +83,8 @@ var AppointmentService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            var appointments = payload['appointments'].map(function (jsonApp) {
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            var appointments = payload["appointments"].map(function (jsonApp) {
                 var app = new AppointmentModel();
                 app.fromJson(jsonApp);
                 return app;
@@ -113,8 +113,8 @@ var AppointmentService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_APPOINTMENTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['appointments']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["appointments"]);
         });
     };
     AppointmentService.prototype.getAppointmentsAsync = function (limit, offset) {
@@ -132,8 +132,8 @@ var AppointmentService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_APPOINTMENTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     AppointmentService.prototype.getAppointmentsCountAsync = function () {
@@ -151,8 +151,8 @@ var AppointmentService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     AppointmentService.prototype.getPatientAppointmentsCountAsync = function (patientId) {

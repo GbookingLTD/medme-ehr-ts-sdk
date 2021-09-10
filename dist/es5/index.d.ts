@@ -1,6 +1,6 @@
 /// <amd-module name="MedMe" />
-import * as Types from './types/index';
-import { Handlers } from './Handlers';
+import * as Types from "./types/index";
+import { Handlers } from "./Handlers";
 export declare const EHR: {
     SDK_VERSION: string;
     Types: typeof Types;

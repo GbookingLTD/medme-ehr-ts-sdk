@@ -81,11 +81,17 @@ var JsonRPCCredService = /** @class */ (function (_super) {
             var this_ = this;
             return function () {
                 var args = arguments;
-                if (args[0] && args[0].code === RpcErrorCodes_1.RpcErrorCodes.NotAuthorized && service.onAuthNotAuthorized)
+                if (args[0] &&
+                    args[0].code === RpcErrorCodes_1.RpcErrorCodes.NotAuthorized &&
+                    service.onAuthNotAuthorized)
                     service.onAuthNotAuthorized();
-                else if (args[0] && args[0].code === RpcErrorCodes_1.RpcErrorCodes.AuthExpired && service.onAuthExpired)
+                else if (args[0] &&
+                    args[0].code === RpcErrorCodes_1.RpcErrorCodes.AuthExpired &&
+                    service.onAuthExpired)
                     service.onAuthExpired();
-                else if (args[0] && args[0].code === RpcErrorCodes_1.RpcErrorCodes.UnknownAuthError && service.onAuthUnknownAuthError)
+                else if (args[0] &&
+                    args[0].code === RpcErrorCodes_1.RpcErrorCodes.UnknownAuthError &&
+                    service.onAuthUnknownAuthError)
                     service.onAuthUnknownAuthError();
                 cb.apply(this_, args);
             };

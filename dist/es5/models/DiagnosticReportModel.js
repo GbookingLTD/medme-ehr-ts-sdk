@@ -1,7 +1,7 @@
-import { Doctor } from '../types/Doctor';
-import { Period } from '../types/Period';
-import { Observation } from '../types/Observation';
-import { Service } from '../types/Service';
+import { Doctor } from "../types/Doctor";
+import { Period } from "../types/Period";
+import { Observation } from "../types/Observation";
+import { Service } from "../types/Service";
 /**
  * Класс модели медикаментозного назначения.
  */
@@ -17,7 +17,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         this._services = [];
     }
     Object.defineProperty(DiagnosticReportModel.prototype, "id", {
-        get: function () { return this._id; },
+        get: function () {
+            return this._id;
+        },
         enumerable: false,
         configurable: true
     });
@@ -25,7 +27,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Статус диагностического отчета.
          */
-        get: function () { return this._status; },
+        get: function () {
+            return this._status;
+        },
         enumerable: false,
         configurable: true
     });
@@ -33,7 +37,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Тип обследования.
          */
-        get: function () { return this._type; },
+        get: function () {
+            return this._type;
+        },
         enumerable: false,
         configurable: true
     });
@@ -41,7 +47,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Список оказанных на исследовании услуг.
          */
-        get: function () { return this._services; },
+        get: function () {
+            return this._services;
+        },
         enumerable: false,
         configurable: true
     });
@@ -50,7 +58,9 @@ var DiagnosticReportModel = /** @class */ (function () {
          * Категория сервисов диагностики (код).
          * @see http://hl7.org/fhir/valueset-diagnostic-service-sections.html
          */
-        get: function () { return this._category; },
+        get: function () {
+            return this._category;
+        },
         enumerable: false,
         configurable: true
     });
@@ -58,7 +68,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Период дат, в течение которых результаты теста считать действительными.
          */
-        get: function () { return this._effectivePeriod; },
+        get: function () {
+            return this._effectivePeriod;
+        },
         enumerable: false,
         configurable: true
     });
@@ -66,7 +78,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Дата публикации обследования пациенту.
          */
-        get: function () { return this._issuedDate; },
+        get: function () {
+            return this._issuedDate;
+        },
         enumerable: false,
         configurable: true
     });
@@ -74,7 +88,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Результаты обследования в нормализованном виде.
          */
-        get: function () { return this._result; },
+        get: function () {
+            return this._result;
+        },
         enumerable: false,
         configurable: true
     });
@@ -82,7 +98,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Врач, который интерпретировал результаты.
          */
-        get: function () { return this._resultInterpreter; },
+        get: function () {
+            return this._resultInterpreter;
+        },
         enumerable: false,
         configurable: true
     });
@@ -90,7 +108,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Интерпретация результатов обследования/анализов.
          */
-        get: function () { return this._resultInterpretation; },
+        get: function () {
+            return this._resultInterpretation;
+        },
         enumerable: false,
         configurable: true
     });
@@ -98,7 +118,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Список ссылок на флюорографии, ЭКГ и т.п.
          */
-        get: function () { return this._imagineMedia; },
+        get: function () {
+            return this._imagineMedia;
+        },
         enumerable: false,
         configurable: true
     });
@@ -106,7 +128,9 @@ var DiagnosticReportModel = /** @class */ (function () {
         /**
          * Весь отчет, как документ ворд, pdf  т.п.
          */
-        get: function () { return this._attachments; },
+        get: function () {
+            return this._attachments;
+        },
         enumerable: false,
         configurable: true
     });
@@ -114,20 +138,22 @@ var DiagnosticReportModel = /** @class */ (function () {
         this._id = json.id;
         this._status = json.status;
         this._type = json.type;
-        this._effectivePeriod = (new Period).fromJson(json.effectivePeriod);
+        this._effectivePeriod = new Period().fromJson(json.effectivePeriod);
         this._issuedDate = new Date(json.issuedDate);
         this._result = [];
         if (json.result)
             for (var i = 0; i < json.result.length; ++i)
-                this._result.push((new Observation).fromJson(json.result[i]));
-        this._resultInterpreter = json.resultInterpreter ? json.resultInterpreter.map(function (d) { return (new Doctor).fromJson(d); }) : [];
+                this._result.push(new Observation().fromJson(json.result[i]));
+        this._resultInterpreter = json.resultInterpreter
+            ? json.resultInterpreter.map(function (d) { return new Doctor().fromJson(d); })
+            : [];
         this._resultInterpretation = json.resultInterpretation || [];
         this._imagineMedia = json.imagineMedia || [];
         this._attachments = json.attachments || [];
         this._services = [];
         if (json.services)
             for (var i = 0; i < json.services.length; ++i)
-                this._services.push((new Service).fromJson(json.services[i]));
+                this._services.push(new Service().fromJson(json.services[i]));
         this._category = json.category;
         return this;
     };
@@ -136,14 +162,22 @@ var DiagnosticReportModel = /** @class */ (function () {
         payload.id = this._id;
         payload.status = this._status;
         payload.type = this._type;
-        payload.effectivePeriod = this._effectivePeriod ? this._effectivePeriod.toJson() : null;
+        payload.effectivePeriod = this._effectivePeriod
+            ? this._effectivePeriod.toJson()
+            : null;
         payload.issuedDate = this._issuedDate.toJSON();
-        payload.result = this._result ? this._result.map(function (value) { return value.toJson(); }) : null;
-        payload.resultInterpreter = this._resultInterpreter ? this._resultInterpreter.map(function (i) { return i.toJson(); }) : null;
+        payload.result = this._result
+            ? this._result.map(function (value) { return value.toJson(); })
+            : null;
+        payload.resultInterpreter = this._resultInterpreter
+            ? this._resultInterpreter.map(function (i) { return i.toJson(); })
+            : null;
         payload.resultInterpretation = this._resultInterpretation;
         payload.imagineMedia = this._imagineMedia;
         payload.attachments = this._attachments;
-        payload.services = this._services ? this._services.map(function (s) { return s.toJson(); }) : null;
+        payload.services = this._services
+            ? this._services.map(function (s) { return s.toJson(); })
+            : null;
         payload.category = this._category;
         return payload;
     };

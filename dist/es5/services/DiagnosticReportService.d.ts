@@ -1,5 +1,5 @@
-import { IResourceService } from './ResourceService';
-import { DiagnosticReportMessage } from '../messages/DiagnosticReportMessage';
+import { IResourceService } from "./ResourceService";
+import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 export interface IDiagnosticReportService extends IResourceService {
     /**
      * Возвращает назначение по идентификатору.

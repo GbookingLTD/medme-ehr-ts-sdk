@@ -1,6 +1,6 @@
-import { PatientAuthenticationResult, PatientAuthenticationStep, PatientAuthenticationError, getAuthenticatedPatient, ConnectionError } from './AuthService';
-import { Credentials } from './Credentials';
-import { RpcErrorCodes } from './RpcErrorCodes';
+import { PatientAuthenticationResult, PatientAuthenticationStep, PatientAuthenticationError, getAuthenticatedPatient, ConnectionError } from "./AuthService";
+import { Credentials } from "./Credentials";
+import { RpcErrorCodes } from "./RpcErrorCodes";
 declare const _default: {
     JsonRPC: {
         Transports: {

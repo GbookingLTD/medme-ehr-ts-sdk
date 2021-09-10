@@ -30,8 +30,8 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD, { id: id }, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrors_ = payload['validationErrors'];
-            return cb(null, payload['diagnosticReport']);
+            _this.lastValidationErrors_ = payload["validationErrors"];
+            return cb(null, payload["diagnosticReport"]);
         });
     };
     DiagnosticReportService.prototype.getDiagnosticReportByIdAsync = function (id) {
@@ -51,8 +51,8 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['diagnosticReports']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["diagnosticReports"]);
         });
     };
     DiagnosticReportService.prototype.getPatientDiagnosticReportsAsync = function (patientId, limit, offset) {
@@ -71,8 +71,8 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['diagnosticReports']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["diagnosticReports"]);
         });
     };
     DiagnosticReportService.prototype.getDiagnosticReportsAsync = function (limit, offset) {
@@ -90,8 +90,8 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     DiagnosticReportService.prototype.getDiagnosticReportsCountAsync = function () {
@@ -109,8 +109,8 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     DiagnosticReportService.prototype.getPatientDiagnosticReportsCountAsync = function (patientId) {

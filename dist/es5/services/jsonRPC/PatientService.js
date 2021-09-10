@@ -26,12 +26,12 @@ var PatientService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_METHOD, {}, function (err, payload) {
             if (err)
                 return cb(err);
-            if (!payload['userSign'])
+            if (!payload["userSign"])
                 return cb(new Error("userSign not found"));
             var patient = new PatientModel();
-            _this.lastValidationErrors_ = payload['validationErrors'];
-            patient.fromJson(payload['patient']);
-            return cb(err, patient, payload['userSign']);
+            _this.lastValidationErrors_ = payload["validationErrors"];
+            patient.fromJson(payload["patient"]);
+            return cb(err, patient, payload["userSign"]);
         });
     };
     PatientService.prototype.getPatientAsync = function () {
@@ -48,7 +48,7 @@ var PatientService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENTS_METHOD, { limit: limit, offset: offset }, function (err, payload) {
             if (err)
                 return cb(err, null);
-            return cb(err, payload['patients']);
+            return cb(err, payload["patients"]);
         });
     };
     PatientService.prototype.getPatientsAsync = function (limit, offset) {
@@ -65,7 +65,7 @@ var PatientService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            return cb(err, payload['count'], payload['support']);
+            return cb(err, payload["count"], payload["support"]);
         });
     };
     PatientService.prototype.getPatientsCountAsync = function () {

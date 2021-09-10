@@ -1,4 +1,4 @@
-import { ObservationRange } from './ObservationRange';
+import { ObservationRange } from "./ObservationRange";
 var ObservationComponent = /** @class */ (function () {
     function ObservationComponent() {
     }
@@ -6,10 +6,10 @@ var ObservationComponent = /** @class */ (function () {
         this.type = json.type;
         this.value = json.value;
         this.interpretation = json.interpretation;
-        this.ranges = json.ranges ? new ObservationRange[json.ranges.length] : [];
+        this.ranges = json.ranges ? new ObservationRange[json.ranges.length]() : [];
         if (json.ranges)
             for (var i = 0; i < json.ranges.length; ++i)
-                this.ranges[i] = (new ObservationRange).fromJson(json.ranges[i]);
+                this.ranges[i] = new ObservationRange().fromJson(json.ranges[i]);
         return this;
     };
     ObservationComponent.prototype.toJson = function () {

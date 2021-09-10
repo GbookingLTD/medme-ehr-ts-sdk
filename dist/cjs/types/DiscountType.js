@@ -6,4 +6,3 @@ var DiscountType;
     DiscountType[DiscountType["Percent"] = 0] = "Percent";
     DiscountType[DiscountType["Absolute"] = 1] = "Absolute";
 })(DiscountType = exports.DiscountType || (exports.DiscountType = {}));
-;

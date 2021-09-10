@@ -7,7 +7,7 @@ var LocaleCode;
     LocaleCode["enUS"] = "en-US";
 })(LocaleCode = exports.LocaleCode || (exports.LocaleCode = {}));
 var dateISOFormat = function (d) {
-    return typeof d === "string" ? d : d.toISOString();
+    return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };
 exports.dateISOFormat = dateISOFormat;
 function paragrathes(a) {

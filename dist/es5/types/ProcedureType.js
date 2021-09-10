@@ -4,4 +4,3 @@ export var ProcedureType;
     ProcedureType[ProcedureType["Precedure"] = 1] = "Precedure";
     ProcedureType[ProcedureType["Analisys"] = 2] = "Analisys";
 })(ProcedureType || (ProcedureType = {}));
-;

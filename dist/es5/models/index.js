@@ -1,4 +1,4 @@
-import { AppointmentModel } from './AppointmentModel';
+import { AppointmentModel } from "./AppointmentModel";
 export default {
-    AppointmentModel: AppointmentModel
+    AppointmentModel: AppointmentModel,
 };

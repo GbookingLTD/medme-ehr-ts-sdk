@@ -1,7 +1,7 @@
-import { IResourceService } from './ResourceService';
+import { IResourceService } from "./ResourceService";
 import { PatientModel } from "../models/PatientModel";
 import { UserSign } from "../types/UserSign";
-import { PatientMessage } from '../messages/PatientMessage';
+import { PatientMessage } from "../messages/PatientMessage";
 export interface IPatientService extends IResourceService {
     getPatient(cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void): void;
     getPatientAsync(): Promise<{

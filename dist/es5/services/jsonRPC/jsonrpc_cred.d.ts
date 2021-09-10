@@ -1,4 +1,4 @@
-import * as jsonrpc from './jsonrpc';
+import * as jsonrpc from "./jsonrpc";
 import { Credentials } from "../Credentials";
 export declare class RequestCredObject extends jsonrpc.RequestObject {
     cred: Credentials;

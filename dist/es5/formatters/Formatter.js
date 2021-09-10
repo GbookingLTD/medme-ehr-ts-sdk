@@ -4,7 +4,7 @@ export var LocaleCode;
     LocaleCode["enUS"] = "en-US";
 })(LocaleCode || (LocaleCode = {}));
 export var dateISOFormat = function (d) {
-    return typeof d === "string" ? d : d.toISOString();
+    return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };
 export function paragrathes(a) {
     if (a.length == 0)

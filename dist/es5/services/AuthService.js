@@ -46,7 +46,6 @@ export var PatientAuthenticationStep;
     PatientAuthenticationStep[PatientAuthenticationStep["input"] = 3] = "input";
     PatientAuthenticationStep[PatientAuthenticationStep["authenticate"] = 4] = "authenticate";
 })(PatientAuthenticationStep || (PatientAuthenticationStep = {}));
-;
 /**
  * Ошибка сценария аутентификации пациента.
  * Инкапсулирует внутри себя ошибку запроса, предоставляет информацию о типе ошибки и
@@ -55,7 +54,7 @@ export var PatientAuthenticationStep;
 var PatientAuthenticationError = /** @class */ (function (_super) {
     __extends(PatientAuthenticationError, _super);
     function PatientAuthenticationError(aStep, anInternalError) {
-        var _this = _super.call(this, 'Patient authentication error') || this;
+        var _this = _super.call(this, "Patient authentication error") || this;
         _this.step = aStep;
         _this.internalError = anInternalError;
         return _this;
@@ -64,22 +63,23 @@ var PatientAuthenticationError = /** @class */ (function (_super) {
         return err.internalError && isAuthorizationError(err.internalError);
     };
     PatientAuthenticationError.isAuthenticationError = function (err) {
-        return err.step === PatientAuthenticationStep.authenticate &&
-            err.internalError.code === RpcErrorCodes.PatientNotAuthenticated;
+        return (err.step === PatientAuthenticationStep.authenticate &&
+            err.internalError.code === RpcErrorCodes.PatientNotAuthenticated);
     };
     PatientAuthenticationError.isConnectionError = function (err) {
         return err.internalError && err.internalError instanceof ConnectionError;
     };
     PatientAuthenticationError.isEhrServerDisabled = function (err) {
-        return err.step === PatientAuthenticationStep.patient && this.isConnectionError(err);
+        return (err.step === PatientAuthenticationStep.patient &&
+            this.isConnectionError(err));
     };
     PatientAuthenticationError.patientAlreadyMatched = function (err) {
-        return err.step === PatientAuthenticationStep.authenticate &&
-            err.internalError.code === RpcErrorCodes.PatientAlreadyMatched;
+        return (err.step === PatientAuthenticationStep.authenticate &&
+            err.internalError.code === RpcErrorCodes.PatientAlreadyMatched);
     };
     PatientAuthenticationError.patientAlreadyLinked = function (err) {
-        return err.step === PatientAuthenticationStep.authenticate &&
-            err.internalError.code === RpcErrorCodes.PatientAlreadyLinked;
+        return (err.step === PatientAuthenticationStep.authenticate &&
+            err.internalError.code === RpcErrorCodes.PatientAlreadyLinked);
     };
     return PatientAuthenticationError;
 }(Error));

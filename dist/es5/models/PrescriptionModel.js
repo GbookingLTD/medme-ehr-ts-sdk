@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { PrescriptionInfo } from "../types/index";
-import { PatientInfo } from '../types/PatientInfo';
+import { PatientInfo } from "../types/PatientInfo";
 /**
  * Класс модели медикаментозного назначения.
  */

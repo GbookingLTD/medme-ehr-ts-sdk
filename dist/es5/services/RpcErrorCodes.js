@@ -26,7 +26,7 @@ var RpcErrorCodes = /** @class */ (function () {
 }());
 export { RpcErrorCodes };
 export function isAuthorizationError(err) {
-    return err.code === RpcErrorCodes.NotAuthorized ||
+    return (err.code === RpcErrorCodes.NotAuthorized ||
         err.code === RpcErrorCodes.AuthExpired ||
-        err.code === RpcErrorCodes.UnknownAuthError;
+        err.code === RpcErrorCodes.UnknownAuthError);
 }

@@ -1,11 +1,11 @@
-import { Doctor } from '../types/Doctor';
-import { Period } from '../types/Period';
-import { DiagnosticReportStatus } from '../types/DiagnosticReportStatus';
-import { ObservationType } from '../types/ObservationType';
-import { Observation } from '../types/Observation';
-import { Service } from '../types/Service';
-import { PatientInfo } from '../types/PatientInfo';
-import { BusinessInfo } from '../types/BusinessInfo';
+import { Doctor } from "../types/Doctor";
+import { Period } from "../types/Period";
+import { DiagnosticReportStatus } from "../types/DiagnosticReportStatus";
+import { ObservationType } from "../types/ObservationType";
+import { Observation } from "../types/Observation";
+import { Service } from "../types/Service";
+import { PatientInfo } from "../types/PatientInfo";
+import { BusinessInfo } from "../types/BusinessInfo";
 export declare class DiagnosticReportMessage {
     id: string;
     status: DiagnosticReportStatus;

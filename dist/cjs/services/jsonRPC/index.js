@@ -10,7 +10,7 @@ var PatientService_1 = require("./PatientService");
 var jsonRpcRequest_1 = require("./jsonRpcRequest");
 exports.default = {
     Transports: {
-        xhr: xhr_1.xhr
+        xhr: xhr_1.xhr,
     },
     JsonRpcHeader: jsonRpcRequest_1.JsonRpcHeader,
     AppointmentService: AppointmentService_1.AppointmentService,
@@ -18,5 +18,5 @@ exports.default = {
     PrescriptionService: PrescriptionService_1.PrescriptionService,
     DiagnosticReportService: DiagnosticReportService_1.DiagnosticReportService,
     AuthService: AuthService_1.AuthService,
-    PatientService: PatientService_1.PatientService
+    PatientService: PatientService_1.PatientService,
 };

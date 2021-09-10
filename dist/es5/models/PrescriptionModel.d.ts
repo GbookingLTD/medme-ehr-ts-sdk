@@ -1,6 +1,6 @@
-import { IJsonModel } from './JsonModel';
+import { IJsonModel } from "./JsonModel";
 import { PrescriptionInfo } from "../types/index";
-import { PatientInfo } from '../types/PatientInfo';
+import { PatientInfo } from "../types/PatientInfo";
 import { JSONValue } from "../json";
 /**
  * Класс модели медикаментозного назначения.

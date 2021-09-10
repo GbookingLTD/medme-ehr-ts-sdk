@@ -34,8 +34,8 @@ var AppointmentResultService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD, { id: id }, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrors_ = payload['validationErrors'];
-            return cb(null, payload['appointmentResult']);
+            _this.lastValidationErrors_ = payload["validationErrors"];
+            return cb(null, payload["appointmentResult"]);
         });
     };
     AppointmentResultService.prototype.getAppointmentResultByIdAsync = function (id) {
@@ -55,8 +55,8 @@ var AppointmentResultService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            var appointmentResults = payload['appointmentResults'].map(function (jsonApp) {
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            var appointmentResults = payload["appointmentResults"].map(function (jsonApp) {
                 var app = new AppointmentResultModel_1.AppointmentResultModel();
                 app.fromJson(jsonApp);
                 return app;
@@ -80,8 +80,8 @@ var AppointmentResultService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            return cb(null, payload['appointmentResults']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            return cb(null, payload["appointmentResults"]);
         });
     };
     AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset) {
@@ -99,8 +99,8 @@ var AppointmentResultService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     AppointmentResultService.prototype.getAppointmentResultsCountAsync = function () {
@@ -118,8 +118,8 @@ var AppointmentResultService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
                 return cb(err, null, false);
-            _this.lastValidationErrorsOfList_ = payload['validationErrors'];
-            cb(null, payload['count'], payload['support']);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["count"], payload["support"]);
         });
     };
     AppointmentResultService.prototype.getPatientAppointmentResultsCountAsync = function (patientId) {

@@ -1,6 +1,6 @@
-import { ObservationType } from './ObservationType';
-import { ObservationValue } from './ObservationValue';
-import { ObservationRange } from './ObservationRange';
+import { ObservationType } from "./ObservationType";
+import { ObservationValue } from "./ObservationValue";
+import { ObservationRange } from "./ObservationRange";
 import { JSONValue } from "../json";
 export declare class ObservationComponent {
     type: ObservationType;

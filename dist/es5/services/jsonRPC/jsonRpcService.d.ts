@@ -1,6 +1,6 @@
 import { IJsonRPCRequest, IJsonRpcResponseCallback } from "./jsonRpcRequest";
 import { Credentials } from "../Credentials";
-import { IResourceService } from '../ResourceService';
+import { IResourceService } from "../ResourceService";
 export declare class JsonRPCService {
     static id: number;
     private _endpoint;

@@ -34,22 +34,20 @@ test_rpc:
 
 build: build_commonjs build_es5 build_browser
 
-build_commonjs: clean_commonjs
-	tsc --module commonjs  --target ES5 --outDir dist/cjs ${FILES}
+rebuild: rebuild_commonjs rebuild_es5 rebuild_browser
 
-build_es5: clean_es5
+rebuild_commonjs: clean_commonjs build_commonjs
+rebuild_es5: clean_es5 build_es5
+rebuild_browser: clean_browser build_browser
+
+build_commonjs:
+	tsc --module commonjs --target ES5 --outDir dist/cjs ${FILES}
+
+build_es5:
 	tsc --module es2015 --declaration true --target ES5 --outDir dist/es5 ${FILES}
 
-build_browser: clean_browser
+build_browser:
 	tsc --module AMD --target ES5 --outfile dist/browser/bundle.js ${FILES}
-
-web_sample_run:
-	cp -pr ../../medme-ehr-api-settings/clients-data.js web_sample/lib
-	cp -pr ../../medme-ehr-api-settings/env-prod.js web_sample/lib
-	python -mSimpleHTTPServer 9900
-
-web_sample_open:
-	browse http://localhost:9900/web_sample/index.html
 
 clean_commonjs:
 	rm -rf dist/cjs/*
@@ -63,3 +61,5 @@ clean_browser:
 clean:
 	rm -rf dist/*
 
+dev:
+	./dev.sh

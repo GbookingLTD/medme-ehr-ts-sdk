@@ -6,4 +6,3 @@ export var AppointmentConfirmationStatus;
     AppointmentConfirmationStatus[AppointmentConfirmationStatus["CancelledByClient"] = 3] = "CancelledByClient";
     AppointmentConfirmationStatus[AppointmentConfirmationStatus["CancelledByBusiness"] = 4] = "CancelledByBusiness";
 })(AppointmentConfirmationStatus || (AppointmentConfirmationStatus = {}));
-;

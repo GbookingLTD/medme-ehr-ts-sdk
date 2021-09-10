@@ -1,23 +1,19 @@
 {
-    "typesRoots": [
-        "./node_modules/@types"
-    ],
-    "compilerOptions": {
-        "target": "es5",
-        "module": "umd",
-        "lib": ["dom", "dom.iterable", "esnext"],
-        "allowJs": true,
-        "outDir": "dist/es5_AMD",
-        "declaration": true,
-        "declarationDir": "dist/es5_AMD",
-        "skipLibCheck": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "moduleResolution": "node",
-        "isolatedModules": false,
-        "baseUrl": "src"
-    },
-    "include": [
-        "src/**/*"
-    ],
+  "typesRoots": ["./node_modules/@types"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "umd",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "outDir": "dist/es5_AMD",
+    "declaration": true,
+    "declarationDir": "dist/es5_AMD",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "baseUrl": "src"
+  },
+  "include": ["src/**/*"]
 }

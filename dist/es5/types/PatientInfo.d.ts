@@ -9,6 +9,7 @@ export declare class PatientInfo {
     email: string;
     gender: Gender;
     date: Date;
+    medcardNumber: string;
     fromJson(json: any): PatientInfo;
     toJson(): JSONValue;
 }

@@ -2,7 +2,7 @@
 //
 // http://www.jsonrpc.org/specification
 // **License:** MIT
-'use strict';
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -21,19 +21,22 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.jsonrpc = exports.parseObject = exports.parse = exports.error = exports.success = exports.notification = exports.request = exports.JsonRpcError = exports.JsonRpcParsed = exports.RpcStatusType = exports.ErrorObject = exports.SuccessObject = exports.NotificationObject = exports.RequestObject = exports.JsonRpc = void 0;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
-var isInteger = typeof Number.isSafeInteger === 'function'
+var isInteger = typeof Number.isSafeInteger === "function"
     ? Number.isSafeInteger // ECMAScript 2015
     : function (num) {
-        return typeof num === 'number' && isFinite(num) && num === Math.floor(num) && Math.abs(num) <= 9007199254740991;
+        return (typeof num === "number" &&
+            isFinite(num) &&
+            num === Math.floor(num) &&
+            Math.abs(num) <= 9007199254740991);
     };
 var JsonRpc = /** @class */ (function () {
     function JsonRpc() {
-        this.jsonrpc = '2.0';
+        this.jsonrpc = "2.0";
     }
     JsonRpc.prototype.serialize = function () {
         return JSON.stringify(this);
     };
-    JsonRpc.VERSION = '2.0';
+    JsonRpc.VERSION = "2.0";
     return JsonRpc;
 }());
 exports.JsonRpc = JsonRpc;
@@ -131,19 +134,19 @@ var JsonRpcError = /** @class */ (function () {
         }
     }
     JsonRpcError.invalidRequest = function (data) {
-        return new JsonRpcError('Invalid request', -32600, data);
+        return new JsonRpcError("Invalid request", -32600, data);
     };
     JsonRpcError.methodNotFound = function (data) {
-        return new JsonRpcError('Method not found', -32601, data);
+        return new JsonRpcError("Method not found", -32601, data);
     };
     JsonRpcError.invalidParams = function (data) {
-        return new JsonRpcError('Invalid params', -32602, data);
+        return new JsonRpcError("Invalid params", -32602, data);
     };
     JsonRpcError.internalError = function (data) {
-        return new JsonRpcError('Internal error', -32603, data);
+        return new JsonRpcError("Internal error", -32603, data);
     };
     JsonRpcError.parseError = function (data) {
-        return new JsonRpcError('Parse error', -32700, data);
+        return new JsonRpcError("Parse error", -32700, data);
     };
     return JsonRpcError;
 }());
@@ -252,25 +255,25 @@ function parseObject(obj) {
         err = JsonRpcError.invalidRequest(obj);
         payloadType = RpcStatusType.invalid;
     }
-    else if (!hasOwnProperty.call(obj, 'id')) {
+    else if (!hasOwnProperty.call(obj, "id")) {
         var tmp = obj;
         payload = new NotificationObject(tmp.method, tmp.params);
         err = validateMessage(payload);
         payloadType = RpcStatusType.notification;
     }
-    else if (hasOwnProperty.call(obj, 'method')) {
+    else if (hasOwnProperty.call(obj, "method")) {
         var tmp = obj;
         payload = new RequestObject(tmp.id, tmp.method, tmp.params);
         err = validateMessage(payload);
         payloadType = RpcStatusType.request;
     }
-    else if (hasOwnProperty.call(obj, 'result')) {
+    else if (hasOwnProperty.call(obj, "result")) {
         var tmp = obj;
         payload = new SuccessObject(tmp.id, tmp.result);
         err = validateMessage(payload);
         payloadType = RpcStatusType.success;
     }
-    else if (hasOwnProperty.call(obj, 'error')) {
+    else if (hasOwnProperty.call(obj, "error")) {
         var tmp = obj;
         payloadType = RpcStatusType.error;
         if (tmp.error == null) {
@@ -278,7 +281,8 @@ function parseObject(obj) {
         }
         else {
             var errorObj = new JsonRpcError(tmp.error.message, tmp.error.code, tmp.error.data);
-            if (errorObj.message !== tmp.error.message || errorObj.code !== tmp.error.code) {
+            if (errorObj.message !== tmp.error.message ||
+                errorObj.code !== tmp.error.code) {
                 err = JsonRpcError.internalError(tmp);
             }
             else {
@@ -341,7 +345,7 @@ function checkMethod(method) {
 }
 function checkResult(result) {
     return result === undefined
-        ? JsonRpcError.internalError('Result must exist for success Response objects')
+        ? JsonRpcError.internalError("Result must exist for success Response objects")
         : null;
 }
 function checkParams(params) {
@@ -362,21 +366,21 @@ function checkParams(params) {
 }
 function checkError(err) {
     if (!(err instanceof JsonRpcError)) {
-        return JsonRpcError.internalError('Error must be an instance of JsonRpcError');
+        return JsonRpcError.internalError("Error must be an instance of JsonRpcError");
     }
     if (!isInteger(err.code)) {
-        return JsonRpcError.internalError('Invalid error code. It must be an integer.');
+        return JsonRpcError.internalError("Invalid error code. It must be an integer.");
     }
     if (!isString(err.message)) {
-        return JsonRpcError.internalError('Message must exist or must be a string.');
+        return JsonRpcError.internalError("Message must exist or must be a string.");
     }
     return null;
 }
 function isString(obj) {
-    return obj !== '' && typeof obj === 'string';
+    return obj !== "" && typeof obj === "string";
 }
 function isObject(obj) {
-    return obj != null && typeof obj === 'object' && !Array.isArray(obj);
+    return obj != null && typeof obj === "object" && !Array.isArray(obj);
 }
 var jsonrpc = {
     JsonRpc: JsonRpc,

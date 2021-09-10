@@ -8,4 +8,3 @@ var Gender;
     Gender[Gender["Other"] = 3] = "Other";
     Gender[Gender["Unknown"] = 4] = "Unknown";
 })(Gender = exports.Gender || (exports.Gender = {}));
-;

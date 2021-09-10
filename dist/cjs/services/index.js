@@ -16,5 +16,5 @@ exports.default = {
     ConnectionError: AuthService_1.ConnectionError,
     getAuthenticatedPatient: AuthService_1.getAuthenticatedPatient,
     Credentials: Credentials_1.Credentials,
-    RpcErrorCodes: RpcErrorCodes_1.RpcErrorCodes
+    RpcErrorCodes: RpcErrorCodes_1.RpcErrorCodes,
 };

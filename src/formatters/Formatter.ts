@@ -14,7 +14,7 @@ export enum LocaleCode {
 }
 
 export const dateISOFormat: DateFormatFunc = function (d: Date): string {
-  return typeof d === "string" ? d : d.toISOString();
+  return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };
 
 export function paragrathes(a: string[]): string {
@@ -33,7 +33,6 @@ export const trim = (str) => str.replace(/^\s+/, "").replace(/\s+$/, "");
 
 export interface IFormatter<T> {
   appointmentResult(ar: AppointmentResultMessage): T;
-  diagnosis(d: Diagnosis[]): T;
   procedure(p: Procedure): T;
   prescription(p: PrescriptionInfo): T;
   medication(s: Medication): T;

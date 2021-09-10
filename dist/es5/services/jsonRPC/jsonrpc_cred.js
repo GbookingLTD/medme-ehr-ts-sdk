@@ -16,7 +16,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import * as jsonrpc from './jsonrpc';
+import * as jsonrpc from "./jsonrpc";
 var RequestCredObject = /** @class */ (function (_super) {
     __extends(RequestCredObject, _super);
     function RequestCredObject(id, method, cred, apiKey, params) {

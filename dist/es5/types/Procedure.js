@@ -12,7 +12,9 @@ var Procedure = /** @class */ (function () {
         this.id = json.id;
         this.created = json.created;
         this.title = json.title;
-        this.services = json.services ? json.services.map(function (s) { return (new Service).fromJson(s); }) : [];
+        this.services = json.services
+            ? json.services.map(function (s) { return new Service().fromJson(s); })
+            : [];
         this.type = json.type;
         this.required = json.required;
         this.status = json.status;
@@ -30,7 +32,9 @@ var Procedure = /** @class */ (function () {
         payload.id = this.id;
         payload.created = this.created.toJSON();
         payload.title = this.title;
-        payload.services = this.services ? this.services.map(function (s) { return s.toJson(); }) : [];
+        payload.services = this.services
+            ? this.services.map(function (s) { return s.toJson(); })
+            : [];
         payload.type = this.type;
         payload.required = this.required;
         payload.status = this.status;

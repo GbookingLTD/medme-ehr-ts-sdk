@@ -1,4 +1,4 @@
-import { IJsonModel } from './JsonModel';
+import { IJsonModel } from "./JsonModel";
 import { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, AppointmentSource, AppointmentHistoryItem } from "../types/index";
 import { JSONValue } from "../json";
 export declare function copyCommonPropertiesFromJson(json: any): void;

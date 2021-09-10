@@ -1,4 +1,4 @@
-import { IResourceService } from './ResourceService';
+import { IResourceService } from "./ResourceService";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
 export interface IPrescriptionService extends IResourceService {
     /**

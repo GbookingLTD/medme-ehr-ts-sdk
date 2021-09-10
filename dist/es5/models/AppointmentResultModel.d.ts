@@ -1,4 +1,4 @@
-import { IJsonModel } from './JsonModel';
+import { IJsonModel } from "./JsonModel";
 import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo } from "../types/index";
 import { JSONValue } from "../json";
 /**

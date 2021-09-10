@@ -10,6 +10,7 @@ export class PatientInfo {
   email: string;
   gender: Gender;
   date: Date;
+  medcardNumber: string;
 
   fromJson(json: any): PatientInfo {
     this.id = json.id;
@@ -20,6 +21,7 @@ export class PatientInfo {
     this.email = json.email;
     this.gender = json.gender;
     this.date = json.date;
+    this.medcardNumber = json.medcardNumber;
     return this;
   }
 
@@ -33,6 +35,7 @@ export class PatientInfo {
     payload.email = this.email;
     payload.gender = this.gender;
     payload.date = this.date.toJSON();
+    payload.medcardNumber = this.medcardNumber;
     return payload;
   }
 }

@@ -11,11 +11,15 @@ var PrescriptionInfo = /** @class */ (function () {
         this.id = json.id;
         this.created = new Date(json.created);
         if (json.recorderDoctor)
-            this.recorderDoctor = (new Doctor_1.Doctor()).fromJson(json.recorderDoctor);
-        this.medications = json.medications ? json.medications.map(function (m) { return (new Medication_1.Medication()).fromJson(m); }) : [];
+            this.recorderDoctor = new Doctor_1.Doctor().fromJson(json.recorderDoctor);
+        this.medications = json.medications
+            ? json.medications.map(function (m) { return new Medication_1.Medication().fromJson(m); })
+            : [];
         this.dosageText = json.dosageText;
         this.reasonText = json.reasonText;
-        this.validityPeriod = json.validityPeriod ? (new Period_1.Period()).fromJson(json.validityPeriod) : new Period_1.Period();
+        this.validityPeriod = json.validityPeriod
+            ? new Period_1.Period().fromJson(json.validityPeriod)
+            : new Period_1.Period();
         this.numberOfRepeats = json.numberOfRepeats;
         this.title = json.title;
         return this;
@@ -25,7 +29,9 @@ var PrescriptionInfo = /** @class */ (function () {
         payload.id = this.id;
         payload.created = this.created.toJSON();
         payload.recorderDoctor = this.recorderDoctor.toJson();
-        payload.medications = this.medications ? this.medications.map(function (m) { return m.toJson(); }) : [];
+        payload.medications = this.medications
+            ? this.medications.map(function (m) { return m.toJson(); })
+            : [];
         payload.dosageText = this.dosageText;
         payload.reasonText = this.reasonText;
         payload.validityPeriod = this.validityPeriod.toJson();

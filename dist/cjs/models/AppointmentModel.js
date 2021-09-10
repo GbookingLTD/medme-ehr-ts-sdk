@@ -20,72 +20,100 @@ var AppointmentModel = /** @class */ (function () {
     function AppointmentModel() {
     }
     Object.defineProperty(AppointmentModel.prototype, "id", {
-        get: function () { return this._id; },
+        get: function () {
+            return this._id;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "patientId", {
-        get: function () { return this._patientId; },
+        get: function () {
+            return this._patientId;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "business", {
-        get: function () { return this._business; },
+        get: function () {
+            return this._business;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "created", {
-        get: function () { return this._created; },
+        get: function () {
+            return this._created;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "start", {
-        get: function () { return this._start; },
+        get: function () {
+            return this._start;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "doctor", {
-        get: function () { return this._doctor; },
+        get: function () {
+            return this._doctor;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "services", {
-        get: function () { return this._services; },
+        get: function () {
+            return this._services;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "duration", {
-        get: function () { return this._duration; },
+        get: function () {
+            return this._duration;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "confirmationStatus", {
-        get: function () { return this._confirmationStatus; },
+        get: function () {
+            return this._confirmationStatus;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "clientAppear", {
-        get: function () { return this._clientAppear; },
+        get: function () {
+            return this._clientAppear;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "resultId", {
-        get: function () { return this._resultId; },
+        get: function () {
+            return this._resultId;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "clientPrice", {
-        get: function () { return this._clientPrice; },
+        get: function () {
+            return this._clientPrice;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "source", {
-        get: function () { return this._source; },
+        get: function () {
+            return this._source;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(AppointmentModel.prototype, "history", {
-        get: function () { return this._history; },
+        get: function () {
+            return this._history;
+        },
         enumerable: false,
         configurable: true
     });
@@ -111,13 +139,15 @@ var AppointmentModel = /** @class */ (function () {
     AppointmentModel.prototype.toJson = function () {
         var payload = {
             id: this._id,
-            patientId: this._patientId
+            patientId: this._patientId,
         };
         payload.business = this._business.toJson();
         payload.created = this._created.toJSON();
         payload.start = this._start.toJSON();
         payload.doctor = this._doctor.toJson();
-        payload.services = Array.isArray(this._services) ? this._services.map(function (s) { return s.toJson(); }) : null;
+        payload.services = Array.isArray(this._services)
+            ? this._services.map(function (s) { return s.toJson(); })
+            : null;
         payload.duration = this._duration;
         payload.status = this._confirmationStatus;
         payload.clientAppear = this._clientAppear;

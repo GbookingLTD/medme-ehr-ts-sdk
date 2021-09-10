@@ -1,10 +1,10 @@
-import { BusinessInfo } from './BusinessInfo';
-import { Doctor } from './Doctor';
-import { PatientInfo } from './PatientInfo';
-import { Period } from './Period';
-import { ObservationValue } from './ObservationValue';
-import { ObservationRange } from './ObservationRange';
-import { ObservationComponent } from './ObservationComponent';
+import { BusinessInfo } from "./BusinessInfo";
+import { Doctor } from "./Doctor";
+import { PatientInfo } from "./PatientInfo";
+import { Period } from "./Period";
+import { ObservationValue } from "./ObservationValue";
+import { ObservationRange } from "./ObservationRange";
+import { ObservationComponent } from "./ObservationComponent";
 var Observation = /** @class */ (function () {
     function Observation() {
         this.patientInfo = new PatientInfo();
@@ -41,11 +41,11 @@ var Observation = /** @class */ (function () {
         this.ranges = [];
         if (json.ranges)
             for (var i = 0; i < json.ranges.length; ++i)
-                this.ranges.push((new ObservationRange).fromJson(json.ranges[i]));
+                this.ranges.push(new ObservationRange().fromJson(json.ranges[i]));
         this.components = [];
         if (json.components)
             for (var i = 0; i < json.components.length; ++i)
-                this.components.push((new ObservationComponent).fromJson(json.components[i]));
+                this.components.push(new ObservationComponent().fromJson(json.components[i]));
         return this;
     };
     Observation.prototype.toJson = function () {
@@ -56,15 +56,23 @@ var Observation = /** @class */ (function () {
         payload.type = this.type;
         payload.observationKey = this.observationKey;
         payload.status = this.status;
-        payload.effectivePeriod = this.effectivePeriod ? this.effectivePeriod.toJson() : null;
+        payload.effectivePeriod = this.effectivePeriod
+            ? this.effectivePeriod.toJson()
+            : null;
         payload.issuedDate = this.issuedDate.toJSON();
-        payload.performerDoctor = this.performerDoctor ? this.performerDoctor.toJson() : null;
-        payload.performerBusiness = this.performerBusiness ? this.performerBusiness.toJson() : null;
+        payload.performerDoctor = this.performerDoctor
+            ? this.performerDoctor.toJson()
+            : null;
+        payload.performerBusiness = this.performerBusiness
+            ? this.performerBusiness.toJson()
+            : null;
         payload.value = this.value ? this.value.toJson() : null;
         payload.note = this.note;
         payload.interpretation = this.interpretation;
         payload.ranges = this.ranges ? this.ranges.map(function (r) { return r.toJson(); }) : null;
-        payload.components = this.components ? this.components.map(function (c) { return c.toJson(); }) : null;
+        payload.components = this.components
+            ? this.components.map(function (c) { return c.toJson(); })
+            : null;
         return payload;
     };
     return Observation;

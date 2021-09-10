@@ -1,4 +1,4 @@
-import { Period } from './Period';
+import { Period } from "./Period";
 var ObservationRange = /** @class */ (function () {
     function ObservationRange() {
         this.age = new Period();

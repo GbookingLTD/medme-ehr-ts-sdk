@@ -35,11 +35,23 @@ declare const _default: {
             end: string;
         };
         DiagnosticReport: {
-            Doctor: string;
-            EffectivePeriod: string;
-            Result: string;
-            Images: string;
-            Attachments: string;
+            doctor: string;
+            effectivePeriod: string;
+            result: string;
+            imagineMedia: string;
+            attachments: string;
+            id: string;
+            created: string;
+            active: string;
+            business: string;
+            patient: string;
+            status: string;
+            type: string;
+            category: string;
+            resultInterpretation: string;
+            resultInterpreter: string;
+            services: string;
+            issuedDate: string;
         };
         Prescription: {
             title: string;
@@ -55,6 +67,41 @@ declare const _default: {
             0: string;
             1: string;
             2: string;
+        };
+        ActiveStatus: {
+            disactive: string;
+            active: string;
+        };
+        DiagnosisType: {
+            laboratoryTest: string;
+            observation: string;
+            unknown: string;
+        };
+        Currency: string[];
+        currencyPosition: string;
+        diagnosisTitle: string;
+        Duration: {
+            hour: string;
+            hours: string;
+            minute: string;
+            minutes: string;
+        };
+        Observation: {
+            id: string;
+            createdDate: string;
+            patientInfo: string;
+            type: string;
+            observationKey: string;
+            status: string;
+            effectivePeriod: string;
+            issuedDate: string;
+            performerDoctor: string;
+            performerBusiness: string;
+            value: string;
+            note: string;
+            interpretation: string;
+            ranges: string;
+            components: string;
         };
     };
     enUS: {

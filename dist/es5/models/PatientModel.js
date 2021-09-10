@@ -5,77 +5,107 @@ var PatientModel = /** @class */ (function () {
     function PatientModel() {
     }
     Object.defineProperty(PatientModel.prototype, "id", {
-        get: function () { return this._id; },
+        get: function () {
+            return this._id;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "active", {
-        get: function () { return this._active; },
+        get: function () {
+            return this._active;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "surname", {
-        get: function () { return this._surname; },
+        get: function () {
+            return this._surname;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "name", {
-        get: function () { return this._name; },
+        get: function () {
+            return this._name;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "phones", {
-        get: function () { return this._phones; },
+        get: function () {
+            return this._phones;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "email", {
-        get: function () { return this._email; },
+        get: function () {
+            return this._email;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "gender", {
-        get: function () { return this._gender; },
+        get: function () {
+            return this._gender;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "birthdate", {
-        get: function () { return this._birthdate; },
+        get: function () {
+            return this._birthdate;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "deceased", {
-        get: function () { return this._deceased; },
+        get: function () {
+            return this._deceased;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "maritalStatus", {
-        get: function () { return this._maritalStatus; },
+        get: function () {
+            return this._maritalStatus;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "photo", {
-        get: function () { return this._photo; },
+        get: function () {
+            return this._photo;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "familyMembers", {
-        get: function () { return this._familyMembers; },
+        get: function () {
+            return this._familyMembers;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "address", {
-        get: function () { return this._address; },
+        get: function () {
+            return this._address;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "medcardNumber", {
-        get: function () { return this._medcardNumber; },
+        get: function () {
+            return this._medcardNumber;
+        },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(PatientModel.prototype, "insurances", {
-        get: function () { return this._insurances; },
+        get: function () {
+            return this._insurances;
+        },
         enumerable: false,
         configurable: true
     });
@@ -87,9 +117,10 @@ var PatientModel = /** @class */ (function () {
         this._phones = json.phones;
         this._email = json.email;
         this._gender = json.gender;
-        if (json.birthdate && json.birthdate.length &&
-            json.birthdate[json.birthdate.length - 1] !== 'Z')
-            json.birthdate += 'Z';
+        if (json.birthdate &&
+            json.birthdate.length &&
+            json.birthdate[json.birthdate.length - 1] !== "Z")
+            json.birthdate += "Z";
         this._birthdate = new Date(Date.parse(json.birthdate));
         this._deceased = json.deceased;
         this._maritalStatus = json.maritalStatus;
