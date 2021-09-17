@@ -1,5 +1,10 @@
 import { JSONObject, JSONValue } from "../json";
 
+export class TextPeriod {
+  begin: string;
+  end: string;
+}
+
 export class Period {
   begin: Date;
   end: Date;

@@ -18,7 +18,14 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
             YES: string;
             NO: string;
             CREATED: string;
+            Gender: {
+                0: string;
+                1: string;
+                2: string;
+                3: string;
+            };
             appointmentResult: {
+                business: string;
                 created: string;
                 start: string;
                 doctor: string;
@@ -28,7 +35,9 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
                 diagnosis: string;
                 recommendations: string;
                 scheduledProcedures: string;
+                scheduledProceduresHint: string;
                 prescriptions: string;
+                prescriptionsHint: string;
             };
             procedure: {
                 created: string;
@@ -116,6 +125,39 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
                 interpretation: string;
                 ranges: string;
                 components: string;
+            };
+            patient: {
+                id: string;
+                fullName: string;
+                phones: string;
+                email: string;
+                gender: string;
+                birthdate: string;
+                medcardNumber: string;
+                address: string;
+            };
+            appointment: {
+                business: string;
+                created: string;
+                start: string;
+                doctor: string;
+                duration: string;
+            };
+            filters: {
+                Unknown: string;
+                PatientByMedCard: string;
+                PatientByName: string;
+                PatientByPhone: string;
+                AppointmentByPatientId: string;
+                AppointmentByCreated: string;
+                AppointmentByStarted: string;
+                AppointmentByBusiness: string;
+                DiagnosticReportByPatient: string;
+                DiagnosticReportByCreated: string;
+                DiagnosticReportByBusiness: string;
+                PrescriptionByPatient: string;
+                PrescriptionByCreated: string;
+                PrescriptionByBusiness: string;
             };
         };
         "en-us": {

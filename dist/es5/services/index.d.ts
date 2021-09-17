@@ -21,5 +21,24 @@ declare const _default: {
     getAuthenticatedPatient: typeof getAuthenticatedPatient;
     Credentials: typeof Credentials;
     RpcErrorCodes: typeof RpcErrorCodes;
+    Filters: {
+        PatientByNameFilter: typeof import("./filters/PatientFilters").PatientByNameFilter;
+        PatientByMedCardFilter: typeof import("./filters/PatientFilters").PatientByMedCardFilter;
+        PatientByPhoneFilter: typeof import("./filters/PatientFilters").PatientByPhoneFilter;
+        PatientFilters: typeof import("./filters/PatientFilters").PatientFilters;
+        AppointmentByBusinessIdFilter: typeof import("./filters/AppointmentFilters").AppointmentByBusinessIdFilter;
+        AppointmentByCreatedFilter: typeof import("./filters/AppointmentFilters").AppointmentByCreatedFilter;
+        AppointmentByStartFilter: typeof import("./filters/AppointmentFilters").AppointmentByStartFilter;
+        AppointmentByPatientIdFilter: typeof import("./filters/AppointmentFilters").AppointmentByPatientIdFilter;
+        AppointmentFilters: typeof import("./filters/AppointmentFilters").AppointmentFilters;
+        DiagnosticReportByBusinessIdFilter: typeof import("./filters/DiagnosticReportFilters").DiagnosticReportByBusinessIdFilter;
+        DiagnosticReportByCreatedFilter: typeof import("./filters/DiagnosticReportFilters").DiagnosticReportByCreatedFilter;
+        DiagnosticReportByPatientIdFilter: typeof import("./filters/DiagnosticReportFilters").DiagnosticReportByPatientIdFilter;
+        DiagnosticReportFilters: typeof import("./filters/DiagnosticReportFilters").DiagnosticReportFilters;
+        PrescriptionByBusinessIdFilter: typeof import("./filters/PrescriptionFilters").PrescriptionByBusinessIdFilter;
+        PrescriptionByCreatedFilter: typeof import("./filters/PrescriptionFilters").PrescriptionByCreatedFilter;
+        PrescriptionByPatientIdFilter: typeof import("./filters/PrescriptionFilters").PrescriptionByPatientIdFilter;
+        PrescriptionFilters: typeof import("./filters/PrescriptionFilters").PrescriptionFilters;
+    };
 };
 export default _default;

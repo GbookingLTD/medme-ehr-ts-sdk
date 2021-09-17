@@ -1,6 +1,7 @@
 import { IResourceService } from "./ResourceService";
 import { PrescriptionModel } from "../models/PrescriptionModel";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
+import { PrescriptionFilters } from "./filters/PrescriptionFilters";
 
 export interface IPrescriptionService extends IResourceService {
   /**
@@ -39,6 +40,18 @@ export interface IPrescriptionService extends IResourceService {
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void;
   getPrescriptionsAsync(
+    limit: number,
+    offset: number
+  ): Promise<PrescriptionMessage[]>;
+
+  getFilteredPrescriptions(
+    filters: PrescriptionFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: PrescriptionMessage[]) => void
+  ): void;
+  getFilteredPrescriptionsAsync(
+    filters: PrescriptionFilters,
     limit: number,
     offset: number
   ): Promise<PrescriptionMessage[]>;

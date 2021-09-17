@@ -3,11 +3,11 @@ import {
   DateFormatFunc,
   dateISOFormat,
   IFormatter,
-  LocaleCode,
   paragrathes as paragraphs,
   paragrathes_nl,
   trim,
 } from "./Formatter";
+import { LocaleCode } from "./LocaleCode";
 import { AppointmentResultMessage } from "../messages/AppointmentResultMessage";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import {
@@ -28,6 +28,8 @@ import { ObservationType } from "../types/ObservationType";
 import { Discount } from "../types/Discount";
 import { DiscountType } from "../types/DiscountType";
 import { PatientMessage } from "messages/PatientMessage";
+import { TextPeriod } from "types/Period";
+import { AppointmentMessage } from "messages/AppointmentMessage";
 
 export enum FieldType {
   Text = "text",
@@ -91,6 +93,7 @@ export class Field {
  */
 export class FieldMeta {
   type: FieldType;
+  composite?: boolean;
   format: (val: FieldValue) => FieldValue;
 }
 
@@ -111,7 +114,7 @@ export function buildFieldArray(
 ): Field[] {
   const keys = priorKeys
     .concat(Object.keys(meta))
-    .filter((k, i, self) => self.indexOf(k) === i);
+    .filter((k, i, self) => self.indexOf(k) === i); // uniq keys
 
   if (t == null) {
     t = {};
@@ -119,15 +122,26 @@ export function buildFieldArray(
   }
 
   const ans: Field[] = [];
-  for (const key of keys)
-    ans.push({
-      key: key,
-      title: t[key],
-      type: meta[key]?.type,
-      hint: t[key + "Hint"],
-      originValue: data[key],
-      value: meta[key]?.format ? meta[key].format(data[key]) : data[key],
-    });
+  for (const key of keys) {
+    if (meta[key].composite)
+      ans.push({
+        key: key,
+        title: t[key],
+        type: meta[key]?.type,
+        hint: t[key + "Hint"],
+        originValue: data[key],
+        value: meta[key].format(data),
+      });
+    else
+      ans.push({
+        key: key,
+        title: t[key],
+        type: meta[key]?.type,
+        hint: t[key + "Hint"],
+        originValue: data[key],
+        value: meta[key]?.format ? meta[key].format(data[key]) : data[key],
+      });
+  }
 
   if (itemModeMeta != null) {
     ans.push({
@@ -167,16 +181,11 @@ export function buildFieldArray(
 }
 
 export class FieldsFormatter implements IFormatter<Field[]> {
-  public static LOCALIZE = {
-    "ru-ru": l10n.ruRU,
-    "en-us": l10n.enUS,
-  };
-
   public static create(
     locale: LocaleCode,
     dateFormat: DateFormatFunc = dateISOFormat
   ) {
-    return new FieldsFormatter(FieldsFormatter.LOCALIZE[locale], dateFormat);
+    return new FieldsFormatter(l10n.getByLocaleCode(locale), dateFormat);
   }
 
   private _localize: object;
@@ -197,7 +206,25 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     const this_ = this;
     return {
       type: opts?.dateOnly ? FieldType.Date : FieldType.DateTime,
-      format: (val: FieldValue) => this_._dateFormat(val as Date),
+      format: opts?.dateOnly
+        ? (val: FieldValue) =>
+            new Intl.DateTimeFormat("ru").format(
+              typeof val == "string"
+                ? new Date(Date.parse(val as string))
+                : (val as Date)
+            )
+        : (val: FieldValue) =>
+            new Intl.DateTimeFormat("ru", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            }).format(
+              typeof val == "string"
+                ? new Date(Date.parse(val as string))
+                : (val as Date)
+            ),
     };
   }
 
@@ -313,9 +340,10 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   private genderField(): FieldMeta {
+    const t = this._localize["Gender"];
     return {
       type: FieldType.Text,
-      format: (val: FieldValue) => (val == 0 ? "M" : "W") as FieldValue,
+      format: (val: FieldValue) => t[val],
     };
   }
 
@@ -345,21 +373,23 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     };
   }
 
-  private periodField({ dateOnly: boolean }): FieldMeta {
+  private periodField(opts?: { dateOnly: boolean }): FieldMeta {
     return {
       type: FieldType.DatePeriod,
       format: (val: FieldValue): FieldValue => {
         const period = val as Period;
-        if (typeof period.begin === "string")
-          period.begin = new Date(Date.parse(period.begin));
-        if (typeof period.end === "string")
-          period.end = new Date(Date.parse(period.end));
-
+        const textPeriod = val as TextPeriod;
         return {
-          from: this._dateFormat(period.begin),
-          fromIsZero: period.begin === null || period.begin.getTime() === 0,
-          to: this._dateFormat(period.end),
-          toIsZero: period.end === null || period.end.getTime() === 0,
+          from: this.dateField(opts).format(period.begin),
+          fromIsZero:
+            period.begin === null || typeof period.begin == "string"
+              ? textPeriod.begin.substr(0, 1) == "0"
+              : period.begin?.getTime() === 0,
+          to: this.dateField(opts).format(period.end),
+          toIsZero:
+            period.end === null || typeof period.end == "string"
+              ? textPeriod.end.substr(0, 1) == "0"
+              : period.end?.getTime() === 0,
         };
       },
     };
@@ -554,7 +584,57 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     );
   }
 
-  public patientInfo(p: PatientInfo): Field[] {
+  private fullPatientNameField(): FieldMeta {
+    const this_ = this;
+    return {
+      type: FieldType.Text,
+      composite: true,
+      format: (val: PatientMessage): FieldValue => {
+        return (
+          val.name +
+          (val.middleName ? " " + val.middleName : "") +
+          " " +
+          val.surname
+        );
+      },
+    };
+  }
+
+  public patientMessage(p: PatientMessage): Field[] {
+    const meta = {
+      id: this.idField(),
+      fullName: this.fullPatientNameField(),
+      phones: this.phonesField(),
+      email: this.emailField(),
+      gender: this.genderField(),
+      birthdate: this.dateField({ dateOnly: true }),
+      address: this.textField(),
+      medcardNumber: this.textField(),
+    } as FieldMetaMap;
+
+    const itemModeMeta = {
+      firstLine: (p: PatientInfo): string => {
+        return p.name + " " + p.surname;
+      },
+      secondLine: (p: PatientInfo): string => {
+        return p.medcardNumber ? "#" + p.medcardNumber : "";
+      },
+      thirdLine: (p: PatientInfo): string => {
+        return "";
+        return p.phones.join(", ");
+      },
+    };
+
+    return buildFieldArray(
+      p,
+      meta,
+      this._localize["patient"],
+      [],
+      itemModeMeta
+    );
+  }
+
+  public patientInfo(p: PatientMessage): Field[] {
     const meta = {
       id: this.idField(),
       surname: this.textField(),
@@ -576,6 +656,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
         return p.medcardNumber ? "#" + p.medcardNumber : "";
       },
       thirdLine: (p: PatientInfo): string => {
+        return "";
         return p.phones.join(", ");
       },
     };
@@ -583,10 +664,21 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return buildFieldArray(
       p,
       meta,
-      this._localize["patientInfo"],
+      this._localize["patient"],
       [],
       itemModeMeta
     );
+  }
+
+  public appointment(a: AppointmentMessage): Field[] {
+    let meta = {
+      business: this.businessField(),
+      created: this.dateField(),
+      start: this.dateField(),
+      doctor: this.doctorField(),
+    } as FieldMetaMap;
+
+    return buildFieldArray(a, meta, this._localize["appointment"]);
   }
 
   public appointmentResult(ar: AppointmentResultMessage): Field[] {
@@ -635,33 +727,48 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return "\n" + p.map((item) => this.prescription(item)).join("\n");
   }
 
-  public prescription(p: PrescriptionInfo): Field[] {
-    let keys = [
-      "created",
-      "title",
-      "recorderDoctor",
-      "medications",
-      "dosageText",
-      "reasonText",
-      "validityPeriod",
-      "numberOfRepeats",
-    ];
-    let propFormats = {
-      created: this._dateFormat.bind(this),
-      recorderDoctor: this.doctor.bind(this),
-      validityPeriod: this.period.bind(this),
-      medications: this.medications.bind(this),
+  private medicationsField(): FieldMeta {
+    const this_ = this;
+    return {
+      type: FieldType.ObjectList,
+      format: (val: FieldValue): FieldValue => {
+        const meds = val as Medication[];
+        return meds.map((m) => this_.medication(m));
+      },
     };
-
-    return buildFieldArray(p, propFormats, this._localize["appointmentResult"]);
   }
 
-  public medications(s: Medication[]): string {
-    return "\n" + s.map((item) => this.medication(item)).join("\n");
+  public prescription(p: PrescriptionInfo): Field[] {
+    let meta = {
+      created: this.dateField(),
+      recorderDoctor: this.doctorField(),
+      validityPeriod: this.periodField(),
+      medications: this.medicationsField(),
+    } as FieldMetaMap;
+
+    return buildFieldArray(p, meta, this._localize["prescription"]);
   }
 
-  public medication(s: Medication): Field[] {
-    throw new Error("Method not implemented.");
+  public medication(m: Medication): Field[] {
+    const this_ = this;
+    const meta = {} as FieldMetaMap;
+
+    const itemModeMeta = {
+      firstLine: (m: Medication): string => {
+        return m.name + " " + m.itemSize;
+      },
+      secondLine: (m: Medication): string => {
+        return m.code + " " + m.codeTable;
+      },
+    } as FieldItemModeMeta;
+
+    return buildFieldArray(
+      m,
+      meta,
+      this._localize["Medication"],
+      [],
+      itemModeMeta
+    );
   }
 
   public observation(o: Observation): Field[] {
@@ -752,8 +859,8 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return b ? this._localize["YES"] : this._localize["NO"];
   }
 
-  public medicalExaminationResult(ar: string[]): string {
-    if (ar == null) return "";
+  public medicalExaminationResult(ar: string[]): string[] {
+    if (ar == null) return [];
     ar = ar.map((line) => {
       let m = line.match(/([^:]*):(.*)/);
       if (m) {
@@ -763,7 +870,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
 
       return line;
     });
-    return "\n" + paragraphs(ar) + "\n\n";
+    return ar;
   }
 
   public period(period: Period, offset: string): string {

@@ -1,9 +1,11 @@
-import { DateFormatFunc, IFormatter, LocaleCode } from "./Formatter";
+import { DateFormatFunc, IFormatter } from "./Formatter";
+import { LocaleCode } from "./LocaleCode";
 import { AppointmentResultMessage } from "../messages/AppointmentResultMessage";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import { Diagnosis, Procedure, PrescriptionInfo, Medication, Period, Service, ClientPrice, BusinessInfo } from "../types/index";
 import { Observation } from "../types/Observation";
-import { PatientInfo } from "../types/PatientInfo";
+import { PatientMessage } from "messages/PatientMessage";
+import { AppointmentMessage } from "messages/AppointmentMessage";
 export declare enum FieldType {
     Text = "text",
     Number = "number",
@@ -53,6 +55,7 @@ export declare class Field {
  */
 export declare class FieldMeta {
     type: FieldType;
+    composite?: boolean;
     format: (val: FieldValue) => FieldValue;
 }
 export declare type FieldMetaMap = {
@@ -65,171 +68,6 @@ export declare class FieldItemModeMeta {
 }
 export declare function buildFieldArray(data: object, meta: FieldMetaMap, t: object, priorKeys?: string[], itemModeMeta?: FieldItemModeMeta): Field[];
 export declare class FieldsFormatter implements IFormatter<Field[]> {
-    static LOCALIZE: {
-        "ru-ru": {
-            MINUTE_UNIT: string;
-            YES: string;
-            NO: string;
-            CREATED: string;
-            appointmentResult: {
-                created: string;
-                start: string;
-                doctor: string;
-                duration: string;
-                anamnesis: string;
-                medicalExaminationResult: string;
-                diagnosis: string;
-                recommendations: string;
-                scheduledProcedures: string;
-                prescriptions: string;
-            };
-            procedure: {
-                created: string;
-                title: string;
-                services: string;
-                type: string;
-                required: string;
-                status: string;
-                period: string;
-                strictPeriod: string;
-                preparations: string;
-                requiredPreparations: string;
-            };
-            procedureType: string[];
-            ProcedureExecStatus: string[];
-            Period: {
-                begin: string;
-                end: string;
-            };
-            DiagnosticReport: {
-                doctor: string;
-                effectivePeriod: string;
-                result: string;
-                imagineMedia: string;
-                attachments: string;
-                id: string;
-                created: string;
-                active: string;
-                business: string;
-                patient: string;
-                status: string;
-                type: string;
-                category: string;
-                resultInterpretation: string;
-                resultInterpreter: string;
-                services: string;
-                issuedDate: string;
-            };
-            Prescription: {
-                title: string;
-                created: string;
-                recorderDoctor: string;
-                medications: string;
-                dosageText: string;
-                reasonText: string;
-                validityPeriod: string;
-                numberOfRepeats: string;
-            };
-            MedicationForm: {
-                0: string;
-                1: string;
-                2: string;
-            };
-            ActiveStatus: {
-                disactive: string;
-                active: string;
-            };
-            DiagnosisType: {
-                laboratoryTest: string;
-                observation: string;
-                unknown: string;
-            };
-            Currency: string[];
-            currencyPosition: string;
-            diagnosisTitle: string;
-            Duration: {
-                hour: string;
-                hours: string;
-                minute: string;
-                minutes: string;
-            };
-            Observation: {
-                id: string;
-                createdDate: string;
-                patientInfo: string;
-                type: string;
-                observationKey: string;
-                status: string;
-                effectivePeriod: string;
-                issuedDate: string;
-                performerDoctor: string;
-                performerBusiness: string;
-                value: string;
-                note: string;
-                interpretation: string;
-                ranges: string;
-                components: string;
-            };
-        };
-        "en-us": {
-            MINUTE_UNIT: string;
-            YES: string;
-            NO: string;
-            CREATED: string;
-            appointmentResult: {
-                created: string;
-                start: string;
-                doctor: string;
-                duration: string;
-                anamnesis: string;
-                medicalExaminationResult: string;
-                diagnosis: string;
-                recommendations: string;
-                scheduledProcedures: string;
-                prescriptions: string;
-            };
-            procedure: {
-                created: string;
-                title: string;
-                services: string;
-                type: string;
-                required: string;
-                status: string;
-                period: string;
-                strictPeriod: string;
-                preparations: string;
-                requiredPreparations: string;
-            };
-            procedureType: string[];
-            ProcedureExecStatus: string[];
-            Period: {
-                begin: string;
-                end: string;
-            };
-            DiagnosticReport: {
-                Doctor: string;
-                EffectivePeriod: string;
-                Result: string;
-                Images: string;
-                Attachments: string;
-            };
-            Prescription: {
-                title: string;
-                created: string;
-                recorderDoctor: string;
-                medications: string;
-                dosageText: string;
-                reasonText: string;
-                validityPeriod: string;
-                numberOfRepeats: string;
-            };
-            MedicationForm: {
-                0: string;
-                1: string;
-                2: string;
-            };
-        };
-    };
     static create(locale: LocaleCode, dateFormat?: DateFormatFunc): FieldsFormatter;
     private _localize;
     private _dateFormat;
@@ -270,15 +108,18 @@ export declare class FieldsFormatter implements IFormatter<Field[]> {
     clientPrice(p: ClientPrice): Field[];
     private clientPriceText;
     service(s: Service): Field[];
-    patientInfo(p: PatientInfo): Field[];
+    private fullPatientNameField;
+    patientMessage(p: PatientMessage): Field[];
+    patientInfo(p: PatientMessage): Field[];
+    appointment(a: AppointmentMessage): Field[];
     appointmentResult(ar: AppointmentResultMessage): Field[];
     diagnosis(d: Diagnosis[]): Field[];
     procedure(p: Procedure): Field[];
     procedures(p: Procedure[]): Field[];
     prescriptions(p: PrescriptionInfo[]): string;
+    private medicationsField;
     prescription(p: PrescriptionInfo): Field[];
-    medications(s: Medication[]): string;
-    medication(s: Medication): Field[];
+    medication(m: Medication): Field[];
     observation(o: Observation): Field[];
     private observationsField;
     diagnosticReport(dr: DiagnosticReportMessage): Field[];
@@ -287,6 +128,6 @@ export declare class FieldsFormatter implements IFormatter<Field[]> {
     private doctor;
     private doctors;
     private yesNo;
-    medicalExaminationResult(ar: string[]): string;
+    medicalExaminationResult(ar: string[]): string[];
     period(period: Period, offset: string): string;
 }

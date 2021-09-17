@@ -61,9 +61,7 @@ var AppointmentService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_BY_ID_METHOD, { id: id }, function (err, payload) {
             if (err)
                 return cb(err, null);
-            var app = new AppointmentModel();
-            app.fromJson(payload["appointment"]);
-            return cb(null, app);
+            return cb(null, payload["appointment"]);
         });
     };
     AppointmentService.prototype.getAppointmentByIdAsync = function (id) {
@@ -121,6 +119,26 @@ var AppointmentService = /** @class */ (function (_super) {
         var service = this;
         return new Promise(function (res, rej) {
             service.getAppointments(limit, offset, function (err, appointments) {
+                if (err)
+                    return rej(err);
+                res(appointments);
+            });
+        });
+    };
+    AppointmentService.prototype.getFilteredAppointments = function (filters, limit, offset, cb) {
+        var _this = this;
+        var params = { filters: filters.plain(), limit: limit, offset: offset };
+        this.exec(Handlers.HANDLER_GET_APPOINTMENTS_METHOD, params, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["appointments"]);
+        });
+    };
+    AppointmentService.prototype.getFilteredAppointmentsAsync = function (filters, limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getFilteredAppointments(filters, limit, offset, function (err, appointments) {
                 if (err)
                     return rej(err);
                 res(appointments);

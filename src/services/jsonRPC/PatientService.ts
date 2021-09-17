@@ -5,6 +5,7 @@ import { Handlers } from "../../Handlers";
 import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
 import { PatientMessage } from "../../messages/PatientMessage";
+import { PatientFilters } from "services/filters/PatientFilters";
 
 export class PatientService
   extends JsonRPCCredService
@@ -43,6 +44,35 @@ export class PatientService
     });
   }
 
+  public getPatientById(
+    id: string,
+    cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void
+  ): void {
+    this.exec(
+      Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD,
+      { id },
+      (err: any, payload: object) => {
+        if (err) return cb(err);
+
+        this.lastValidationErrors_ = payload["validationErrors"];
+        return cb(err, payload["patient"]);
+      }
+    );
+  }
+
+  public getPatientByIdAsync(id: string): Promise<{
+    patient: PatientModel;
+  }> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getPatientById(id, (err, patient) => {
+        if (err) return rej(err);
+
+        res({ patient });
+      });
+    });
+  }
+
   public getPatients(
     limit: number,
     offset: number,
@@ -66,6 +96,38 @@ export class PatientService
     const service = this;
     return new Promise((res, rej) => {
       service.getPatients(limit, offset, (err, patients) => {
+        if (err) return rej(err);
+
+        res(patients);
+      });
+    });
+  }
+
+  public getFilteredPatients(
+    filters: PatientFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, patients: PatientMessage[]) => void
+  ): void {
+    this.exec(
+      Handlers.HANDLER_GET_PATIENTS_METHOD,
+      { filters: filters.plain(), limit, offset },
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
+
+        return cb(err, payload["patients"]);
+      }
+    );
+  }
+
+  public getFilteredPatientsAsync(
+    filters: PatientFilters,
+    limit: number,
+    offset: number
+  ): Promise<PatientMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getFilteredPatients(filters, limit, offset, (err, patients) => {
         if (err) return rej(err);
 
         res(patients);

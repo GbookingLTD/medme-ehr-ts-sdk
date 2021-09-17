@@ -3,6 +3,7 @@ import { Handlers } from "../../Handlers";
 import { PrescriptionModel } from "../../models/PrescriptionModel";
 import { IPrescriptionService } from "../PrescriptionService";
 import { PrescriptionMessage } from "../../messages/PrescriptionMessage";
+import { PrescriptionFilters } from "services/filters/PrescriptionFilters";
 
 export class PrescriptionService
   extends JsonRPCCredService
@@ -104,6 +105,45 @@ export class PrescriptionService
     const service = this;
     return new Promise((res, rej) => {
       service.getPrescriptions(
+        limit,
+        offset,
+        (err: any, values: PrescriptionMessage[]) => {
+          if (err) return rej(err);
+
+          res(values);
+        }
+      );
+    });
+  }
+
+  getFilteredPrescriptions(
+    filters: PrescriptionFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: PrescriptionMessage[]) => void
+  ): void {
+    let params = { filters: filters.plain(), limit: limit, offset: offset };
+    this.exec(
+      Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD,
+      params,
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
+
+        this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        return cb(null, payload["prescriptions"]);
+      }
+    );
+  }
+
+  getFilteredPrescriptionsAsync(
+    filters: PrescriptionFilters,
+    limit: number,
+    offset: number
+  ): Promise<PrescriptionMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getFilteredPrescriptions(
+        filters,
         limit,
         offset,
         (err: any, values: PrescriptionMessage[]) => {

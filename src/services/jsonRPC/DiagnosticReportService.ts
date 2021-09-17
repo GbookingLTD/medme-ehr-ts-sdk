@@ -3,6 +3,7 @@ import { Handlers } from "../../Handlers";
 import { DiagnosticReportModel } from "../../models/DiagnosticReportModel";
 import { IDiagnosticReportService } from "../DiagnosticReportService";
 import { DiagnosticReportMessage } from "../../messages/DiagnosticReportMessage";
+import { DiagnosticReportFilters } from "services/filters/DiagnosticReportFilters";
 
 export class DiagnosticReportService
   extends JsonRPCCredService
@@ -110,6 +111,45 @@ export class DiagnosticReportService
     const service = this;
     return new Promise((res, rej) => {
       service.getDiagnosticReports(
+        limit,
+        offset,
+        (err: any, reports: DiagnosticReportMessage[]) => {
+          if (err) return rej(err);
+
+          res(reports);
+        }
+      );
+    });
+  }
+
+  public getFilteredDiagnosticReports(
+    filters: DiagnosticReportFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: DiagnosticReportMessage[]) => void
+  ): void {
+    let params = { filters: filters.plain(), limit: limit, offset: offset };
+    this.exec(
+      Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD,
+      params,
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
+
+        this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["diagnosticReports"]);
+      }
+    );
+  }
+
+  public getFilteredDiagnosticReportsAsync(
+    filters: DiagnosticReportFilters,
+    limit: number,
+    offset: number
+  ): Promise<DiagnosticReportMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.getFilteredDiagnosticReports(
+        filters,
         limit,
         offset,
         (err: any, reports: DiagnosticReportMessage[]) => {

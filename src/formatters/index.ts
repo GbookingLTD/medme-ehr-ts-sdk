@@ -1,4 +1,4 @@
-import { LocaleCode } from "./Formatter";
+import { LocaleCode } from "./LocaleCode";
 import { SimpleTextFormatter } from "./SimpleTextFormatter";
 import { FieldsFormatter } from "./FieldsFormatter";
 

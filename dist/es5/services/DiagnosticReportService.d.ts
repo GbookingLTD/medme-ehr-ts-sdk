@@ -1,5 +1,6 @@
 import { IResourceService } from "./ResourceService";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
+import { DiagnosticReportFilters } from "./filters/DiagnosticReportFilters";
 export interface IDiagnosticReportService extends IResourceService {
     /**
      * Возвращает назначение по идентификатору.
@@ -19,6 +20,8 @@ export interface IDiagnosticReportService extends IResourceService {
     getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
     getDiagnosticReports(limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     getDiagnosticReportsAsync(limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
+    getFilteredDiagnosticReports(filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
+    getFilteredDiagnosticReportsAsync(filters: DiagnosticReportFilters, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
     getDiagnosticReportsCount(cb: (err: any, count: number, support: boolean) => void): void;
     getDiagnosticReportsCountAsync(): Promise<{
         count: number;

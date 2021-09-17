@@ -58,12 +58,12 @@ var FieldItemModeMeta = /** @class */ (function () {
 }());
 export { FieldItemModeMeta };
 export function buildFieldArray(data, meta, t, priorKeys, itemModeMeta) {
-    var _a, _b;
+    var _a, _b, _c;
     if (priorKeys === void 0) { priorKeys = []; }
     if (itemModeMeta === void 0) { itemModeMeta = null; }
     var keys = priorKeys
         .concat(Object.keys(meta))
-        .filter(function (k, i, self) { return self.indexOf(k) === i; });
+        .filter(function (k, i, self) { return self.indexOf(k) === i; }); // uniq keys
     if (t == null) {
         t = {};
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
@@ -72,16 +72,26 @@ export function buildFieldArray(data, meta, t, priorKeys, itemModeMeta) {
         }
     }
     var ans = [];
-    for (var _c = 0, keys_2 = keys; _c < keys_2.length; _c++) {
-        var key = keys_2[_c];
-        ans.push({
-            key: key,
-            title: t[key],
-            type: (_a = meta[key]) === null || _a === void 0 ? void 0 : _a.type,
-            hint: t[key + "Hint"],
-            originValue: data[key],
-            value: ((_b = meta[key]) === null || _b === void 0 ? void 0 : _b.format) ? meta[key].format(data[key]) : data[key],
-        });
+    for (var _d = 0, keys_2 = keys; _d < keys_2.length; _d++) {
+        var key = keys_2[_d];
+        if (meta[key].composite)
+            ans.push({
+                key: key,
+                title: t[key],
+                type: (_a = meta[key]) === null || _a === void 0 ? void 0 : _a.type,
+                hint: t[key + "Hint"],
+                originValue: data[key],
+                value: meta[key].format(data),
+            });
+        else
+            ans.push({
+                key: key,
+                title: t[key],
+                type: (_b = meta[key]) === null || _b === void 0 ? void 0 : _b.type,
+                hint: t[key + "Hint"],
+                originValue: data[key],
+                value: ((_c = meta[key]) === null || _c === void 0 ? void 0 : _c.format) ? meta[key].format(data[key]) : data[key],
+            });
     }
     if (itemModeMeta != null) {
         ans.push({
@@ -124,7 +134,7 @@ var FieldsFormatter = /** @class */ (function () {
     }
     FieldsFormatter.create = function (locale, dateFormat) {
         if (dateFormat === void 0) { dateFormat = dateISOFormat; }
-        return new FieldsFormatter(FieldsFormatter.LOCALIZE[locale], dateFormat);
+        return new FieldsFormatter(l10n.getByLocaleCode(locale), dateFormat);
     };
     // ----------------------------------
     // Common field definitions
@@ -132,7 +142,23 @@ var FieldsFormatter = /** @class */ (function () {
         var this_ = this;
         return {
             type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-            format: function (val) { return this_._dateFormat(val); },
+            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
+                ? function (val) {
+                    return new Intl.DateTimeFormat("ru").format(typeof val == "string"
+                        ? new Date(Date.parse(val))
+                        : val);
+                }
+                : function (val) {
+                    return new Intl.DateTimeFormat("ru", {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                    }).format(typeof val == "string"
+                        ? new Date(Date.parse(val))
+                        : val);
+                },
         };
     };
     FieldsFormatter.prototype.textField = function () {
@@ -232,9 +258,10 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.genderField = function () {
+        var t = this._localize["Gender"];
         return {
             type: FieldType.Text,
-            format: function (val) { return (val == 0 ? "M" : "W"); },
+            format: function (val) { return t[val]; },
         };
     };
     FieldsFormatter.prototype.paragrathesField = function () {
@@ -262,22 +289,23 @@ var FieldsFormatter = /** @class */ (function () {
             format: function (val) { return val; },
         };
     };
-    FieldsFormatter.prototype.periodField = function (_a) {
+    FieldsFormatter.prototype.periodField = function (opts) {
         var _this = this;
-        var boolean = _a.dateOnly;
         return {
             type: FieldType.DatePeriod,
             format: function (val) {
+                var _a, _b;
                 var period = val;
-                if (typeof period.begin === "string")
-                    period.begin = new Date(Date.parse(period.begin));
-                if (typeof period.end === "string")
-                    period.end = new Date(Date.parse(period.end));
+                var textPeriod = val;
                 return {
-                    from: _this._dateFormat(period.begin),
-                    fromIsZero: period.begin === null || period.begin.getTime() === 0,
-                    to: _this._dateFormat(period.end),
-                    toIsZero: period.end === null || period.end.getTime() === 0,
+                    from: _this.dateField(opts).format(period.begin),
+                    fromIsZero: period.begin === null || typeof period.begin == "string"
+                        ? textPeriod.begin.substr(0, 1) == "0"
+                        : ((_a = period.begin) === null || _a === void 0 ? void 0 : _a.getTime()) === 0,
+                    to: _this.dateField(opts).format(period.end),
+                    toIsZero: period.end === null || typeof period.end == "string"
+                        ? textPeriod.end.substr(0, 1) == "0"
+                        : ((_b = period.end) === null || _b === void 0 ? void 0 : _b.getTime()) === 0,
                 };
             },
         };
@@ -441,6 +469,44 @@ var FieldsFormatter = /** @class */ (function () {
         };
         return buildFieldArray(s, meta, this._localize["service"], [], itemModeMeta);
     };
+    FieldsFormatter.prototype.fullPatientNameField = function () {
+        var this_ = this;
+        return {
+            type: FieldType.Text,
+            composite: true,
+            format: function (val) {
+                return (val.name +
+                    (val.middleName ? " " + val.middleName : "") +
+                    " " +
+                    val.surname);
+            },
+        };
+    };
+    FieldsFormatter.prototype.patientMessage = function (p) {
+        var meta = {
+            id: this.idField(),
+            fullName: this.fullPatientNameField(),
+            phones: this.phonesField(),
+            email: this.emailField(),
+            gender: this.genderField(),
+            birthdate: this.dateField({ dateOnly: true }),
+            address: this.textField(),
+            medcardNumber: this.textField(),
+        };
+        var itemModeMeta = {
+            firstLine: function (p) {
+                return p.name + " " + p.surname;
+            },
+            secondLine: function (p) {
+                return p.medcardNumber ? "#" + p.medcardNumber : "";
+            },
+            thirdLine: function (p) {
+                return "";
+                return p.phones.join(", ");
+            },
+        };
+        return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
+    };
     FieldsFormatter.prototype.patientInfo = function (p) {
         var meta = {
             id: this.idField(),
@@ -462,10 +528,20 @@ var FieldsFormatter = /** @class */ (function () {
                 return p.medcardNumber ? "#" + p.medcardNumber : "";
             },
             thirdLine: function (p) {
+                return "";
                 return p.phones.join(", ");
             },
         };
-        return buildFieldArray(p, meta, this._localize["patientInfo"], [], itemModeMeta);
+        return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
+    };
+    FieldsFormatter.prototype.appointment = function (a) {
+        var meta = {
+            business: this.businessField(),
+            created: this.dateField(),
+            start: this.dateField(),
+            doctor: this.doctorField(),
+        };
+        return buildFieldArray(a, meta, this._localize["appointment"]);
     };
     FieldsFormatter.prototype.appointmentResult = function (ar) {
         var meta = {
@@ -510,31 +586,37 @@ var FieldsFormatter = /** @class */ (function () {
             return "";
         return "\n" + p.map(function (item) { return _this.prescription(item); }).join("\n");
     };
-    FieldsFormatter.prototype.prescription = function (p) {
-        var keys = [
-            "created",
-            "title",
-            "recorderDoctor",
-            "medications",
-            "dosageText",
-            "reasonText",
-            "validityPeriod",
-            "numberOfRepeats",
-        ];
-        var propFormats = {
-            created: this._dateFormat.bind(this),
-            recorderDoctor: this.doctor.bind(this),
-            validityPeriod: this.period.bind(this),
-            medications: this.medications.bind(this),
+    FieldsFormatter.prototype.medicationsField = function () {
+        var this_ = this;
+        return {
+            type: FieldType.ObjectList,
+            format: function (val) {
+                var meds = val;
+                return meds.map(function (m) { return this_.medication(m); });
+            },
         };
-        return buildFieldArray(p, propFormats, this._localize["appointmentResult"]);
     };
-    FieldsFormatter.prototype.medications = function (s) {
-        var _this = this;
-        return "\n" + s.map(function (item) { return _this.medication(item); }).join("\n");
+    FieldsFormatter.prototype.prescription = function (p) {
+        var meta = {
+            created: this.dateField(),
+            recorderDoctor: this.doctorField(),
+            validityPeriod: this.periodField(),
+            medications: this.medicationsField(),
+        };
+        return buildFieldArray(p, meta, this._localize["prescription"]);
     };
-    FieldsFormatter.prototype.medication = function (s) {
-        throw new Error("Method not implemented.");
+    FieldsFormatter.prototype.medication = function (m) {
+        var this_ = this;
+        var meta = {};
+        var itemModeMeta = {
+            firstLine: function (m) {
+                return m.name + " " + m.itemSize;
+            },
+            secondLine: function (m) {
+                return m.code + " " + m.codeTable;
+            },
+        };
+        return buildFieldArray(m, meta, this._localize["Medication"], [], itemModeMeta);
     };
     FieldsFormatter.prototype.observation = function (o) {
         var meta = {};
@@ -608,7 +690,7 @@ var FieldsFormatter = /** @class */ (function () {
     };
     FieldsFormatter.prototype.medicalExaminationResult = function (ar) {
         if (ar == null)
-            return "";
+            return [];
         ar = ar.map(function (line) {
             var m = line.match(/([^:]*):(.*)/);
             if (m) {
@@ -617,7 +699,7 @@ var FieldsFormatter = /** @class */ (function () {
             }
             return line;
         });
-        return "\n" + paragraphs(ar) + "\n\n";
+        return ar;
     };
     FieldsFormatter.prototype.period = function (period, offset) {
         return ("\n" +
@@ -631,10 +713,6 @@ var FieldsFormatter = /** @class */ (function () {
             " " +
             this._dateFormat(period.end) +
             "\n");
-    };
-    FieldsFormatter.LOCALIZE = {
-        "ru-ru": l10n.ruRU,
-        "en-us": l10n.enUS,
     };
     return FieldsFormatter;
 }());

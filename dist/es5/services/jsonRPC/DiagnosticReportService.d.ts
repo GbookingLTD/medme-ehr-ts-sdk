@@ -1,6 +1,7 @@
 import { JsonRPCCredService } from "./jsonRpcService";
 import { IDiagnosticReportService } from "../DiagnosticReportService";
 import { DiagnosticReportMessage } from "../../messages/DiagnosticReportMessage";
+import { DiagnosticReportFilters } from "services/filters/DiagnosticReportFilters";
 export declare class DiagnosticReportService extends JsonRPCCredService implements IDiagnosticReportService {
     /**
      * Возвращает назначение по идентификатору.
@@ -13,6 +14,8 @@ export declare class DiagnosticReportService extends JsonRPCCredService implemen
     getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
     getDiagnosticReports(limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     getDiagnosticReportsAsync(limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
+    getFilteredDiagnosticReports(filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
+    getFilteredDiagnosticReportsAsync(filters: DiagnosticReportFilters, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
     getDiagnosticReportsCount(cb: (err: any, count: number, support: boolean) => void): void;
     getDiagnosticReportsCountAsync(): Promise<{
         count: number;

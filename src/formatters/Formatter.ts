@@ -8,11 +8,6 @@ import { Observation } from "../types/Observation";
 
 export type DateFormatFunc = (d: Date) => string;
 
-export enum LocaleCode {
-  ruRU = "ru-ru",
-  enUS = "en-US",
-}
-
 export const dateISOFormat: DateFormatFunc = function (d: Date): string {
   return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };

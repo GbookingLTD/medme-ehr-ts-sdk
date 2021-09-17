@@ -1,3 +1,9 @@
+var TextPeriod = /** @class */ (function () {
+    function TextPeriod() {
+    }
+    return TextPeriod;
+}());
+export { TextPeriod };
 var Period = /** @class */ (function () {
     function Period() {
     }

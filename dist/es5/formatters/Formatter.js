@@ -1,8 +1,3 @@
-export var LocaleCode;
-(function (LocaleCode) {
-    LocaleCode["ruRU"] = "ru-ru";
-    LocaleCode["enUS"] = "en-US";
-})(LocaleCode || (LocaleCode = {}));
 export var dateISOFormat = function (d) {
     return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };

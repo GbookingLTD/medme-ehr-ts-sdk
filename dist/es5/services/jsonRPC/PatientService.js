@@ -44,6 +44,25 @@ var PatientService = /** @class */ (function (_super) {
             });
         });
     };
+    PatientService.prototype.getPatientById = function (id, cb) {
+        var _this = this;
+        this.exec(Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD, { id: id }, function (err, payload) {
+            if (err)
+                return cb(err);
+            _this.lastValidationErrors_ = payload["validationErrors"];
+            return cb(err, payload["patient"]);
+        });
+    };
+    PatientService.prototype.getPatientByIdAsync = function (id) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getPatientById(id, function (err, patient) {
+                if (err)
+                    return rej(err);
+                res({ patient: patient });
+            });
+        });
+    };
     PatientService.prototype.getPatients = function (limit, offset, cb) {
         this.exec(Handlers.HANDLER_GET_PATIENTS_METHOD, { limit: limit, offset: offset }, function (err, payload) {
             if (err)
@@ -55,6 +74,23 @@ var PatientService = /** @class */ (function (_super) {
         var service = this;
         return new Promise(function (res, rej) {
             service.getPatients(limit, offset, function (err, patients) {
+                if (err)
+                    return rej(err);
+                res(patients);
+            });
+        });
+    };
+    PatientService.prototype.getFilteredPatients = function (filters, limit, offset, cb) {
+        this.exec(Handlers.HANDLER_GET_PATIENTS_METHOD, { filters: filters.plain(), limit: limit, offset: offset }, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            return cb(err, payload["patients"]);
+        });
+    };
+    PatientService.prototype.getFilteredPatientsAsync = function (filters, limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getFilteredPatients(filters, limit, offset, function (err, patients) {
                 if (err)
                     return rej(err);
                 res(patients);

@@ -53,6 +53,7 @@ export declare class Handlers {
     static readonly HANDLER_REMOVE_AUTHENTICATION_METHOD = "embedded_storage.remove_authentication";
     static readonly HANDLER_GET_PATIENT = 600;
     static readonly HANDLER_GET_PATIENT_METHOD = "patient.get_patient";
+    static readonly HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";
     static readonly HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
     static readonly HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
 }

@@ -6,6 +6,7 @@ export declare class PatientMessage {
     id: string;
     active: boolean;
     surname: string;
+    middleName: string;
     name: string;
     phones: string;
     email: string;

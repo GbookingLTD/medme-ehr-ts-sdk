@@ -1,6 +1,7 @@
 import { IResourceService } from "./ResourceService";
 import { DiagnosticReportModel } from "../models/DiagnosticReportModel";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
+import { DiagnosticReportFilters } from "./filters/DiagnosticReportFilters";
 
 export interface IDiagnosticReportService extends IResourceService {
   /**
@@ -39,6 +40,18 @@ export interface IDiagnosticReportService extends IResourceService {
     cb: (err: any, p: DiagnosticReportMessage[]) => void
   ): void;
   getDiagnosticReportsAsync(
+    limit: number,
+    offset: number
+  ): Promise<DiagnosticReportMessage[]>;
+
+  getFilteredDiagnosticReports(
+    filters: DiagnosticReportFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: DiagnosticReportMessage[]) => void
+  ): void;
+  getFilteredDiagnosticReportsAsync(
+    filters: DiagnosticReportFilters,
     limit: number,
     offset: number
   ): Promise<DiagnosticReportMessage[]>;

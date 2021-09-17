@@ -27,9 +27,28 @@ export declare const EHR: {
         getAuthenticatedPatient: typeof import("./services/AuthService").getAuthenticatedPatient;
         Credentials: typeof import("./services/Credentials").Credentials;
         RpcErrorCodes: typeof import("./services/RpcErrorCodes").RpcErrorCodes;
+        Filters: {
+            PatientByNameFilter: typeof import("./services/filters/PatientFilters").PatientByNameFilter;
+            PatientByMedCardFilter: typeof import("./services/filters/PatientFilters").PatientByMedCardFilter;
+            PatientByPhoneFilter: typeof import("./services/filters/PatientFilters").PatientByPhoneFilter;
+            PatientFilters: typeof import("./services/filters/PatientFilters").PatientFilters;
+            AppointmentByBusinessIdFilter: typeof import("./services/filters/AppointmentFilters").AppointmentByBusinessIdFilter;
+            AppointmentByCreatedFilter: typeof import("./services/filters/AppointmentFilters").AppointmentByCreatedFilter;
+            AppointmentByStartFilter: typeof import("./services/filters/AppointmentFilters").AppointmentByStartFilter;
+            AppointmentByPatientIdFilter: typeof import("./services/filters/AppointmentFilters").AppointmentByPatientIdFilter;
+            AppointmentFilters: typeof import("./services/filters/AppointmentFilters").AppointmentFilters;
+            DiagnosticReportByBusinessIdFilter: typeof import("./services/filters/DiagnosticReportFilters").DiagnosticReportByBusinessIdFilter;
+            DiagnosticReportByCreatedFilter: typeof import("./services/filters/DiagnosticReportFilters").DiagnosticReportByCreatedFilter;
+            DiagnosticReportByPatientIdFilter: typeof import("./services/filters/DiagnosticReportFilters").DiagnosticReportByPatientIdFilter;
+            DiagnosticReportFilters: typeof import("./services/filters/DiagnosticReportFilters").DiagnosticReportFilters;
+            PrescriptionByBusinessIdFilter: typeof import("./services/filters/PrescriptionFilters").PrescriptionByBusinessIdFilter;
+            PrescriptionByCreatedFilter: typeof import("./services/filters/PrescriptionFilters").PrescriptionByCreatedFilter;
+            PrescriptionByPatientIdFilter: typeof import("./services/filters/PrescriptionFilters").PrescriptionByPatientIdFilter;
+            PrescriptionFilters: typeof import("./services/filters/PrescriptionFilters").PrescriptionFilters;
+        };
     };
     Formatters: {
-        LocaleCode: typeof import("./formatters/Formatter").LocaleCode;
+        LocaleCode: typeof import("./formatters/LocaleCode").LocaleCode;
         SimpleTextFormatter: typeof import("./formatters/SimpleTextFormatter").SimpleTextFormatter;
         FieldsFormatter: typeof import("./formatters/FieldsFormatter").FieldsFormatter;
     };

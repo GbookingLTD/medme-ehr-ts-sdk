@@ -5,10 +5,6 @@ import { Medication } from "../types/Medication";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import { Observation } from "../types/Observation";
 export declare type DateFormatFunc = (d: Date) => string;
-export declare enum LocaleCode {
-    ruRU = "ru-ru",
-    enUS = "en-US"
-}
 export declare const dateISOFormat: DateFormatFunc;
 export declare function paragrathes(a: string[]): string;
 export declare function paragrathes_nl(a: string[], offset: string): string;

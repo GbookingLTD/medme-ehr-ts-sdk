@@ -1,6 +1,7 @@
 import { IResourceService } from "./ResourceService";
 import { AppointmentModel } from "../models/AppointmentModel";
 import { AppointmentMessage } from "../messages/AppointmentMessage";
+import { AppointmentFilters } from "./filters/AppointmentFilters";
 
 export interface IAppointmentService extends IResourceService {
   /**
@@ -10,9 +11,9 @@ export interface IAppointmentService extends IResourceService {
    */
   getAppointmentById(
     id: string,
-    cb: (err: any, appointment: AppointmentModel) => void
+    cb: (err: any, appointment: AppointmentMessage) => void
   ): void;
-  getAppointmentByIdAsync(id: string): Promise<AppointmentModel>;
+  getAppointmentByIdAsync(id: string): Promise<AppointmentMessage>;
 
   /**
    * Возвращает список записей пациента.
@@ -45,6 +46,18 @@ export interface IAppointmentService extends IResourceService {
     cb: (err: any, appointments: AppointmentMessage[]) => void
   ): void;
   getAppointmentsAsync(
+    limit: number,
+    offset: number
+  ): Promise<AppointmentMessage[]>;
+
+  getFilteredAppointments(
+    filters: AppointmentFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, appointments: AppointmentMessage[]) => void
+  ): void;
+  getFilteredAppointmentsAsync(
+    filters: AppointmentFilters,
     limit: number,
     offset: number
   ): Promise<AppointmentMessage[]>;

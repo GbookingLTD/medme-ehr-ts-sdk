@@ -84,6 +84,26 @@ var PrescriptionService = /** @class */ (function (_super) {
             });
         });
     };
+    PrescriptionService.prototype.getFilteredPrescriptions = function (filters, limit, offset, cb) {
+        var _this = this;
+        var params = { filters: filters.plain(), limit: limit, offset: offset };
+        this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            return cb(null, payload["prescriptions"]);
+        });
+    };
+    PrescriptionService.prototype.getFilteredPrescriptionsAsync = function (filters, limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getFilteredPrescriptions(filters, limit, offset, function (err, values) {
+                if (err)
+                    return rej(err);
+                res(values);
+            });
+        });
+    };
     PrescriptionService.prototype.getPrescriptionsCount = function (cb) {
         var _this = this;
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD, {}, function (err, payload) {

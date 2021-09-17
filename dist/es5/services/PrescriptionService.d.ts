@@ -1,5 +1,6 @@
 import { IResourceService } from "./ResourceService";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
+import { PrescriptionFilters } from "./filters/PrescriptionFilters";
 export interface IPrescriptionService extends IResourceService {
     /**
      * Возвращает назначение по идентификатору.
@@ -19,6 +20,8 @@ export interface IPrescriptionService extends IResourceService {
     getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionMessage[]>;
     getPrescriptions(limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
     getPrescriptionsAsync(limit: number, offset: number): Promise<PrescriptionMessage[]>;
+    getFilteredPrescriptions(filters: PrescriptionFilters, limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
+    getFilteredPrescriptionsAsync(filters: PrescriptionFilters, limit: number, offset: number): Promise<PrescriptionMessage[]>;
     getPrescriptionsCount(cb: (err: any, count: number, support: boolean) => void): void;
     getPrescriptionsCountAsync(): Promise<{
         count: number;

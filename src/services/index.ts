@@ -11,6 +11,8 @@ import {
 import { Credentials } from "./Credentials";
 import { RpcErrorCodes } from "./RpcErrorCodes";
 
+import Filters from "./filters/index";
+
 export default {
   // InMemory
   //, BinRPC
@@ -22,4 +24,5 @@ export default {
   getAuthenticatedPatient,
   Credentials,
   RpcErrorCodes,
+  Filters,
 };

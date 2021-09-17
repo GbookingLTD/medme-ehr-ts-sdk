@@ -55,6 +55,7 @@ var Handlers = /** @class */ (function () {
     Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD = "embedded_storage.remove_authentication";
     Handlers.HANDLER_GET_PATIENT = 600;
     Handlers.HANDLER_GET_PATIENT_METHOD = "patient.get_patient";
+    Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";
     Handlers.HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
     Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
     return Handlers;
