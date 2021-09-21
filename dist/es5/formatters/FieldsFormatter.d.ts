@@ -72,7 +72,9 @@ export declare class FieldsFormatter implements IFormatter<Field[]> {
     private _localize;
     private _dateFormat;
     constructor(localize: object, dateFormat?: DateFormatFunc);
-    private dateField;
+    dateField(opts?: {
+        dateOnly: boolean;
+    }): FieldMeta;
     private textField;
     private numberField;
     private businessField;

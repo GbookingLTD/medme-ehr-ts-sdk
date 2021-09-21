@@ -21,7 +21,7 @@ export class PrescriptionByBusinessIdFilter
   implements ISerializableFilter
 {
   get prettyValue(): string {
-    return this.businessId;
+    return this.businessName;
   }
   get kind(): FilterTypeEnum {
     return FilterTypeEnum.PrescriptionByBusiness;
@@ -31,12 +31,14 @@ export class PrescriptionByBusinessIdFilter
   }
   setup(val: any): void {
     this.businessId = val?.businessId || "";
+    this.businessName = val?.businessName || "";
   }
   plain() {
-    return { businessId: this.businessId };
+    return { businessId: this.businessId, businessName: this.businessName };
   }
 
   public businessId: string = "";
+  public businessName: string = "";
 }
 
 export class PrescriptionByCreatedFilter extends DatePeriodFilter {

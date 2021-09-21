@@ -9,8 +9,10 @@ export declare class DiagnosticReportByBusinessIdFilter extends Filter implement
     setup(val: any): void;
     plain(): {
         businessId: string;
+        businessName: string;
     };
     businessId: string;
+    businessName: string;
 }
 export declare class DiagnosticReportByCreatedFilter extends DatePeriodFilter {
     get kind(): FilterTypeEnum;
@@ -34,6 +36,7 @@ export declare class DiagnosticReportFilters extends FilterList implements ISeri
     plain(): {
         byBusiness: {
             businessId: string;
+            businessName: string;
         };
         byCreated: {
             from: string;

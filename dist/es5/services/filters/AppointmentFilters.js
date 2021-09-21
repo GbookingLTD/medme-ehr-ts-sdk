@@ -31,20 +31,22 @@ var AppointmentByBusinessIdFilter = /** @class */ (function (_super) {
     function AppointmentByBusinessIdFilter() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.businessId = "";
+        _this.businessName = "";
         return _this;
     }
     Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "prettyValue", {
         get: function () {
-            return this.businessId;
+            return this.businessName;
         },
         enumerable: false,
         configurable: true
     });
     AppointmentByBusinessIdFilter.prototype.setup = function (val) {
         this.businessId = (val === null || val === void 0 ? void 0 : val.businessId) || "";
+        this.businessName = (val === null || val === void 0 ? void 0 : val.businessName) || "";
     };
     AppointmentByBusinessIdFilter.prototype.plain = function () {
-        return { businessId: this.businessId };
+        return { businessId: this.businessId, businessName: this.businessName };
     };
     Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "kind", {
         get: function () {

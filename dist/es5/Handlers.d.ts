@@ -51,6 +51,8 @@ export declare class Handlers {
     static readonly HANDLER_REMOVE_AUTH_INFO_METHOD = "embedded_storage.remove_auth_info";
     static readonly HANDLER_REMOVE_AUTHENTICATION = 504;
     static readonly HANDLER_REMOVE_AUTHENTICATION_METHOD = "embedded_storage.remove_authentication";
+    static readonly HANDLER_GET_BUSINESS_INFO = 505;
+    static readonly HANDLER_GET_BUSINESS_INFO_METHOD = "embedded_storage.get_business_info";
     static readonly HANDLER_GET_PATIENT = 600;
     static readonly HANDLER_GET_PATIENT_METHOD = "patient.get_patient";
     static readonly HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";

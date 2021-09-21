@@ -140,24 +140,26 @@ var FieldsFormatter = /** @class */ (function () {
     // Common field definitions
     FieldsFormatter.prototype.dateField = function (opts) {
         var this_ = this;
+        var format = function (intl, val) {
+            if (typeof val == "string")
+                val = new Date(Date.parse(val));
+            var d = val;
+            if (d.getFullYear() === 0 || d.getFullYear() === 1)
+                return "не определено";
+            return intl.format(d);
+        };
         return {
             type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
             format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
-                ? function (val) {
-                    return new Intl.DateTimeFormat("ru").format(typeof val == "string"
-                        ? new Date(Date.parse(val))
-                        : val);
-                }
+                ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
                 : function (val) {
-                    return new Intl.DateTimeFormat("ru", {
+                    return format(new Intl.DateTimeFormat("ru", {
                         year: "numeric",
                         month: "numeric",
                         day: "numeric",
                         hour: "numeric",
                         minute: "numeric",
-                    }).format(typeof val == "string"
-                        ? new Date(Date.parse(val))
-                        : val);
+                    }), val);
                 },
         };
     };
@@ -601,9 +603,20 @@ var FieldsFormatter = /** @class */ (function () {
             created: this.dateField(),
             recorderDoctor: this.doctorField(),
             validityPeriod: this.periodField(),
+            dosageText: {
+                type: FieldType.Paragraphs,
+                format: function (val) {
+                    if (!val)
+                        return [];
+                    var str = val;
+                    return str.split("\r\n");
+                },
+            },
             medications: this.medicationsField(),
+            reasonText: this.textField(),
+            numberOfRepeats: this.numberField(),
         };
-        return buildFieldArray(p, meta, this._localize["prescription"]);
+        return buildFieldArray(p, meta, this._localize["Prescription"]);
     };
     FieldsFormatter.prototype.medication = function (m) {
         var this_ = this;

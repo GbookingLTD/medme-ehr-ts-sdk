@@ -5,6 +5,7 @@ import { PrescriptionService } from "./PrescriptionService";
 import { DiagnosticReportService } from "./DiagnosticReportService";
 import { AuthService } from "./AuthService";
 import { PatientService } from "./PatientService";
+import { BusinessInfoService } from "./BusinessInfoService";
 import { JsonRpcHeader } from "./jsonRpcRequest";
 
 export default {
@@ -18,4 +19,5 @@ export default {
   DiagnosticReportService,
   AuthService,
   PatientService,
+  BusinessInfoService,
 };

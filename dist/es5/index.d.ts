@@ -19,6 +19,7 @@ export declare const EHR: {
             DiagnosticReportService: typeof import("./services/jsonRPC/DiagnosticReportService").DiagnosticReportService;
             AuthService: typeof import("./services/jsonRPC/AuthService").AuthService;
             PatientService: typeof import("./services/jsonRPC/PatientService").PatientService;
+            BusinessInfoService: typeof import("./services/jsonRPC/BusinessInfoService").BusinessInfoService;
         };
         PatientAuthenticationResult: typeof import("./services/AuthService").PatientAuthenticationResult;
         PatientAuthenticationStep: typeof import("./services/AuthService").PatientAuthenticationStep;

@@ -13,6 +13,7 @@ declare const _default: {
         DiagnosticReportService: typeof import("./jsonRPC/DiagnosticReportService").DiagnosticReportService;
         AuthService: typeof import("./jsonRPC/AuthService").AuthService;
         PatientService: typeof import("./jsonRPC/PatientService").PatientService;
+        BusinessInfoService: typeof import("./jsonRPC/BusinessInfoService").BusinessInfoService;
     };
     PatientAuthenticationResult: typeof PatientAuthenticationResult;
     PatientAuthenticationStep: typeof PatientAuthenticationStep;

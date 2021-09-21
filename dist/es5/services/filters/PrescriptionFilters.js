@@ -31,11 +31,12 @@ var PrescriptionByBusinessIdFilter = /** @class */ (function (_super) {
     function PrescriptionByBusinessIdFilter() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.businessId = "";
+        _this.businessName = "";
         return _this;
     }
     Object.defineProperty(PrescriptionByBusinessIdFilter.prototype, "prettyValue", {
         get: function () {
-            return this.businessId;
+            return this.businessName;
         },
         enumerable: false,
         configurable: true
@@ -52,9 +53,10 @@ var PrescriptionByBusinessIdFilter = /** @class */ (function (_super) {
     };
     PrescriptionByBusinessIdFilter.prototype.setup = function (val) {
         this.businessId = (val === null || val === void 0 ? void 0 : val.businessId) || "";
+        this.businessName = (val === null || val === void 0 ? void 0 : val.businessName) || "";
     };
     PrescriptionByBusinessIdFilter.prototype.plain = function () {
-        return { businessId: this.businessId };
+        return { businessId: this.businessId, businessName: this.businessName };
     };
     return PrescriptionByBusinessIdFilter;
 }(Filter));

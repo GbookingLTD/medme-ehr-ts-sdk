@@ -9,8 +9,10 @@ export declare class PrescriptionByBusinessIdFilter extends Filter implements IS
     setup(val: any): void;
     plain(): {
         businessId: string;
+        businessName: string;
     };
     businessId: string;
+    businessName: string;
 }
 export declare class PrescriptionByCreatedFilter extends DatePeriodFilter {
     get kind(): FilterTypeEnum;
@@ -34,6 +36,7 @@ export declare class PrescriptionFilters extends FilterList implements ISerializ
     plain(): {
         byBusiness: {
             businessId: string;
+            businessName: string;
         };
         byCreated: {
             from: string;

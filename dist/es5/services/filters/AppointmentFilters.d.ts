@@ -8,8 +8,10 @@ export declare class AppointmentByBusinessIdFilter extends Filter implements ISe
     setup(val: any): void;
     plain(): {
         businessId: string;
+        businessName: string;
     };
     businessId: string;
+    businessName: string;
     get kind(): FilterTypeEnum;
     get key(): string;
     get title(): string;
@@ -40,6 +42,7 @@ export declare class AppointmentFilters extends FilterList implements ISerializa
     plain(): {
         byBusiness: {
             businessId: string;
+            businessName: string;
         };
         byCreated: {
             from: string;

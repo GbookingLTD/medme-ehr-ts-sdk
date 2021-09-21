@@ -27,17 +27,19 @@ export class AppointmentByBusinessIdFilter
   implements ISerializableFilter
 {
   get prettyValue(): string {
-    return this.businessId;
+    return this.businessName;
   }
 
   setup(val: any): void {
     this.businessId = val?.businessId || "";
+    this.businessName = val?.businessName || "";
   }
   plain() {
-    return { businessId: this.businessId };
+    return { businessId: this.businessId, businessName: this.businessName };
   }
 
   public businessId: string = "";
+  public businessName: string = "";
 
   get kind(): FilterTypeEnum {
     return FilterTypeEnum.AppointmentByBusiness;

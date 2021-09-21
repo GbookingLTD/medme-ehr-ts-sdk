@@ -30,6 +30,7 @@ import { DiscountType } from "../types/DiscountType";
 import { PatientMessage } from "messages/PatientMessage";
 import { TextPeriod } from "types/Period";
 import { AppointmentMessage } from "messages/AppointmentMessage";
+import { isNullUndefZero } from "services/filters/AppointmentFilters";
 
 export enum FieldType {
   Text = "text",
@@ -202,28 +203,31 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   // ----------------------------------
   // Common field definitions
 
-  private dateField(opts?: { dateOnly: boolean }): FieldMeta {
+  public dateField(opts?: { dateOnly: boolean }): FieldMeta {
     const this_ = this;
+
+    const format = (intl: Intl.DateTimeFormat, val: FieldValue): string => {
+      if (typeof val == "string") val = new Date(Date.parse(val as string));
+      const d = val as Date;
+      if (d.getFullYear() === 0 || d.getFullYear() === 1)
+        return "не определено";
+      return intl.format(d);
+    };
+
     return {
       type: opts?.dateOnly ? FieldType.Date : FieldType.DateTime,
       format: opts?.dateOnly
-        ? (val: FieldValue) =>
-            new Intl.DateTimeFormat("ru").format(
-              typeof val == "string"
-                ? new Date(Date.parse(val as string))
-                : (val as Date)
-            )
+        ? (val: FieldValue) => format(new Intl.DateTimeFormat("ru"), val)
         : (val: FieldValue) =>
-            new Intl.DateTimeFormat("ru", {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-            }).format(
-              typeof val == "string"
-                ? new Date(Date.parse(val as string))
-                : (val as Date)
+            format(
+              new Intl.DateTimeFormat("ru", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              }),
+              val
             ),
     };
   }
@@ -743,10 +747,20 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       created: this.dateField(),
       recorderDoctor: this.doctorField(),
       validityPeriod: this.periodField(),
+      dosageText: {
+        type: FieldType.Paragraphs,
+        format: (val: FieldValue): FieldValue => {
+          if (!val) return [];
+          const str = val as string;
+          return str.split("\r\n");
+        },
+      },
       medications: this.medicationsField(),
+      reasonText: this.textField(),
+      numberOfRepeats: this.numberField(),
     } as FieldMetaMap;
 
-    return buildFieldArray(p, meta, this._localize["prescription"]);
+    return buildFieldArray(p, meta, this._localize["Prescription"]);
   }
 
   public medication(m: Medication): Field[] {
