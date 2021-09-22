@@ -1,14 +1,12 @@
-# Javascript/typescript SDK client for MedMe EHR
+# MedMe EHR Typescript SDK
 
-## Build for development
+## Build
 
 ```
     npm install -g typescript
     npm i
     make build
 ```
-
-## Описание тестов
 
 ## Running tests
 
