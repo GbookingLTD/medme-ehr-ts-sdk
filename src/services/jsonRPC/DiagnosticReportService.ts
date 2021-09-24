@@ -3,7 +3,7 @@ import { Handlers } from "../../Handlers";
 import { DiagnosticReportModel } from "../../models/DiagnosticReportModel";
 import { IDiagnosticReportService } from "../DiagnosticReportService";
 import { DiagnosticReportMessage } from "../../messages/DiagnosticReportMessage";
-import { DiagnosticReportFilters } from "services/filters/DiagnosticReportFilters";
+import { DiagnosticReportFilters } from "../../services/filters/DiagnosticReportFilters";
 
 export class DiagnosticReportService
   extends JsonRPCCredService

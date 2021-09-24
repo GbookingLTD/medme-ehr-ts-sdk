@@ -342,7 +342,13 @@ define("types/ProcedureInfo", ["require", "exports"], function (require, exports
 define("types/Period", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Period = void 0;
+    exports.Period = exports.TextPeriod = void 0;
+    var TextPeriod = /** @class */ (function () {
+        function TextPeriod() {
+        }
+        return TextPeriod;
+    }());
+    exports.TextPeriod = TextPeriod;
     var Period = /** @class */ (function () {
         function Period() {
         }
@@ -442,6 +448,7 @@ define("types/PatientInfo", ["require", "exports"], function (require, exports) 
             this.email = json.email;
             this.gender = json.gender;
             this.date = json.date;
+            this.medcardNumber = json.medcardNumber;
             return this;
         };
         PatientInfo.prototype.toJson = function () {
@@ -454,6 +461,7 @@ define("types/PatientInfo", ["require", "exports"], function (require, exports) 
             payload.email = this.email;
             payload.gender = this.gender;
             payload.date = this.date.toJSON();
+            payload.medcardNumber = this.medcardNumber;
             return payload;
         };
         return PatientInfo;
@@ -479,12 +487,24 @@ define("types/Medication", ["require", "exports"], function (require, exports) {
         function Medication() {
         }
         Medication.prototype.fromJson = function (json) {
+            this.name = json.name;
+            this.code = json.code;
+            this.codeTable = json.codeTable;
+            this.reference = json.reference;
+            this.itemSize = json.itemSize;
+            this.dosageText = json.dosageText;
             this.form = json.from;
             this.amount = json.amount;
             this.expirationDate = json.expirationDate;
         };
         Medication.prototype.toJson = function () {
             var payload = {};
+            payload.name = this.name;
+            payload.code = this.code;
+            payload.codeTable = this.codeTable;
+            payload.reference = this.reference;
+            payload.itemSize = this.itemSize;
+            payload.dosageText = this.dosageText;
             payload.form = this.form;
             payload.amount = this.amount;
             payload.expirationDate = this.expirationDate.toJSON();
@@ -596,6 +616,517 @@ define("messages/AppointmentMessage", ["require", "exports"], function (require,
         return AppointmentMessage;
     }());
     exports.AppointmentMessage = AppointmentMessage;
+});
+define("formatters/l10n/ru-ru", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = {
+        MINUTE_UNIT: "мин.",
+        YES: "Да",
+        NO: "Нет",
+        CREATED: "Дата создания",
+        Gender: {
+            0: "М",
+            1: "Ж",
+            2: "Другое",
+            3: "Не установлено",
+        },
+        appointmentResult: {
+            business: "ЛПУ",
+            created: "Дата создания",
+            start: "Дата и время начала",
+            doctor: "Врач",
+            duration: "Длительность",
+            anamnesis: "Анамнез",
+            medicalExaminationResult: "Результаты обследования",
+            diagnosis: "Диагноз",
+            recommendations: "Рекомендации",
+            scheduledProcedures: "Процедуры",
+            scheduledProceduresHint: "Назначенные на приеме процедуры, анализы, исследования",
+            prescriptions: "Назначения",
+            prescriptionsHint: "Медикаментозные назначения (выписанные лекарства)",
+        },
+        procedure: {
+            created: "Дата создания",
+            title: "Название",
+            services: "Услуги",
+            type: "Тип",
+            required: "Обязательно",
+            status: "Статус",
+            period: "Предполагаемый период выполнения услуги",
+            strictPeriod: "Период выполнения услуги, который нельзя нарушить",
+            preparations: "Желаемые приготовления к процедуре",
+            requiredPreparations: "Необходимые приготовления к процедуре",
+        },
+        procedureType: ["Рекомендация", "Процедура", "Анализы"],
+        ProcedureExecStatus: ["Запланировано", "В процессе", "Отменено", "Выполнена"],
+        Period: {
+            begin: "Дата начала",
+            end: "Дата окончания",
+        },
+        DiagnosticReport: {
+            doctor: "Врач",
+            effectivePeriod: "Период, в течение которого данные действительны",
+            result: "Обследование",
+            imagineMedia: "Изображения",
+            attachments: "Документы",
+            id: "Идентификатор",
+            created: "Создано",
+            active: "Статус",
+            business: "ЛПУ",
+            patient: "Пациент",
+            status: "Статус готовности",
+            type: "Тип отчета",
+            category: "Категория",
+            resultInterpretation: "Отчет, по результатам обследования",
+            resultInterpreter: "Врач, составивший отчет",
+            services: "Услуги",
+            issuedDate: "Дата публикации отчета",
+        },
+        Prescription: {
+            title: "Название",
+            created: "Дата создания",
+            recorderDoctor: "Врач, выписавший рецепт",
+            medications: "Список лекарств",
+            dosageText: "Список лекарств",
+            reasonText: "Причина назначения",
+            validityPeriod: "Время, в течение которого рецепт действует",
+            numberOfRepeats: "Сколько раз по этому рецепту можно получить лекарства",
+        },
+        MedicationForm: {
+            0: "Порошок",
+            1: "Таблетки",
+            2: "Капсулы",
+        },
+        ActiveStatus: {
+            disactive: "Не активно",
+            active: "Активно",
+        },
+        DiagnosisType: {
+            laboratoryTest: "Лабораторный тест",
+            observation: "Обследование",
+            unknown: "Не определено",
+        },
+        Currency: ["₽", "$"],
+        currencyPosition: "right",
+        diagnosisTitle: "Диагноз",
+        Duration: {
+            hour: "час",
+            hours: "часов",
+            minute: "минута",
+            minutes: "минут",
+        },
+        Observation: {
+            id: "Идентификатор",
+            createdDate: "Дата создания",
+            patientInfo: "Пациент",
+            type: "Тип обследования",
+            observationKey: "Название обследования",
+            status: "Статус",
+            effectivePeriod: "Период, в течение которого данные обследования корректны",
+            issuedDate: "Дата публикации",
+            performerDoctor: "Специалист, выполнивший обследование",
+            performerBusiness: "ЛПУ/Лаборатория",
+            value: "Данные",
+            note: "Заметки",
+            interpretation: "Интерпретация",
+            ranges: "Допустимые интервалы значений",
+            components: "Показатели в интервалах",
+        },
+        patient: {
+            id: "Идентификатор",
+            fullName: "Имя",
+            phones: "Телефон",
+            email: "email",
+            gender: "Пол",
+            birthdate: "Дата рождения",
+            medcardNumber: "Мед Карта",
+            address: "Адрес",
+        },
+        appointment: {
+            business: "ЛПУ",
+            created: "Дата создания",
+            start: "Дата и время начала",
+            doctor: "Врач",
+            duration: "Длительность",
+        },
+        filters: {
+            Unknown: "Неизвестно",
+            PatientByMedCard: "Мед. Карта",
+            PatientByName: "Имя",
+            PatientByPhone: "Телефон",
+            AppointmentByPatientId: "ID Пациента",
+            AppointmentByCreated: "Дата создания",
+            AppointmentByStarted: "Дата приёма",
+            AppointmentByBusiness: "ЛПУ",
+            DiagnosticReportByPatient: "ID Пациента",
+            DiagnosticReportByCreated: "Дата создания",
+            DiagnosticReportByBusiness: "ЛПУ",
+            PrescriptionByPatient: "ID Пациента",
+            PrescriptionByCreated: "Дата создания",
+            PrescriptionByBusiness: "ЛПУ",
+        },
+    };
+});
+define("formatters/l10n/en-us", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = {
+        MINUTE_UNIT: "min",
+        YES: "Yes",
+        NO: "No",
+        CREATED: "Creation date",
+        appointmentResult: {
+            created: "Created",
+            start: "Date and time of creation",
+            doctor: "Doctor",
+            duration: "Duration",
+            anamnesis: "Anamnesis",
+            medicalExaminationResult: "Examination results",
+            diagnosis: "Diagnosis",
+            recommendations: "Recommendations",
+            scheduledProcedures: "Procedures, medical examinations and lab tests prescribed during the doctor visit",
+            prescriptions: "Medicines (prescription drugs)",
+        },
+        procedure: {
+            created: "Created",
+            title: "Title",
+            services: "Services",
+            type: "Type",
+            required: "Required",
+            status: "Status",
+            period: "Expected period of service execution",
+            strictPeriod: "Strict service execution period",
+            preparations: "Desired preparations for the procedure",
+            requiredPreparations: "Required preparations for the procedure",
+        },
+        procedureType: ["Recommendation", "Procedure", "Lab tests"],
+        ProcedureExecStatus: ["Planned", "In progress", "Cancelled", "Complete"],
+        Period: {
+            begin: "Start date",
+            end: "End date",
+        },
+        DiagnosticReport: {
+            Doctor: "Doctor",
+            EffectivePeriod: "Medical data effective period",
+            Result: "Results",
+            Images: "Images",
+            Attachments: "Documents",
+        },
+        Prescription: {
+            title: "Drug name",
+            created: "Date created",
+            recorderDoctor: "The doctor who wrote out this prescription",
+            medications: "Drug list",
+            dosageText: "Dosage",
+            reasonText: "Prescription reason",
+            validityPeriod: "Prescription validity period",
+            numberOfRepeats: "How many times can you get your prescription drugs",
+        },
+        MedicationForm: {
+            0: "Powder",
+            1: "Pills",
+            2: "Capsules",
+        },
+    };
+});
+define("formatters/LocaleCode", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.LocaleCode = void 0;
+    var LocaleCode;
+    (function (LocaleCode) {
+        LocaleCode["ruRU"] = "ru-ru";
+        LocaleCode["enUS"] = "en-us";
+    })(LocaleCode = exports.LocaleCode || (exports.LocaleCode = {}));
+});
+define("formatters/l10n/index", ["require", "exports", "formatters/l10n/ru-ru", "formatters/l10n/en-us"], function (require, exports, ru_ru_1, en_us_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = {
+        ruRU: ru_ru_1.default,
+        enUS: en_us_1.default,
+        getByLocaleCode: function (locale) {
+            return {
+                "ru-ru": ru_ru_1.default,
+                "en-us": en_us_1.default,
+            }[locale];
+        },
+    };
+});
+define("services/filters/FilterTypes", ["require", "exports"], function (require, exports) {
+    "use strict";
+    var _a;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.FilterKeys = exports.FilterTypeEnum = void 0;
+    var FilterTypeEnum;
+    (function (FilterTypeEnum) {
+        FilterTypeEnum[FilterTypeEnum["Unknown"] = 0] = "Unknown";
+        FilterTypeEnum[FilterTypeEnum["PatientByMedCard"] = 1] = "PatientByMedCard";
+        FilterTypeEnum[FilterTypeEnum["PatientByName"] = 2] = "PatientByName";
+        FilterTypeEnum[FilterTypeEnum["PatientByPhone"] = 3] = "PatientByPhone";
+        FilterTypeEnum[FilterTypeEnum["AppointmentByPatientId"] = 10] = "AppointmentByPatientId";
+        FilterTypeEnum[FilterTypeEnum["AppointmentByCreated"] = 11] = "AppointmentByCreated";
+        FilterTypeEnum[FilterTypeEnum["AppointmentByStarted"] = 12] = "AppointmentByStarted";
+        FilterTypeEnum[FilterTypeEnum["AppointmentByBusiness"] = 13] = "AppointmentByBusiness";
+        FilterTypeEnum[FilterTypeEnum["DiagnosticReportByPatientId"] = 20] = "DiagnosticReportByPatientId";
+        FilterTypeEnum[FilterTypeEnum["DiagnosticReportByCreated"] = 21] = "DiagnosticReportByCreated";
+        FilterTypeEnum[FilterTypeEnum["DiagnosticReportByBusiness"] = 22] = "DiagnosticReportByBusiness";
+        FilterTypeEnum[FilterTypeEnum["PrescriptionByPatient"] = 30] = "PrescriptionByPatient";
+        FilterTypeEnum[FilterTypeEnum["PrescriptionByCreated"] = 31] = "PrescriptionByCreated";
+        FilterTypeEnum[FilterTypeEnum["PrescriptionByBusiness"] = 32] = "PrescriptionByBusiness";
+    })(FilterTypeEnum = exports.FilterTypeEnum || (exports.FilterTypeEnum = {}));
+    exports.FilterKeys = (_a = {},
+        _a[FilterTypeEnum.Unknown] = "Unknown",
+        _a[FilterTypeEnum.PatientByMedCard] = "PatientByMedCard",
+        _a[FilterTypeEnum.PatientByName] = "PatientByName",
+        _a[FilterTypeEnum.PatientByPhone] = "PatientByPhone",
+        _a[FilterTypeEnum.AppointmentByPatientId] = "AppointmentByPatientId",
+        _a[FilterTypeEnum.AppointmentByCreated] = "AppointmentByCreated",
+        _a[FilterTypeEnum.AppointmentByStarted] = "AppointmentByStarted",
+        _a[FilterTypeEnum.AppointmentByBusiness] = "AppointmentByBusiness",
+        _a[FilterTypeEnum.DiagnosticReportByPatientId] = "DiagnosticReportByPatient",
+        _a[FilterTypeEnum.DiagnosticReportByCreated] = "DiagnosticReportByCreated",
+        _a[FilterTypeEnum.DiagnosticReportByBusiness] = "DiagnosticReportByBusiness",
+        _a[FilterTypeEnum.PrescriptionByPatient] = "PrescriptionByPatient",
+        _a[FilterTypeEnum.PrescriptionByCreated] = "PrescriptionByCreated",
+        _a[FilterTypeEnum.PrescriptionByBusiness] = "PrescriptionByBusiness",
+        _a);
+});
+define("services/filters/Filters", ["require", "exports", "services/filters/FilterTypes"], function (require, exports, FilterTypes_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Filter = exports.FilterList = void 0;
+    var FilterList = /** @class */ (function () {
+        function FilterList() {
+        }
+        FilterList.prototype.isEmpty = function () {
+            return this.getFilters().find(function (item) { return !item.isEmpty(); }) == null;
+        };
+        FilterList.prototype.getFilledFilters = function () {
+            return this.getFilters().filter(function (item) { return !item.isEmpty(); });
+        };
+        return FilterList;
+    }());
+    exports.FilterList = FilterList;
+    var Filter = /** @class */ (function () {
+        function Filter(localize) {
+            this.localize = localize;
+        }
+        Object.defineProperty(Filter.prototype, "key", {
+            get: function () {
+                return FilterTypes_1.FilterKeys[this.kind];
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(Filter.prototype, "title", {
+            get: function () {
+                return this.localize[this.key];
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return Filter;
+    }());
+    exports.Filter = Filter;
+});
+define("services/filters/DatePeriodFilter", ["require", "exports", "services/filters/Filters", "services/filters/AppointmentFilters"], function (require, exports, Filters_1, AppointmentFilters_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DatePeriodFilter = void 0;
+    var DatePeriodFilter = /** @class */ (function (_super) {
+        __extends(DatePeriodFilter, _super);
+        function DatePeriodFilter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(DatePeriodFilter.prototype, "prettyValue", {
+            get: function () {
+                return (new Intl.DateTimeFormat("ru").format(this.from) +
+                    " — " +
+                    new Intl.DateTimeFormat("ru").format(this.to));
+            },
+            enumerable: false,
+            configurable: true
+        });
+        DatePeriodFilter.prototype.setup = function (val) {
+            this.from = (val === null || val === void 0 ? void 0 : val.from) ? new Date(Date.parse(val.from)) : null;
+            this.to = (val === null || val === void 0 ? void 0 : val.to) ? new Date(Date.parse(val.to)) : null;
+        };
+        DatePeriodFilter.prototype.plain = function () {
+            return {
+                from: this.from ? this.from.toISOString() : "",
+                to: this.to ? this.to.toISOString() : "",
+            };
+        };
+        DatePeriodFilter.prototype.isEmpty = function () {
+            return AppointmentFilters_1.isNullUndefZero(this.from) && AppointmentFilters_1.isNullUndefZero(this.to);
+        };
+        return DatePeriodFilter;
+    }(Filters_1.Filter));
+    exports.DatePeriodFilter = DatePeriodFilter;
+});
+define("services/filters/AppointmentFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_1, DatePeriodFilter_1, Filters_2, FilterTypes_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentFilters = exports.AppointmentByPatientIdFilter = exports.AppointmentByStartFilter = exports.AppointmentByCreatedFilter = exports.AppointmentByBusinessIdFilter = exports.isNullUndefZero = void 0;
+    function isNullUndefEmpty(val) {
+        return val == undefined || val == null || val == "";
+    }
+    function isNullUndef(val) {
+        return val == null || val == undefined;
+    }
+    function isNullUndefZero(val) {
+        return val == null || val == undefined || val.getTime() == 0;
+    }
+    exports.isNullUndefZero = isNullUndefZero;
+    var AppointmentByBusinessIdFilter = /** @class */ (function (_super) {
+        __extends(AppointmentByBusinessIdFilter, _super);
+        function AppointmentByBusinessIdFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.businessId = "";
+            _this.businessName = "";
+            return _this;
+        }
+        Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.businessName;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        AppointmentByBusinessIdFilter.prototype.setup = function (val) {
+            this.businessId = (val === null || val === void 0 ? void 0 : val.businessId) || "";
+            this.businessName = (val === null || val === void 0 ? void 0 : val.businessName) || "";
+        };
+        AppointmentByBusinessIdFilter.prototype.plain = function () {
+            return { businessId: this.businessId, businessName: this.businessName };
+        };
+        Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.AppointmentByBusiness;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "key", {
+            get: function () {
+                return FilterTypes_2.FilterKeys[this.kind];
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "title", {
+            get: function () {
+                return this.localize[this.key];
+            },
+            enumerable: false,
+            configurable: true
+        });
+        AppointmentByBusinessIdFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.businessId);
+        };
+        return AppointmentByBusinessIdFilter;
+    }(Filters_2.Filter));
+    exports.AppointmentByBusinessIdFilter = AppointmentByBusinessIdFilter;
+    var AppointmentByCreatedFilter = /** @class */ (function (_super) {
+        __extends(AppointmentByCreatedFilter, _super);
+        function AppointmentByCreatedFilter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(AppointmentByCreatedFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.AppointmentByCreated;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return AppointmentByCreatedFilter;
+    }(DatePeriodFilter_1.DatePeriodFilter));
+    exports.AppointmentByCreatedFilter = AppointmentByCreatedFilter;
+    var AppointmentByStartFilter = /** @class */ (function (_super) {
+        __extends(AppointmentByStartFilter, _super);
+        function AppointmentByStartFilter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(AppointmentByStartFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.AppointmentByStarted;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return AppointmentByStartFilter;
+    }(DatePeriodFilter_1.DatePeriodFilter));
+    exports.AppointmentByStartFilter = AppointmentByStartFilter;
+    var AppointmentByPatientIdFilter = /** @class */ (function (_super) {
+        __extends(AppointmentByPatientIdFilter, _super);
+        function AppointmentByPatientIdFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.patientId = "";
+            return _this;
+        }
+        Object.defineProperty(AppointmentByPatientIdFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.patientId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        AppointmentByPatientIdFilter.prototype.setup = function (val) {
+            this.patientId = (val === null || val === void 0 ? void 0 : val.patientId) || "";
+        };
+        AppointmentByPatientIdFilter.prototype.plain = function () {
+            return { patientId: this.patientId };
+        };
+        Object.defineProperty(AppointmentByPatientIdFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.AppointmentByPatientId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        AppointmentByPatientIdFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.patientId);
+        };
+        return AppointmentByPatientIdFilter;
+    }(Filters_2.Filter));
+    exports.AppointmentByPatientIdFilter = AppointmentByPatientIdFilter;
+    var AppointmentFilters = /** @class */ (function (_super) {
+        __extends(AppointmentFilters, _super);
+        function AppointmentFilters(localize) {
+            var _this = _super.call(this) || this;
+            _this.byBusinessId = new AppointmentByBusinessIdFilter(localize);
+            _this.byCreated = new AppointmentByCreatedFilter(localize);
+            _this.byPatientId = new AppointmentByPatientIdFilter(localize);
+            _this.byStart = new AppointmentByStartFilter(localize);
+            return _this;
+        }
+        AppointmentFilters.createWithLocale = function (locale) {
+            return new AppointmentFilters(index_1.default.getByLocaleCode(locale)["filters"]);
+        };
+        AppointmentFilters.prototype.setup = function (val) {
+            if (isNullUndef(val))
+                return;
+            this.byBusinessId.setup(val["byBusines"]);
+            this.byCreated.setup(val["byCreated"]);
+            this.byStart.setup(val["byStart"]);
+            this.byPatientId.setup(val["byPatient"]);
+        };
+        AppointmentFilters.prototype.plain = function () {
+            return {
+                byBusiness: this.byBusinessId.plain(),
+                byCreated: this.byCreated.plain(),
+                byStart: this.byStart.plain(),
+                byPatient: this.byPatientId.plain(),
+            };
+        };
+        AppointmentFilters.prototype.getFilters = function () {
+            return [this.byBusinessId, this.byCreated, this.byStart, this.byPatientId];
+        };
+        return AppointmentFilters;
+    }(Filters_2.FilterList));
+    exports.AppointmentFilters = AppointmentFilters;
 });
 define("services/AppointmentService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -1003,6 +1534,148 @@ define("messages/PatientMessage", ["require", "exports"], function (require, exp
         return PatientMessage;
     }());
     exports.PatientMessage = PatientMessage;
+});
+define("services/filters/PatientFilters", ["require", "exports", "formatters/l10n/index", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_2, Filters_3, FilterTypes_3) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientFilters = exports.PatientByPhoneFilter = exports.PatientByMedCardFilter = exports.PatientByNameFilter = void 0;
+    function isNullUndefEmpty(val) {
+        return val == undefined || val == null || val == "";
+    }
+    function isNullUndef(val) {
+        return val == null || val == undefined;
+    }
+    var PatientByNameFilter = /** @class */ (function (_super) {
+        __extends(PatientByNameFilter, _super);
+        function PatientByNameFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.name = "";
+            return _this;
+        }
+        Object.defineProperty(PatientByNameFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.name;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByNameFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_3.FilterTypeEnum.PatientByName;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByNameFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.name);
+        };
+        PatientByNameFilter.prototype.setup = function (val) {
+            this.name = (val === null || val === void 0 ? void 0 : val.name) || "";
+        };
+        PatientByNameFilter.prototype.plain = function () {
+            return { name: this.name };
+        };
+        return PatientByNameFilter;
+    }(Filters_3.Filter));
+    exports.PatientByNameFilter = PatientByNameFilter;
+    var PatientByMedCardFilter = /** @class */ (function (_super) {
+        __extends(PatientByMedCardFilter, _super);
+        function PatientByMedCardFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.medCardId = "";
+            return _this;
+        }
+        Object.defineProperty(PatientByMedCardFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.medCardId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByMedCardFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_3.FilterTypeEnum.PatientByMedCard;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByMedCardFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.medCardId);
+        };
+        PatientByMedCardFilter.prototype.setup = function (val) {
+            this.medCardId = (val === null || val === void 0 ? void 0 : val.medCardId) || "";
+        };
+        PatientByMedCardFilter.prototype.plain = function () {
+            return { medCardId: this.medCardId };
+        };
+        return PatientByMedCardFilter;
+    }(Filters_3.Filter));
+    exports.PatientByMedCardFilter = PatientByMedCardFilter;
+    var PatientByPhoneFilter = /** @class */ (function (_super) {
+        __extends(PatientByPhoneFilter, _super);
+        function PatientByPhoneFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.phone = "";
+            return _this;
+        }
+        Object.defineProperty(PatientByPhoneFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.phone;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByPhoneFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_3.FilterTypeEnum.PatientByPhone;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByPhoneFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.phone);
+        };
+        PatientByPhoneFilter.prototype.setup = function (val) {
+            this.phone = (val === null || val === void 0 ? void 0 : val.phone) || "";
+        };
+        PatientByPhoneFilter.prototype.plain = function () {
+            return { phone: this.phone };
+        };
+        return PatientByPhoneFilter;
+    }(Filters_3.Filter));
+    exports.PatientByPhoneFilter = PatientByPhoneFilter;
+    var PatientFilters = /** @class */ (function (_super) {
+        __extends(PatientFilters, _super);
+        function PatientFilters(localize) {
+            var _this = _super.call(this) || this;
+            _this.byMedCard = new PatientByMedCardFilter(localize);
+            _this.byName = new PatientByNameFilter(localize);
+            _this.byPhone = new PatientByPhoneFilter(localize);
+            return _this;
+        }
+        PatientFilters.createWithLocale = function (locale) {
+            return new PatientFilters(index_2.default.getByLocaleCode(locale)["filters"]);
+        };
+        PatientFilters.prototype.getFilters = function () {
+            return [this.byName, this.byMedCard, this.byPhone];
+        };
+        PatientFilters.prototype.setup = function (val) {
+            if (isNullUndef(val))
+                return;
+            this.byName.setup(val["byName"]);
+            this.byMedCard.setup(val["byMedCard"]);
+            this.byPhone.setup(val["byPhone"]);
+        };
+        PatientFilters.prototype.plain = function () {
+            return {
+                byName: this.byName.plain(),
+                byMedCard: this.byMedCard.plain(),
+                byPhone: this.byPhone.plain(),
+            };
+        };
+        return PatientFilters;
+    }(Filters_3.FilterList));
+    exports.PatientFilters = PatientFilters;
 });
 define("services/PatientService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -1683,6 +2356,7 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
         var _this = this;
         var req = new XMLHttpRequest();
         req.responseType = "json";
+        req.withCredentials = true;
         req.onload = function (res) {
             var target = res.target;
             if (target.status >= 400)
@@ -1871,8 +2545,11 @@ define("Handlers", ["require", "exports"], function (require, exports) {
         Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD = "embedded_storage.remove_auth_info";
         Handlers.HANDLER_REMOVE_AUTHENTICATION = 504;
         Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD = "embedded_storage.remove_authentication";
+        Handlers.HANDLER_GET_BUSINESS_INFO = 505;
+        Handlers.HANDLER_GET_BUSINESS_INFO_METHOD = "embedded_storage.get_business_info";
         Handlers.HANDLER_GET_PATIENT = 600;
         Handlers.HANDLER_GET_PATIENT_METHOD = "patient.get_patient";
+        Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";
         Handlers.HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
         Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
         return Handlers;
@@ -1892,9 +2569,7 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
             this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                var app = new AppointmentModel_2.AppointmentModel();
-                app.fromJson(payload["appointment"]);
-                return cb(null, app);
+                return cb(null, payload["appointment"]);
             });
         };
         AppointmentService.prototype.getAppointmentByIdAsync = function (id) {
@@ -1958,6 +2633,26 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
                 });
             });
         };
+        AppointmentService.prototype.getFilteredAppointments = function (filters, limit, offset, cb) {
+            var _this = this;
+            var params = { filters: filters.plain(), limit: limit, offset: offset };
+            this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_METHOD, params, function (err, payload) {
+                if (err)
+                    return cb(err, null);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["appointments"]);
+            });
+        };
+        AppointmentService.prototype.getFilteredAppointmentsAsync = function (filters, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getFilteredAppointments(filters, limit, offset, function (err, appointments) {
+                    if (err)
+                        return rej(err);
+                    res(appointments);
+                });
+            });
+        };
         AppointmentService.prototype.getAppointmentsCount = function (cb) {
             var _this = this;
             this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_COUNT_METHOD, {}, function (err, payload) {
@@ -2000,7 +2695,7 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
     }(jsonRpcService_1.JsonRPCCredService));
     exports.AppointmentService = AppointmentService;
 });
-define("models/AppointmentResultModel", ["require", "exports", "types/index", "models/AppointmentModel"], function (require, exports, index_1, AppointmentModel_3) {
+define("models/AppointmentResultModel", ["require", "exports", "types/index", "models/AppointmentModel"], function (require, exports, index_3, AppointmentModel_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AppointmentResultModel = void 0;
@@ -2119,16 +2814,16 @@ define("models/AppointmentResultModel", ["require", "exports", "types/index", "m
             this._anamnesis = json.anamnesis;
             this._medicalExaminationResult = json.medicalExaminationResult;
             this._diagnosis = json.diagnosis
-                ? json.diagnosis.map(function (d) { return new index_1.Diagnosis(d); })
+                ? json.diagnosis.map(function (d) { return new index_3.Diagnosis(d); })
                 : [];
             this._recommendations = json.recommendations
-                ? json.recommendations.map(function (r) { return new index_1.Procedure().fromJson(r); })
+                ? json.recommendations.map(function (r) { return new index_3.Procedure().fromJson(r); })
                 : [];
             this._scheduledProcedures = json.scheduledProcedures
-                ? json.scheduledProcedures.map(function (p) { return new index_1.Procedure().fromJson(p); })
+                ? json.scheduledProcedures.map(function (p) { return new index_3.Procedure().fromJson(p); })
                 : [];
             this._prescriptions = json.prescriptions
-                ? json.prescriptions.map(function (p) { return new index_1.PrescriptionInfo().fromJson(p); })
+                ? json.prescriptions.map(function (p) { return new index_3.PrescriptionInfo().fromJson(p); })
                 : [];
             this._diagnosticReportIds = json.diagnosticReportIds || [];
             return this;
@@ -2303,7 +2998,7 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
     }(jsonRpcService_2.JsonRPCCredService));
     exports.AppointmentResultService = AppointmentResultService;
 });
-define("models/PrescriptionModel", ["require", "exports", "types/index", "types/PatientInfo"], function (require, exports, index_2, PatientInfo_2) {
+define("models/PrescriptionModel", ["require", "exports", "types/index", "types/PatientInfo"], function (require, exports, index_4, PatientInfo_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PrescriptionModel = void 0;
@@ -2326,7 +3021,7 @@ define("models/PrescriptionModel", ["require", "exports", "types/index", "types/
             return this;
         };
         return PrescriptionModel;
-    }(index_2.PrescriptionInfo));
+    }(index_4.PrescriptionInfo));
     exports.PrescriptionModel = PrescriptionModel;
 });
 define("messages/PrescriptionMessage", ["require", "exports"], function (require, exports) {
@@ -2339,6 +3034,137 @@ define("messages/PrescriptionMessage", ["require", "exports"], function (require
         return PrescriptionMessage;
     }());
     exports.PrescriptionMessage = PrescriptionMessage;
+});
+define("services/filters/PrescriptionFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_5, DatePeriodFilter_2, Filters_4, FilterTypes_4) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PrescriptionFilters = exports.PrescriptionByPatientIdFilter = exports.PrescriptionByCreatedFilter = exports.PrescriptionByBusinessIdFilter = void 0;
+    function isNullUndefEmpty(val) {
+        return val == undefined || val == null || val == "";
+    }
+    function isNullUndef(val) {
+        return val == null || val == undefined;
+    }
+    function isNullUndefZero(val) {
+        return val == null || val == undefined || val.getTime() == 0;
+    }
+    var PrescriptionByBusinessIdFilter = /** @class */ (function (_super) {
+        __extends(PrescriptionByBusinessIdFilter, _super);
+        function PrescriptionByBusinessIdFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.businessId = "";
+            _this.businessName = "";
+            return _this;
+        }
+        Object.defineProperty(PrescriptionByBusinessIdFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.businessName;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PrescriptionByBusinessIdFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_4.FilterTypeEnum.PrescriptionByBusiness;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PrescriptionByBusinessIdFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.businessId);
+        };
+        PrescriptionByBusinessIdFilter.prototype.setup = function (val) {
+            this.businessId = (val === null || val === void 0 ? void 0 : val.businessId) || "";
+            this.businessName = (val === null || val === void 0 ? void 0 : val.businessName) || "";
+        };
+        PrescriptionByBusinessIdFilter.prototype.plain = function () {
+            return { businessId: this.businessId, businessName: this.businessName };
+        };
+        return PrescriptionByBusinessIdFilter;
+    }(Filters_4.Filter));
+    exports.PrescriptionByBusinessIdFilter = PrescriptionByBusinessIdFilter;
+    var PrescriptionByCreatedFilter = /** @class */ (function (_super) {
+        __extends(PrescriptionByCreatedFilter, _super);
+        function PrescriptionByCreatedFilter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(PrescriptionByCreatedFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_4.FilterTypeEnum.PrescriptionByCreated;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return PrescriptionByCreatedFilter;
+    }(DatePeriodFilter_2.DatePeriodFilter));
+    exports.PrescriptionByCreatedFilter = PrescriptionByCreatedFilter;
+    var PrescriptionByPatientIdFilter = /** @class */ (function (_super) {
+        __extends(PrescriptionByPatientIdFilter, _super);
+        function PrescriptionByPatientIdFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.patientId = "";
+            return _this;
+        }
+        Object.defineProperty(PrescriptionByPatientIdFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.patientId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PrescriptionByPatientIdFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_4.FilterTypeEnum.PrescriptionByPatient;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PrescriptionByPatientIdFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.patientId);
+        };
+        PrescriptionByPatientIdFilter.prototype.setup = function (val) {
+            this.patientId = (val === null || val === void 0 ? void 0 : val.patientId) || "";
+        };
+        PrescriptionByPatientIdFilter.prototype.plain = function () {
+            return {
+                patientId: this.patientId || "",
+            };
+        };
+        return PrescriptionByPatientIdFilter;
+    }(Filters_4.Filter));
+    exports.PrescriptionByPatientIdFilter = PrescriptionByPatientIdFilter;
+    var PrescriptionFilters = /** @class */ (function (_super) {
+        __extends(PrescriptionFilters, _super);
+        function PrescriptionFilters(localize) {
+            var _this = _super.call(this) || this;
+            _this.byBusinessId = new PrescriptionByBusinessIdFilter(localize);
+            _this.byCreated = new PrescriptionByCreatedFilter(localize);
+            _this.byPatientId = new PrescriptionByPatientIdFilter(localize);
+            return _this;
+        }
+        PrescriptionFilters.createWithLocale = function (locale) {
+            return new PrescriptionFilters(index_5.default.getByLocaleCode(locale)["filters"]);
+        };
+        PrescriptionFilters.prototype.setup = function (val) {
+            if (isNullUndef(val))
+                return;
+            this.byBusinessId.setup(val["byBusines"]);
+            this.byCreated.setup(val["byCreated"]);
+            this.byPatientId.setup(val["byPatient"]);
+        };
+        PrescriptionFilters.prototype.plain = function () {
+            return {
+                byBusiness: this.byBusinessId.plain(),
+                byCreated: this.byCreated.plain(),
+                byPatient: this.byPatientId.plain(),
+            };
+        };
+        PrescriptionFilters.prototype.getFilters = function () {
+            return [this.byBusinessId, this.byCreated, this.byPatientId];
+        };
+        return PrescriptionFilters;
+    }(Filters_4.FilterList));
+    exports.PrescriptionFilters = PrescriptionFilters;
 });
 define("services/PrescriptionService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -2411,6 +3237,26 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             var service = this;
             return new Promise(function (res, rej) {
                 service.getPrescriptions(limit, offset, function (err, values) {
+                    if (err)
+                        return rej(err);
+                    res(values);
+                });
+            });
+        };
+        PrescriptionService.prototype.getFilteredPrescriptions = function (filters, limit, offset, cb) {
+            var _this = this;
+            var params = { filters: filters.plain(), limit: limit, offset: offset };
+            this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
+                if (err)
+                    return cb(err, null);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                return cb(null, payload["prescriptions"]);
+            });
+        };
+        PrescriptionService.prototype.getFilteredPrescriptionsAsync = function (filters, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getFilteredPrescriptions(filters, limit, offset, function (err, values) {
                     if (err)
                         return rej(err);
                     res(values);
@@ -2856,6 +3702,137 @@ define("messages/DiagnosticReportMessage", ["require", "exports"], function (req
     }());
     exports.DiagnosticReportMessage = DiagnosticReportMessage;
 });
+define("services/filters/DiagnosticReportFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_6, DatePeriodFilter_3, Filters_5, FilterTypes_5) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DiagnosticReportFilters = exports.DiagnosticReportByPatientIdFilter = exports.DiagnosticReportByCreatedFilter = exports.DiagnosticReportByBusinessIdFilter = void 0;
+    function isNullUndefEmpty(val) {
+        return val == undefined || val == null || val == "";
+    }
+    function isNullUndef(val) {
+        return val == null || val == undefined;
+    }
+    function isNullUndefZero(val) {
+        return val == null || val == undefined || val.getTime() == 0;
+    }
+    var DiagnosticReportByBusinessIdFilter = /** @class */ (function (_super) {
+        __extends(DiagnosticReportByBusinessIdFilter, _super);
+        function DiagnosticReportByBusinessIdFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.businessId = "";
+            _this.businessName = "";
+            return _this;
+        }
+        Object.defineProperty(DiagnosticReportByBusinessIdFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.businessName;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(DiagnosticReportByBusinessIdFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_5.FilterTypeEnum.DiagnosticReportByBusiness;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        DiagnosticReportByBusinessIdFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.businessId);
+        };
+        DiagnosticReportByBusinessIdFilter.prototype.setup = function (val) {
+            this.businessId = (val === null || val === void 0 ? void 0 : val.businessId) || "";
+            this.businessName = (val === null || val === void 0 ? void 0 : val.businessName) || "";
+        };
+        DiagnosticReportByBusinessIdFilter.prototype.plain = function () {
+            return { businessId: this.businessId, businessName: this.businessName };
+        };
+        return DiagnosticReportByBusinessIdFilter;
+    }(Filters_5.Filter));
+    exports.DiagnosticReportByBusinessIdFilter = DiagnosticReportByBusinessIdFilter;
+    var DiagnosticReportByCreatedFilter = /** @class */ (function (_super) {
+        __extends(DiagnosticReportByCreatedFilter, _super);
+        function DiagnosticReportByCreatedFilter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(DiagnosticReportByCreatedFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_5.FilterTypeEnum.DiagnosticReportByCreated;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return DiagnosticReportByCreatedFilter;
+    }(DatePeriodFilter_3.DatePeriodFilter));
+    exports.DiagnosticReportByCreatedFilter = DiagnosticReportByCreatedFilter;
+    var DiagnosticReportByPatientIdFilter = /** @class */ (function (_super) {
+        __extends(DiagnosticReportByPatientIdFilter, _super);
+        function DiagnosticReportByPatientIdFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.patientId = "";
+            return _this;
+        }
+        Object.defineProperty(DiagnosticReportByPatientIdFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.patientId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(DiagnosticReportByPatientIdFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_5.FilterTypeEnum.DiagnosticReportByPatientId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        DiagnosticReportByPatientIdFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.patientId);
+        };
+        DiagnosticReportByPatientIdFilter.prototype.setup = function (val) {
+            this.patientId = (val === null || val === void 0 ? void 0 : val.patientId) || "";
+        };
+        DiagnosticReportByPatientIdFilter.prototype.plain = function () {
+            return {
+                patientId: this.patientId || "",
+            };
+        };
+        return DiagnosticReportByPatientIdFilter;
+    }(Filters_5.Filter));
+    exports.DiagnosticReportByPatientIdFilter = DiagnosticReportByPatientIdFilter;
+    var DiagnosticReportFilters = /** @class */ (function (_super) {
+        __extends(DiagnosticReportFilters, _super);
+        function DiagnosticReportFilters(localize) {
+            var _this = _super.call(this) || this;
+            _this.byBusinessId = new DiagnosticReportByBusinessIdFilter(localize);
+            _this.byCreated = new DiagnosticReportByCreatedFilter(localize);
+            _this.byPatientId = new DiagnosticReportByPatientIdFilter(localize);
+            return _this;
+        }
+        DiagnosticReportFilters.createWithLocale = function (locale) {
+            return new DiagnosticReportFilters(index_6.default.getByLocaleCode(locale)["filters"]);
+        };
+        DiagnosticReportFilters.prototype.setup = function (val) {
+            if (isNullUndef(val))
+                return;
+            this.byBusinessId.setup(val["byBusines"]);
+            this.byCreated.setup(val["byCreated"]);
+            this.byPatientId.setup(val["byPatient"]);
+        };
+        DiagnosticReportFilters.prototype.plain = function () {
+            return {
+                byBusiness: this.byBusinessId.plain(),
+                byCreated: this.byCreated.plain(),
+                byPatient: this.byPatientId.plain(),
+            };
+        };
+        DiagnosticReportFilters.prototype.getFilters = function () {
+            return [this.byBusinessId, this.byCreated, this.byPatientId];
+        };
+        return DiagnosticReportFilters;
+    }(Filters_5.FilterList));
+    exports.DiagnosticReportFilters = DiagnosticReportFilters;
+});
 define("services/DiagnosticReportService", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -2928,6 +3905,26 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             var service = this;
             return new Promise(function (res, rej) {
                 service.getDiagnosticReports(limit, offset, function (err, reports) {
+                    if (err)
+                        return rej(err);
+                    res(reports);
+                });
+            });
+        };
+        DiagnosticReportService.prototype.getFilteredDiagnosticReports = function (filters, limit, offset, cb) {
+            var _this = this;
+            var params = { filters: filters.plain(), limit: limit, offset: offset };
+            this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
+                if (err)
+                    return cb(err, null);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["diagnosticReports"]);
+            });
+        };
+        DiagnosticReportService.prototype.getFilteredDiagnosticReportsAsync = function (filters, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getFilteredDiagnosticReports(filters, limit, offset, function (err, reports) {
                     if (err)
                         return rej(err);
                     res(reports);
@@ -3136,6 +4133,25 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
                 });
             });
         };
+        PatientService.prototype.getPatientById = function (id, cb) {
+            var _this = this;
+            this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD, { id: id }, function (err, payload) {
+                if (err)
+                    return cb(err);
+                _this.lastValidationErrors_ = payload["validationErrors"];
+                return cb(err, payload["patient"]);
+            });
+        };
+        PatientService.prototype.getPatientByIdAsync = function (id) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getPatientById(id, function (err, patient) {
+                    if (err)
+                        return rej(err);
+                    res({ patient: patient });
+                });
+            });
+        };
         PatientService.prototype.getPatients = function (limit, offset, cb) {
             this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENTS_METHOD, { limit: limit, offset: offset }, function (err, payload) {
                 if (err)
@@ -3147,6 +4163,23 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
             var service = this;
             return new Promise(function (res, rej) {
                 service.getPatients(limit, offset, function (err, patients) {
+                    if (err)
+                        return rej(err);
+                    res(patients);
+                });
+            });
+        };
+        PatientService.prototype.getFilteredPatients = function (filters, limit, offset, cb) {
+            this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENTS_METHOD, { filters: filters.plain(), limit: limit, offset: offset }, function (err, payload) {
+                if (err)
+                    return cb(err, null);
+                return cb(err, payload["patients"]);
+            });
+        };
+        PatientService.prototype.getFilteredPatientsAsync = function (filters, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getFilteredPatients(filters, limit, offset, function (err, patients) {
                     if (err)
                         return rej(err);
                     res(patients);
@@ -3174,7 +4207,44 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
     }(jsonRpcService_6.JsonRPCCredService));
     exports.PatientService = PatientService;
 });
-define("services/jsonRPC/index", ["require", "exports", "services/jsonRPC/xhr", "services/jsonRPC/AppointmentService", "services/jsonRPC/AppointmentResultService", "services/jsonRPC/PrescriptionService", "services/jsonRPC/DiagnosticReportService", "services/jsonRPC/AuthService", "services/jsonRPC/PatientService", "services/jsonRPC/jsonRpcRequest"], function (require, exports, xhr_1, AppointmentService_1, AppointmentResultService_1, PrescriptionService_1, DiagnosticReportService_1, AuthService_3, PatientService_1, jsonRpcRequest_2) {
+define("services/BusinessInfoService", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+define("services/jsonRPC/BusinessInfoService", ["require", "exports", "Handlers", "services/jsonRPC/jsonRpcService"], function (require, exports, Handlers_7, jsonRpcService_7) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.BusinessInfoService = void 0;
+    var BusinessInfoService = /** @class */ (function (_super) {
+        __extends(BusinessInfoService, _super);
+        function BusinessInfoService() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        BusinessInfoService.prototype.getBusinessInfo = function (cb) {
+            var _this = this;
+            var params = {};
+            this.exec(Handlers_7.Handlers.HANDLER_GET_BUSINESS_INFO_METHOD, params, function (err, payload) {
+                if (err)
+                    return cb(err, null);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["businesses"]);
+            });
+        };
+        BusinessInfoService.prototype.getBusinessInfoAsync = function () {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.getBusinessInfo(function (err, businesses) {
+                    if (err)
+                        return rej(err);
+                    res(businesses);
+                });
+            });
+        };
+        return BusinessInfoService;
+    }(jsonRpcService_7.JsonRPCCredService));
+    exports.BusinessInfoService = BusinessInfoService;
+});
+define("services/jsonRPC/index", ["require", "exports", "services/jsonRPC/xhr", "services/jsonRPC/AppointmentService", "services/jsonRPC/AppointmentResultService", "services/jsonRPC/PrescriptionService", "services/jsonRPC/DiagnosticReportService", "services/jsonRPC/AuthService", "services/jsonRPC/PatientService", "services/jsonRPC/BusinessInfoService", "services/jsonRPC/jsonRpcRequest"], function (require, exports, xhr_1, AppointmentService_1, AppointmentResultService_1, PrescriptionService_1, DiagnosticReportService_1, AuthService_3, PatientService_1, BusinessInfoService_1, jsonRpcRequest_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = {
@@ -3188,15 +4258,39 @@ define("services/jsonRPC/index", ["require", "exports", "services/jsonRPC/xhr", 
         DiagnosticReportService: DiagnosticReportService_1.DiagnosticReportService,
         AuthService: AuthService_3.AuthService,
         PatientService: PatientService_1.PatientService,
+        BusinessInfoService: BusinessInfoService_1.BusinessInfoService,
     };
 });
-define("services/index", ["require", "exports", "services/jsonRPC/index", "services/AuthService", "services/Credentials", "services/RpcErrorCodes"], function (require, exports, index_3, AuthService_4, Credentials_1, RpcErrorCodes_3) {
+define("services/filters/index", ["require", "exports", "services/filters/PatientFilters", "services/filters/AppointmentFilters", "services/filters/DiagnosticReportFilters", "services/filters/PrescriptionFilters"], function (require, exports, PatientFilters_1, AppointmentFilters_2, DiagnosticReportFilters_1, PrescriptionFilters_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = {
+        PatientByNameFilter: PatientFilters_1.PatientByNameFilter,
+        PatientByMedCardFilter: PatientFilters_1.PatientByMedCardFilter,
+        PatientByPhoneFilter: PatientFilters_1.PatientByPhoneFilter,
+        PatientFilters: PatientFilters_1.PatientFilters,
+        AppointmentByBusinessIdFilter: AppointmentFilters_2.AppointmentByBusinessIdFilter,
+        AppointmentByCreatedFilter: AppointmentFilters_2.AppointmentByCreatedFilter,
+        AppointmentByStartFilter: AppointmentFilters_2.AppointmentByStartFilter,
+        AppointmentByPatientIdFilter: AppointmentFilters_2.AppointmentByPatientIdFilter,
+        AppointmentFilters: AppointmentFilters_2.AppointmentFilters,
+        DiagnosticReportByBusinessIdFilter: DiagnosticReportFilters_1.DiagnosticReportByBusinessIdFilter,
+        DiagnosticReportByCreatedFilter: DiagnosticReportFilters_1.DiagnosticReportByCreatedFilter,
+        DiagnosticReportByPatientIdFilter: DiagnosticReportFilters_1.DiagnosticReportByPatientIdFilter,
+        DiagnosticReportFilters: DiagnosticReportFilters_1.DiagnosticReportFilters,
+        PrescriptionByBusinessIdFilter: PrescriptionFilters_1.PrescriptionByBusinessIdFilter,
+        PrescriptionByCreatedFilter: PrescriptionFilters_1.PrescriptionByCreatedFilter,
+        PrescriptionByPatientIdFilter: PrescriptionFilters_1.PrescriptionByPatientIdFilter,
+        PrescriptionFilters: PrescriptionFilters_1.PrescriptionFilters,
+    };
+});
+define("services/index", ["require", "exports", "services/jsonRPC/index", "services/AuthService", "services/Credentials", "services/RpcErrorCodes", "services/filters/index"], function (require, exports, index_7, AuthService_4, Credentials_1, RpcErrorCodes_3, index_8) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = {
         // InMemory
         //, BinRPC
-        JsonRPC: index_3.default,
+        JsonRPC: index_7.default,
         PatientAuthenticationResult: AuthService_4.PatientAuthenticationResult,
         PatientAuthenticationStep: AuthService_4.PatientAuthenticationStep,
         PatientAuthenticationError: AuthService_4.PatientAuthenticationError,
@@ -3204,17 +4298,13 @@ define("services/index", ["require", "exports", "services/jsonRPC/index", "servi
         getAuthenticatedPatient: AuthService_4.getAuthenticatedPatient,
         Credentials: Credentials_1.Credentials,
         RpcErrorCodes: RpcErrorCodes_3.RpcErrorCodes,
+        Filters: index_8.default,
     };
 });
 define("formatters/Formatter", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = exports.LocaleCode = void 0;
-    var LocaleCode;
-    (function (LocaleCode) {
-        LocaleCode["ruRU"] = "ru-ru";
-        LocaleCode["enUS"] = "en-US";
-    })(LocaleCode = exports.LocaleCode || (exports.LocaleCode = {}));
+    exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = void 0;
     var dateISOFormat = function (d) {
         return d == null ? "" : typeof d === "string" ? d : d.toISOString();
     };
@@ -3237,162 +4327,7 @@ define("formatters/Formatter", ["require", "exports"], function (require, export
     var trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
     exports.trim = trim;
 });
-define("formatters/l10n/ru-ru", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = {
-        MINUTE_UNIT: "мин.",
-        YES: "Да",
-        NO: "Нет",
-        CREATED: "Дата создания",
-        appointmentResult: {
-            created: "Дата создания",
-            start: "Дата и время начала",
-            doctor: "Врач",
-            duration: "Длительность",
-            anamnesis: "Анамнез",
-            medicalExaminationResult: "Результаты обследования",
-            diagnosis: "Диагноз",
-            recommendations: "Рекомендации",
-            scheduledProcedures: "Назначенные на приеме процедуры, анализы, исследования",
-            prescriptions: "Медикаментозные назначения (выписанные лекарства)",
-        },
-        procedure: {
-            created: "Дата создания",
-            title: "Название",
-            services: "Услуги",
-            type: "Тип",
-            required: "Обязательно",
-            status: "Статус",
-            period: "Предполагаемый период выполнения услуги",
-            strictPeriod: "Период выполнения услуги, который нельзя нарушить",
-            preparations: "Желаемые приготовления к процедуре",
-            requiredPreparations: "Необходимые приготовления к процедуре",
-        },
-        procedureType: ["Рекомендация", "Процедура", "Анализы"],
-        ProcedureExecStatus: ["Запланировано", "В процессе", "Отменено", "Выполнена"],
-        Period: {
-            begin: "Дата начала",
-            end: "Дата окончания",
-        },
-        DiagnosticReport: {
-            doctor: "Врач",
-            effectivePeriod: "Период, в течение которого данные действительны",
-            result: "Результаты",
-            imagineMedia: "Изображения",
-            attachments: "Документы",
-            id: "Идентификатор",
-            created: "Создано",
-            active: "Статус",
-            business: "ЛПУ",
-            patient: "Пациент",
-            status: "Статус готовности",
-            type: "Тип отчета",
-            category: "Категория",
-            resultInterpretation: "Отчет, по результатам обследования",
-            resultInterpreter: "Врач, составивший отчет",
-            services: "Услуги",
-            issuedDate: "Дата составления отчета",
-        },
-        Prescription: {
-            title: "Название",
-            created: "Дата создания",
-            recorderDoctor: "Врач, выписавший рецепт",
-            medications: "Список лекарств",
-            dosageText: "Дозировка",
-            reasonText: "Причина назначения",
-            validityPeriod: "Время, в течение которого рецепт действует",
-            numberOfRepeats: "Сколько раз по этому рецепту можно получить лекарства",
-        },
-        MedicationForm: {
-            0: "Порошок",
-            1: "Таблетки",
-            2: "Капсулы",
-        },
-        ActiveStatus: {
-            disactive: "Не активно",
-            active: "Активно",
-        },
-        DiagnosisType: {
-            laboratoryTest: "Лабораторный тест",
-            observation: "Обследование",
-            unknown: "",
-        },
-        Currency: ["₽", "$"],
-        diagnosisTitle: "Диагноз",
-    };
-});
-define("formatters/l10n/en-us", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = {
-        MINUTE_UNIT: "min",
-        YES: "Yes",
-        NO: "No",
-        CREATED: "Creation date",
-        appointmentResult: {
-            created: "Created",
-            start: "Date and time of creation",
-            doctor: "Doctor",
-            duration: "Duration",
-            anamnesis: "Anamnesis",
-            medicalExaminationResult: "Examination results",
-            diagnosis: "Diagnosis",
-            recommendations: "Recommendations",
-            scheduledProcedures: "Procedures, medical examinations and lab tests prescribed during the doctor visit",
-            prescriptions: "Medicines (prescription drugs)",
-        },
-        procedure: {
-            created: "Created",
-            title: "Title",
-            services: "Services",
-            type: "Type",
-            required: "Required",
-            status: "Status",
-            period: "Expected period of service execution",
-            strictPeriod: "Strict service execution period",
-            preparations: "Desired preparations for the procedure",
-            requiredPreparations: "Required preparations for the procedure",
-        },
-        procedureType: ["Recommendation", "Procedure", "Lab tests"],
-        ProcedureExecStatus: ["Planned", "In progress", "Cancelled", "Complete"],
-        Period: {
-            begin: "Start date",
-            end: "End date",
-        },
-        DiagnosticReport: {
-            Doctor: "Doctor",
-            EffectivePeriod: "Medical data effective period",
-            Result: "Results",
-            Images: "Images",
-            Attachments: "Documents",
-        },
-        Prescription: {
-            title: "Drug name",
-            created: "Date created",
-            recorderDoctor: "The doctor who wrote out this prescription",
-            medications: "Drug list",
-            dosageText: "Dosage",
-            reasonText: "Prescription reason",
-            validityPeriod: "Prescription validity period",
-            numberOfRepeats: "How many times can you get your prescription drugs",
-        },
-        MedicationForm: {
-            0: "Powder",
-            1: "Pills",
-            2: "Capsules",
-        },
-    };
-});
-define("formatters/l10n/index", ["require", "exports", "formatters/l10n/ru-ru", "formatters/l10n/en-us"], function (require, exports, ru_ru_1, en_us_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = {
-        ruRU: ru_ru_1.default,
-        enUS: en_us_1.default,
-    };
-});
-define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter"], function (require, exports, index_4, Formatter_1) {
+define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter"], function (require, exports, index_9, Formatter_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SimpleTextFormatter = void 0;
@@ -3695,17 +4630,17 @@ define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n
             return text;
         };
         SimpleTextFormatter.LOCALIZE = {
-            "ru-ru": index_4.default.ruRU,
-            "en-us": index_4.default.enUS,
+            "ru-ru": index_9.default.ruRU,
+            "en-us": index_9.default.enUS,
         };
         return SimpleTextFormatter;
     }());
     exports.SimpleTextFormatter = SimpleTextFormatter;
 });
-define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter", "types/index", "types/ObservationType", "types/DiscountType"], function (require, exports, index_5, Formatter_2, index_6, ObservationType_1, DiscountType_1) {
+define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter", "types/index", "types/ObservationType", "types/DiscountType"], function (require, exports, index_10, Formatter_2, index_11, ObservationType_1, DiscountType_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.FieldsFormatter = exports.buildFieldArray = exports.FieldMeta = exports.Field = exports.FieldItemMode = exports.FieldType = void 0;
+    exports.FieldsFormatter = exports.buildFieldArray = exports.FieldItemModeMeta = exports.FieldMeta = exports.Field = exports.FieldItemMode = exports.FieldStatusColor = exports.FieldType = void 0;
     var FieldType;
     (function (FieldType) {
         FieldType["Text"] = "text";
@@ -3714,17 +4649,28 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         FieldType["Object"] = "object";
         FieldType["Date"] = "date";
         FieldType["DateTime"] = "dateTime";
+        FieldType["DatePeriod"] = "datePeriod";
         FieldType["Email"] = "email";
         FieldType["Price"] = "price";
+        FieldType["Status"] = "status";
         FieldType["Paragraphs"] = "paragraphs";
         FieldType["ObjectList"] = "objectList";
         FieldType["MediaList"] = "mediaList";
         FieldType["AttachmentList"] = "attachmentList";
+        FieldType["Hidden"] = "hidden";
     })(FieldType = exports.FieldType || (exports.FieldType = {}));
+    var FieldStatusColor;
+    (function (FieldStatusColor) {
+        FieldStatusColor["Red"] = "red";
+        FieldStatusColor["Yellow"] = "yellow";
+        FieldStatusColor["Blue"] = "blue";
+        FieldStatusColor["Green"] = "green";
+    })(FieldStatusColor = exports.FieldStatusColor || (exports.FieldStatusColor = {}));
     var FieldItemMode;
     (function (FieldItemMode) {
         FieldItemMode["FirstLine"] = "firstLine";
         FieldItemMode["SecondLine"] = "secondLine";
+        FieldItemMode["ThirdLine"] = "thirdLine";
         FieldItemMode["Hidden"] = "hidden";
         FieldItemMode["Picture"] = "picture";
     })(FieldItemMode = exports.FieldItemMode || (exports.FieldItemMode = {}));
@@ -3743,12 +4689,19 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         return FieldMeta;
     }());
     exports.FieldMeta = FieldMeta;
-    function buildFieldArray(data, meta, t, priorKeys) {
-        var _a, _b;
+    var FieldItemModeMeta = /** @class */ (function () {
+        function FieldItemModeMeta() {
+        }
+        return FieldItemModeMeta;
+    }());
+    exports.FieldItemModeMeta = FieldItemModeMeta;
+    function buildFieldArray(data, meta, t, priorKeys, itemModeMeta) {
+        var _a, _b, _c;
         if (priorKeys === void 0) { priorKeys = []; }
+        if (itemModeMeta === void 0) { itemModeMeta = null; }
         var keys = priorKeys
             .concat(Object.keys(meta))
-            .filter(function (k, i, self) { return self.indexOf(k) === i; });
+            .filter(function (k, i, self) { return self.indexOf(k) === i; }); // uniq keys
         if (t == null) {
             t = {};
             for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
@@ -3757,15 +4710,57 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             }
         }
         var ans = [];
-        for (var _c = 0, keys_2 = keys; _c < keys_2.length; _c++) {
-            var key = keys_2[_c];
+        for (var _d = 0, keys_2 = keys; _d < keys_2.length; _d++) {
+            var key = keys_2[_d];
+            if (meta[key].composite)
+                ans.push({
+                    key: key,
+                    title: t[key],
+                    type: (_a = meta[key]) === null || _a === void 0 ? void 0 : _a.type,
+                    hint: t[key + "Hint"],
+                    originValue: data[key],
+                    value: meta[key].format(data),
+                });
+            else
+                ans.push({
+                    key: key,
+                    title: t[key],
+                    type: (_b = meta[key]) === null || _b === void 0 ? void 0 : _b.type,
+                    hint: t[key + "Hint"],
+                    originValue: data[key],
+                    value: ((_c = meta[key]) === null || _c === void 0 ? void 0 : _c.format) ? meta[key].format(data[key]) : data[key],
+                });
+        }
+        if (itemModeMeta != null) {
             ans.push({
-                key: key,
-                title: t[key],
-                type: (_a = meta[key]) === null || _a === void 0 ? void 0 : _a.type,
-                hint: t[key + "Hint"],
-                value: ((_b = meta[key]) === null || _b === void 0 ? void 0 : _b.format) ? meta[key].format(data[key]) : data[key],
+                key: "__itemModeFirstLine__",
+                itemMode: FieldItemMode.FirstLine,
+                title: "itemModeFirstLine",
+                type: FieldType.Hidden,
+                hint: "",
+                originValue: data,
+                value: itemModeMeta.firstLine(data),
             });
+            ans.push({
+                key: "__itemModeSecondLine__",
+                itemMode: FieldItemMode.SecondLine,
+                title: "itemModeSecondLine",
+                type: FieldType.Hidden,
+                hint: "",
+                originValue: data,
+                value: itemModeMeta.secondLine(data),
+            });
+            if (itemModeMeta.thirdLine != null) {
+                ans.push({
+                    key: "__itemModeThirdLine__",
+                    itemMode: FieldItemMode.ThirdLine,
+                    title: "itemModeThirdLine",
+                    type: FieldType.Hidden,
+                    hint: "",
+                    originValue: data,
+                    value: itemModeMeta.thirdLine(data),
+                });
+            }
         }
         return ans;
     }
@@ -3778,15 +4773,33 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         }
         FieldsFormatter.create = function (locale, dateFormat) {
             if (dateFormat === void 0) { dateFormat = Formatter_2.dateISOFormat; }
-            return new FieldsFormatter(FieldsFormatter.LOCALIZE[locale], dateFormat);
+            return new FieldsFormatter(index_10.default.getByLocaleCode(locale), dateFormat);
         };
         // ----------------------------------
         // Common field definitions
         FieldsFormatter.prototype.dateField = function (opts) {
             var this_ = this;
+            var format = function (intl, val) {
+                if (typeof val == "string")
+                    val = new Date(Date.parse(val));
+                var d = val;
+                if (d.getFullYear() === 0 || d.getFullYear() === 1)
+                    return "не определено";
+                return intl.format(d);
+            };
             return {
                 type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-                format: function (val) { return this_._dateFormat(val); },
+                format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
+                    ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
+                    : function (val) {
+                        return format(new Intl.DateTimeFormat("ru", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                        }), val);
+                    },
             };
         };
         FieldsFormatter.prototype.textField = function () {
@@ -3806,11 +4819,14 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         FieldsFormatter.prototype.businessField = function () {
             return {
                 type: FieldType.Object,
-                format: function (val) { return val; },
+                format: this.business.bind(this),
             };
         };
         FieldsFormatter.prototype.doctorField = function () {
-            return { type: FieldType.Object, format: this.doctor.bind(this) };
+            return { type: FieldType.Text, format: this.doctor.bind(this) };
+        };
+        FieldsFormatter.prototype.doctorsField = function () {
+            return { type: FieldType.List, format: this.doctors.bind(this) };
         };
         FieldsFormatter.prototype.anamnesisField = function () {
             return {
@@ -3820,7 +4836,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         };
         FieldsFormatter.prototype.medicalExaminationResultField = function () {
             return {
-                type: FieldType.Object,
+                type: FieldType.Paragraphs,
                 format: this.medicalExaminationResult.bind(this),
             };
         };
@@ -3842,7 +4858,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 format: function (val) { return val; },
             };
         };
-        FieldsFormatter.prototype.activeStatusField = function () {
+        FieldsFormatter.prototype.activeField = function () {
             var _this = this;
             return {
                 type: FieldType.Text,
@@ -3850,6 +4866,17 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                     return val
                         ? _this._localize["ActiveStatus"]["active"]
                         : _this._localize["ActiveStatus"]["disactive"];
+                },
+            };
+        };
+        FieldsFormatter.prototype.statusField = function () {
+            return {
+                type: FieldType.Status,
+                format: function (val) {
+                    return ({
+                        color: "green",
+                        text: "Active",
+                    });
                 },
             };
         };
@@ -3872,9 +4899,10 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
         };
         FieldsFormatter.prototype.genderField = function () {
+            var t = this._localize["Gender"];
             return {
                 type: FieldType.Text,
-                format: function (val) { return (val == 0 ? "M" : "W"); },
+                format: function (val) { return t[val]; },
             };
         };
         FieldsFormatter.prototype.paragrathesField = function () {
@@ -3892,7 +4920,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                         ? _this._localize["DiagnosisType"]["laboratoryTest"]
                         : val == ObservationType_1.ObservationType.Observation
                             ? _this._localize["DiagnosisType"]["observation"]
-                            : _this._localize["DiagnosisType"]["unknown"];
+                            : _this._localize["DiagnosisType"]["unknown"] + " (#" + val + ")";
                 },
             };
         };
@@ -3902,13 +4930,24 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 format: function (val) { return val; },
             };
         };
-        FieldsFormatter.prototype.periodField = function (opt) {
+        FieldsFormatter.prototype.periodField = function (opts) {
             var _this = this;
             return {
-                type: FieldType.Text,
+                type: FieldType.DatePeriod,
                 format: function (val) {
+                    var _a, _b;
                     var period = val;
-                    return (_this._dateFormat(period.begin) + " - " + _this._dateFormat(period.end));
+                    var textPeriod = val;
+                    return {
+                        from: _this.dateField(opts).format(period.begin),
+                        fromIsZero: period.begin === null || typeof period.begin == "string"
+                            ? textPeriod.begin.substr(0, 1) == "0"
+                            : ((_a = period.begin) === null || _a === void 0 ? void 0 : _a.getTime()) === 0,
+                        to: _this.dateField(opts).format(period.end),
+                        toIsZero: period.end === null || typeof period.end == "string"
+                            ? textPeriod.end.substr(0, 1) == "0"
+                            : ((_b = period.end) === null || _b === void 0 ? void 0 : _b.getTime()) === 0,
+                    };
                 },
             };
         };
@@ -3929,18 +4968,17 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
         };
         FieldsFormatter.prototype.servicesField = function () {
-            var _this = this;
             var this_ = this;
             return {
-                type: FieldType.ObjectList,
+                type: FieldType.List,
                 format: function (val) {
-                    return val.map(function (item) { return _this.service.bind(this_); });
+                    return val.map(function (item) { return item.name; });
                 },
             };
         };
         FieldsFormatter.prototype.priceField = function () {
             return {
-                type: FieldType.ObjectList,
+                type: FieldType.Object,
                 format: this.clientPrice.bind(this),
             };
         };
@@ -3954,39 +4992,85 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         FieldsFormatter.prototype.priceFormat = function (val, cur) {
             var cp = this._localize["currencyPosition"];
             var t = this._localize["Currency"];
-            return cp.left ? t[cur] + "" + val : "" + val + t[cur];
+            return cp == "left" ? t[cur] + "" + val : "" + val + t[cur];
         };
         FieldsFormatter.prototype.plural = function (n, one, many) {
-            return n == 1 ? "" + n + one : "" + n + many;
+            return n == 1 ? "" + n + " " + one : "" + n + " " + many;
+        };
+        FieldsFormatter.prototype.durationFormat = function (val) {
+            var t = this._localize["Duration"];
+            var fm = val;
+            if (fm == 0)
+                return "";
+            var h = this.plural(fm / 60, t["hour"], t["hours"]);
+            var m = this.plural(fm % 60, t["minute"], t["minutes"]);
+            return h + " " + m;
         };
         FieldsFormatter.prototype.durationField = function () {
-            var t = this._localize["Duration"];
             var this_ = this;
             return {
                 type: FieldType.Text,
-                format: function (val) {
-                    var fm = val;
-                    var h = this_.plural(fm / 60, t["hour"], t["hours"]);
-                    var m = this_.plural(fm % 60, t["minute"], t["minutes"]);
-                    return h + " " + m;
-                },
+                format: function (val) { return this_.durationFormat(val); },
             };
         };
         FieldsFormatter.prototype.mediasField = function () {
             return {
                 type: FieldType.MediaList,
-                format: function (val) { return val; },
+                format: function (val) {
+                    if (!val || val.length == 0) {
+                        val = [
+                            "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyM3x8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNXx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1509460913899-515f1df34fea?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNnx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1570158268183-d296b2892211?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyN3x8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1515023115689-589c33041d3c?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyOHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyOXx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwzMHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        ];
+                    }
+                    return val;
+                },
             };
         };
         FieldsFormatter.prototype.attachmentsField = function () {
             return {
                 type: FieldType.AttachmentList,
-                format: function (val) { return val; },
+                format: function (val) {
+                    if (!val || val.length == 0) {
+                        val = [
+                            "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyM3x8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                            "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNXx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        ];
+                    }
+                    return val;
+                },
             };
         };
         // --------------------------------
         // public interface methods
+        FieldsFormatter.prototype.business = function (b) {
+            if (b == null)
+                return [];
+            var meta = {
+                id: this.idField(),
+                name: this.textField(),
+                location: this.textField(),
+            };
+            var itemModeMeta = {
+                firstLine: function (b) {
+                    return b.name;
+                },
+                secondLine: function (b) {
+                    return b.location.split(",")[0];
+                },
+            };
+            return buildFieldArray(b, meta, this._localize["business"], [], itemModeMeta);
+        };
         FieldsFormatter.prototype.clientPrice = function (p) {
+            if (p == null)
+                return [];
             var t = this._localize["Currency"];
             var this_ = this;
             var meta = {
@@ -4000,11 +5084,14 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                         var d = val;
                         return d.discountType == DiscountType_1.DiscountType.Percent
                             ? d.discountPercent + "%"
-                            : this_.priceFormat(d.discountValue, index_6.Currency.Rur);
+                            : this_.priceFormat(d.discountValue, index_11.Currency.Rur);
                     },
                 },
             };
             return buildFieldArray(p, meta, this._localize["ClientPrice"]);
+        };
+        FieldsFormatter.prototype.clientPriceText = function (p) {
+            return this.priceFormat(p.value, p.currency);
         };
         FieldsFormatter.prototype.service = function (s) {
             var meta = {
@@ -4013,7 +5100,53 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 price: this.priceField(),
                 duration: this.durationField(),
             };
-            return buildFieldArray(s, meta, this._localize["service"]);
+            var this_ = this;
+            var itemModeMeta = {
+                firstLine: function (s) { return s.name; },
+                secondLine: function (s) {
+                    var d = this_.duration(s.duration);
+                    return ((d ? d + " " : "") + (s.price ? this_.clientPriceText(s.price) : ""));
+                },
+            };
+            return buildFieldArray(s, meta, this._localize["service"], [], itemModeMeta);
+        };
+        FieldsFormatter.prototype.fullPatientNameField = function () {
+            var this_ = this;
+            return {
+                type: FieldType.Text,
+                composite: true,
+                format: function (val) {
+                    return (val.name +
+                        (val.middleName ? " " + val.middleName : "") +
+                        " " +
+                        val.surname);
+                },
+            };
+        };
+        FieldsFormatter.prototype.patientMessage = function (p) {
+            var meta = {
+                id: this.idField(),
+                fullName: this.fullPatientNameField(),
+                phones: this.phonesField(),
+                email: this.emailField(),
+                gender: this.genderField(),
+                birthdate: this.dateField({ dateOnly: true }),
+                address: this.textField(),
+                medcardNumber: this.textField(),
+            };
+            var itemModeMeta = {
+                firstLine: function (p) {
+                    return p.name + " " + p.surname;
+                },
+                secondLine: function (p) {
+                    return p.medcardNumber ? "#" + p.medcardNumber : "";
+                },
+                thirdLine: function (p) {
+                    return "";
+                    return p.phones.join(", ");
+                },
+            };
+            return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
         };
         FieldsFormatter.prototype.patientInfo = function (p) {
             var meta = {
@@ -4028,7 +5161,28 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 medcardNumber: this.textField(),
                 descriptionText: this.paragrathesField(),
             };
-            return buildFieldArray(p, meta, this._localize["patientInfo"]);
+            var itemModeMeta = {
+                firstLine: function (p) {
+                    return p.name + " " + p.surname;
+                },
+                secondLine: function (p) {
+                    return p.medcardNumber ? "#" + p.medcardNumber : "";
+                },
+                thirdLine: function (p) {
+                    return "";
+                    return p.phones.join(", ");
+                },
+            };
+            return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
+        };
+        FieldsFormatter.prototype.appointment = function (a) {
+            var meta = {
+                business: this.businessField(),
+                created: this.dateField(),
+                start: this.dateField(),
+                doctor: this.doctorField(),
+            };
+            return buildFieldArray(a, meta, this._localize["appointment"]);
         };
         FieldsFormatter.prototype.appointmentResult = function (ar) {
             var meta = {
@@ -4054,6 +5208,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 title: "",
                 hint: "",
                 type: FieldType.Text,
+                originValue: v,
                 value: "cd10 " + v.cd10 + "\n" + v.description + "\n\n",
             }); });
         };
@@ -4072,54 +5227,98 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 return "";
             return "\n" + p.map(function (item) { return _this.prescription(item); }).join("\n");
         };
-        FieldsFormatter.prototype.prescription = function (p) {
-            var keys = [
-                "created",
-                "title",
-                "recorderDoctor",
-                "medications",
-                "dosageText",
-                "reasonText",
-                "validityPeriod",
-                "numberOfRepeats",
-            ];
-            var propFormats = {
-                created: this._dateFormat.bind(this),
-                recorderDoctor: this.doctor.bind(this),
-                validityPeriod: this.period.bind(this),
-                medications: this.medications.bind(this),
+        FieldsFormatter.prototype.medicationsField = function () {
+            var this_ = this;
+            return {
+                type: FieldType.ObjectList,
+                format: function (val) {
+                    var meds = val;
+                    return meds.map(function (m) { return this_.medication(m); });
+                },
             };
-            return buildFieldArray(p, propFormats, this._localize["appointmentResult"]);
         };
-        FieldsFormatter.prototype.medications = function (s) {
-            var _this = this;
-            return "\n" + s.map(function (item) { return _this.medication(item); }).join("\n");
+        FieldsFormatter.prototype.prescription = function (p) {
+            var meta = {
+                created: this.dateField(),
+                recorderDoctor: this.doctorField(),
+                validityPeriod: this.periodField(),
+                dosageText: {
+                    type: FieldType.Paragraphs,
+                    format: function (val) {
+                        if (!val)
+                            return [];
+                        var str = val;
+                        return str.split("\r\n");
+                    },
+                },
+                medications: this.medicationsField(),
+                reasonText: this.textField(),
+                numberOfRepeats: this.numberField(),
+            };
+            return buildFieldArray(p, meta, this._localize["Prescription"]);
         };
-        FieldsFormatter.prototype.medication = function (s) {
-            throw new Error("Method not implemented.");
+        FieldsFormatter.prototype.medication = function (m) {
+            var this_ = this;
+            var meta = {};
+            var itemModeMeta = {
+                firstLine: function (m) {
+                    return m.name + " " + m.itemSize;
+                },
+                secondLine: function (m) {
+                    return m.code + " " + m.codeTable;
+                },
+            };
+            return buildFieldArray(m, meta, this._localize["Medication"], [], itemModeMeta);
+        };
+        FieldsFormatter.prototype.observation = function (o) {
+            var meta = {};
+            var this_ = this;
+            var itemModeMeta = {
+                firstLine: function (o) {
+                    return o.observationKey;
+                },
+                secondLine: function (o) {
+                    return (
+                    // this_._dateFormat(o.issuedDate) +
+                    " "
+                    // + this_.doctor(o.performerDoctor)
+                    );
+                },
+                thirdLine: function (o) {
+                    return Formatter_2.paragrathes(o.interpretation);
+                },
+            };
+            return buildFieldArray(o, meta, this._localize["Observation"], [], itemModeMeta);
+        };
+        FieldsFormatter.prototype.observationsField = function () {
+            var this_ = this;
+            return {
+                type: FieldType.ObjectList,
+                format: function (val) {
+                    var obs = val;
+                    return obs.map(function (o) { return this_.observation(o); });
+                },
+            };
         };
         FieldsFormatter.prototype.diagnosticReport = function (dr) {
             var meta = {
                 id: this.idField(),
-                active: this.activeStatusField(),
+                active: this.activeField(),
                 business: this.businessField(),
                 patient: this.patientField(),
-                status: this.numberField(),
+                status: this.statusField(),
                 type: this.diagnosisTypeField(),
                 category: this.diagnosisCategoryField(),
                 effectivePeriod: this.periodField({ dateOnly: true }),
                 issuedDate: this.dateField({ dateOnly: true }),
-                result: this.appointmentResultsField(),
+                result: this.observationsField(),
                 services: this.servicesField(),
-                resultInterpreter: this.doctorField(),
+                resultInterpreter: this.doctorsField(),
                 resultInterpretation: this.paragrathesField(),
                 imagineMedia: this.mediasField(),
                 attachments: this.attachmentsField(),
             };
             return buildFieldArray(dr, meta, this._localize["DiagnosticReport"]);
-        };
-        FieldsFormatter.prototype.observation = function (o) {
-            throw new Error("Method not implemented.");
         };
         // --------------------------------
         // private utility methods
@@ -4127,19 +5326,23 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             return a;
         };
         FieldsFormatter.prototype.duration = function (n) {
-            return n.toString() + " " + this._localize["MINUTE_UNIT"];
+            return this.durationFormat(n);
         };
         FieldsFormatter.prototype.doctor = function (d) {
             if (d == null)
                 return "";
             return d.name + " " + d.surname;
         };
+        FieldsFormatter.prototype.doctors = function (doctors) {
+            var this_ = this;
+            return doctors.map(function (d) { return this_.doctor(d); });
+        };
         FieldsFormatter.prototype.yesNo = function (b) {
             return b ? this._localize["YES"] : this._localize["NO"];
         };
-        FieldsFormatter.prototype.medicalExaminationResult = function (ar, offset) {
+        FieldsFormatter.prototype.medicalExaminationResult = function (ar) {
             if (ar == null)
-                return "";
+                return [];
             ar = ar.map(function (line) {
                 var m = line.match(/([^:]*):(.*)/);
                 if (m) {
@@ -4148,7 +5351,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 }
                 return line;
             });
-            return "\n" + Formatter_2.paragrathes(ar) + "\n\n";
+            return ar;
         };
         FieldsFormatter.prototype.period = function (period, offset) {
             return ("\n" +
@@ -4163,19 +5366,15 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 this._dateFormat(period.end) +
                 "\n");
         };
-        FieldsFormatter.LOCALIZE = {
-            "ru-ru": index_5.default.ruRU,
-            "en-us": index_5.default.enUS,
-        };
         return FieldsFormatter;
     }());
     exports.FieldsFormatter = FieldsFormatter;
 });
-define("formatters/index", ["require", "exports", "formatters/Formatter", "formatters/SimpleTextFormatter", "formatters/FieldsFormatter"], function (require, exports, Formatter_3, SimpleTextFormatter_1, FieldsFormatter_1) {
+define("formatters/index", ["require", "exports", "formatters/LocaleCode", "formatters/SimpleTextFormatter", "formatters/FieldsFormatter"], function (require, exports, LocaleCode_1, SimpleTextFormatter_1, FieldsFormatter_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = {
-        LocaleCode: Formatter_3.LocaleCode,
+        LocaleCode: LocaleCode_1.LocaleCode,
         SimpleTextFormatter: SimpleTextFormatter_1.SimpleTextFormatter,
         FieldsFormatter: FieldsFormatter_1.FieldsFormatter,
     };
@@ -4187,17 +5386,17 @@ define("messages/index", ["require", "exports", "messages/AppointmentMessage"], 
         AppointmentMessage: AppointmentMessage_1.AppointmentMessage,
     };
 });
-define("MedMe", ["require", "exports", "types/index", "models/index", "services/index", "formatters/index", "Handlers", "messages/index"], function (require, exports, Types, index_7, index_8, index_9, Handlers_7, index_10) {
+define("MedMe", ["require", "exports", "types/index", "models/index", "services/index", "formatters/index", "Handlers", "messages/index"], function (require, exports, Types, index_12, index_13, index_14, Handlers_8, index_15) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EHR = void 0;
     exports.EHR = {
         SDK_VERSION: "1.8.13",
         Types: Types,
-        Models: index_7.default,
-        Services: index_8.default,
-        Formatters: index_9.default,
-        Handlers: Handlers_7.Handlers,
-        Messages: index_10.default,
+        Models: index_12.default,
+        Services: index_13.default,
+        Formatters: index_14.default,
+        Handlers: Handlers_8.Handlers,
+        Messages: index_15.default,
     };
 });

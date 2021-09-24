@@ -1,6 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Period = void 0;
+exports.Period = exports.TextPeriod = void 0;
+var TextPeriod = /** @class */ (function () {
+    function TextPeriod() {
+    }
+    return TextPeriod;
+}());
+exports.TextPeriod = TextPeriod;
 var Period = /** @class */ (function () {
     function Period() {
     }

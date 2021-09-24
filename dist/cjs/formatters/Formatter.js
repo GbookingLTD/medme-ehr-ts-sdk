@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = exports.LocaleCode = void 0;
-var LocaleCode;
-(function (LocaleCode) {
-    LocaleCode["ruRU"] = "ru-ru";
-    LocaleCode["enUS"] = "en-US";
-})(LocaleCode = exports.LocaleCode || (exports.LocaleCode = {}));
+exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = void 0;
 var dateISOFormat = function (d) {
     return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };

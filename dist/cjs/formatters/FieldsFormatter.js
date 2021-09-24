@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FieldsFormatter = exports.buildFieldArray = exports.FieldMeta = exports.Field = exports.FieldItemMode = exports.FieldType = void 0;
+exports.FieldsFormatter = exports.buildFieldArray = exports.FieldItemModeMeta = exports.FieldMeta = exports.Field = exports.FieldItemMode = exports.FieldStatusColor = exports.FieldType = void 0;
 var index_1 = require("./l10n/index");
 var Formatter_1 = require("./Formatter");
 var index_2 = require("../types/index");
@@ -14,17 +14,28 @@ var FieldType;
     FieldType["Object"] = "object";
     FieldType["Date"] = "date";
     FieldType["DateTime"] = "dateTime";
+    FieldType["DatePeriod"] = "datePeriod";
     FieldType["Email"] = "email";
     FieldType["Price"] = "price";
+    FieldType["Status"] = "status";
     FieldType["Paragraphs"] = "paragraphs";
     FieldType["ObjectList"] = "objectList";
     FieldType["MediaList"] = "mediaList";
     FieldType["AttachmentList"] = "attachmentList";
+    FieldType["Hidden"] = "hidden";
 })(FieldType = exports.FieldType || (exports.FieldType = {}));
+var FieldStatusColor;
+(function (FieldStatusColor) {
+    FieldStatusColor["Red"] = "red";
+    FieldStatusColor["Yellow"] = "yellow";
+    FieldStatusColor["Blue"] = "blue";
+    FieldStatusColor["Green"] = "green";
+})(FieldStatusColor = exports.FieldStatusColor || (exports.FieldStatusColor = {}));
 var FieldItemMode;
 (function (FieldItemMode) {
     FieldItemMode["FirstLine"] = "firstLine";
     FieldItemMode["SecondLine"] = "secondLine";
+    FieldItemMode["ThirdLine"] = "thirdLine";
     FieldItemMode["Hidden"] = "hidden";
     FieldItemMode["Picture"] = "picture";
 })(FieldItemMode = exports.FieldItemMode || (exports.FieldItemMode = {}));
@@ -43,12 +54,19 @@ var FieldMeta = /** @class */ (function () {
     return FieldMeta;
 }());
 exports.FieldMeta = FieldMeta;
-function buildFieldArray(data, meta, t, priorKeys) {
-    var _a, _b;
+var FieldItemModeMeta = /** @class */ (function () {
+    function FieldItemModeMeta() {
+    }
+    return FieldItemModeMeta;
+}());
+exports.FieldItemModeMeta = FieldItemModeMeta;
+function buildFieldArray(data, meta, t, priorKeys, itemModeMeta) {
+    var _a, _b, _c;
     if (priorKeys === void 0) { priorKeys = []; }
+    if (itemModeMeta === void 0) { itemModeMeta = null; }
     var keys = priorKeys
         .concat(Object.keys(meta))
-        .filter(function (k, i, self) { return self.indexOf(k) === i; });
+        .filter(function (k, i, self) { return self.indexOf(k) === i; }); // uniq keys
     if (t == null) {
         t = {};
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
@@ -57,15 +75,57 @@ function buildFieldArray(data, meta, t, priorKeys) {
         }
     }
     var ans = [];
-    for (var _c = 0, keys_2 = keys; _c < keys_2.length; _c++) {
-        var key = keys_2[_c];
+    for (var _d = 0, keys_2 = keys; _d < keys_2.length; _d++) {
+        var key = keys_2[_d];
+        if (meta[key].composite)
+            ans.push({
+                key: key,
+                title: t[key],
+                type: (_a = meta[key]) === null || _a === void 0 ? void 0 : _a.type,
+                hint: t[key + "Hint"],
+                originValue: data[key],
+                value: meta[key].format(data),
+            });
+        else
+            ans.push({
+                key: key,
+                title: t[key],
+                type: (_b = meta[key]) === null || _b === void 0 ? void 0 : _b.type,
+                hint: t[key + "Hint"],
+                originValue: data[key],
+                value: ((_c = meta[key]) === null || _c === void 0 ? void 0 : _c.format) ? meta[key].format(data[key]) : data[key],
+            });
+    }
+    if (itemModeMeta != null) {
         ans.push({
-            key: key,
-            title: t[key],
-            type: (_a = meta[key]) === null || _a === void 0 ? void 0 : _a.type,
-            hint: t[key + "Hint"],
-            value: ((_b = meta[key]) === null || _b === void 0 ? void 0 : _b.format) ? meta[key].format(data[key]) : data[key],
+            key: "__itemModeFirstLine__",
+            itemMode: FieldItemMode.FirstLine,
+            title: "itemModeFirstLine",
+            type: FieldType.Hidden,
+            hint: "",
+            originValue: data,
+            value: itemModeMeta.firstLine(data),
         });
+        ans.push({
+            key: "__itemModeSecondLine__",
+            itemMode: FieldItemMode.SecondLine,
+            title: "itemModeSecondLine",
+            type: FieldType.Hidden,
+            hint: "",
+            originValue: data,
+            value: itemModeMeta.secondLine(data),
+        });
+        if (itemModeMeta.thirdLine != null) {
+            ans.push({
+                key: "__itemModeThirdLine__",
+                itemMode: FieldItemMode.ThirdLine,
+                title: "itemModeThirdLine",
+                type: FieldType.Hidden,
+                hint: "",
+                originValue: data,
+                value: itemModeMeta.thirdLine(data),
+            });
+        }
     }
     return ans;
 }
@@ -78,15 +138,33 @@ var FieldsFormatter = /** @class */ (function () {
     }
     FieldsFormatter.create = function (locale, dateFormat) {
         if (dateFormat === void 0) { dateFormat = Formatter_1.dateISOFormat; }
-        return new FieldsFormatter(FieldsFormatter.LOCALIZE[locale], dateFormat);
+        return new FieldsFormatter(index_1.default.getByLocaleCode(locale), dateFormat);
     };
     // ----------------------------------
     // Common field definitions
     FieldsFormatter.prototype.dateField = function (opts) {
         var this_ = this;
+        var format = function (intl, val) {
+            if (typeof val == "string")
+                val = new Date(Date.parse(val));
+            var d = val;
+            if (d.getFullYear() === 0 || d.getFullYear() === 1)
+                return "не определено";
+            return intl.format(d);
+        };
         return {
             type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-            format: function (val) { return this_._dateFormat(val); },
+            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
+                ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
+                : function (val) {
+                    return format(new Intl.DateTimeFormat("ru", {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                    }), val);
+                },
         };
     };
     FieldsFormatter.prototype.textField = function () {
@@ -106,11 +184,14 @@ var FieldsFormatter = /** @class */ (function () {
     FieldsFormatter.prototype.businessField = function () {
         return {
             type: FieldType.Object,
-            format: function (val) { return val; },
+            format: this.business.bind(this),
         };
     };
     FieldsFormatter.prototype.doctorField = function () {
-        return { type: FieldType.Object, format: this.doctor.bind(this) };
+        return { type: FieldType.Text, format: this.doctor.bind(this) };
+    };
+    FieldsFormatter.prototype.doctorsField = function () {
+        return { type: FieldType.List, format: this.doctors.bind(this) };
     };
     FieldsFormatter.prototype.anamnesisField = function () {
         return {
@@ -120,7 +201,7 @@ var FieldsFormatter = /** @class */ (function () {
     };
     FieldsFormatter.prototype.medicalExaminationResultField = function () {
         return {
-            type: FieldType.Object,
+            type: FieldType.Paragraphs,
             format: this.medicalExaminationResult.bind(this),
         };
     };
@@ -142,7 +223,7 @@ var FieldsFormatter = /** @class */ (function () {
             format: function (val) { return val; },
         };
     };
-    FieldsFormatter.prototype.activeStatusField = function () {
+    FieldsFormatter.prototype.activeField = function () {
         var _this = this;
         return {
             type: FieldType.Text,
@@ -150,6 +231,17 @@ var FieldsFormatter = /** @class */ (function () {
                 return val
                     ? _this._localize["ActiveStatus"]["active"]
                     : _this._localize["ActiveStatus"]["disactive"];
+            },
+        };
+    };
+    FieldsFormatter.prototype.statusField = function () {
+        return {
+            type: FieldType.Status,
+            format: function (val) {
+                return ({
+                    color: "green",
+                    text: "Active",
+                });
             },
         };
     };
@@ -172,9 +264,10 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.genderField = function () {
+        var t = this._localize["Gender"];
         return {
             type: FieldType.Text,
-            format: function (val) { return (val == 0 ? "M" : "W"); },
+            format: function (val) { return t[val]; },
         };
     };
     FieldsFormatter.prototype.paragrathesField = function () {
@@ -192,7 +285,7 @@ var FieldsFormatter = /** @class */ (function () {
                     ? _this._localize["DiagnosisType"]["laboratoryTest"]
                     : val == ObservationType_1.ObservationType.Observation
                         ? _this._localize["DiagnosisType"]["observation"]
-                        : _this._localize["DiagnosisType"]["unknown"];
+                        : _this._localize["DiagnosisType"]["unknown"] + " (#" + val + ")";
             },
         };
     };
@@ -202,13 +295,24 @@ var FieldsFormatter = /** @class */ (function () {
             format: function (val) { return val; },
         };
     };
-    FieldsFormatter.prototype.periodField = function (opt) {
+    FieldsFormatter.prototype.periodField = function (opts) {
         var _this = this;
         return {
-            type: FieldType.Text,
+            type: FieldType.DatePeriod,
             format: function (val) {
+                var _a, _b;
                 var period = val;
-                return (_this._dateFormat(period.begin) + " - " + _this._dateFormat(period.end));
+                var textPeriod = val;
+                return {
+                    from: _this.dateField(opts).format(period.begin),
+                    fromIsZero: period.begin === null || typeof period.begin == "string"
+                        ? textPeriod.begin.substr(0, 1) == "0"
+                        : ((_a = period.begin) === null || _a === void 0 ? void 0 : _a.getTime()) === 0,
+                    to: _this.dateField(opts).format(period.end),
+                    toIsZero: period.end === null || typeof period.end == "string"
+                        ? textPeriod.end.substr(0, 1) == "0"
+                        : ((_b = period.end) === null || _b === void 0 ? void 0 : _b.getTime()) === 0,
+                };
             },
         };
     };
@@ -229,18 +333,17 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.servicesField = function () {
-        var _this = this;
         var this_ = this;
         return {
-            type: FieldType.ObjectList,
+            type: FieldType.List,
             format: function (val) {
-                return val.map(function (item) { return _this.service.bind(this_); });
+                return val.map(function (item) { return item.name; });
             },
         };
     };
     FieldsFormatter.prototype.priceField = function () {
         return {
-            type: FieldType.ObjectList,
+            type: FieldType.Object,
             format: this.clientPrice.bind(this),
         };
     };
@@ -254,39 +357,85 @@ var FieldsFormatter = /** @class */ (function () {
     FieldsFormatter.prototype.priceFormat = function (val, cur) {
         var cp = this._localize["currencyPosition"];
         var t = this._localize["Currency"];
-        return cp.left ? t[cur] + "" + val : "" + val + t[cur];
+        return cp == "left" ? t[cur] + "" + val : "" + val + t[cur];
     };
     FieldsFormatter.prototype.plural = function (n, one, many) {
-        return n == 1 ? "" + n + one : "" + n + many;
+        return n == 1 ? "" + n + " " + one : "" + n + " " + many;
+    };
+    FieldsFormatter.prototype.durationFormat = function (val) {
+        var t = this._localize["Duration"];
+        var fm = val;
+        if (fm == 0)
+            return "";
+        var h = this.plural(fm / 60, t["hour"], t["hours"]);
+        var m = this.plural(fm % 60, t["minute"], t["minutes"]);
+        return h + " " + m;
     };
     FieldsFormatter.prototype.durationField = function () {
-        var t = this._localize["Duration"];
         var this_ = this;
         return {
             type: FieldType.Text,
-            format: function (val) {
-                var fm = val;
-                var h = this_.plural(fm / 60, t["hour"], t["hours"]);
-                var m = this_.plural(fm % 60, t["minute"], t["minutes"]);
-                return h + " " + m;
-            },
+            format: function (val) { return this_.durationFormat(val); },
         };
     };
     FieldsFormatter.prototype.mediasField = function () {
         return {
             type: FieldType.MediaList,
-            format: function (val) { return val; },
+            format: function (val) {
+                if (!val || val.length == 0) {
+                    val = [
+                        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyM3x8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNXx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1509460913899-515f1df34fea?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNnx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1570158268183-d296b2892211?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyN3x8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1515023115689-589c33041d3c?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyOHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyOXx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwzMHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                    ];
+                }
+                return val;
+            },
         };
     };
     FieldsFormatter.prototype.attachmentsField = function () {
         return {
             type: FieldType.AttachmentList,
-            format: function (val) { return val; },
+            format: function (val) {
+                if (!val || val.length == 0) {
+                    val = [
+                        "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyM3x8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                        "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwyNXx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
+                    ];
+                }
+                return val;
+            },
         };
     };
     // --------------------------------
     // public interface methods
+    FieldsFormatter.prototype.business = function (b) {
+        if (b == null)
+            return [];
+        var meta = {
+            id: this.idField(),
+            name: this.textField(),
+            location: this.textField(),
+        };
+        var itemModeMeta = {
+            firstLine: function (b) {
+                return b.name;
+            },
+            secondLine: function (b) {
+                return b.location.split(",")[0];
+            },
+        };
+        return buildFieldArray(b, meta, this._localize["business"], [], itemModeMeta);
+    };
     FieldsFormatter.prototype.clientPrice = function (p) {
+        if (p == null)
+            return [];
         var t = this._localize["Currency"];
         var this_ = this;
         var meta = {
@@ -306,6 +455,9 @@ var FieldsFormatter = /** @class */ (function () {
         };
         return buildFieldArray(p, meta, this._localize["ClientPrice"]);
     };
+    FieldsFormatter.prototype.clientPriceText = function (p) {
+        return this.priceFormat(p.value, p.currency);
+    };
     FieldsFormatter.prototype.service = function (s) {
         var meta = {
             id: this.idField(),
@@ -313,7 +465,53 @@ var FieldsFormatter = /** @class */ (function () {
             price: this.priceField(),
             duration: this.durationField(),
         };
-        return buildFieldArray(s, meta, this._localize["service"]);
+        var this_ = this;
+        var itemModeMeta = {
+            firstLine: function (s) { return s.name; },
+            secondLine: function (s) {
+                var d = this_.duration(s.duration);
+                return ((d ? d + " " : "") + (s.price ? this_.clientPriceText(s.price) : ""));
+            },
+        };
+        return buildFieldArray(s, meta, this._localize["service"], [], itemModeMeta);
+    };
+    FieldsFormatter.prototype.fullPatientNameField = function () {
+        var this_ = this;
+        return {
+            type: FieldType.Text,
+            composite: true,
+            format: function (val) {
+                return (val.name +
+                    (val.middleName ? " " + val.middleName : "") +
+                    " " +
+                    val.surname);
+            },
+        };
+    };
+    FieldsFormatter.prototype.patientMessage = function (p) {
+        var meta = {
+            id: this.idField(),
+            fullName: this.fullPatientNameField(),
+            phones: this.phonesField(),
+            email: this.emailField(),
+            gender: this.genderField(),
+            birthdate: this.dateField({ dateOnly: true }),
+            address: this.textField(),
+            medcardNumber: this.textField(),
+        };
+        var itemModeMeta = {
+            firstLine: function (p) {
+                return p.name + " " + p.surname;
+            },
+            secondLine: function (p) {
+                return p.medcardNumber ? "#" + p.medcardNumber : "";
+            },
+            thirdLine: function (p) {
+                return "";
+                return p.phones.join(", ");
+            },
+        };
+        return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
     };
     FieldsFormatter.prototype.patientInfo = function (p) {
         var meta = {
@@ -328,7 +526,28 @@ var FieldsFormatter = /** @class */ (function () {
             medcardNumber: this.textField(),
             descriptionText: this.paragrathesField(),
         };
-        return buildFieldArray(p, meta, this._localize["patientInfo"]);
+        var itemModeMeta = {
+            firstLine: function (p) {
+                return p.name + " " + p.surname;
+            },
+            secondLine: function (p) {
+                return p.medcardNumber ? "#" + p.medcardNumber : "";
+            },
+            thirdLine: function (p) {
+                return "";
+                return p.phones.join(", ");
+            },
+        };
+        return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
+    };
+    FieldsFormatter.prototype.appointment = function (a) {
+        var meta = {
+            business: this.businessField(),
+            created: this.dateField(),
+            start: this.dateField(),
+            doctor: this.doctorField(),
+        };
+        return buildFieldArray(a, meta, this._localize["appointment"]);
     };
     FieldsFormatter.prototype.appointmentResult = function (ar) {
         var meta = {
@@ -354,6 +573,7 @@ var FieldsFormatter = /** @class */ (function () {
             title: "",
             hint: "",
             type: FieldType.Text,
+            originValue: v,
             value: "cd10 " + v.cd10 + "\n" + v.description + "\n\n",
         }); });
     };
@@ -372,54 +592,98 @@ var FieldsFormatter = /** @class */ (function () {
             return "";
         return "\n" + p.map(function (item) { return _this.prescription(item); }).join("\n");
     };
-    FieldsFormatter.prototype.prescription = function (p) {
-        var keys = [
-            "created",
-            "title",
-            "recorderDoctor",
-            "medications",
-            "dosageText",
-            "reasonText",
-            "validityPeriod",
-            "numberOfRepeats",
-        ];
-        var propFormats = {
-            created: this._dateFormat.bind(this),
-            recorderDoctor: this.doctor.bind(this),
-            validityPeriod: this.period.bind(this),
-            medications: this.medications.bind(this),
+    FieldsFormatter.prototype.medicationsField = function () {
+        var this_ = this;
+        return {
+            type: FieldType.ObjectList,
+            format: function (val) {
+                var meds = val;
+                return meds.map(function (m) { return this_.medication(m); });
+            },
         };
-        return buildFieldArray(p, propFormats, this._localize["appointmentResult"]);
     };
-    FieldsFormatter.prototype.medications = function (s) {
-        var _this = this;
-        return "\n" + s.map(function (item) { return _this.medication(item); }).join("\n");
+    FieldsFormatter.prototype.prescription = function (p) {
+        var meta = {
+            created: this.dateField(),
+            recorderDoctor: this.doctorField(),
+            validityPeriod: this.periodField(),
+            dosageText: {
+                type: FieldType.Paragraphs,
+                format: function (val) {
+                    if (!val)
+                        return [];
+                    var str = val;
+                    return str.split("\r\n");
+                },
+            },
+            medications: this.medicationsField(),
+            reasonText: this.textField(),
+            numberOfRepeats: this.numberField(),
+        };
+        return buildFieldArray(p, meta, this._localize["Prescription"]);
     };
-    FieldsFormatter.prototype.medication = function (s) {
-        throw new Error("Method not implemented.");
+    FieldsFormatter.prototype.medication = function (m) {
+        var this_ = this;
+        var meta = {};
+        var itemModeMeta = {
+            firstLine: function (m) {
+                return m.name + " " + m.itemSize;
+            },
+            secondLine: function (m) {
+                return m.code + " " + m.codeTable;
+            },
+        };
+        return buildFieldArray(m, meta, this._localize["Medication"], [], itemModeMeta);
+    };
+    FieldsFormatter.prototype.observation = function (o) {
+        var meta = {};
+        var this_ = this;
+        var itemModeMeta = {
+            firstLine: function (o) {
+                return o.observationKey;
+            },
+            secondLine: function (o) {
+                return (
+                // this_._dateFormat(o.issuedDate) +
+                " "
+                // + this_.doctor(o.performerDoctor)
+                );
+            },
+            thirdLine: function (o) {
+                return Formatter_1.paragrathes(o.interpretation);
+            },
+        };
+        return buildFieldArray(o, meta, this._localize["Observation"], [], itemModeMeta);
+    };
+    FieldsFormatter.prototype.observationsField = function () {
+        var this_ = this;
+        return {
+            type: FieldType.ObjectList,
+            format: function (val) {
+                var obs = val;
+                return obs.map(function (o) { return this_.observation(o); });
+            },
+        };
     };
     FieldsFormatter.prototype.diagnosticReport = function (dr) {
         var meta = {
             id: this.idField(),
-            active: this.activeStatusField(),
+            active: this.activeField(),
             business: this.businessField(),
             patient: this.patientField(),
-            status: this.numberField(),
+            status: this.statusField(),
             type: this.diagnosisTypeField(),
             category: this.diagnosisCategoryField(),
             effectivePeriod: this.periodField({ dateOnly: true }),
             issuedDate: this.dateField({ dateOnly: true }),
-            result: this.appointmentResultsField(),
+            result: this.observationsField(),
             services: this.servicesField(),
-            resultInterpreter: this.doctorField(),
+            resultInterpreter: this.doctorsField(),
             resultInterpretation: this.paragrathesField(),
             imagineMedia: this.mediasField(),
             attachments: this.attachmentsField(),
         };
         return buildFieldArray(dr, meta, this._localize["DiagnosticReport"]);
-    };
-    FieldsFormatter.prototype.observation = function (o) {
-        throw new Error("Method not implemented.");
     };
     // --------------------------------
     // private utility methods
@@ -427,19 +691,23 @@ var FieldsFormatter = /** @class */ (function () {
         return a;
     };
     FieldsFormatter.prototype.duration = function (n) {
-        return n.toString() + " " + this._localize["MINUTE_UNIT"];
+        return this.durationFormat(n);
     };
     FieldsFormatter.prototype.doctor = function (d) {
         if (d == null)
             return "";
         return d.name + " " + d.surname;
     };
+    FieldsFormatter.prototype.doctors = function (doctors) {
+        var this_ = this;
+        return doctors.map(function (d) { return this_.doctor(d); });
+    };
     FieldsFormatter.prototype.yesNo = function (b) {
         return b ? this._localize["YES"] : this._localize["NO"];
     };
-    FieldsFormatter.prototype.medicalExaminationResult = function (ar, offset) {
+    FieldsFormatter.prototype.medicalExaminationResult = function (ar) {
         if (ar == null)
-            return "";
+            return [];
         ar = ar.map(function (line) {
             var m = line.match(/([^:]*):(.*)/);
             if (m) {
@@ -448,7 +716,7 @@ var FieldsFormatter = /** @class */ (function () {
             }
             return line;
         });
-        return "\n" + Formatter_1.paragrathes(ar) + "\n\n";
+        return ar;
     };
     FieldsFormatter.prototype.period = function (period, offset) {
         return ("\n" +
@@ -462,10 +730,6 @@ var FieldsFormatter = /** @class */ (function () {
             " " +
             this._dateFormat(period.end) +
             "\n");
-    };
-    FieldsFormatter.LOCALIZE = {
-        "ru-ru": index_1.default.ruRU,
-        "en-us": index_1.default.enUS,
     };
     return FieldsFormatter;
 }());

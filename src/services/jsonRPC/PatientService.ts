@@ -5,7 +5,7 @@ import { Handlers } from "../../Handlers";
 import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
 import { PatientMessage } from "../../messages/PatientMessage";
-import { PatientFilters } from "services/filters/PatientFilters";
+import { PatientFilters } from "../../services/filters/PatientFilters";
 
 export class PatientService
   extends JsonRPCCredService

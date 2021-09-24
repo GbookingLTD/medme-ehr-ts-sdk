@@ -88,6 +88,26 @@ var DiagnosticReportService = /** @class */ (function (_super) {
             });
         });
     };
+    DiagnosticReportService.prototype.getFilteredDiagnosticReports = function (filters, limit, offset, cb) {
+        var _this = this;
+        var params = { filters: filters.plain(), limit: limit, offset: offset };
+        this.exec(Handlers_1.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["diagnosticReports"]);
+        });
+    };
+    DiagnosticReportService.prototype.getFilteredDiagnosticReportsAsync = function (filters, limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getFilteredDiagnosticReports(filters, limit, offset, function (err, reports) {
+                if (err)
+                    return rej(err);
+                res(reports);
+            });
+        });
+    };
     DiagnosticReportService.prototype.getDiagnosticReportsCount = function (cb) {
         var _this = this;
         this.exec(Handlers_1.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_COUNT_METHOD, {}, function (err, payload) {

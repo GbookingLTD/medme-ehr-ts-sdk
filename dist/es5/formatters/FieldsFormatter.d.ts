@@ -4,8 +4,8 @@ import { AppointmentResultMessage } from "../messages/AppointmentResultMessage";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import { Diagnosis, Procedure, PrescriptionInfo, Medication, Period, Service, ClientPrice, BusinessInfo } from "../types/index";
 import { Observation } from "../types/Observation";
-import { PatientMessage } from "messages/PatientMessage";
-import { AppointmentMessage } from "messages/AppointmentMessage";
+import { PatientMessage } from "../messages/PatientMessage";
+import { AppointmentMessage } from "../messages/AppointmentMessage";
 export declare enum FieldType {
     Text = "text",
     Number = "number",

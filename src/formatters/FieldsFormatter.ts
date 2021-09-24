@@ -27,10 +27,10 @@ import { PatientInfo } from "../types/PatientInfo";
 import { ObservationType } from "../types/ObservationType";
 import { Discount } from "../types/Discount";
 import { DiscountType } from "../types/DiscountType";
-import { PatientMessage } from "messages/PatientMessage";
-import { TextPeriod } from "types/Period";
-import { AppointmentMessage } from "messages/AppointmentMessage";
-import { isNullUndefZero } from "services/filters/AppointmentFilters";
+import { PatientMessage } from "../messages/PatientMessage";
+import { TextPeriod } from "../types/Period";
+import { AppointmentMessage } from "../messages/AppointmentMessage";
+import { isNullUndefZero } from "../services/filters/AppointmentFilters";
 
 export enum FieldType {
   Text = "text",

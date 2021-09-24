@@ -1,7 +1,7 @@
 import { JsonRPCCredService } from "./jsonRpcService";
 import { IPrescriptionService } from "../PrescriptionService";
 import { PrescriptionMessage } from "../../messages/PrescriptionMessage";
-import { PrescriptionFilters } from "services/filters/PrescriptionFilters";
+import { PrescriptionFilters } from "../../services/filters/PrescriptionFilters";
 export declare class PrescriptionService extends JsonRPCCredService implements IPrescriptionService {
     /**
      * Возвращает назначение по идентификатору.

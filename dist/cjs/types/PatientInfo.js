@@ -13,6 +13,7 @@ var PatientInfo = /** @class */ (function () {
         this.email = json.email;
         this.gender = json.gender;
         this.date = json.date;
+        this.medcardNumber = json.medcardNumber;
         return this;
     };
     PatientInfo.prototype.toJson = function () {
@@ -25,6 +26,7 @@ var PatientInfo = /** @class */ (function () {
         payload.email = this.email;
         payload.gender = this.gender;
         payload.date = this.date.toJSON();
+        payload.medcardNumber = this.medcardNumber;
         return payload;
     };
     return PatientInfo;

@@ -26,6 +26,7 @@ export const xhr: IJsonRPCRequest = function (
 ) {
   let req = new XMLHttpRequest();
   req.responseType = "json";
+  req.withCredentials = true;
 
   req.onload = (res: any) => {
     let target: XMLHttpRequest = res.target;

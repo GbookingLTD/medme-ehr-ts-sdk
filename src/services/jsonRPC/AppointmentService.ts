@@ -4,7 +4,7 @@ import { AppointmentInputProperties } from "../../types/AppointmentInputProperti
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 import { AppointmentMessage } from "../../messages/AppointmentMessage";
-import { AppointmentFilters } from "services/filters/AppointmentFilters";
+import { AppointmentFilters } from "../../services/filters/AppointmentFilters";
 
 export class AppointmentService
   extends JsonRPCCredService

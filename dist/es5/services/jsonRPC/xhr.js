@@ -19,6 +19,7 @@ export var xhr = function (endpoint, header, requestPayload, cb) {
     var _this = this;
     var req = new XMLHttpRequest();
     req.responseType = "json";
+    req.withCredentials = true;
     req.onload = function (res) {
         var target = res.target;
         if (target.status >= 400)

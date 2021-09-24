@@ -1,7 +1,7 @@
 import { JsonRPCCredService } from "./jsonRpcService";
 import { IDiagnosticReportService } from "../DiagnosticReportService";
 import { DiagnosticReportMessage } from "../../messages/DiagnosticReportMessage";
-import { DiagnosticReportFilters } from "services/filters/DiagnosticReportFilters";
+import { DiagnosticReportFilters } from "../../services/filters/DiagnosticReportFilters";
 export declare class DiagnosticReportService extends JsonRPCCredService implements IDiagnosticReportService {
     /**
      * Возвращает назначение по идентификатору.

@@ -2,7 +2,7 @@ import { IAppointmentService } from "../AppointmentService";
 import { AppointmentModel } from "../../models/AppointmentModel";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { AppointmentMessage } from "../../messages/AppointmentMessage";
-import { AppointmentFilters } from "services/filters/AppointmentFilters";
+import { AppointmentFilters } from "../../services/filters/AppointmentFilters";
 export declare class AppointmentService extends JsonRPCCredService implements IAppointmentService {
     getAppointmentById(id: string, cb: (err: any, appointment: AppointmentMessage) => void): void;
     getAppointmentByIdAsync(id: string): Promise<AppointmentMessage>;

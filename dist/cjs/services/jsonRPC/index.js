@@ -7,6 +7,7 @@ var PrescriptionService_1 = require("./PrescriptionService");
 var DiagnosticReportService_1 = require("./DiagnosticReportService");
 var AuthService_1 = require("./AuthService");
 var PatientService_1 = require("./PatientService");
+var BusinessInfoService_1 = require("./BusinessInfoService");
 var jsonRpcRequest_1 = require("./jsonRpcRequest");
 exports.default = {
     Transports: {
@@ -19,4 +20,5 @@ exports.default = {
     DiagnosticReportService: DiagnosticReportService_1.DiagnosticReportService,
     AuthService: AuthService_1.AuthService,
     PatientService: PatientService_1.PatientService,
+    BusinessInfoService: BusinessInfoService_1.BusinessInfoService,
 };

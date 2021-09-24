@@ -124,7 +124,7 @@ export class JsonRPCCredService
       (JsonRPCService.id++).toString(),
       rpcMethod,
       this.cred,
-      this.apiKey
+      this.apiKey,
     );
     this.request(optionalEndpoint || this.endpoint, header, payload, auth(cb));
   }
