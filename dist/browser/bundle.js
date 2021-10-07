@@ -4323,6 +4323,7 @@ define("services/index", ["require", "exports", "services/jsonRPC/index", "servi
         PatientAuthenticationError: AuthService_4.PatientAuthenticationError,
         ConnectionError: AuthService_4.ConnectionError,
         getAuthenticatedPatient: AuthService_4.getAuthenticatedPatient,
+        getAuthenticatedPatientByExchangeToken: AuthService_4.getAuthenticatedPatientByExchangeToken,
         Credentials: Credentials_1.Credentials,
         RpcErrorCodes: RpcErrorCodes_3.RpcErrorCodes,
         Filters: index_8.default,

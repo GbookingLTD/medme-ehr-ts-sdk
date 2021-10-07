@@ -1,4 +1,4 @@
-import { PatientAuthenticationResult, PatientAuthenticationStep, PatientAuthenticationError, getAuthenticatedPatient, ConnectionError } from "./AuthService";
+import { PatientAuthenticationResult, PatientAuthenticationStep, PatientAuthenticationError, getAuthenticatedPatient, getAuthenticatedPatientByExchangeToken, ConnectionError } from "./AuthService";
 import { Credentials } from "./Credentials";
 import { RpcErrorCodes } from "./RpcErrorCodes";
 declare const _default: {
@@ -20,6 +20,7 @@ declare const _default: {
     PatientAuthenticationError: typeof PatientAuthenticationError;
     ConnectionError: typeof ConnectionError;
     getAuthenticatedPatient: typeof getAuthenticatedPatient;
+    getAuthenticatedPatientByExchangeToken: typeof getAuthenticatedPatientByExchangeToken;
     Credentials: typeof Credentials;
     RpcErrorCodes: typeof RpcErrorCodes;
     Filters: {

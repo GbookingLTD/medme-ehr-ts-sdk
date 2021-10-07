@@ -6,6 +6,7 @@ import {
   PatientAuthenticationStep,
   PatientAuthenticationError,
   getAuthenticatedPatient,
+  getAuthenticatedPatientByExchangeToken,
   ConnectionError,
 } from "./AuthService";
 import { Credentials } from "./Credentials";
@@ -22,6 +23,7 @@ export default {
   PatientAuthenticationError,
   ConnectionError,
   getAuthenticatedPatient,
+  getAuthenticatedPatientByExchangeToken,
   Credentials,
   RpcErrorCodes,
   Filters,

@@ -16,6 +16,7 @@ exports.default = {
     PatientAuthenticationError: AuthService_1.PatientAuthenticationError,
     ConnectionError: AuthService_1.ConnectionError,
     getAuthenticatedPatient: AuthService_1.getAuthenticatedPatient,
+    getAuthenticatedPatientByExchangeToken: AuthService_1.getAuthenticatedPatientByExchangeToken,
     Credentials: Credentials_1.Credentials,
     RpcErrorCodes: RpcErrorCodes_1.RpcErrorCodes,
     Filters: index_2.default,

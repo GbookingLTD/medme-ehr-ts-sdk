@@ -26,6 +26,7 @@ export declare const EHR: {
         PatientAuthenticationError: typeof import("./services/AuthService").PatientAuthenticationError;
         ConnectionError: typeof import("./services/AuthService").ConnectionError;
         getAuthenticatedPatient: typeof import("./services/AuthService").getAuthenticatedPatient;
+        getAuthenticatedPatientByExchangeToken: typeof import("./services/AuthService").getAuthenticatedPatientByExchangeToken;
         Credentials: typeof import("./services/Credentials").Credentials;
         RpcErrorCodes: typeof import("./services/RpcErrorCodes").RpcErrorCodes;
         Filters: {
