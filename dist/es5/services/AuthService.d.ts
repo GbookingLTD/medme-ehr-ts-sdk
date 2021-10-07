@@ -108,3 +108,12 @@ export declare type AuthenticateInputResultCallback = (err: any, searchStrategy:
  * @param {function} cb
  */
 export declare function getAuthenticatedPatient(patientService: IPatientService, authService: IAuthService, patientInput: (next: AuthenticateInputResultCallback) => void, cb: (err: any, authenticated?: PatientAuthenticationResult) => void): void;
+/**
+ * Функция, аналогичная предыдущей, за исключением того, что токен обмена был получен ранее.
+ *
+ * @param {string} exchangeToken
+ * @param {IAuthService} authService
+ * @param {function} patientInput
+ * @param {function} cb
+ */
+export declare function getAuthenticatedPatientByExchangeToken(exchangeToken: string, authService: IAuthService, patientInput: (next: AuthenticateInputResultCallback) => void, cb: (err: any, authenticated?: PatientAuthenticationResult) => void): void;

@@ -146,3 +146,29 @@ export function getAuthenticatedPatient(patientService, authService, patientInpu
         return cb(null, authenticated);
     });
 }
+/**
+ * Функция, аналогичная предыдущей, за исключением того, что токен обмена был получен ранее.
+ *
+ * @param {string} exchangeToken
+ * @param {IAuthService} authService
+ * @param {function} patientInput
+ * @param {function} cb
+ */
+export function getAuthenticatedPatientByExchangeToken(exchangeToken, authService, patientInput, cb) {
+    patientInput(function (err, searchStrategy, patientProperties, medCardId) {
+        if (err)
+            return cb(new PatientAuthenticationError(PatientAuthenticationStep.input, err), null);
+        authService.authenticate(exchangeToken, searchStrategy, patientProperties, medCardId, function (err, patient, userSign) {
+            // Возможные типы ошибок:
+            // - пользователь не найден (ошибка аутентификации) - сообщение пользователю
+            // - пользователь уже аутентифицирован - перелогиниться
+            if (err)
+                return cb(new PatientAuthenticationError(PatientAuthenticationStep.authenticate, err), null);
+            var authenticated = new PatientAuthenticationResult();
+            authenticated.patient = patient;
+            authenticated.patientAuthenticated = true;
+            authenticated.userSign = userSign;
+            cb(null, authenticated);
+        });
+    });
+}

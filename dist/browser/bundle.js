@@ -1722,7 +1722,7 @@ define("services/RpcErrorCodes", ["require", "exports"], function (require, expo
 define("services/AuthService", ["require", "exports", "services/RpcErrorCodes"], function (require, exports, RpcErrorCodes_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.getAuthenticatedPatient = exports.ConnectionError = exports.PatientAuthenticationError = exports.PatientAuthenticationStep = exports.PatientAuthenticationResult = exports.AuthInfo = exports.ExchangeTokenResponse = void 0;
+    exports.getAuthenticatedPatientByExchangeToken = exports.getAuthenticatedPatient = exports.ConnectionError = exports.PatientAuthenticationError = exports.PatientAuthenticationStep = exports.PatientAuthenticationResult = exports.AuthInfo = exports.ExchangeTokenResponse = void 0;
     var ExchangeTokenResponse = /** @class */ (function () {
         function ExchangeTokenResponse() {
         }
@@ -1856,6 +1856,33 @@ define("services/AuthService", ["require", "exports", "services/RpcErrorCodes"],
         });
     }
     exports.getAuthenticatedPatient = getAuthenticatedPatient;
+    /**
+     * Функция, аналогичная предыдущей, за исключением того, что токен обмена был получен ранее.
+     *
+     * @param {string} exchangeToken
+     * @param {IAuthService} authService
+     * @param {function} patientInput
+     * @param {function} cb
+     */
+    function getAuthenticatedPatientByExchangeToken(exchangeToken, authService, patientInput, cb) {
+        patientInput(function (err, searchStrategy, patientProperties, medCardId) {
+            if (err)
+                return cb(new PatientAuthenticationError(PatientAuthenticationStep.input, err), null);
+            authService.authenticate(exchangeToken, searchStrategy, patientProperties, medCardId, function (err, patient, userSign) {
+                // Возможные типы ошибок:
+                // - пользователь не найден (ошибка аутентификации) - сообщение пользователю
+                // - пользователь уже аутентифицирован - перелогиниться
+                if (err)
+                    return cb(new PatientAuthenticationError(PatientAuthenticationStep.authenticate, err), null);
+                var authenticated = new PatientAuthenticationResult();
+                authenticated.patient = patient;
+                authenticated.patientAuthenticated = true;
+                authenticated.userSign = userSign;
+                cb(null, authenticated);
+            });
+        });
+    }
+    exports.getAuthenticatedPatientByExchangeToken = getAuthenticatedPatientByExchangeToken;
 });
 define("services/Credentials", ["require", "exports"], function (require, exports) {
     "use strict";
