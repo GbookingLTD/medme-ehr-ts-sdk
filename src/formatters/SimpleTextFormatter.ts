@@ -321,19 +321,19 @@ export class SimpleTextFormatter implements IFormatter<string> {
       this._dateFormat(dr.issuedDate) +
       "\n" +
       offset +
-      this._localize["DiagnosticReport"]["Doctor"] +
+      this._localize["DiagnosticReport"]["doctor"] +
       " " +
       dr.resultInterpreter.map((d) => _this.doctor(d)) +
       "\n" +
       offset +
-      this._localize["DiagnosticReport"]["Result"] +
+      this._localize["DiagnosticReport"]["result"] +
       "\n" +
       offset +
       this.observations(dr.result, offset + "  ") +
       (dr.effectivePeriod && dr.effectivePeriod.begin
         ? "\n" +
           offset +
-          this._localize["DiagnosticReport"]["EffectivePeriod"] +
+          this._localize["DiagnosticReport"]["effectivePeriod"] +
           this.period(dr.effectivePeriod, offset + "  ")
         : "") +
       (dr.resultInterpretation && dr.resultInterpretation.length
@@ -344,7 +344,7 @@ export class SimpleTextFormatter implements IFormatter<string> {
           offset +
           "\n" +
           offset +
-          this._localize["DiagnosticReport"]["Images"] +
+          this._localize["DiagnosticReport"]["images"] +
           dr.imagineMedia.map((img) => +"\n" + offset + img)
         : "") +
       (dr.attachments && dr.attachments.length
@@ -352,7 +352,7 @@ export class SimpleTextFormatter implements IFormatter<string> {
           offset +
           "\n" +
           offset +
-          this._localize["DiagnosticReport"]["Attachments"] +
+          this._localize["DiagnosticReport"]["attachments"] +
           dr.attachments.map((a) => +"\n" + offset + a)
         : "")
     );
