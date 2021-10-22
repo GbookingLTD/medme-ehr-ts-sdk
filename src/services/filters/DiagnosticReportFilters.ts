@@ -79,7 +79,7 @@ export class DiagnosticReportFilters
     return new DiagnosticReportFilters(l10n.getByLocaleCode(locale)["filters"]);
   }
 
-  constructor(localize: { [key: string]: string }) {
+  constructor(localize: any) {
     super();
     this.byBusinessId = new DiagnosticReportByBusinessIdFilter(localize);
     this.byCreated = new DiagnosticReportByCreatedFilter(localize);

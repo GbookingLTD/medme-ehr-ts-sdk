@@ -32,4 +32,11 @@ export interface IDiagnosticReportService extends IResourceService {
         count: number;
         support: boolean;
     }>;
+    searchDiagnosticReports(includes: string[], excludes: string[], filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
+    searchDiagnosticReportsAsync(includes: string[], excludes: string[], filters: DiagnosticReportFilters, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
+    searchDiagnosticReportsCount(includes: string[], excludes: string[], filters: DiagnosticReportFilters, cb: (err: any, p: number) => void): void;
+    searchDiagnosticReportsCountAsync(includes: string[], excludes: string[], filters: DiagnosticReportFilters): Promise<{
+        count: number;
+        support: boolean;
+    }>;
 }

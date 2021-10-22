@@ -1,5 +1,8 @@
 import { Filter, ISerializableFilter } from "./Filters";
-import { isNullUndefZero } from "./AppointmentFilters";
+
+function isNullUndefZero(val?: any): boolean {
+  return val === null || typeof val === "undefined" || val.getTime() === 0;
+}
 
 export abstract class DatePeriodFilter
   extends Filter

@@ -30,7 +30,6 @@ import { DiscountType } from "../types/DiscountType";
 import { PatientMessage } from "../messages/PatientMessage";
 import { TextPeriod } from "../types/Period";
 import { AppointmentMessage } from "../messages/AppointmentMessage";
-import { isNullUndefZero } from "../services/filters/AppointmentFilters";
 
 export enum FieldType {
   Text = "text",

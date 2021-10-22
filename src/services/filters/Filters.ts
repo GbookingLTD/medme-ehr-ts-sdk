@@ -6,11 +6,11 @@ export interface ISerializableFilter {
 }
 
 export interface IFilter {
-  get kind(): FilterTypeEnum;
-  get key(): string;
-  get title(): string;
+  readonly kind: FilterTypeEnum;
+  readonly key: string;
+  readonly title: string;
   isEmpty(): boolean;
-  get prettyValue(): string;
+  readonly prettyValue: string;
 }
 
 export interface IFilterList {
@@ -30,9 +30,9 @@ export abstract class FilterList implements IFilterList {
 }
 
 export abstract class Filter implements IFilter {
-  protected localize: { [key: string]: string };
+  protected localize: any;
 
-  constructor(localize: { [key: string]: string }) {
+  constructor(localize: any) {
     this.localize = localize;
   }
   abstract get prettyValue(): string;

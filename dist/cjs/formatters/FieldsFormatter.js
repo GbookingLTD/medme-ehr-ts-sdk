@@ -154,8 +154,7 @@ var FieldsFormatter = /** @class */ (function () {
         };
         return {
             type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
-                ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
+            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
                 : function (val) {
                     return format(new Intl.DateTimeFormat("ru", {
                         year: "numeric",
