@@ -2,12 +2,10 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -931,10 +929,13 @@ define("services/filters/Filters", ["require", "exports", "services/filters/Filt
     }());
     exports.Filter = Filter;
 });
-define("services/filters/DatePeriodFilter", ["require", "exports", "services/filters/Filters", "services/filters/AppointmentFilters"], function (require, exports, Filters_1, AppointmentFilters_1) {
+define("services/filters/DatePeriodFilter", ["require", "exports", "services/filters/Filters"], function (require, exports, Filters_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DatePeriodFilter = void 0;
+    function isNullUndefZero(val) {
+        return val === null || typeof val === "undefined" || val.getTime() === 0;
+    }
     var DatePeriodFilter = /** @class */ (function (_super) {
         __extends(DatePeriodFilter, _super);
         function DatePeriodFilter() {
@@ -960,7 +961,7 @@ define("services/filters/DatePeriodFilter", ["require", "exports", "services/fil
             };
         };
         DatePeriodFilter.prototype.isEmpty = function () {
-            return AppointmentFilters_1.isNullUndefZero(this.from) && AppointmentFilters_1.isNullUndefZero(this.to);
+            return isNullUndefZero(this.from) && isNullUndefZero(this.to);
         };
         return DatePeriodFilter;
     }(Filters_1.Filter));
@@ -969,17 +970,16 @@ define("services/filters/DatePeriodFilter", ["require", "exports", "services/fil
 define("services/filters/AppointmentFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_1, DatePeriodFilter_1, Filters_2, FilterTypes_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.AppointmentFilters = exports.AppointmentByPatientIdFilter = exports.AppointmentByStartFilter = exports.AppointmentByCreatedFilter = exports.AppointmentByBusinessIdFilter = exports.isNullUndefZero = void 0;
+    exports.AppointmentFilters = exports.AppointmentByPatientIdFilter = exports.AppointmentByStartFilter = exports.AppointmentByCreatedFilter = exports.AppointmentByBusinessIdFilter = void 0;
     function isNullUndefEmpty(val) {
-        return val == undefined || val == null || val == "";
+        return typeof val === "undefined" || val === null || val === "";
     }
     function isNullUndef(val) {
-        return val == null || val == undefined;
+        return val === null || typeof val === "undefined";
     }
     function isNullUndefZero(val) {
-        return val == null || val == undefined || val.getTime() == 0;
+        return val === null || typeof val === "undefined" || val.getTime() === 0;
     }
-    exports.isNullUndefZero = isNullUndefZero;
     var AppointmentByBusinessIdFilter = /** @class */ (function (_super) {
         __extends(AppointmentByBusinessIdFilter, _super);
         function AppointmentByBusinessIdFilter() {
@@ -2379,7 +2379,7 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
         if (verbose)
             console.debug.apply(console, args);
     };
-    var xhr = function (endpoint, header, requestPayload, cb) {
+    exports.xhr = function (endpoint, header, requestPayload, cb) {
         var _this = this;
         var req = new XMLHttpRequest();
         req.responseType = "json";
@@ -2416,7 +2416,6 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
         debug("jsonRpcRequest.serialize()", jsonRpcRequest.serialize());
         req.send(jsonRpcRequest.serialize());
     };
-    exports.xhr = xhr;
 });
 define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonRPC/jsonRpcRequest", "services/RpcErrorCodes"], function (require, exports, jsonRpcRequest_1, RpcErrorCodes_2) {
     "use strict";
@@ -2562,6 +2561,10 @@ define("Handlers", ["require", "exports"], function (require, exports) {
         Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_COUNT_METHOD = "diagnostic_report.count";
         Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT = 404;
         Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT_METHOD = "diagnostic_report.patient_diagnostic_reports_count";
+        Handlers.HANDLER_SEACH_DIAGNOSTIC_REPORTS = 405;
+        Handlers.HANDLER_SEARCH_DIAGNOSTIC_REPORTS_METHOD = "diagnostic_report.search_diagnostic_reports";
+        Handlers.HANDLER_SEARCH_DIAGNOSTIC_REPORTS_COUNT = 406;
+        Handlers.HANDLER_SEARCH_DIAGNOSTIC_REPORTS_COUNT_METHOD = "diagnostic_report.search_diagnostic_reports_count";
         Handlers.HANDLER_SAVE_AUTH_INFO = 500;
         Handlers.HANDLER_SAVE_AUTH_INFO_METHOD = "embedded_storage.save_auth_info";
         Handlers.HANDLER_SAVE_EXCHANGE_TOKEN = 501;
@@ -3879,11 +3882,11 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
          * @param cb callback
          */
         DiagnosticReportService.prototype.getDiagnosticReportById = function (id, cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrors_ = payload["validationErrors"];
+                _this_1.lastValidationErrors_ = payload["validationErrors"];
                 return cb(null, payload["diagnosticReport"]);
             });
         };
@@ -3899,12 +3902,12 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             });
         };
         DiagnosticReportService.prototype.getPatientDiagnosticReports = function (patientId, limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { patientId: patientId, limit: limit, offset: offset };
             this.exec(Handlers_4.Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["diagnosticReports"]);
             });
         };
@@ -3919,12 +3922,12 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             });
         };
         DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { limit: limit, offset: offset };
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["diagnosticReports"]);
             });
         };
@@ -3939,12 +3942,12 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             });
         };
         DiagnosticReportService.prototype.getFilteredDiagnosticReports = function (filters, limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { filters: filters.plain(), limit: limit, offset: offset };
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["diagnosticReports"]);
             });
         };
@@ -3959,11 +3962,11 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             });
         };
         DiagnosticReportService.prototype.getDiagnosticReportsCount = function (cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
                     return cb(err, null, false);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["count"], payload["support"]);
             });
         };
@@ -3978,11 +3981,11 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             });
         };
         DiagnosticReportService.prototype.getPatientDiagnosticReportsCount = function (patientId, cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_4.Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
                 if (err)
                     return cb(err, null, false);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["count"], payload["support"]);
             });
         };
@@ -3990,6 +3993,44 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             var service = this;
             return new Promise(function (res, rej) {
                 service.getPatientDiagnosticReportsCount(patientId, function (err, count, support) {
+                    if (err)
+                        return rej(err);
+                    res({ count: count, support: support });
+                });
+            });
+        };
+        DiagnosticReportService.prototype.searchDiagnosticReports = function (includes, excludes, filters, limit, offset, cb) {
+            var _this = this;
+            this.exec(Handlers_4.Handlers.HANDLER_SEARCH_DIAGNOSTIC_REPORTS_METHOD, { includes: includes, excludes: excludes, filters: filters.plain(), limit: limit, offset: offset }, function (err, payload) {
+                if (err)
+                    return cb(err, []);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["diagnosticReports"]);
+            });
+        };
+        DiagnosticReportService.prototype.searchDiagnosticReportsAsync = function (includes, excludes, filters, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.searchDiagnosticReports(includes, excludes, filters, limit, offset, function (err, reports) {
+                    if (err)
+                        return rej(err);
+                    res(reports);
+                });
+            });
+        };
+        DiagnosticReportService.prototype.searchDiagnosticReportsCount = function (includes, excludes, filters, cb) {
+            var _this = this;
+            this.exec(Handlers_4.Handlers.HANDLER_SEARCH_DIAGNOSTIC_REPORTS_COUNT_METHOD, { includes: includes, excludes: excludes, filters: filters.plain() }, function (err, payload) {
+                if (err)
+                    return cb(err, 0, false);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["count"], payload["support"]);
+            });
+        };
+        DiagnosticReportService.prototype.searchDiagnosticReportsCountAsync = function (includes, excludes, filters) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.searchDiagnosticReportsCount(includes, excludes, filters, function (err, count, support) {
                     if (err)
                         return rej(err);
                     res({ count: count, support: support });
@@ -4288,7 +4329,7 @@ define("services/jsonRPC/index", ["require", "exports", "services/jsonRPC/xhr", 
         BusinessInfoService: BusinessInfoService_1.BusinessInfoService,
     };
 });
-define("services/filters/index", ["require", "exports", "services/filters/PatientFilters", "services/filters/AppointmentFilters", "services/filters/DiagnosticReportFilters", "services/filters/PrescriptionFilters"], function (require, exports, PatientFilters_1, AppointmentFilters_2, DiagnosticReportFilters_1, PrescriptionFilters_1) {
+define("services/filters/index", ["require", "exports", "services/filters/PatientFilters", "services/filters/AppointmentFilters", "services/filters/DiagnosticReportFilters", "services/filters/PrescriptionFilters"], function (require, exports, PatientFilters_1, AppointmentFilters_1, DiagnosticReportFilters_1, PrescriptionFilters_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = {
@@ -4296,11 +4337,11 @@ define("services/filters/index", ["require", "exports", "services/filters/Patien
         PatientByMedCardFilter: PatientFilters_1.PatientByMedCardFilter,
         PatientByPhoneFilter: PatientFilters_1.PatientByPhoneFilter,
         PatientFilters: PatientFilters_1.PatientFilters,
-        AppointmentByBusinessIdFilter: AppointmentFilters_2.AppointmentByBusinessIdFilter,
-        AppointmentByCreatedFilter: AppointmentFilters_2.AppointmentByCreatedFilter,
-        AppointmentByStartFilter: AppointmentFilters_2.AppointmentByStartFilter,
-        AppointmentByPatientIdFilter: AppointmentFilters_2.AppointmentByPatientIdFilter,
-        AppointmentFilters: AppointmentFilters_2.AppointmentFilters,
+        AppointmentByBusinessIdFilter: AppointmentFilters_1.AppointmentByBusinessIdFilter,
+        AppointmentByCreatedFilter: AppointmentFilters_1.AppointmentByCreatedFilter,
+        AppointmentByStartFilter: AppointmentFilters_1.AppointmentByStartFilter,
+        AppointmentByPatientIdFilter: AppointmentFilters_1.AppointmentByPatientIdFilter,
+        AppointmentFilters: AppointmentFilters_1.AppointmentFilters,
         DiagnosticReportByBusinessIdFilter: DiagnosticReportFilters_1.DiagnosticReportByBusinessIdFilter,
         DiagnosticReportByCreatedFilter: DiagnosticReportFilters_1.DiagnosticReportByCreatedFilter,
         DiagnosticReportByPatientIdFilter: DiagnosticReportFilters_1.DiagnosticReportByPatientIdFilter,
@@ -4333,10 +4374,9 @@ define("formatters/Formatter", ["require", "exports"], function (require, export
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = void 0;
-    var dateISOFormat = function (d) {
+    exports.dateISOFormat = function (d) {
         return d == null ? "" : typeof d === "string" ? d : d.toISOString();
     };
-    exports.dateISOFormat = dateISOFormat;
     function paragrathes(a) {
         if (a.length == 0)
             return "";
@@ -4352,8 +4392,7 @@ define("formatters/Formatter", ["require", "exports"], function (require, export
         return "\n" + offset + a.join("\n\n");
     }
     exports.paragrathes_nl = paragrathes_nl;
-    var trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
-    exports.trim = trim;
+    exports.trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
 });
 define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter"], function (require, exports, index_9, Formatter_1) {
     "use strict";
@@ -4590,19 +4629,19 @@ define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n
                 this._dateFormat(dr.issuedDate) +
                 "\n" +
                 offset +
-                this._localize["DiagnosticReport"]["Doctor"] +
+                this._localize["DiagnosticReport"]["doctor"] +
                 " " +
                 dr.resultInterpreter.map(function (d) { return _this.doctor(d); }) +
                 "\n" +
                 offset +
-                this._localize["DiagnosticReport"]["Result"] +
+                this._localize["DiagnosticReport"]["result"] +
                 "\n" +
                 offset +
                 this.observations(dr.result, offset + "  ") +
                 (dr.effectivePeriod && dr.effectivePeriod.begin
                     ? "\n" +
                         offset +
-                        this._localize["DiagnosticReport"]["EffectivePeriod"] +
+                        this._localize["DiagnosticReport"]["effectivePeriod"] +
                         this.period(dr.effectivePeriod, offset + "  ")
                     : "") +
                 (dr.resultInterpretation && dr.resultInterpretation.length
@@ -4613,7 +4652,7 @@ define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n
                         offset +
                         "\n" +
                         offset +
-                        this._localize["DiagnosticReport"]["Images"] +
+                        this._localize["DiagnosticReport"]["images"] +
                         dr.imagineMedia.map(function (img) { return +"\n" + offset + img; })
                     : "") +
                 (dr.attachments && dr.attachments.length
@@ -4621,7 +4660,7 @@ define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n
                         offset +
                         "\n" +
                         offset +
-                        this._localize["DiagnosticReport"]["Attachments"] +
+                        this._localize["DiagnosticReport"]["attachments"] +
                         dr.attachments.map(function (a) { return +"\n" + offset + a; })
                     : ""));
         };
@@ -4817,8 +4856,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
             return {
                 type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-                format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
-                    ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
+                format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
                     : function (val) {
                         return format(new Intl.DateTimeFormat("ru", {
                             year: "numeric",

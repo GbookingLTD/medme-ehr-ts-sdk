@@ -63,6 +63,12 @@ export class Handlers {
   static readonly HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT = 404;
   static readonly HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT_METHOD =
     "diagnostic_report.patient_diagnostic_reports_count";
+  static readonly HANDLER_SEACH_DIAGNOSTIC_REPORTS = 405;
+  static readonly HANDLER_SEARCH_DIAGNOSTIC_REPORTS_METHOD =
+    "diagnostic_report.search_diagnostic_reports";
+  static readonly HANDLER_SEARCH_DIAGNOSTIC_REPORTS_COUNT = 406;
+  static readonly HANDLER_SEARCH_DIAGNOSTIC_REPORTS_COUNT_METHOD =
+    "diagnostic_report.search_diagnostic_reports_count";
 
   static readonly HANDLER_SAVE_AUTH_INFO = 500;
   static readonly HANDLER_SAVE_AUTH_INFO_METHOD =

@@ -2,6 +2,7 @@ import { SimpleTextFormatter } from "../src/formatters/SimpleTextFormatter";
 import { FieldsFormatter } from "../src/formatters/FieldsFormatter";
 import * as assert from "assert";
 import { presciption, appointmentResult } from "./fixtures";
+import { LocaleCode } from "../src/formatters/LocaleCode";
 
 describe("SimpleTextFormatter", function () {
   it("Prescription not empty and works", function () {
@@ -33,7 +34,7 @@ describe("SimpleTextFormatter", function () {
 
 describe("FieldsFormatter", () => {
   it("appointmentResult", () => {
-    const fmt = new FieldsFormatter(FieldsFormatter.LOCALIZE["ru-ru"]);
+    const fmt = FieldsFormatter.create(LocaleCode.ruRU);
 
     const fields = fmt.appointmentResult(appointmentResult);
 

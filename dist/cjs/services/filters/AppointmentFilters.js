@@ -3,33 +3,30 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentFilters = exports.AppointmentByPatientIdFilter = exports.AppointmentByStartFilter = exports.AppointmentByCreatedFilter = exports.AppointmentByBusinessIdFilter = exports.isNullUndefZero = void 0;
+exports.AppointmentFilters = exports.AppointmentByPatientIdFilter = exports.AppointmentByStartFilter = exports.AppointmentByCreatedFilter = exports.AppointmentByBusinessIdFilter = void 0;
 var index_1 = require("../../formatters/l10n/index");
 var DatePeriodFilter_1 = require("./DatePeriodFilter");
 var Filters_1 = require("./Filters");
 var FilterTypes_1 = require("./FilterTypes");
 function isNullUndefEmpty(val) {
-    return val == undefined || val == null || val == "";
+    return typeof val === "undefined" || val === null || val === "";
 }
 function isNullUndef(val) {
-    return val == null || val == undefined;
+    return val === null || typeof val === "undefined";
 }
 function isNullUndefZero(val) {
-    return val == null || val == undefined || val.getTime() == 0;
+    return val === null || typeof val === "undefined" || val.getTime() === 0;
 }
-exports.isNullUndefZero = isNullUndefZero;
 var AppointmentByBusinessIdFilter = /** @class */ (function (_super) {
     __extends(AppointmentByBusinessIdFilter, _super);
     function AppointmentByBusinessIdFilter() {

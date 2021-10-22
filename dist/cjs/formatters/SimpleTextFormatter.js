@@ -234,19 +234,19 @@ var SimpleTextFormatter = /** @class */ (function () {
             this._dateFormat(dr.issuedDate) +
             "\n" +
             offset +
-            this._localize["DiagnosticReport"]["Doctor"] +
+            this._localize["DiagnosticReport"]["doctor"] +
             " " +
             dr.resultInterpreter.map(function (d) { return _this.doctor(d); }) +
             "\n" +
             offset +
-            this._localize["DiagnosticReport"]["Result"] +
+            this._localize["DiagnosticReport"]["result"] +
             "\n" +
             offset +
             this.observations(dr.result, offset + "  ") +
             (dr.effectivePeriod && dr.effectivePeriod.begin
                 ? "\n" +
                     offset +
-                    this._localize["DiagnosticReport"]["EffectivePeriod"] +
+                    this._localize["DiagnosticReport"]["effectivePeriod"] +
                     this.period(dr.effectivePeriod, offset + "  ")
                 : "") +
             (dr.resultInterpretation && dr.resultInterpretation.length
@@ -257,7 +257,7 @@ var SimpleTextFormatter = /** @class */ (function () {
                     offset +
                     "\n" +
                     offset +
-                    this._localize["DiagnosticReport"]["Images"] +
+                    this._localize["DiagnosticReport"]["images"] +
                     dr.imagineMedia.map(function (img) { return +"\n" + offset + img; })
                 : "") +
             (dr.attachments && dr.attachments.length
@@ -265,7 +265,7 @@ var SimpleTextFormatter = /** @class */ (function () {
                     offset +
                     "\n" +
                     offset +
-                    this._localize["DiagnosticReport"]["Attachments"] +
+                    this._localize["DiagnosticReport"]["attachments"] +
                     dr.attachments.map(function (a) { return +"\n" + offset + a; })
                 : ""));
     };

@@ -223,4 +223,86 @@ export class DiagnosticReportService
       );
     });
   }
+
+  public searchDiagnosticReports(
+    includes: string[],
+    excludes: string[],
+    filters: DiagnosticReportFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: DiagnosticReportMessage[]) => void
+  ): void {
+    const _this = this;
+    this.exec(
+      Handlers.HANDLER_SEARCH_DIAGNOSTIC_REPORTS_METHOD,
+      { includes, excludes, filters: filters.plain(), limit, offset },
+      (err: any, payload: object) => {
+        if (err) return cb(err, []);
+
+        _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["diagnosticReports"]);
+      }
+    );
+  }
+
+  public searchDiagnosticReportsAsync(
+    includes: string[],
+    excludes: string[],
+    filters: DiagnosticReportFilters,
+    limit: number,
+    offset: number
+  ): Promise<DiagnosticReportMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchDiagnosticReports(
+        includes,
+        excludes,
+        filters,
+        limit,
+        offset,
+        (err: any, reports: DiagnosticReportMessage[]) => {
+          if (err) return rej(err);
+          res(reports);
+        }
+      );
+    });
+  }
+
+  public searchDiagnosticReportsCount(
+    includes: string[],
+    excludes: string[],
+    filters: DiagnosticReportFilters,
+    cb: (err: any, count: number, support: boolean) => void
+  ): void {
+    const _this = this;
+    this.exec(
+      Handlers.HANDLER_SEARCH_DIAGNOSTIC_REPORTS_COUNT_METHOD,
+      { includes, excludes, filters: filters.plain() },
+      (err: any, payload: object) => {
+        if (err) return cb(err, 0, false);
+
+        _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["count"], payload["support"]);
+      }
+    );
+  }
+
+  public searchDiagnosticReportsCountAsync(
+    includes: string[],
+    excludes: string[],
+    filters: DiagnosticReportFilters
+  ): Promise<{ count: number; support: boolean }> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchDiagnosticReportsCount(
+        includes,
+        excludes,
+        filters,
+        (err: any, count: number, support: boolean) => {
+          if (err) return rej(err);
+          res({ count, support });
+        }
+      );
+    });
+  }
 }

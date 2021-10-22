@@ -4,11 +4,11 @@ export interface ISerializableFilter {
     plain(): any;
 }
 export interface IFilter {
-    get kind(): FilterTypeEnum;
-    get key(): string;
-    get title(): string;
+    readonly kind: FilterTypeEnum;
+    readonly key: string;
+    readonly title: string;
     isEmpty(): boolean;
-    get prettyValue(): string;
+    readonly prettyValue: string;
 }
 export interface IFilterList {
     isEmpty(): boolean;
@@ -21,12 +21,8 @@ export declare abstract class FilterList implements IFilterList {
     getFilledFilters(): IFilter[];
 }
 export declare abstract class Filter implements IFilter {
-    protected localize: {
-        [key: string]: string;
-    };
-    constructor(localize: {
-        [key: string]: string;
-    });
+    protected localize: any;
+    constructor(localize: any);
     abstract get prettyValue(): string;
     abstract get kind(): FilterTypeEnum;
     get key(): string;

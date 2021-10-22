@@ -2,7 +2,6 @@ import { LocaleCode } from "../../formatters/LocaleCode";
 import { DatePeriodFilter } from "./DatePeriodFilter";
 import { Filter, FilterList, IFilter, ISerializableFilter } from "./Filters";
 import { FilterTypeEnum } from "./FilterTypes";
-export declare function isNullUndefZero(val: Date): boolean;
 export declare class AppointmentByBusinessIdFilter extends Filter implements ISerializableFilter {
     get prettyValue(): string;
     setup(val: any): void;

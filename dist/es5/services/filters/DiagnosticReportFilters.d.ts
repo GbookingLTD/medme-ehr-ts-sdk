@@ -29,9 +29,7 @@ export declare class DiagnosticReportByPatientIdFilter extends Filter implements
 }
 export declare class DiagnosticReportFilters extends FilterList implements ISerializableFilter {
     static createWithLocale(locale: LocaleCode): DiagnosticReportFilters;
-    constructor(localize: {
-        [key: string]: string;
-    });
+    constructor(localize: any);
     setup(val: any): void;
     plain(): {
         byBusiness: {

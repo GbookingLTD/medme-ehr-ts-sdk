@@ -1,25 +1,19 @@
 import l10n from "../../formatters/l10n/index";
 import { LocaleCode } from "../../formatters/LocaleCode";
 import { DatePeriodFilter } from "./DatePeriodFilter";
-import {
-  Filter,
-  FilterList,
-  IFilter,
-  IFilterList,
-  ISerializableFilter,
-} from "./Filters";
+import { Filter, FilterList, IFilter, ISerializableFilter } from "./Filters";
 import { FilterKeys, FilterTypeEnum } from "./FilterTypes";
 
-function isNullUndefEmpty(val: string): boolean {
-  return val == undefined || val == null || val == "";
+function isNullUndefEmpty(val?: string): boolean {
+  return typeof val === "undefined" || val === null || val === "";
 }
 
-function isNullUndef(val): boolean {
-  return val == null || val == undefined;
+function isNullUndef(val?: any): boolean {
+  return val === null || typeof val === "undefined";
 }
 
-export function isNullUndefZero(val: Date): boolean {
-  return val == null || val == undefined || val.getTime() == 0;
+function isNullUndefZero(val?: any): boolean {
+  return val === null || typeof val === "undefined" || val.getTime() === 0;
 }
 
 export class AppointmentByBusinessIdFilter
