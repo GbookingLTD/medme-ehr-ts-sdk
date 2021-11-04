@@ -2541,6 +2541,10 @@ define("Handlers", ["require", "exports"], function (require, exports) {
         Handlers.HANDLER_GET_APPOINTMENT_RESULTS_COUNT_METHOD = "appointment_result.count";
         Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT = 204;
         Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT_METHOD = "appointment_result.patient_appointment_results_count";
+        Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS = 205;
+        Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS_METHOD = "appointment_result.search_appointment_results";
+        Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS_COUNT = 206;
+        Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS_COUNT_METHOD = "appointment_result.search_appointment_results_count";
         Handlers.HANDLER_GET_PRESCRIPTION_BY_ID = 300;
         Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD = "prescription.get_prescription_by_id";
         Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS = 301;
@@ -2551,6 +2555,10 @@ define("Handlers", ["require", "exports"], function (require, exports) {
         Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD = "prescription.count";
         Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT = 304;
         Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD = "prescription.patient_prescriptions_count";
+        Handlers.HANDLER_SEARCH_PRESCRIPTIONS = 305;
+        Handlers.HANDLER_SEARCH_PRESCRIPTIONS_METHOD = "prescription.search_prescriptions";
+        Handlers.HANDLER_SEARCH_PRESCRIPTIONS_COUNT = 306;
+        Handlers.HANDLER_SEARCH_PRESCRIPTIONS_COUNT_METHOD = "prescription.search_prescriptions_count";
         Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID = 400;
         Handlers.HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD = "diagnostic_report.get_diagnostic_report_by_id";
         Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS = 401;
@@ -2922,11 +2930,11 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
          * @param cb callback
          */
         AppointmentResultService.prototype.getAppointmentResultById = function (id, cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULT_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrors_ = payload["validationErrors"];
+                _this_1.lastValidationErrors_ = payload["validationErrors"];
                 return cb(null, payload["appointmentResult"]);
             });
         };
@@ -2942,12 +2950,12 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
             });
         };
         AppointmentResultService.prototype.getPatientAppointmentResults = function (patientId, limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { patientId: patientId, limit: limit, offset: offset };
             this.exec(Handlers_2.Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 var appointmentResults = payload["appointmentResults"].map(function (jsonApp) {
                     var app = new AppointmentResultModel_1.AppointmentResultModel();
                     app.fromJson(jsonApp);
@@ -2967,12 +2975,12 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
             });
         };
         AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { limit: limit, offset: offset };
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 return cb(null, payload["appointmentResults"]);
             });
         };
@@ -2987,11 +2995,11 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
             });
         };
         AppointmentResultService.prototype.getAppointmentResultsCount = function (cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
                     return cb(err, null, false);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["count"], payload["support"]);
             });
         };
@@ -3006,11 +3014,11 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
             });
         };
         AppointmentResultService.prototype.getPatientAppointmentResultsCount = function (patientId, cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_2.Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
                 if (err)
                     return cb(err, null, false);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["count"], payload["support"]);
             });
         };
@@ -3018,6 +3026,44 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
             var service = this;
             return new Promise(function (res, rej) {
                 service.getPatientAppointmentResultsCount(patientId, function (err, count, support) {
+                    if (err)
+                        return rej(err);
+                    res({ count: count, support: support });
+                });
+            });
+        };
+        AppointmentResultService.prototype.searchAppointmentResults = function (includes, excludes, filters, limit, offset, cb) {
+            var _this = this;
+            this.exec(Handlers_2.Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS_METHOD, { includes: includes, excludes: excludes, filters: filters.plain(), limit: limit, offset: offset }, function (err, payload) {
+                if (err)
+                    return cb(err, []);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["appointmentResults"]);
+            });
+        };
+        AppointmentResultService.prototype.searchAppointmentResultsAsync = function (includes, excludes, filters, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.searchAppointmentResults(includes, excludes, filters, limit, offset, function (err, reports) {
+                    if (err)
+                        return rej(err);
+                    res(reports);
+                });
+            });
+        };
+        AppointmentResultService.prototype.searchAppointmentResultsCount = function (includes, excludes, filters, cb) {
+            var _this = this;
+            this.exec(Handlers_2.Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS_COUNT_METHOD, { includes: includes, excludes: excludes, filters: filters.plain() }, function (err, payload) {
+                if (err)
+                    return cb(err, 0, false);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["count"], payload["support"]);
+            });
+        };
+        AppointmentResultService.prototype.searchAppointmentResultsCountAsync = function (includes, excludes, filters) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.searchAppointmentResultsCount(includes, excludes, filters, function (err, count, support) {
                     if (err)
                         return rej(err);
                     res({ count: count, support: support });
@@ -3215,11 +3261,11 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
          * @param cb callback
          */
         PrescriptionService.prototype.getPrescriptionById = function (id, cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, { id: id }, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrors_ = payload["validationErrors"];
+                _this_1.lastValidationErrors_ = payload["validationErrors"];
                 cb(null, payload["prescription"]);
             });
         };
@@ -3234,12 +3280,12 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             });
         };
         PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { patientId: patientId, limit: limit, offset: offset };
             this.exec(Handlers_3.Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 return cb(null, payload["prescriptions"]);
             });
         };
@@ -3254,12 +3300,12 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             });
         };
         PrescriptionService.prototype.getPrescriptions = function (limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { limit: limit, offset: offset };
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 return cb(null, payload["prescriptions"]);
             });
         };
@@ -3274,12 +3320,12 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             });
         };
         PrescriptionService.prototype.getFilteredPrescriptions = function (filters, limit, offset, cb) {
-            var _this = this;
+            var _this_1 = this;
             var params = { filters: filters.plain(), limit: limit, offset: offset };
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 return cb(null, payload["prescriptions"]);
             });
         };
@@ -3294,11 +3340,11 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             });
         };
         PrescriptionService.prototype.getPrescriptionsCount = function (cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
                     return cb(err, null, false);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["count"], payload["support"]);
             });
         };
@@ -3313,11 +3359,11 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             });
         };
         PrescriptionService.prototype.getPatientPrescriptionsCount = function (patientId, cb) {
-            var _this = this;
+            var _this_1 = this;
             this.exec(Handlers_3.Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
                 if (err)
                     return cb(err, null, false);
-                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
                 cb(null, payload["count"], payload["support"]);
             });
         };
@@ -3325,6 +3371,44 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             var service = this;
             return new Promise(function (res, rej) {
                 service.getPatientPrescriptionsCount(patientId, function (err, count, support) {
+                    if (err)
+                        return rej(err);
+                    res({ count: count, support: support });
+                });
+            });
+        };
+        PrescriptionService.prototype.searchPrescriptions = function (includes, excludes, filters, limit, offset, cb) {
+            var _this = this;
+            this.exec(Handlers_3.Handlers.HANDLER_SEARCH_PRESCRIPTIONS_METHOD, { includes: includes, excludes: excludes, filters: filters.plain(), limit: limit, offset: offset }, function (err, payload) {
+                if (err)
+                    return cb(err, []);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["prescriptions"]);
+            });
+        };
+        PrescriptionService.prototype.searchPrescriptionsAsync = function (includes, excludes, filters, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.searchPrescriptions(includes, excludes, filters, limit, offset, function (err, reports) {
+                    if (err)
+                        return rej(err);
+                    res(reports);
+                });
+            });
+        };
+        PrescriptionService.prototype.searchPrescriptionsCount = function (includes, excludes, filters, cb) {
+            var _this = this;
+            this.exec(Handlers_3.Handlers.HANDLER_SEARCH_PRESCRIPTIONS_COUNT_METHOD, { includes: includes, excludes: excludes, filters: filters.plain() }, function (err, payload) {
+                if (err)
+                    return cb(err, 0, false);
+                _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+                cb(null, payload["count"], payload["support"]);
+            });
+        };
+        PrescriptionService.prototype.searchPrescriptionsCountAsync = function (includes, excludes, filters) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.searchPrescriptionsCount(includes, excludes, filters, function (err, count, support) {
                     if (err)
                         return rej(err);
                     res({ count: count, support: support });

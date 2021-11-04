@@ -26,4 +26,11 @@ export declare class PrescriptionService extends JsonRPCCredService implements I
         count: number;
         support: boolean;
     }>;
+    searchPrescriptions(includes: string[], excludes: string[], filters: PrescriptionFilters, limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
+    searchPrescriptionsAsync(includes: string[], excludes: string[], filters: PrescriptionFilters, limit: number, offset: number): Promise<PrescriptionMessage[]>;
+    searchPrescriptionsCount(includes: string[], excludes: string[], filters: PrescriptionFilters, cb: (err: any, count: number, support: boolean) => void): void;
+    searchPrescriptionsCountAsync(includes: string[], excludes: string[], filters: PrescriptionFilters): Promise<{
+        count: number;
+        support: boolean;
+    }>;
 }

@@ -214,4 +214,86 @@ export class PrescriptionService
       );
     });
   }
+
+  public searchPrescriptions(
+    includes: string[],
+    excludes: string[],
+    filters: PrescriptionFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: PrescriptionMessage[]) => void
+  ): void {
+    const _this = this;
+    this.exec(
+      Handlers.HANDLER_SEARCH_PRESCRIPTIONS_METHOD,
+      { includes, excludes, filters: filters.plain(), limit, offset },
+      (err: any, payload: object) => {
+        if (err) return cb(err, []);
+
+        _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["prescriptions"]);
+      }
+    );
+  }
+
+  public searchPrescriptionsAsync(
+    includes: string[],
+    excludes: string[],
+    filters: PrescriptionFilters,
+    limit: number,
+    offset: number
+  ): Promise<PrescriptionMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchPrescriptions(
+        includes,
+        excludes,
+        filters,
+        limit,
+        offset,
+        (err: any, reports: PrescriptionMessage[]) => {
+          if (err) return rej(err);
+          res(reports);
+        }
+      );
+    });
+  }
+
+  public searchPrescriptionsCount(
+    includes: string[],
+    excludes: string[],
+    filters: PrescriptionFilters,
+    cb: (err: any, count: number, support: boolean) => void
+  ): void {
+    const _this = this;
+    this.exec(
+      Handlers.HANDLER_SEARCH_PRESCRIPTIONS_COUNT_METHOD,
+      { includes, excludes, filters: filters.plain() },
+      (err: any, payload: object) => {
+        if (err) return cb(err, 0, false);
+
+        _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["count"], payload["support"]);
+      }
+    );
+  }
+
+  public searchPrescriptionsCountAsync(
+    includes: string[],
+    excludes: string[],
+    filters: PrescriptionFilters
+  ): Promise<{ count: number; support: boolean }> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchPrescriptionsCount(
+        includes,
+        excludes,
+        filters,
+        (err: any, count: number, support: boolean) => {
+          if (err) return rej(err);
+          res({ count, support });
+        }
+      );
+    });
+  }
 }

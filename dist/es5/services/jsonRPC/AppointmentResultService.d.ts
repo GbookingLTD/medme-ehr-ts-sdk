@@ -2,6 +2,7 @@ import { IAppointmentResultService } from "../AppointmentResultService";
 import { AppointmentResultModel } from "../../models/AppointmentResultModel";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { AppointmentResultMessage } from "../../messages/AppointmentResultMessage";
+import { AppointmentFilters } from "../../services/filters/AppointmentFilters";
 export declare class AppointmentResultService extends JsonRPCCredService implements IAppointmentResultService {
     /**
      * Возвращает результаты записи по идентификатору.
@@ -21,6 +22,13 @@ export declare class AppointmentResultService extends JsonRPCCredService impleme
     }>;
     getPatientAppointmentResultsCount(patientId: string, cb: (err: any, count: number, support: boolean) => void): void;
     getPatientAppointmentResultsCountAsync(patientId: string): Promise<{
+        count: number;
+        support: boolean;
+    }>;
+    searchAppointmentResults(includes: string[], excludes: string[], filters: AppointmentFilters, limit: number, offset: number, cb: (err: any, p: AppointmentResultMessage[]) => void): void;
+    searchAppointmentResultsAsync(includes: string[], excludes: string[], filters: AppointmentFilters, limit: number, offset: number): Promise<AppointmentResultMessage[]>;
+    searchAppointmentResultsCount(includes: string[], excludes: string[], filters: AppointmentFilters, cb: (err: any, count: number, support: boolean) => void): void;
+    searchAppointmentResultsCountAsync(includes: string[], excludes: string[], filters: AppointmentFilters): Promise<{
         count: number;
         support: boolean;
     }>;

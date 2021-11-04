@@ -3,6 +3,7 @@ import { AppointmentResultModel } from "../../models/AppointmentResultModel";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 import { AppointmentResultMessage } from "../../messages/AppointmentResultMessage";
+import { AppointmentFilters } from "../../services/filters/AppointmentFilters";
 
 export class AppointmentResultService
   extends JsonRPCCredService
@@ -184,6 +185,88 @@ export class AppointmentResultService
         (err: any, count: number, support: boolean) => {
           if (err) return rej(err);
 
+          res({ count, support });
+        }
+      );
+    });
+  }
+
+  public searchAppointmentResults(
+    includes: string[],
+    excludes: string[],
+    filters: AppointmentFilters,
+    limit: number,
+    offset: number,
+    cb: (err: any, p: AppointmentResultMessage[]) => void
+  ): void {
+    const _this = this;
+    this.exec(
+      Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS_METHOD,
+      { includes, excludes, filters: filters.plain(), limit, offset },
+      (err: any, payload: object) => {
+        if (err) return cb(err, []);
+
+        _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["appointmentResults"]);
+      }
+    );
+  }
+
+  public searchAppointmentResultsAsync(
+    includes: string[],
+    excludes: string[],
+    filters: AppointmentFilters,
+    limit: number,
+    offset: number
+  ): Promise<AppointmentResultMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchAppointmentResults(
+        includes,
+        excludes,
+        filters,
+        limit,
+        offset,
+        (err: any, reports: AppointmentResultMessage[]) => {
+          if (err) return rej(err);
+          res(reports);
+        }
+      );
+    });
+  }
+
+  public searchAppointmentResultsCount(
+    includes: string[],
+    excludes: string[],
+    filters: AppointmentFilters,
+    cb: (err: any, count: number, support: boolean) => void
+  ): void {
+    const _this = this;
+    this.exec(
+      Handlers.HANDLER_SEARCH_APPOINTMENT_RESULTS_COUNT_METHOD,
+      { includes, excludes, filters: filters.plain() },
+      (err: any, payload: object) => {
+        if (err) return cb(err, 0, false);
+
+        _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+        cb(null, payload["count"], payload["support"]);
+      }
+    );
+  }
+
+  public searchAppointmentResultsCountAsync(
+    includes: string[],
+    excludes: string[],
+    filters: AppointmentFilters
+  ): Promise<{ count: number; support: boolean }> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchAppointmentResultsCount(
+        includes,
+        excludes,
+        filters,
+        (err: any, count: number, support: boolean) => {
+          if (err) return rej(err);
           res({ count, support });
         }
       );

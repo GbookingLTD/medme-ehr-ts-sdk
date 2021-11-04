@@ -21,6 +21,10 @@ export declare class Handlers {
     static readonly HANDLER_GET_APPOINTMENT_RESULTS_COUNT_METHOD = "appointment_result.count";
     static readonly HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT = 204;
     static readonly HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT_METHOD = "appointment_result.patient_appointment_results_count";
+    static readonly HANDLER_SEARCH_APPOINTMENT_RESULTS = 205;
+    static readonly HANDLER_SEARCH_APPOINTMENT_RESULTS_METHOD = "appointment_result.search_appointment_results";
+    static readonly HANDLER_SEARCH_APPOINTMENT_RESULTS_COUNT = 206;
+    static readonly HANDLER_SEARCH_APPOINTMENT_RESULTS_COUNT_METHOD = "appointment_result.search_appointment_results_count";
     static readonly HANDLER_GET_PRESCRIPTION_BY_ID = 300;
     static readonly HANDLER_GET_PRESCRIPTION_BY_ID_METHOD = "prescription.get_prescription_by_id";
     static readonly HANDLER_GET_PATIENT_PRESCRIPTIONS = 301;
@@ -31,6 +35,10 @@ export declare class Handlers {
     static readonly HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD = "prescription.count";
     static readonly HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT = 304;
     static readonly HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD = "prescription.patient_prescriptions_count";
+    static readonly HANDLER_SEARCH_PRESCRIPTIONS = 305;
+    static readonly HANDLER_SEARCH_PRESCRIPTIONS_METHOD = "prescription.search_prescriptions";
+    static readonly HANDLER_SEARCH_PRESCRIPTIONS_COUNT = 306;
+    static readonly HANDLER_SEARCH_PRESCRIPTIONS_COUNT_METHOD = "prescription.search_prescriptions_count";
     static readonly HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID = 400;
     static readonly HANDLER_GET_DIAGNOSTIC_REPORT_BY_ID_METHOD = "diagnostic_report.get_diagnostic_report_by_id";
     static readonly HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS = 401;
