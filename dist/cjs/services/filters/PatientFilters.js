@@ -13,8 +13,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PatientFilters = exports.PatientByPhoneFilter = exports.PatientByMedCardFilter = exports.PatientByNameFilter = void 0;
+exports.PatientFilters = exports.PatientByBirthdateFilter = exports.PatientByDoctorSpecialityIdsFilter = exports.PatientByDoctorSpecialityIdFilter = exports.PatientByPhoneFilter = exports.PatientByMedCardFilter = exports.PatientByNameFilter = void 0;
 var index_1 = require("../../formatters/l10n/index");
+var DatePeriodFilter_1 = require("./DatePeriodFilter");
 var Filters_1 = require("./Filters");
 var FilterTypes_1 = require("./FilterTypes");
 function isNullUndefEmpty(val) {
@@ -122,6 +123,87 @@ var PatientByPhoneFilter = /** @class */ (function (_super) {
     return PatientByPhoneFilter;
 }(Filters_1.Filter));
 exports.PatientByPhoneFilter = PatientByPhoneFilter;
+var PatientByDoctorSpecialityIdFilter = /** @class */ (function (_super) {
+    __extends(PatientByDoctorSpecialityIdFilter, _super);
+    function PatientByDoctorSpecialityIdFilter() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.specialityId = "";
+        return _this;
+    }
+    Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "prettyValue", {
+        get: function () {
+            return this.specialityId;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "kind", {
+        get: function () {
+            return FilterTypes_1.FilterTypeEnum.PatientByDoctorSpecialityId;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    PatientByDoctorSpecialityIdFilter.prototype.isEmpty = function () {
+        return isNullUndefEmpty(this.specialityId);
+    };
+    PatientByDoctorSpecialityIdFilter.prototype.setup = function (val) {
+        this.specialityId = val.id;
+    };
+    PatientByDoctorSpecialityIdFilter.prototype.plain = function () {
+        return { id: this.specialityId };
+    };
+    return PatientByDoctorSpecialityIdFilter;
+}(Filters_1.Filter));
+exports.PatientByDoctorSpecialityIdFilter = PatientByDoctorSpecialityIdFilter;
+var PatientByDoctorSpecialityIdsFilter = /** @class */ (function (_super) {
+    __extends(PatientByDoctorSpecialityIdsFilter, _super);
+    function PatientByDoctorSpecialityIdsFilter() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.specialityIds = [];
+        return _this;
+    }
+    Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "prettyValue", {
+        get: function () {
+            return this.specialityIds.join(", ");
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "kind", {
+        get: function () {
+            return FilterTypes_1.FilterTypeEnum.PatientByDoctorSpecialityIds;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    PatientByDoctorSpecialityIdsFilter.prototype.isEmpty = function () {
+        return this.specialityIds.length > 0;
+    };
+    PatientByDoctorSpecialityIdsFilter.prototype.setup = function (val) {
+        this.specialityIds = val.ids;
+    };
+    PatientByDoctorSpecialityIdsFilter.prototype.plain = function () {
+        return { ids: this.specialityIds };
+    };
+    return PatientByDoctorSpecialityIdsFilter;
+}(Filters_1.Filter));
+exports.PatientByDoctorSpecialityIdsFilter = PatientByDoctorSpecialityIdsFilter;
+var PatientByBirthdateFilter = /** @class */ (function (_super) {
+    __extends(PatientByBirthdateFilter, _super);
+    function PatientByBirthdateFilter() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(PatientByBirthdateFilter.prototype, "kind", {
+        get: function () {
+            return FilterTypes_1.FilterTypeEnum.PatientByBirthdate;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return PatientByBirthdateFilter;
+}(DatePeriodFilter_1.DatePeriodFilter));
+exports.PatientByBirthdateFilter = PatientByBirthdateFilter;
 var PatientFilters = /** @class */ (function (_super) {
     __extends(PatientFilters, _super);
     function PatientFilters(localize) {
@@ -129,13 +211,23 @@ var PatientFilters = /** @class */ (function (_super) {
         _this.byMedCard = new PatientByMedCardFilter(localize);
         _this.byName = new PatientByNameFilter(localize);
         _this.byPhone = new PatientByPhoneFilter(localize);
+        _this.byBirthdate = new PatientByBirthdateFilter(localize);
+        _this.byDoctorSpecialityId = new PatientByDoctorSpecialityIdFilter(localize);
+        _this.byDoctorSpecialityIds = new PatientByDoctorSpecialityIdsFilter(localize);
         return _this;
     }
     PatientFilters.createWithLocale = function (locale) {
         return new PatientFilters(index_1.default.getByLocaleCode(locale)["filters"]);
     };
     PatientFilters.prototype.getFilters = function () {
-        return [this.byName, this.byMedCard, this.byPhone];
+        return [
+            this.byName,
+            this.byMedCard,
+            this.byPhone,
+            this.byBirthdate,
+            this.byDoctorSpecialityId,
+            this.byDoctorSpecialityIds,
+        ];
     };
     PatientFilters.prototype.setup = function (val) {
         if (isNullUndef(val))
@@ -143,12 +235,18 @@ var PatientFilters = /** @class */ (function (_super) {
         this.byName.setup(val["byName"]);
         this.byMedCard.setup(val["byMedCard"]);
         this.byPhone.setup(val["byPhone"]);
+        this.byBirthdate.setup(val["byBirthdate"]);
+        this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
+        this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
     };
     PatientFilters.prototype.plain = function () {
         return {
             byName: this.byName.plain(),
             byMedCard: this.byMedCard.plain(),
             byPhone: this.byPhone.plain(),
+            byBirthdate: this.byBirthdate.plain(),
+            byDoctorSpecialityId: this.byDoctorSpecialityId.plain(),
+            byDoctorSpecialityIds: this.byDoctorSpecialityIds.plain(),
         };
     };
     return PatientFilters;

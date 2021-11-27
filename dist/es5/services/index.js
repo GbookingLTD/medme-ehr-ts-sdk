@@ -5,6 +5,7 @@ import { PatientAuthenticationResult, PatientAuthenticationStep, PatientAuthenti
 import { Credentials } from "./Credentials";
 import { RpcErrorCodes } from "./RpcErrorCodes";
 import Filters from "./filters/index";
+import { SearchEntityKeywords, SearchPatientEhrKeywords, SearchPatientEhrFilters, SearchPatientEhrResultItem, } from "./PatientService";
 export default {
     // InMemory
     //, BinRPC
@@ -18,4 +19,8 @@ export default {
     Credentials: Credentials,
     RpcErrorCodes: RpcErrorCodes,
     Filters: Filters,
+    SearchEntityKeywords: SearchEntityKeywords,
+    SearchPatientEhrKeywords: SearchPatientEhrKeywords,
+    SearchPatientEhrFilters: SearchPatientEhrFilters,
+    SearchPatientEhrResultItem: SearchPatientEhrResultItem,
 };

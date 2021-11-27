@@ -1,6 +1,7 @@
 import { PatientAuthenticationResult, PatientAuthenticationStep, PatientAuthenticationError, getAuthenticatedPatient, getAuthenticatedPatientByExchangeToken, ConnectionError } from "./AuthService";
 import { Credentials } from "./Credentials";
 import { RpcErrorCodes } from "./RpcErrorCodes";
+import { SearchEntityKeywords, SearchPatientEhrKeywords, SearchPatientEhrFilters, SearchPatientEhrResultItem } from "./PatientService";
 declare const _default: {
     JsonRPC: {
         Transports: {
@@ -42,5 +43,9 @@ declare const _default: {
         PrescriptionByPatientIdFilter: typeof import("./filters/PrescriptionFilters").PrescriptionByPatientIdFilter;
         PrescriptionFilters: typeof import("./filters/PrescriptionFilters").PrescriptionFilters;
     };
+    SearchEntityKeywords: typeof SearchEntityKeywords;
+    SearchPatientEhrKeywords: typeof SearchPatientEhrKeywords;
+    SearchPatientEhrFilters: typeof SearchPatientEhrFilters;
+    SearchPatientEhrResultItem: typeof SearchPatientEhrResultItem;
 };
 export default _default;

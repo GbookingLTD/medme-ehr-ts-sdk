@@ -97,9 +97,12 @@ export class Handlers {
   static readonly HANDLER_REMOVE_AUTHENTICATION_METHOD =
     "embedded_storage.remove_authentication";
 
-  static readonly HANDLER_GET_BUSINESS_INFO = 505;
+  static readonly HANDLER_GET_BUSINESS_INFO = 800;
   static readonly HANDLER_GET_BUSINESS_INFO_METHOD =
     "embedded_storage.get_business_info";
+  static readonly HANDLER_GET_SPECIALIZATIONS_BY_PATTERN = 900;
+  static readonly HANDLER_GET_SPECIALIZATIONS_BY_PATTERN_METHOD =
+    "api_info.get_specializations_by_pattern";
 
   static readonly HANDLER_GET_PATIENT = 600;
   static readonly HANDLER_GET_PATIENT_METHOD = "patient.get_patient";
@@ -107,4 +110,8 @@ export class Handlers {
     "patient.get_patient_by_id";
   static readonly HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
   static readonly HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
+  static readonly HANDLER_SEARCH_PATIENT_EHR_METHOD =
+    "patient.search_patient_ehr";
+  static readonly HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD =
+    "patient.search_patient_ehr_count";
 }

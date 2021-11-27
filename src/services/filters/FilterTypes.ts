@@ -3,6 +3,9 @@ export enum FilterTypeEnum {
   PatientByMedCard = 1,
   PatientByName = 2,
   PatientByPhone = 3,
+  PatientByBirthdate = 4,
+  PatientByDoctorSpecialityId = 5,
+  PatientByDoctorSpecialityIds = 6,
 
   AppointmentByPatientId = 10,
   AppointmentByCreated = 11,

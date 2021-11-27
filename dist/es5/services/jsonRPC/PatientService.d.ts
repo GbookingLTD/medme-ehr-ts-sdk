@@ -1,5 +1,5 @@
 import { JsonRPCCredService } from "./jsonRpcService";
-import { IPatientService } from "../PatientService";
+import { IPatientService, SearchPatientEhrFilters, SearchPatientEhrKeywords, SearchPatientEhrResultItem } from "../PatientService";
 import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
 import { PatientMessage } from "../../messages/PatientMessage";
@@ -20,6 +20,13 @@ export declare class PatientService extends JsonRPCCredService implements IPatie
     getFilteredPatientsAsync(filters: PatientFilters, limit: number, offset: number): Promise<PatientMessage[]>;
     getPatientsCount(cb: (err: any, count: number, support: boolean) => void): void;
     getPatientsCountAsync(): Promise<{
+        count: number;
+        support: boolean;
+    }>;
+    searchPatientEhr(keywords: SearchPatientEhrKeywords, filters: SearchPatientEhrFilters, offsetPatientId: number, limit: number, cb: (err: any, result: SearchPatientEhrResultItem[]) => void): void;
+    searchPatientEhrAsync(keywords: SearchPatientEhrKeywords, filters: SearchPatientEhrFilters, offsetPatientId: number, limit: number): Promise<SearchPatientEhrResultItem[]>;
+    searchPatientEhrCount(keywords: SearchPatientEhrKeywords, filters: SearchPatientEhrFilters, cb: (err: any, count: number, support: boolean) => void): void;
+    searchPatientEhrCountAsync(keywords: SearchPatientEhrKeywords, filters: SearchPatientEhrFilters): Promise<{
         count: number;
         support: boolean;
     }>;

@@ -1,5 +1,10 @@
 import { JsonRPCCredService } from "./jsonRpcService";
-import { IPatientService } from "../PatientService";
+import {
+  IPatientService,
+  SearchPatientEhrFilters,
+  SearchPatientEhrKeywords,
+  SearchPatientEhrResultItem,
+} from "../PatientService";
 import { PatientInfo } from "../../types/PatientInfo";
 import { Handlers } from "../../Handlers";
 import { PatientModel } from "../../models/PatientModel";
@@ -157,6 +162,96 @@ export class PatientService
 
         res({ count, support });
       });
+    });
+  }
+
+  public searchPatientEhr(
+    keywords: SearchPatientEhrKeywords,
+    filters: SearchPatientEhrFilters,
+    offsetPatientId: number,
+    limit: number,
+    cb: (err: any, result: SearchPatientEhrResultItem[]) => void
+  ) {
+    this.exec(
+      Handlers.HANDLER_SEARCH_PATIENT_EHR_METHOD,
+      {
+        keywords,
+        filters: {
+          patientFilters: filters.patientFilters.plain(),
+          appointmentResultFilters: filters.appointmentResultFilters.plain(),
+          diagnosticReportFilters: filters.diagnosticReportFilters.plain(),
+          prescriptionFilters: filters.prescriptionFilters.plain(),
+        },
+        offsetPatientId,
+        limit,
+      },
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
+
+        return cb(null, payload["results"]);
+      }
+    );
+  }
+
+  public searchPatientEhrAsync(
+    keywords: SearchPatientEhrKeywords,
+    filters: SearchPatientEhrFilters,
+    offsetPatientId: number,
+    limit: number
+  ): Promise<SearchPatientEhrResultItem[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchPatientEhr(
+        keywords,
+        filters,
+        offsetPatientId,
+        limit,
+        (err, result) => {
+          if (err) return rej(err);
+          res(result);
+        }
+      );
+    });
+  }
+
+  public searchPatientEhrCount(
+    keywords: SearchPatientEhrKeywords,
+    filters: SearchPatientEhrFilters,
+    cb: (err: any, count: number, support: boolean) => void
+  ) {
+    this.exec(
+      Handlers.HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD,
+      {
+        keywords,
+        filters: {
+          patientFilters: filters.patientFilters.plain(),
+          appointmentResultFilters: filters.appointmentResultFilters.plain(),
+          diagnosticReportFilters: filters.diagnosticReportFilters.plain(),
+          prescriptionFilters: filters.prescriptionFilters.plain(),
+        },
+      },
+      (err: any, payload: object) => {
+        if (err) return cb(err, null, false);
+
+        return cb(err, payload["count"], payload["support"]);
+      }
+    );
+  }
+
+  public searchPatientEhrCountAsync(
+    keywords: SearchPatientEhrKeywords,
+    filters: SearchPatientEhrFilters
+  ): Promise<{ count: number; support: boolean }> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.searchPatientEhrCount(
+        keywords,
+        filters,
+        (err, count, support) => {
+          if (err) return rej(err);
+          res({ count, support });
+        }
+      );
     });
   }
 }

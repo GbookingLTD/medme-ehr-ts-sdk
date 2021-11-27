@@ -1,0 +1,1 @@
+{"version":3,"file":"BusinessInfo.d.ts","sourceRoot":"","sources":["../../../src/types/BusinessInfo.ts"],"names":[],"mappings":"AAAA,OAAO,EAAc,SAAS,EAAE,MAAM,SAAS,CAAC;AAEhD,qBAAa,YAAY;IACvB,EAAE,EAAE,MAAM,CAAC;IACX,IAAI,EAAE,MAAM,CAAC;IACb,QAAQ,EAAE,MAAM,CAAC;IACjB,SAAS,EAAE,MAAM,CAAC;IAElB,QAAQ,CAAC,IAAI,EAAE,GAAG,GAAG,YAAY;IAQjC,MAAM,IAAI,SAAS;CAQpB"}

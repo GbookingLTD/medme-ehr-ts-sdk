@@ -1,5 +1,6 @@
 import l10n from "../../formatters/l10n/index";
 import { LocaleCode } from "../../formatters/LocaleCode";
+import { DatePeriodFilter } from "./DatePeriodFilter";
 import {
   Filter,
   FilterList,
@@ -85,6 +86,62 @@ export class PatientByPhoneFilter
   }
 }
 
+export class PatientByDoctorSpecialityIdFilter
+  extends Filter
+  implements ISerializableFilter
+{
+  get prettyValue(): string {
+    return this.specialityId;
+  }
+  get kind(): FilterTypeEnum {
+    return FilterTypeEnum.PatientByDoctorSpecialityId;
+  }
+  public specialityId: string = "";
+
+  isEmpty(): boolean {
+    return isNullUndefEmpty(this.specialityId);
+  }
+
+  setup(val: any): void {
+    this.specialityId = val.id;
+  }
+
+  plain(): any {
+    return { id: this.specialityId };
+  }
+}
+
+export class PatientByDoctorSpecialityIdsFilter
+  extends Filter
+  implements ISerializableFilter
+{
+  get prettyValue(): string {
+    return this.specialityIds.join(", ");
+  }
+  get kind(): FilterTypeEnum {
+    return FilterTypeEnum.PatientByDoctorSpecialityIds;
+  }
+  public specialityIds: string[] = [];
+
+  isEmpty(): boolean {
+    return this.specialityIds.length > 0;
+  }
+
+  setup(val: any): void {
+    this.specialityIds = val.ids;
+  }
+
+  plain(): any {
+    return { ids: this.specialityIds };
+  }
+}
+
+export class PatientByBirthdateFilter extends DatePeriodFilter {
+  get kind(): FilterTypeEnum {
+    return FilterTypeEnum.PatientByBirthdate;
+  }
+}
+
 export class PatientFilters extends FilterList implements ISerializableFilter {
   static createWithLocale(locale: LocaleCode) {
     return new PatientFilters(l10n.getByLocaleCode(locale)["filters"]);
@@ -95,21 +152,39 @@ export class PatientFilters extends FilterList implements ISerializableFilter {
     this.byMedCard = new PatientByMedCardFilter(localize);
     this.byName = new PatientByNameFilter(localize);
     this.byPhone = new PatientByPhoneFilter(localize);
+    this.byBirthdate = new PatientByBirthdateFilter(localize);
+    this.byDoctorSpecialityId = new PatientByDoctorSpecialityIdFilter(localize);
+    this.byDoctorSpecialityIds = new PatientByDoctorSpecialityIdsFilter(
+      localize
+    );
   }
 
   getFilters(): IFilter[] {
-    return [this.byName, this.byMedCard, this.byPhone];
+    return [
+      this.byName,
+      this.byMedCard,
+      this.byPhone,
+      this.byBirthdate,
+      this.byDoctorSpecialityId,
+      this.byDoctorSpecialityIds,
+    ];
   }
 
   public byName: PatientByNameFilter;
   public byMedCard: PatientByMedCardFilter;
   public byPhone: PatientByPhoneFilter;
+  public byBirthdate: PatientByBirthdateFilter;
+  public byDoctorSpecialityId: PatientByDoctorSpecialityIdFilter;
+  public byDoctorSpecialityIds: PatientByDoctorSpecialityIdsFilter;
 
   setup(val: any): void {
     if (isNullUndef(val)) return;
     this.byName.setup(val["byName"]);
     this.byMedCard.setup(val["byMedCard"]);
     this.byPhone.setup(val["byPhone"]);
+    this.byBirthdate.setup(val["byBirthdate"]);
+    this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
+    this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
   }
 
   plain(): any {
@@ -117,6 +192,9 @@ export class PatientFilters extends FilterList implements ISerializableFilter {
       byName: this.byName.plain(),
       byMedCard: this.byMedCard.plain(),
       byPhone: this.byPhone.plain(),
+      byBirthdate: this.byBirthdate.plain(),
+      byDoctorSpecialityId: this.byDoctorSpecialityId.plain(),
+      byDoctorSpecialityIds: this.byDoctorSpecialityIds.plain(),
     };
   }
 }

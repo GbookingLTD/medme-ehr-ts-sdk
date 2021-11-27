@@ -65,13 +65,17 @@ var Handlers = /** @class */ (function () {
     Handlers.HANDLER_REMOVE_AUTH_INFO_METHOD = "embedded_storage.remove_auth_info";
     Handlers.HANDLER_REMOVE_AUTHENTICATION = 504;
     Handlers.HANDLER_REMOVE_AUTHENTICATION_METHOD = "embedded_storage.remove_authentication";
-    Handlers.HANDLER_GET_BUSINESS_INFO = 505;
+    Handlers.HANDLER_GET_BUSINESS_INFO = 800;
     Handlers.HANDLER_GET_BUSINESS_INFO_METHOD = "embedded_storage.get_business_info";
+    Handlers.HANDLER_GET_SPECIALIZATIONS_BY_PATTERN = 900;
+    Handlers.HANDLER_GET_SPECIALIZATIONS_BY_PATTERN_METHOD = "api_info.get_specializations_by_pattern";
     Handlers.HANDLER_GET_PATIENT = 600;
     Handlers.HANDLER_GET_PATIENT_METHOD = "patient.get_patient";
     Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";
     Handlers.HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
     Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
+    Handlers.HANDLER_SEARCH_PATIENT_EHR_METHOD = "patient.search_patient_ehr";
+    Handlers.HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD = "patient.search_patient_ehr_count";
     return Handlers;
 }());
 export { Handlers };

@@ -13,6 +13,12 @@ import { Credentials } from "./Credentials";
 import { RpcErrorCodes } from "./RpcErrorCodes";
 
 import Filters from "./filters/index";
+import {
+  SearchEntityKeywords,
+  SearchPatientEhrKeywords,
+  SearchPatientEhrFilters,
+  SearchPatientEhrResultItem,
+} from "./PatientService";
 
 export default {
   // InMemory
@@ -27,4 +33,8 @@ export default {
   Credentials,
   RpcErrorCodes,
   Filters,
+  SearchEntityKeywords,
+  SearchPatientEhrKeywords,
+  SearchPatientEhrFilters,
+  SearchPatientEhrResultItem,
 };

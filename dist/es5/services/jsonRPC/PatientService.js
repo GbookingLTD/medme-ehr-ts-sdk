@@ -112,6 +112,58 @@ var PatientService = /** @class */ (function (_super) {
             });
         });
     };
+    PatientService.prototype.searchPatientEhr = function (keywords, filters, offsetPatientId, limit, cb) {
+        this.exec(Handlers.HANDLER_SEARCH_PATIENT_EHR_METHOD, {
+            keywords: keywords,
+            filters: {
+                patientFilters: filters.patientFilters.plain(),
+                appointmentResultFilters: filters.appointmentResultFilters.plain(),
+                diagnosticReportFilters: filters.diagnosticReportFilters.plain(),
+                prescriptionFilters: filters.prescriptionFilters.plain(),
+            },
+            offsetPatientId: offsetPatientId,
+            limit: limit,
+        }, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            return cb(null, payload["results"]);
+        });
+    };
+    PatientService.prototype.searchPatientEhrAsync = function (keywords, filters, offsetPatientId, limit) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.searchPatientEhr(keywords, filters, offsetPatientId, limit, function (err, result) {
+                if (err)
+                    return rej(err);
+                res(result);
+            });
+        });
+    };
+    PatientService.prototype.searchPatientEhrCount = function (keywords, filters, cb) {
+        this.exec(Handlers.HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD, {
+            keywords: keywords,
+            filters: {
+                patientFilters: filters.patientFilters.plain(),
+                appointmentResultFilters: filters.appointmentResultFilters.plain(),
+                diagnosticReportFilters: filters.diagnosticReportFilters.plain(),
+                prescriptionFilters: filters.prescriptionFilters.plain(),
+            },
+        }, function (err, payload) {
+            if (err)
+                return cb(err, null, false);
+            return cb(err, payload["count"], payload["support"]);
+        });
+    };
+    PatientService.prototype.searchPatientEhrCountAsync = function (keywords, filters) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.searchPatientEhrCount(keywords, filters, function (err, count, support) {
+                if (err)
+                    return rej(err);
+                res({ count: count, support: support });
+            });
+        });
+    };
     return PatientService;
 }(JsonRPCCredService));
 export { PatientService };

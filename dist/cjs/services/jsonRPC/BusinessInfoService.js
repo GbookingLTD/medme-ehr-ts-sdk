@@ -41,6 +41,28 @@ var BusinessInfoService = /** @class */ (function (_super) {
             });
         });
     };
+    BusinessInfoService.prototype.getSpecializationsByPattern = function (pattern, cb) {
+        var _this = this;
+        var params = {
+            text: pattern,
+        };
+        this.exec(Handlers_1.Handlers.HANDLER_GET_SPECIALIZATIONS_BY_PATTERN_METHOD, params, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            _this.lastValidationErrorsOfList_ = payload["validationErrors"];
+            cb(null, payload["specializations"]);
+        });
+    };
+    BusinessInfoService.prototype.getSpecializationsByPatternAsync = function (pattern) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.getSpecializationsByPattern(pattern, function (err, specializations) {
+                if (err)
+                    return rej(err);
+                res(specializations);
+            });
+        });
+    };
     return BusinessInfoService;
 }(jsonRpcService_1.JsonRPCCredService));
 exports.BusinessInfoService = BusinessInfoService;

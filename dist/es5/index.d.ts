@@ -48,6 +48,10 @@ export declare const EHR: {
             PrescriptionByPatientIdFilter: typeof import("./services/filters/PrescriptionFilters").PrescriptionByPatientIdFilter;
             PrescriptionFilters: typeof import("./services/filters/PrescriptionFilters").PrescriptionFilters;
         };
+        SearchEntityKeywords: typeof import("./services/PatientService").SearchEntityKeywords;
+        SearchPatientEhrKeywords: typeof import("./services/PatientService").SearchPatientEhrKeywords;
+        SearchPatientEhrFilters: typeof import("./services/PatientService").SearchPatientEhrFilters;
+        SearchPatientEhrResultItem: typeof import("./services/PatientService").SearchPatientEhrResultItem;
     };
     Formatters: {
         LocaleCode: typeof import("./formatters/LocaleCode").LocaleCode;
