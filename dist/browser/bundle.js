@@ -1703,7 +1703,7 @@ define("services/filters/PatientFilters", ["require", "exports", "formatters/l10
             configurable: true
         });
         PatientByDoctorSpecialityIdsFilter.prototype.isEmpty = function () {
-            return this.specialityIds.length > 0;
+            return this.specialityIds.length == 0;
         };
         PatientByDoctorSpecialityIdsFilter.prototype.setup = function (val) {
             this.specialityIds = val.ids;

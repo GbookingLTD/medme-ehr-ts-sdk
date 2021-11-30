@@ -124,7 +124,7 @@ export class PatientByDoctorSpecialityIdsFilter
   public specialityIds: string[] = [];
 
   isEmpty(): boolean {
-    return this.specialityIds.length > 0;
+    return this.specialityIds.length == 0;
   }
 
   setup(val: any): void {
