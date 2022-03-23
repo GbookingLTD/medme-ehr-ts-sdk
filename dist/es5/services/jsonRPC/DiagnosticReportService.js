@@ -63,9 +63,9 @@ var DiagnosticReportService = /** @class */ (function (_super) {
             });
         });
     };
-    DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, cb) {
+    DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, lastId, cb) {
         var _this_1 = this;
-        var params = { limit: limit, offset: offset };
+        var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -73,10 +73,10 @@ var DiagnosticReportService = /** @class */ (function (_super) {
             cb(null, payload["diagnosticReports"]);
         });
     };
-    DiagnosticReportService.prototype.getDiagnosticReportsAsync = function (limit, offset) {
+    DiagnosticReportService.prototype.getDiagnosticReportsAsync = function (limit, offset, lastId) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getDiagnosticReports(limit, offset, function (err, reports) {
+            service.getDiagnosticReports(limit, offset, lastId, function (err, reports) {
                 if (err)
                     return rej(err);
                 res(reports);

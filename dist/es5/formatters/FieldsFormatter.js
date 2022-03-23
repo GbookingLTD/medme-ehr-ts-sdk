@@ -508,6 +508,21 @@ var FieldsFormatter = /** @class */ (function () {
         };
         return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
     };
+    FieldsFormatter.prototype.patientReportInfos = function (p) {
+        return this.reportInfos(p.reportInfos);
+    };
+    FieldsFormatter.prototype.reportInfos = function (p) {
+        if (p == null || p.length == 0)
+            return [];
+        var this_ = this;
+        return p.reduce(function (ret, item, i) { return ret.concat(this_.reportInfo(item)); }, []);
+    };
+    FieldsFormatter.prototype.reportInfo = function (r) {
+        return {
+            type: FieldType.Text,
+            format: function (val) { return val.value; },
+        };
+    };
     FieldsFormatter.prototype.patientInfo = function (p) {
         var meta = {
             id: this.idField(),
@@ -520,6 +535,7 @@ var FieldsFormatter = /** @class */ (function () {
             birthdate: this.dateField({ dateOnly: true }),
             medcardNumber: this.textField(),
             descriptionText: this.paragrathesField(),
+            reportInfos: this.FormattedFieldList(this.reportInfo.bind(this)),
         };
         var itemModeMeta = {
             firstLine: function (p) {

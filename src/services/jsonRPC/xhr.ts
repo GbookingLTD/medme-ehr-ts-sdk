@@ -49,6 +49,8 @@ export const xhr: IJsonRPCRequest = function (
     );
   };
 
+  console.info('endpoint: ' + endpoint)
+
   req.open("POST", endpoint, true);
   //req.overrideMimeType('application/json;charset=UTF-8');
   req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

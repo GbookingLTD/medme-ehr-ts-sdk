@@ -84,9 +84,10 @@ export class AppointmentService
   getAppointments(
     limit: number,
     offset: number,
+    lastId: string,
     cb: (err: any, appointments: AppointmentMessage[]) => void
   ): void {
-    let params = { limit: limit, offset: offset };
+    let params = lastId ? { limit, lastItemId: lastId } : { limit: limit, offset: offset };
     this.exec(
       Handlers.HANDLER_GET_APPOINTMENTS_METHOD,
       params,
@@ -101,13 +102,15 @@ export class AppointmentService
 
   getAppointmentsAsync(
     limit: number,
-    offset: number
+    offset: number,
+    lastId: string,
   ): Promise<AppointmentMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
       service.getAppointments(
         limit,
         offset,
+        lastId,
         (err: any, appointments: AppointmentMessage[]) => {
           if (err) return rej(err);
 

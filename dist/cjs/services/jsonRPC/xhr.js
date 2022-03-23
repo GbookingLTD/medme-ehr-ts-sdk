@@ -46,6 +46,7 @@ exports.xhr = function (endpoint, header, requestPayload, cb) {
             return cb(new AuthService_1.ConnectionError(), null);
         cb(new Error("error request " + endpoint + " method #" + header.method), null);
     };
+    console.info('endpoint: ' + endpoint);
     req.open("POST", endpoint, true);
     //req.overrideMimeType('application/json;charset=UTF-8');
     req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

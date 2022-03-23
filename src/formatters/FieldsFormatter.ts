@@ -30,6 +30,7 @@ import { DiscountType } from "../types/DiscountType";
 import { PatientMessage } from "../messages/PatientMessage";
 import { TextPeriod } from "../types/Period";
 import { AppointmentMessage } from "../messages/AppointmentMessage";
+import { PatientReportInfo } from "../types/PatientReportInfo";
 
 export enum FieldType {
   Text = "text",
@@ -637,6 +638,24 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     );
   }
 
+  public patientReportInfos(p: PatientMessage): Field[] {
+    return this.reportInfos(p.reportInfos);
+  }
+
+  public reportInfos(p: PatientReportInfo[]): Field[] {
+    if (p == null || p.length == 0) return [];
+
+    let this_ = this;
+    return p.reduce((ret, item, i) => ret.concat(this_.reportInfo(item)), []);
+  }
+
+  public reportInfo(r: PatientReportInfo) {
+    return {
+      type: FieldType.Text,
+      format: (val: FieldValue) => (val as PatientReportInfo).value,
+    };
+  }
+
   public patientInfo(p: PatientMessage): Field[] {
     const meta = {
       id: this.idField(),
@@ -649,6 +668,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       birthdate: this.dateField({ dateOnly: true }),
       medcardNumber: this.textField(),
       descriptionText: this.paragrathesField(),
+      reportInfos: this.FormattedFieldList(this.reportInfo.bind(this)),
     } as FieldMetaMap;
 
     const itemModeMeta = {

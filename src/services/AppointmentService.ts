@@ -43,11 +43,13 @@ export interface IAppointmentService extends IResourceService {
   getAppointments(
     limit: number,
     offset: number,
+    lastId: string,
     cb: (err: any, appointments: AppointmentMessage[]) => void
   ): void;
   getAppointmentsAsync(
     limit: number,
-    offset: number
+    offset: number,
+    lastId: string
   ): Promise<AppointmentMessage[]>;
 
   getFilteredAppointments(

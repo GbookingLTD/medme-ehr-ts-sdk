@@ -2,6 +2,7 @@ import { Gender } from "../types/Gender";
 import { MaritalStatus } from "../types/MaritalStatus";
 import { FamilyMember } from "../types/FamilyMember";
 import { Insurance } from "../types/Insurance";
+import { PatientReportInfo } from "../types/PatientReportInfo";
 
 export class PatientMessage {
   id: string;
@@ -20,4 +21,5 @@ export class PatientMessage {
   address: string;
   medcardNumber: string;
   insurances: Insurance[];
+  reportInfos: PatientReportInfo[];
 }

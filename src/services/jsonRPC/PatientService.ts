@@ -81,11 +81,12 @@ export class PatientService
   public getPatients(
     limit: number,
     offset: number,
+    lastId: string,
     cb: (err: any, patients: PatientMessage[]) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_PATIENTS_METHOD,
-      { limit, offset },
+      lastId ? { limit, lastItemId: lastId } : { limit, offset },
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
@@ -96,11 +97,12 @@ export class PatientService
 
   public getPatientsAsync(
     limit: number,
-    offset: number
+    offset: number,
+    lastId: string
   ): Promise<PatientMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
-      service.getPatients(limit, offset, (err, patients) => {
+      service.getPatients(limit, offset, lastId, (err, patients) => {
         if (err) return rej(err);
 
         res(patients);

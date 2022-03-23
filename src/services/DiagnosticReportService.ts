@@ -37,11 +37,13 @@ export interface IDiagnosticReportService extends IResourceService {
   getDiagnosticReports(
     limit: number,
     offset: number,
+    lastId: string,
     cb: (err: any, p: DiagnosticReportMessage[]) => void
   ): void;
   getDiagnosticReportsAsync(
     limit: number,
-    offset: number
+    offset: number,
+    lastId: string
   ): Promise<DiagnosticReportMessage[]>;
 
   getFilteredDiagnosticReports(

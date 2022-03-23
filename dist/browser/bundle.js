@@ -1528,6 +1528,25 @@ define("types/UserSign", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
+define("types/PatientReportInfo", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientReportInfo = exports.PatientReportInfoType = void 0;
+    var PatientReportInfoType;
+    (function (PatientReportInfoType) {
+        PatientReportInfoType[PatientReportInfoType["Item"] = 0] = "Item";
+        PatientReportInfoType[PatientReportInfoType["Table"] = 1] = "Table";
+        PatientReportInfoType[PatientReportInfoType["Header"] = 2] = "Header";
+        PatientReportInfoType[PatientReportInfoType["ItemList"] = 3] = "ItemList";
+    })(PatientReportInfoType = exports.PatientReportInfoType || (exports.PatientReportInfoType = {}));
+    var PatientReportInfo = /** @class */ (function () {
+        function PatientReportInfo() {
+            this.type = PatientReportInfoType.Item;
+        }
+        return PatientReportInfo;
+    }());
+    exports.PatientReportInfo = PatientReportInfo;
+});
 define("messages/PatientMessage", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -3033,6 +3052,7 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
                 return cb(new AuthService_1.ConnectionError(), null);
             cb(new Error("error request " + endpoint + " method #" + header.method), null);
         };
+        console.info('endpoint: ' + endpoint);
         req.open("POST", endpoint, true);
         //req.overrideMimeType('application/json;charset=UTF-8');
         req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -3281,9 +3301,9 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
                 });
             });
         };
-        AppointmentService.prototype.getAppointments = function (limit, offset, cb) {
+        AppointmentService.prototype.getAppointments = function (limit, offset, lastId, cb) {
             var _this = this;
-            var params = { limit: limit, offset: offset };
+            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
             this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3291,10 +3311,10 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
                 cb(null, payload["appointments"]);
             });
         };
-        AppointmentService.prototype.getAppointmentsAsync = function (limit, offset) {
+        AppointmentService.prototype.getAppointmentsAsync = function (limit, offset, lastId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getAppointments(limit, offset, function (err, appointments) {
+                service.getAppointments(limit, offset, lastId, function (err, appointments) {
                     if (err)
                         return rej(err);
                     res(appointments);
@@ -3593,9 +3613,9 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
                 });
             });
         };
-        AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, cb) {
+        AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, lastId, cb) {
             var _this_1 = this;
-            var params = { limit: limit, offset: offset };
+            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3603,10 +3623,10 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
                 return cb(null, payload["appointmentResults"]);
             });
         };
-        AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset) {
+        AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset, lastId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getAppointmentResults(limit, offset, function (err, appResults) {
+                service.getAppointmentResults(limit, offset, lastId, function (err, appResults) {
                     if (err)
                         return rej(err);
                     res(appResults);
@@ -3776,9 +3796,9 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
                 });
             });
         };
-        PrescriptionService.prototype.getPrescriptions = function (limit, offset, cb) {
+        PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, cb) {
             var _this_1 = this;
-            var params = { limit: limit, offset: offset };
+            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3786,10 +3806,10 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
                 return cb(null, payload["prescriptions"]);
             });
         };
-        PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset) {
+        PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPrescriptions(limit, offset, function (err, values) {
+                service.getPrescriptions(limit, offset, lastId, function (err, values) {
                     if (err)
                         return rej(err);
                     res(values);
@@ -4141,9 +4161,9 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
                 });
             });
         };
-        DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, cb) {
+        DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, lastId, cb) {
             var _this_1 = this;
-            var params = { limit: limit, offset: offset };
+            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -4151,10 +4171,10 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
                 cb(null, payload["diagnosticReports"]);
             });
         };
-        DiagnosticReportService.prototype.getDiagnosticReportsAsync = function (limit, offset) {
+        DiagnosticReportService.prototype.getDiagnosticReportsAsync = function (limit, offset, lastId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getDiagnosticReports(limit, offset, function (err, reports) {
+                service.getDiagnosticReports(limit, offset, lastId, function (err, reports) {
                     if (err)
                         return rej(err);
                     res(reports);
@@ -4440,17 +4460,17 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
                 });
             });
         };
-        PatientService.prototype.getPatients = function (limit, offset, cb) {
-            this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENTS_METHOD, { limit: limit, offset: offset }, function (err, payload) {
+        PatientService.prototype.getPatients = function (limit, offset, lastId, cb) {
+            this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENTS_METHOD, lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset }, function (err, payload) {
                 if (err)
                     return cb(err, null);
                 return cb(err, payload["patients"]);
             });
         };
-        PatientService.prototype.getPatientsAsync = function (limit, offset) {
+        PatientService.prototype.getPatientsAsync = function (limit, offset, lastId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPatients(limit, offset, function (err, patients) {
+                service.getPatients(limit, offset, lastId, function (err, patients) {
                     if (err)
                         return rej(err);
                     res(patients);
@@ -5512,6 +5532,21 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
             return buildFieldArray(p, meta, this._localize["patient"], [], itemModeMeta);
         };
+        FieldsFormatter.prototype.patientReportInfos = function (p) {
+            return this.reportInfos(p.reportInfos);
+        };
+        FieldsFormatter.prototype.reportInfos = function (p) {
+            if (p == null || p.length == 0)
+                return [];
+            var this_ = this;
+            return p.reduce(function (ret, item, i) { return ret.concat(this_.reportInfo(item)); }, []);
+        };
+        FieldsFormatter.prototype.reportInfo = function (r) {
+            return {
+                type: FieldType.Text,
+                format: function (val) { return val.value; },
+            };
+        };
         FieldsFormatter.prototype.patientInfo = function (p) {
             var meta = {
                 id: this.idField(),
@@ -5524,6 +5559,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 birthdate: this.dateField({ dateOnly: true }),
                 medcardNumber: this.textField(),
                 descriptionText: this.paragrathesField(),
+                reportInfos: this.FormattedFieldList(this.reportInfo.bind(this)),
             };
             var itemModeMeta = {
                 firstLine: function (p) {

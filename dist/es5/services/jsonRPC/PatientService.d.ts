@@ -14,8 +14,8 @@ export declare class PatientService extends JsonRPCCredService implements IPatie
     getPatientByIdAsync(id: string): Promise<{
         patient: PatientModel;
     }>;
-    getPatients(limit: number, offset: number, cb: (err: any, patients: PatientMessage[]) => void): void;
-    getPatientsAsync(limit: number, offset: number): Promise<PatientMessage[]>;
+    getPatients(limit: number, offset: number, lastId: string, cb: (err: any, patients: PatientMessage[]) => void): void;
+    getPatientsAsync(limit: number, offset: number, lastId: string): Promise<PatientMessage[]>;
     getFilteredPatients(filters: PatientFilters, limit: number, offset: number, cb: (err: any, patients: PatientMessage[]) => void): void;
     getFilteredPatientsAsync(filters: PatientFilters, limit: number, offset: number): Promise<PatientMessage[]>;
     getPatientsCount(cb: (err: any, count: number, support: boolean) => void): void;

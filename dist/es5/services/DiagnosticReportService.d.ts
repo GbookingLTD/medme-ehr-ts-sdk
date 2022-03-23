@@ -18,8 +18,8 @@ export interface IDiagnosticReportService extends IResourceService {
      */
     getPatientDiagnosticReports(patientId: string, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
-    getDiagnosticReports(limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
-    getDiagnosticReportsAsync(limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
+    getDiagnosticReports(limit: number, offset: number, lastId: string, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
+    getDiagnosticReportsAsync(limit: number, offset: number, lastId: string): Promise<DiagnosticReportMessage[]>;
     getFilteredDiagnosticReports(filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     getFilteredDiagnosticReportsAsync(filters: DiagnosticReportFilters, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
     getDiagnosticReportsCount(cb: (err: any, count: number, support: boolean) => void): void;

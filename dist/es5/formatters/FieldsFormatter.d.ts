@@ -6,6 +6,7 @@ import { Diagnosis, Procedure, PrescriptionInfo, Medication, Period, Service, Cl
 import { Observation } from "../types/Observation";
 import { PatientMessage } from "../messages/PatientMessage";
 import { AppointmentMessage } from "../messages/AppointmentMessage";
+import { PatientReportInfo } from "../types/PatientReportInfo";
 export declare enum FieldType {
     Text = "text",
     Number = "number",
@@ -112,6 +113,12 @@ export declare class FieldsFormatter implements IFormatter<Field[]> {
     service(s: Service): Field[];
     private fullPatientNameField;
     patientMessage(p: PatientMessage): Field[];
+    patientReportInfos(p: PatientMessage): Field[];
+    reportInfos(p: PatientReportInfo[]): Field[];
+    reportInfo(r: PatientReportInfo): {
+        type: FieldType;
+        format: (val: FieldValue) => object;
+    };
     patientInfo(p: PatientMessage): Field[];
     appointment(a: AppointmentMessage): Field[];
     appointmentResult(ar: AppointmentResultMessage): Field[];

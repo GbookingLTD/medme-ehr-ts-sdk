@@ -83,9 +83,10 @@ export class PrescriptionService
   getPrescriptions(
     limit: number,
     offset: number,
+    lastId: string,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void {
-    let params = { limit: limit, offset: offset };
+    let params = lastId ? { limit, lastItemId: lastId } : { limit: limit, offset: offset };
     this.exec(
       Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD,
       params,
@@ -100,13 +101,15 @@ export class PrescriptionService
 
   getPrescriptionsAsync(
     limit: number,
-    offset: number
+    offset: number,
+    lastId: string,
   ): Promise<PrescriptionMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
       service.getPrescriptions(
         limit,
         offset,
+        lastId,
         (err: any, values: PrescriptionMessage[]) => {
           if (err) return rej(err);
 

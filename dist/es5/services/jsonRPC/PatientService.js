@@ -61,17 +61,17 @@ var PatientService = /** @class */ (function (_super) {
             });
         });
     };
-    PatientService.prototype.getPatients = function (limit, offset, cb) {
-        this.exec(Handlers.HANDLER_GET_PATIENTS_METHOD, { limit: limit, offset: offset }, function (err, payload) {
+    PatientService.prototype.getPatients = function (limit, offset, lastId, cb) {
+        this.exec(Handlers.HANDLER_GET_PATIENTS_METHOD, lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset }, function (err, payload) {
             if (err)
                 return cb(err, null);
             return cb(err, payload["patients"]);
         });
     };
-    PatientService.prototype.getPatientsAsync = function (limit, offset) {
+    PatientService.prototype.getPatientsAsync = function (limit, offset, lastId) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatients(limit, offset, function (err, patients) {
+            service.getPatients(limit, offset, lastId, function (err, patients) {
                 if (err)
                     return rej(err);
                 res(patients);

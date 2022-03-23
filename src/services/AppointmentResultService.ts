@@ -37,11 +37,13 @@ export interface IAppointmentResultService extends IResourceService {
   getAppointmentResults(
     limit: number,
     offset: number,
+    lastId: string,
     cb: (err: any, appointmentResults: AppointmentResultModel[]) => void
   ): void;
   getAppointmentResultsAsync(
     limit: number,
-    offset: number
+    offset: number,
+    lastId: string
   ): Promise<AppointmentResultModel[]>;
 
   getAppointmentResultsCount(
