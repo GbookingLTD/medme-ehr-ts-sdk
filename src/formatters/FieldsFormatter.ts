@@ -839,6 +839,8 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return {
       type: FieldType.ObjectList,
       format: (val: FieldValue): FieldValue => {
+        if (!val)
+          return [];
         const obs = val as Observation[];
         return obs.map((o) => this_.observation(o));
       },
@@ -854,7 +856,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       status: this.statusField(),
       type: this.diagnosisTypeField(),
       category: this.diagnosisCategoryField(),
-      effectivePeriod: this.periodField({ dateOnly: true }),
+      // effectivePeriod: this.periodField({ dateOnly: true }),
       issuedDate: this.dateField({ dateOnly: true }),
       result: this.observationsField(),
       services: this.servicesField(),

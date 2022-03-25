@@ -183,8 +183,10 @@ export class PatientFilters extends FilterList implements ISerializableFilter {
     this.byMedCard.setup(val["byMedCard"]);
     this.byPhone.setup(val["byPhone"]);
     this.byBirthdate.setup(val["byBirthdate"]);
-    this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
-    this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
+    if (val["byDoctorSpecialityId"])
+      this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
+    if (val["byDoctorSpecialityIds"])
+      this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
   }
 
   plain(): any {

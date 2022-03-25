@@ -675,6 +675,8 @@ var FieldsFormatter = /** @class */ (function () {
         return {
             type: FieldType.ObjectList,
             format: function (val) {
+                if (!val)
+                    return [];
                 var obs = val;
                 return obs.map(function (o) { return this_.observation(o); });
             },
@@ -689,7 +691,7 @@ var FieldsFormatter = /** @class */ (function () {
             status: this.statusField(),
             type: this.diagnosisTypeField(),
             category: this.diagnosisCategoryField(),
-            effectivePeriod: this.periodField({ dateOnly: true }),
+            // effectivePeriod: this.periodField({ dateOnly: true }),
             issuedDate: this.dateField({ dateOnly: true }),
             result: this.observationsField(),
             services: this.servicesField(),

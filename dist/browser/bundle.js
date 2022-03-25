@@ -1780,8 +1780,10 @@ define("services/filters/PatientFilters", ["require", "exports", "formatters/l10
             this.byMedCard.setup(val["byMedCard"]);
             this.byPhone.setup(val["byPhone"]);
             this.byBirthdate.setup(val["byBirthdate"]);
-            this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
-            this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
+            if (val["byDoctorSpecialityId"])
+                this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
+            if (val["byDoctorSpecialityIds"])
+                this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
         };
         PatientFilters.prototype.plain = function () {
             return {
@@ -5695,6 +5697,8 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             return {
                 type: FieldType.ObjectList,
                 format: function (val) {
+                    if (!val)
+                        return [];
                     var obs = val;
                     return obs.map(function (o) { return this_.observation(o); });
                 },
@@ -5709,7 +5713,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 status: this.statusField(),
                 type: this.diagnosisTypeField(),
                 category: this.diagnosisCategoryField(),
-                effectivePeriod: this.periodField({ dateOnly: true }),
+                // effectivePeriod: this.periodField({ dateOnly: true }),
                 issuedDate: this.dateField({ dateOnly: true }),
                 result: this.observationsField(),
                 services: this.servicesField(),

@@ -233,8 +233,10 @@ var PatientFilters = /** @class */ (function (_super) {
         this.byMedCard.setup(val["byMedCard"]);
         this.byPhone.setup(val["byPhone"]);
         this.byBirthdate.setup(val["byBirthdate"]);
-        this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
-        this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
+        if (val["byDoctorSpecialityId"])
+            this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
+        if (val["byDoctorSpecialityIds"])
+            this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
     };
     PatientFilters.prototype.plain = function () {
         return {
