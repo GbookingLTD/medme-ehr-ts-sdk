@@ -1,5 +1,14 @@
 import { Diagnosis, Procedure, PrescriptionInfo, } from "../types/index";
-import { copyCommonPropertiesFromJson } from "./AppointmentModel";
+export function copyCommonPropertiesFromJson(json) {
+    this._id = json.id;
+    this._patientId = json.patientId;
+    if (json.business)
+        this._business = json.business;
+    this._created = json.created;
+    this._start = json.start;
+    if (json.doctor)
+        this._doctor = json.doctor;
+}
 /**
  * Класс модели записи.
  * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.

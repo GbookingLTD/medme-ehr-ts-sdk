@@ -420,7 +420,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return {
       type: FieldType.List,
       format: (val: FieldValue): FieldValue =>
-        (val as object[]).map((item) => (item as Service).name),
+        val ? (val as object[]).map((item) => (item as Service).name) : [],
     };
   }
 
@@ -886,6 +886,8 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   private doctors(doctors: Doctor[]): string[] {
+    if (!doctors)
+      return [];
     const this_ = this;
     return doctors.map((d) => this_.doctor(d));
   }

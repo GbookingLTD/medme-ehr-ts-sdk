@@ -47,7 +47,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { AppointmentModel } from "../../models/AppointmentModel";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 var AppointmentService = /** @class */ (function (_super) {
@@ -80,12 +79,7 @@ var AppointmentService = /** @class */ (function (_super) {
             if (err)
                 return cb(err, null);
             _this.lastValidationErrorsOfList_ = payload["validationErrors"];
-            var appointments = payload["appointments"].map(function (jsonApp) {
-                var app = new AppointmentModel();
-                app.fromJson(jsonApp);
-                return app;
-            });
-            return cb(null, appointments);
+            return cb(null, payload["appointments"]);
         });
     };
     AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset) {

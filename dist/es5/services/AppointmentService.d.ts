@@ -1,5 +1,4 @@
 import { IResourceService } from "./ResourceService";
-import { AppointmentModel } from "../models/AppointmentModel";
 import { AppointmentMessage } from "../messages/AppointmentMessage";
 import { AppointmentFilters } from "./filters/AppointmentFilters";
 export interface IAppointmentService extends IResourceService {
@@ -17,8 +16,8 @@ export interface IAppointmentService extends IResourceService {
      * @param offset смещение относительно начала списка записей
      * @param cb callback
      */
-    getPatientAppointments(patientId: string, limit: number, offset: number, cb: (err: any, appointments: AppointmentModel[]) => void): void;
-    getPatientAppointmentsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentModel[]>;
+    getPatientAppointments(patientId: string, limit: number, offset: number, cb: (err: any, appointments: AppointmentMessage[]) => void): void;
+    getPatientAppointmentsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentMessage[]>;
     /**
      * Возвращает список всех записей.
      * @param limit максимальное количество записей, которое нужно вернуть

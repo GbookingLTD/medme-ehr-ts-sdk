@@ -6,8 +6,19 @@ import {
   Procedure,
   PrescriptionInfo,
 } from "../types/index";
-import { copyCommonPropertiesFromJson } from "./AppointmentModel";
 import { JSONObject, JSONValue } from "../json";
+
+export function copyCommonPropertiesFromJson(json: any) {
+  this._id = json.id;
+  this._patientId = json.patientId;
+
+  if (json.business) this._business = json.business;
+
+  this._created = json.created;
+  this._start = json.start;
+
+  if (json.doctor) this._doctor = json.doctor;
+}
 
 /**
  * Класс модели записи.

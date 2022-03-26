@@ -1,12 +1,11 @@
 import { IJsonModel } from "./JsonModel";
 import { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, AppointmentSource, AppointmentHistoryItem } from "../types/index";
 import { JSONValue } from "../json";
-export declare function copyCommonPropertiesFromJson(json: any): void;
 /**
  * Класс модели записи.
  * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.
  */
-export declare class AppointmentModel implements IJsonModel {
+export declare class AppointmentModel_ implements IJsonModel {
     private _id;
     private _patientId;
     private _business;

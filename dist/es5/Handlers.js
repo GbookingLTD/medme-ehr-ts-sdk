@@ -74,6 +74,8 @@ var Handlers = /** @class */ (function () {
     Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";
     Handlers.HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
     Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
+    Handlers.HANDLER_FIND_PATIENTS_BY_PHONE_METHOD = "patient.find_patients_by_phone";
+    Handlers.HANDLER_FIND_PATIENTS_BY_MEDCARD_METHOD = "patient.find_patients_by_medcard";
     Handlers.HANDLER_SEARCH_PATIENT_EHR_METHOD = "patient.search_patient_ehr";
     Handlers.HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD = "patient.search_patient_ehr_count";
     return Handlers;

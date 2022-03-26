@@ -1,6 +1,7 @@
 import { IJsonModel } from "./JsonModel";
 import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo } from "../types/index";
 import { JSONValue } from "../json";
+export declare function copyCommonPropertiesFromJson(json: any): void;
 /**
  * Класс модели записи.
  * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.

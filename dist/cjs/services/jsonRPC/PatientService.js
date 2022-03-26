@@ -115,6 +115,40 @@ var PatientService = /** @class */ (function (_super) {
             });
         });
     };
+    PatientService.prototype.findPatientsByPhone = function (phone, limit, offset, cb) {
+        this.exec(Handlers_1.Handlers.HANDLER_FIND_PATIENTS_BY_PHONE_METHOD, { phone: phone, limit: limit, offset: offset }, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            return cb(err, payload["patients"]);
+        });
+    };
+    PatientService.prototype.findPatientsByPhoneAsync = function (phone, limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.findPatientsByPhone(phone, limit, offset, function (err, patients) {
+                if (err)
+                    return rej(err);
+                res(patients);
+            });
+        });
+    };
+    PatientService.prototype.findPatientsByMedCard = function (medCard, limit, offset, cb) {
+        this.exec(Handlers_1.Handlers.HANDLER_FIND_PATIENTS_BY_MEDCARD_METHOD, { medcardNumber: medCard, limit: limit, offset: offset }, function (err, payload) {
+            if (err)
+                return cb(err, null);
+            return cb(err, payload["patients"]);
+        });
+    };
+    PatientService.prototype.findPatientsByMedCardAsync = function (medCard, limit, offset) {
+        var service = this;
+        return new Promise(function (res, rej) {
+            service.findPatientsByMedCard(medCard, limit, offset, function (err, patients) {
+                if (err)
+                    return rej(err);
+                res(patients);
+            });
+        });
+    };
     PatientService.prototype.searchPatientEhr = function (keywords, filters, offsetPatientId, limit, cb) {
         this.exec(Handlers_1.Handlers.HANDLER_SEARCH_PATIENT_EHR_METHOD, {
             keywords: keywords,

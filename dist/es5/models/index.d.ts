@@ -1,5 +1,4 @@
-import { AppointmentModel } from "./AppointmentModel";
 declare const _default: {
-    AppointmentModel: typeof AppointmentModel;
+    AppointmentModel: any;
 };
 export default _default;

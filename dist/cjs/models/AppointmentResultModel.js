@@ -1,8 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentResultModel = void 0;
+exports.AppointmentResultModel = exports.copyCommonPropertiesFromJson = void 0;
 var index_1 = require("../types/index");
-var AppointmentModel_1 = require("./AppointmentModel");
+function copyCommonPropertiesFromJson(json) {
+    this._id = json.id;
+    this._patientId = json.patientId;
+    if (json.business)
+        this._business = json.business;
+    this._created = json.created;
+    this._start = json.start;
+    if (json.doctor)
+        this._doctor = json.doctor;
+}
+exports.copyCommonPropertiesFromJson = copyCommonPropertiesFromJson;
 /**
  * Класс модели записи.
  * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.
@@ -113,7 +123,7 @@ var AppointmentResultModel = /** @class */ (function () {
      * @param json
      */
     AppointmentResultModel.prototype.fromJson = function (json) {
-        AppointmentModel_1.copyCommonPropertiesFromJson.call(this, json);
+        copyCommonPropertiesFromJson.call(this, json);
         this._duration = json.duration;
         this._anamnesis = json.anamnesis;
         this._medicalExaminationResult = json.medicalExaminationResult;

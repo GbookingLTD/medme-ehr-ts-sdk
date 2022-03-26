@@ -1,112 +1,102 @@
-export function copyCommonPropertiesFromJson(json) {
-    this._id = json.id;
-    this._patientId = json.patientId;
-    if (json.business)
-        this._business = json.business;
-    this._created = json.created;
-    this._start = json.start;
-    if (json.doctor)
-        this._doctor = json.doctor;
-}
 /**
  * Класс модели записи.
  * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.
  */
-var AppointmentModel = /** @class */ (function () {
-    function AppointmentModel() {
+var AppointmentModel_ = /** @class */ (function () {
+    function AppointmentModel_() {
     }
-    Object.defineProperty(AppointmentModel.prototype, "id", {
+    Object.defineProperty(AppointmentModel_.prototype, "id", {
         get: function () {
             return this._id;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "patientId", {
+    Object.defineProperty(AppointmentModel_.prototype, "patientId", {
         get: function () {
             return this._patientId;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "business", {
+    Object.defineProperty(AppointmentModel_.prototype, "business", {
         get: function () {
             return this._business;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "created", {
+    Object.defineProperty(AppointmentModel_.prototype, "created", {
         get: function () {
             return this._created;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "start", {
+    Object.defineProperty(AppointmentModel_.prototype, "start", {
         get: function () {
             return this._start;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "doctor", {
+    Object.defineProperty(AppointmentModel_.prototype, "doctor", {
         get: function () {
             return this._doctor;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "services", {
+    Object.defineProperty(AppointmentModel_.prototype, "services", {
         get: function () {
             return this._services;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "duration", {
+    Object.defineProperty(AppointmentModel_.prototype, "duration", {
         get: function () {
             return this._duration;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "confirmationStatus", {
+    Object.defineProperty(AppointmentModel_.prototype, "confirmationStatus", {
         get: function () {
             return this._confirmationStatus;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "clientAppear", {
+    Object.defineProperty(AppointmentModel_.prototype, "clientAppear", {
         get: function () {
             return this._clientAppear;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "resultId", {
+    Object.defineProperty(AppointmentModel_.prototype, "resultId", {
         get: function () {
             return this._resultId;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "clientPrice", {
+    Object.defineProperty(AppointmentModel_.prototype, "clientPrice", {
         get: function () {
             return this._clientPrice;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "source", {
+    Object.defineProperty(AppointmentModel_.prototype, "source", {
         get: function () {
             return this._source;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(AppointmentModel.prototype, "history", {
+    Object.defineProperty(AppointmentModel_.prototype, "history", {
         get: function () {
             return this._history;
         },
@@ -117,7 +107,7 @@ var AppointmentModel = /** @class */ (function () {
      *
      * @param json
      */
-    AppointmentModel.prototype.fromJson = function (json) {
+    AppointmentModel_.prototype.fromJson = function (json) {
         copyCommonPropertiesFromJson.call(this, json);
         this._services = json.services;
         this._duration = json.duration;
@@ -132,7 +122,7 @@ var AppointmentModel = /** @class */ (function () {
     /**
      *
      */
-    AppointmentModel.prototype.toJson = function () {
+    AppointmentModel_.prototype.toJson = function () {
         var payload = {
             id: this._id,
             patientId: this._patientId,
@@ -152,12 +142,12 @@ var AppointmentModel = /** @class */ (function () {
         payload.source = this._source;
         return payload;
     };
-    AppointmentModel.prototype.toJSON = function () {
+    AppointmentModel_.prototype.toJSON = function () {
         return this.toJson();
     };
-    AppointmentModel.prototype.toString = function () {
+    AppointmentModel_.prototype.toString = function () {
         return JSON.stringify(this.toJson());
     };
-    return AppointmentModel;
+    return AppointmentModel_;
 }());
-export { AppointmentModel };
+export { AppointmentModel_ };

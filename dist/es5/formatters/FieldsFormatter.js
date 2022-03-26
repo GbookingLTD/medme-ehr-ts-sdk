@@ -332,7 +332,7 @@ var FieldsFormatter = /** @class */ (function () {
         return {
             type: FieldType.List,
             format: function (val) {
-                return val.map(function (item) { return item.name; });
+                return val ? val.map(function (item) { return item.name; }) : [];
             },
         };
     };
@@ -712,6 +712,8 @@ var FieldsFormatter = /** @class */ (function () {
         return d.name + " " + d.surname;
     };
     FieldsFormatter.prototype.doctors = function (doctors) {
+        if (!doctors)
+            return [];
         var this_ = this;
         return doctors.map(function (d) { return this_.doctor(d); });
     };

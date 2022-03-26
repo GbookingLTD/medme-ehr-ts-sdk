@@ -28,6 +28,10 @@ export interface IPatientService extends IResourceService {
         count: number;
         support: boolean;
     }>;
+    findPatientsByPhone(phone: string, limit: number, offset: number, cb: (err: any, patients: PatientMessage[]) => void): void;
+    findPatientsByPhoneAsync(phone: string, limit: number, offset: number): Promise<PatientMessage[]>;
+    findPatientsByMedCard(medCard: string, limit: number, offset: number, cb: (err: any, patients: PatientMessage[]) => void): void;
+    findPatientsByMedCardAsync(medCard: string, limit: number, offset: number): Promise<PatientMessage[]>;
     searchPatientEhr(keywords: SearchPatientEhrKeywords, filters: SearchPatientEhrFilters, offsetPatientId: number, limit: number, cb: (err: any, result: SearchPatientEhrResultItem[]) => void): any;
     searchPatientEhrAsync(keywords: SearchPatientEhrKeywords, filters: SearchPatientEhrFilters, offsetPatientId: number, limit: number): Promise<SearchPatientEhrResultItem[]>;
     searchPatientEhrCount(keywords: SearchPatientEhrKeywords, filters: SearchPatientEhrFilters, cb: (err: any, count: number, support: boolean) => void): any;

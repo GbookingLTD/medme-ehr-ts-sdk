@@ -50,7 +50,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentService = void 0;
-var AppointmentModel_1 = require("../../models/AppointmentModel");
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
 var AppointmentService = /** @class */ (function (_super) {
@@ -83,12 +82,7 @@ var AppointmentService = /** @class */ (function (_super) {
             if (err)
                 return cb(err, null);
             _this.lastValidationErrorsOfList_ = payload["validationErrors"];
-            var appointments = payload["appointments"].map(function (jsonApp) {
-                var app = new AppointmentModel_1.AppointmentModel();
-                app.fromJson(jsonApp);
-                return app;
-            });
-            return cb(null, appointments);
+            return cb(null, payload["appointments"]);
         });
     };
     AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset) {

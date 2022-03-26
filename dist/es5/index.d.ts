@@ -4,9 +4,6 @@ import { Handlers } from "./Handlers";
 export declare const EHR: {
     SDK_VERSION: string;
     Types: typeof Types;
-    Models: {
-        AppointmentModel: typeof import("./models/AppointmentModel").AppointmentModel;
-    };
     Services: {
         JsonRPC: {
             Transports: {

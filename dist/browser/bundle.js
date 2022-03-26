@@ -601,20 +601,255 @@ define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor
     Object.defineProperty(exports, "Period", { enumerable: true, get: function () { return Period_3.Period; } });
     Object.defineProperty(exports, "Specialization", { enumerable: true, get: function () { return Specialization_2.Specialization; } });
 });
+define("models/JsonModel", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+define("types/MaritalStatus", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.MaritalStatus = void 0;
+    var MaritalStatus;
+    (function (MaritalStatus) {
+        MaritalStatus[MaritalStatus["Divorced"] = 1] = "Divorced";
+        MaritalStatus[MaritalStatus["Married"] = 2] = "Married";
+        MaritalStatus[MaritalStatus["NeverMarried"] = 3] = "NeverMarried";
+        MaritalStatus[MaritalStatus["Unmarried"] = 4] = "Unmarried";
+        MaritalStatus[MaritalStatus["Widowed"] = 5] = "Widowed";
+        MaritalStatus[MaritalStatus["Unknown"] = 6] = "Unknown";
+    })(MaritalStatus = exports.MaritalStatus || (exports.MaritalStatus = {}));
+});
+define("types/FamilyMember", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.FamilyMember = exports.FamilyMemberType = void 0;
+    var FamilyMemberType;
+    (function (FamilyMemberType) {
+        FamilyMemberType[FamilyMemberType["FamilyMember"] = 1] = "FamilyMember";
+        FamilyMemberType[FamilyMemberType["Child"] = 2] = "Child";
+        FamilyMemberType[FamilyMemberType["AdoptedChild"] = 3] = "AdoptedChild";
+        FamilyMemberType[FamilyMemberType["Parent"] = 4] = "Parent";
+        FamilyMemberType[FamilyMemberType["AdoptiveParent"] = 5] = "AdoptiveParent";
+        FamilyMemberType[FamilyMemberType["Husband"] = 6] = "Husband";
+        FamilyMemberType[FamilyMemberType["Wife"] = 7] = "Wife";
+        FamilyMemberType[FamilyMemberType["Brother"] = 8] = "Brother";
+        FamilyMemberType[FamilyMemberType["Sister"] = 9] = "Sister";
+        FamilyMemberType[FamilyMemberType["ExtendedFamilyMember"] = 10] = "ExtendedFamilyMember";
+    })(FamilyMemberType = exports.FamilyMemberType || (exports.FamilyMemberType = {}));
+    var FamilyMember = /** @class */ (function () {
+        function FamilyMember() {
+        }
+        return FamilyMember;
+    }());
+    exports.FamilyMember = FamilyMember;
+});
+define("types/Insurance", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Insurance = void 0;
+    var Insurance = /** @class */ (function () {
+        function Insurance() {
+        }
+        return Insurance;
+    }());
+    exports.Insurance = Insurance;
+});
+define("models/PatientModel", ["require", "exports", "types/FamilyMember", "types/Insurance", "types/Period"], function (require, exports, FamilyMember_1, Insurance_1, Period_4) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientModel = void 0;
+    var PatientModel = /** @class */ (function () {
+        function PatientModel() {
+        }
+        Object.defineProperty(PatientModel.prototype, "id", {
+            get: function () {
+                return this._id;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "active", {
+            get: function () {
+                return this._active;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "surname", {
+            get: function () {
+                return this._surname;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "name", {
+            get: function () {
+                return this._name;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "phones", {
+            get: function () {
+                return this._phones;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "email", {
+            get: function () {
+                return this._email;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "gender", {
+            get: function () {
+                return this._gender;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "birthdate", {
+            get: function () {
+                return this._birthdate;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "deceased", {
+            get: function () {
+                return this._deceased;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "maritalStatus", {
+            get: function () {
+                return this._maritalStatus;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "photo", {
+            get: function () {
+                return this._photo;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "familyMembers", {
+            get: function () {
+                return this._familyMembers;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "address", {
+            get: function () {
+                return this._address;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "medcardNumber", {
+            get: function () {
+                return this._medcardNumber;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientModel.prototype, "insurances", {
+            get: function () {
+                return this._insurances;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientModel.prototype.fromJson = function (json) {
+            this._id = json.id;
+            this._active = json.active;
+            this._surname = json.surname;
+            this._name = json.name;
+            this._phones = json.phones;
+            this._email = json.email;
+            this._gender = json.gender;
+            if (json.birthdate &&
+                json.birthdate.length &&
+                json.birthdate[json.birthdate.length - 1] !== "Z")
+                json.birthdate += "Z";
+            this._birthdate = new Date(Date.parse(json.birthdate));
+            this._deceased = json.deceased;
+            this._maritalStatus = json.maritalStatus;
+            this._photo = json.photo;
+            this._familyMembers = [];
+            if (json.familyMembers && json.familyMembers.length) {
+                for (var i = 0; i < json.familyMembers.length; ++i) {
+                    var fm = new FamilyMember_1.FamilyMember();
+                    fm.patientId = json.familyMembers[i].patientId;
+                    fm.type = json.familyMembers[i].type;
+                    this._familyMembers.push(fm);
+                }
+            }
+            this._address = json.address;
+            this._medcardNumber = json.medcardNumber;
+            this._insurances = [];
+            if (json.insurances && json.insurances.length) {
+                for (var i = 0; i < json.insurances.length; ++i) {
+                    var insurance = new Insurance_1.Insurance();
+                    insurance.companyId = json.insurances[i].companyId;
+                    insurance.period = new Period_4.Period();
+                    if (json.insurances[i].period)
+                        insurance.period.fromJson(json.insurances[i].period);
+                    insurance.policyNumber = json.insurances[i].policyNumber;
+                    this._insurances.push(insurance);
+                }
+            }
+        };
+        PatientModel.prototype.toJson = function () {
+            return this;
+        };
+        return PatientModel;
+    }());
+    exports.PatientModel = PatientModel;
+});
 define("services/ResourceService", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
-define("messages/AppointmentMessage", ["require", "exports"], function (require, exports) {
+define("types/UserSign", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.AppointmentMessage = void 0;
-    var AppointmentMessage = /** @class */ (function () {
-        function AppointmentMessage() {
+});
+define("types/PatientReportInfo", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientReportInfo = exports.PatientReportInfoType = void 0;
+    var PatientReportInfoType;
+    (function (PatientReportInfoType) {
+        PatientReportInfoType[PatientReportInfoType["Item"] = 0] = "Item";
+        PatientReportInfoType[PatientReportInfoType["Table"] = 1] = "Table";
+        PatientReportInfoType[PatientReportInfoType["Header"] = 2] = "Header";
+        PatientReportInfoType[PatientReportInfoType["ItemList"] = 3] = "ItemList";
+    })(PatientReportInfoType = exports.PatientReportInfoType || (exports.PatientReportInfoType = {}));
+    var PatientReportInfo = /** @class */ (function () {
+        function PatientReportInfo() {
+            this.type = PatientReportInfoType.Item;
         }
-        return AppointmentMessage;
+        return PatientReportInfo;
     }());
-    exports.AppointmentMessage = AppointmentMessage;
+    exports.PatientReportInfo = PatientReportInfo;
+});
+define("messages/PatientMessage", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientMessage = void 0;
+    var PatientMessage = /** @class */ (function () {
+        function PatientMessage() {
+        }
+        return PatientMessage;
+    }());
+    exports.PatientMessage = PatientMessage;
 });
 define("formatters/l10n/ru-ru", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -971,7 +1206,248 @@ define("services/filters/DatePeriodFilter", ["require", "exports", "services/fil
     }(Filters_1.Filter));
     exports.DatePeriodFilter = DatePeriodFilter;
 });
-define("services/filters/AppointmentFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_1, DatePeriodFilter_1, Filters_2, FilterTypes_2) {
+define("services/filters/PatientFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_1, DatePeriodFilter_1, Filters_2, FilterTypes_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.PatientFilters = exports.PatientByBirthdateFilter = exports.PatientByDoctorSpecialityIdsFilter = exports.PatientByDoctorSpecialityIdFilter = exports.PatientByPhoneFilter = exports.PatientByMedCardFilter = exports.PatientByNameFilter = void 0;
+    function isNullUndefEmpty(val) {
+        return val == undefined || val == null || val == "";
+    }
+    function isNullUndef(val) {
+        return val == null || val == undefined;
+    }
+    var PatientByNameFilter = /** @class */ (function (_super) {
+        __extends(PatientByNameFilter, _super);
+        function PatientByNameFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.name = "";
+            return _this;
+        }
+        Object.defineProperty(PatientByNameFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.name;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByNameFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.PatientByName;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByNameFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.name);
+        };
+        PatientByNameFilter.prototype.setup = function (val) {
+            this.name = (val === null || val === void 0 ? void 0 : val.name) || "";
+        };
+        PatientByNameFilter.prototype.plain = function () {
+            return { name: this.name };
+        };
+        return PatientByNameFilter;
+    }(Filters_2.Filter));
+    exports.PatientByNameFilter = PatientByNameFilter;
+    var PatientByMedCardFilter = /** @class */ (function (_super) {
+        __extends(PatientByMedCardFilter, _super);
+        function PatientByMedCardFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.medCardId = "";
+            return _this;
+        }
+        Object.defineProperty(PatientByMedCardFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.medCardId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByMedCardFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.PatientByMedCard;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByMedCardFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.medCardId);
+        };
+        PatientByMedCardFilter.prototype.setup = function (val) {
+            this.medCardId = (val === null || val === void 0 ? void 0 : val.medCardId) || "";
+        };
+        PatientByMedCardFilter.prototype.plain = function () {
+            return { medCardId: this.medCardId };
+        };
+        return PatientByMedCardFilter;
+    }(Filters_2.Filter));
+    exports.PatientByMedCardFilter = PatientByMedCardFilter;
+    var PatientByPhoneFilter = /** @class */ (function (_super) {
+        __extends(PatientByPhoneFilter, _super);
+        function PatientByPhoneFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.phone = "";
+            return _this;
+        }
+        Object.defineProperty(PatientByPhoneFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.phone;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByPhoneFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.PatientByPhone;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByPhoneFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.phone);
+        };
+        PatientByPhoneFilter.prototype.setup = function (val) {
+            this.phone = (val === null || val === void 0 ? void 0 : val.phone) || "";
+        };
+        PatientByPhoneFilter.prototype.plain = function () {
+            return { phone: this.phone };
+        };
+        return PatientByPhoneFilter;
+    }(Filters_2.Filter));
+    exports.PatientByPhoneFilter = PatientByPhoneFilter;
+    var PatientByDoctorSpecialityIdFilter = /** @class */ (function (_super) {
+        __extends(PatientByDoctorSpecialityIdFilter, _super);
+        function PatientByDoctorSpecialityIdFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.specialityId = "";
+            return _this;
+        }
+        Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.specialityId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.PatientByDoctorSpecialityId;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByDoctorSpecialityIdFilter.prototype.isEmpty = function () {
+            return isNullUndefEmpty(this.specialityId);
+        };
+        PatientByDoctorSpecialityIdFilter.prototype.setup = function (val) {
+            this.specialityId = val.id;
+        };
+        PatientByDoctorSpecialityIdFilter.prototype.plain = function () {
+            return { id: this.specialityId };
+        };
+        return PatientByDoctorSpecialityIdFilter;
+    }(Filters_2.Filter));
+    exports.PatientByDoctorSpecialityIdFilter = PatientByDoctorSpecialityIdFilter;
+    var PatientByDoctorSpecialityIdsFilter = /** @class */ (function (_super) {
+        __extends(PatientByDoctorSpecialityIdsFilter, _super);
+        function PatientByDoctorSpecialityIdsFilter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.specialityIds = [];
+            return _this;
+        }
+        Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "prettyValue", {
+            get: function () {
+                return this.specialityIds.join(", ");
+            },
+            enumerable: false,
+            configurable: true
+        });
+        Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.PatientByDoctorSpecialityIds;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        PatientByDoctorSpecialityIdsFilter.prototype.isEmpty = function () {
+            return this.specialityIds.length == 0;
+        };
+        PatientByDoctorSpecialityIdsFilter.prototype.setup = function (val) {
+            this.specialityIds = val.ids;
+        };
+        PatientByDoctorSpecialityIdsFilter.prototype.plain = function () {
+            return { ids: this.specialityIds };
+        };
+        return PatientByDoctorSpecialityIdsFilter;
+    }(Filters_2.Filter));
+    exports.PatientByDoctorSpecialityIdsFilter = PatientByDoctorSpecialityIdsFilter;
+    var PatientByBirthdateFilter = /** @class */ (function (_super) {
+        __extends(PatientByBirthdateFilter, _super);
+        function PatientByBirthdateFilter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(PatientByBirthdateFilter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_2.FilterTypeEnum.PatientByBirthdate;
+            },
+            enumerable: false,
+            configurable: true
+        });
+        return PatientByBirthdateFilter;
+    }(DatePeriodFilter_1.DatePeriodFilter));
+    exports.PatientByBirthdateFilter = PatientByBirthdateFilter;
+    var PatientFilters = /** @class */ (function (_super) {
+        __extends(PatientFilters, _super);
+        function PatientFilters(localize) {
+            var _this = _super.call(this) || this;
+            _this.byMedCard = new PatientByMedCardFilter(localize);
+            _this.byName = new PatientByNameFilter(localize);
+            _this.byPhone = new PatientByPhoneFilter(localize);
+            _this.byBirthdate = new PatientByBirthdateFilter(localize);
+            _this.byDoctorSpecialityId = new PatientByDoctorSpecialityIdFilter(localize);
+            _this.byDoctorSpecialityIds = new PatientByDoctorSpecialityIdsFilter(localize);
+            return _this;
+        }
+        PatientFilters.createWithLocale = function (locale) {
+            return new PatientFilters(index_1.default.getByLocaleCode(locale)["filters"]);
+        };
+        PatientFilters.prototype.getFilters = function () {
+            return [
+                this.byName,
+                this.byMedCard,
+                this.byPhone,
+                this.byBirthdate,
+                this.byDoctorSpecialityId,
+                this.byDoctorSpecialityIds,
+            ];
+        };
+        PatientFilters.prototype.setup = function (val) {
+            if (isNullUndef(val))
+                return;
+            this.byName.setup(val["byName"]);
+            this.byMedCard.setup(val["byMedCard"]);
+            this.byPhone.setup(val["byPhone"]);
+            this.byBirthdate.setup(val["byBirthdate"]);
+            if (val["byDoctorSpecialityId"])
+                this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
+            if (val["byDoctorSpecialityIds"])
+                this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
+        };
+        PatientFilters.prototype.plain = function () {
+            return {
+                byName: this.byName.plain(),
+                byMedCard: this.byMedCard.plain(),
+                byPhone: this.byPhone.plain(),
+                byBirthdate: this.byBirthdate.plain(),
+                byDoctorSpecialityId: this.byDoctorSpecialityId.plain(),
+                byDoctorSpecialityIds: this.byDoctorSpecialityIds.plain(),
+            };
+        };
+        return PatientFilters;
+    }(Filters_2.FilterList));
+    exports.PatientFilters = PatientFilters;
+});
+define("services/filters/AppointmentFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_2, DatePeriodFilter_2, Filters_3, FilterTypes_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AppointmentFilters = exports.AppointmentByPatientIdFilter = exports.AppointmentByStartFilter = exports.AppointmentByCreatedFilter = exports.AppointmentByBusinessIdFilter = void 0;
@@ -1008,14 +1484,14 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
         };
         Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "kind", {
             get: function () {
-                return FilterTypes_2.FilterTypeEnum.AppointmentByBusiness;
+                return FilterTypes_3.FilterTypeEnum.AppointmentByBusiness;
             },
             enumerable: false,
             configurable: true
         });
         Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "key", {
             get: function () {
-                return FilterTypes_2.FilterKeys[this.kind];
+                return FilterTypes_3.FilterKeys[this.kind];
             },
             enumerable: false,
             configurable: true
@@ -1031,7 +1507,7 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
             return isNullUndefEmpty(this.businessId);
         };
         return AppointmentByBusinessIdFilter;
-    }(Filters_2.Filter));
+    }(Filters_3.Filter));
     exports.AppointmentByBusinessIdFilter = AppointmentByBusinessIdFilter;
     var AppointmentByCreatedFilter = /** @class */ (function (_super) {
         __extends(AppointmentByCreatedFilter, _super);
@@ -1040,13 +1516,13 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
         }
         Object.defineProperty(AppointmentByCreatedFilter.prototype, "kind", {
             get: function () {
-                return FilterTypes_2.FilterTypeEnum.AppointmentByCreated;
+                return FilterTypes_3.FilterTypeEnum.AppointmentByCreated;
             },
             enumerable: false,
             configurable: true
         });
         return AppointmentByCreatedFilter;
-    }(DatePeriodFilter_1.DatePeriodFilter));
+    }(DatePeriodFilter_2.DatePeriodFilter));
     exports.AppointmentByCreatedFilter = AppointmentByCreatedFilter;
     var AppointmentByStartFilter = /** @class */ (function (_super) {
         __extends(AppointmentByStartFilter, _super);
@@ -1055,13 +1531,13 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
         }
         Object.defineProperty(AppointmentByStartFilter.prototype, "kind", {
             get: function () {
-                return FilterTypes_2.FilterTypeEnum.AppointmentByStarted;
+                return FilterTypes_3.FilterTypeEnum.AppointmentByStarted;
             },
             enumerable: false,
             configurable: true
         });
         return AppointmentByStartFilter;
-    }(DatePeriodFilter_1.DatePeriodFilter));
+    }(DatePeriodFilter_2.DatePeriodFilter));
     exports.AppointmentByStartFilter = AppointmentByStartFilter;
     var AppointmentByPatientIdFilter = /** @class */ (function (_super) {
         __extends(AppointmentByPatientIdFilter, _super);
@@ -1085,7 +1561,7 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
         };
         Object.defineProperty(AppointmentByPatientIdFilter.prototype, "kind", {
             get: function () {
-                return FilterTypes_2.FilterTypeEnum.AppointmentByPatientId;
+                return FilterTypes_3.FilterTypeEnum.AppointmentByPatientId;
             },
             enumerable: false,
             configurable: true
@@ -1094,7 +1570,7 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
             return isNullUndefEmpty(this.patientId);
         };
         return AppointmentByPatientIdFilter;
-    }(Filters_2.Filter));
+    }(Filters_3.Filter));
     exports.AppointmentByPatientIdFilter = AppointmentByPatientIdFilter;
     var AppointmentFilters = /** @class */ (function (_super) {
         __extends(AppointmentFilters, _super);
@@ -1107,7 +1583,7 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
             return _this;
         }
         AppointmentFilters.createWithLocale = function (locale) {
-            return new AppointmentFilters(index_1.default.getByLocaleCode(locale)["filters"]);
+            return new AppointmentFilters(index_2.default.getByLocaleCode(locale)["filters"]);
         };
         AppointmentFilters.prototype.setup = function (val) {
             if (isNullUndef(val))
@@ -1129,675 +1605,8 @@ define("services/filters/AppointmentFilters", ["require", "exports", "formatters
             return [this.byBusinessId, this.byCreated, this.byStart, this.byPatientId];
         };
         return AppointmentFilters;
-    }(Filters_2.FilterList));
-    exports.AppointmentFilters = AppointmentFilters;
-});
-define("services/AppointmentService", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-});
-define("models/JsonModel", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-});
-define("models/AppointmentModel", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.AppointmentModel = exports.copyCommonPropertiesFromJson = void 0;
-    function copyCommonPropertiesFromJson(json) {
-        this._id = json.id;
-        this._patientId = json.patientId;
-        if (json.business)
-            this._business = json.business;
-        this._created = json.created;
-        this._start = json.start;
-        if (json.doctor)
-            this._doctor = json.doctor;
-    }
-    exports.copyCommonPropertiesFromJson = copyCommonPropertiesFromJson;
-    /**
-     * Класс модели записи.
-     * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.
-     */
-    var AppointmentModel = /** @class */ (function () {
-        function AppointmentModel() {
-        }
-        Object.defineProperty(AppointmentModel.prototype, "id", {
-            get: function () {
-                return this._id;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "patientId", {
-            get: function () {
-                return this._patientId;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "business", {
-            get: function () {
-                return this._business;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "created", {
-            get: function () {
-                return this._created;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "start", {
-            get: function () {
-                return this._start;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "doctor", {
-            get: function () {
-                return this._doctor;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "services", {
-            get: function () {
-                return this._services;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "duration", {
-            get: function () {
-                return this._duration;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "confirmationStatus", {
-            get: function () {
-                return this._confirmationStatus;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "clientAppear", {
-            get: function () {
-                return this._clientAppear;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "resultId", {
-            get: function () {
-                return this._resultId;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "clientPrice", {
-            get: function () {
-                return this._clientPrice;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "source", {
-            get: function () {
-                return this._source;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentModel.prototype, "history", {
-            get: function () {
-                return this._history;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         *
-         * @param json
-         */
-        AppointmentModel.prototype.fromJson = function (json) {
-            copyCommonPropertiesFromJson.call(this, json);
-            this._services = json.services;
-            this._duration = json.duration;
-            this._confirmationStatus = json.confirmationStatus;
-            this._clientAppear = json.clientAppear;
-            this._resultId = json.resultId;
-            this._clientPrice = json.clientPrice;
-            this._confirmationStatus = json.status;
-            this._source = json.source;
-            this._history = json.history;
-        };
-        /**
-         *
-         */
-        AppointmentModel.prototype.toJson = function () {
-            var payload = {
-                id: this._id,
-                patientId: this._patientId,
-            };
-            payload.business = this._business.toJson();
-            payload.created = this._created.toJSON();
-            payload.start = this._start.toJSON();
-            payload.doctor = this._doctor.toJson();
-            payload.services = Array.isArray(this._services)
-                ? this._services.map(function (s) { return s.toJson(); })
-                : null;
-            payload.duration = this._duration;
-            payload.status = this._confirmationStatus;
-            payload.clientAppear = this._clientAppear;
-            payload.resultId = this._resultId;
-            payload.clientPrice = this._clientPrice.toJson();
-            payload.source = this._source;
-            return payload;
-        };
-        AppointmentModel.prototype.toJSON = function () {
-            return this.toJson();
-        };
-        AppointmentModel.prototype.toString = function () {
-            return JSON.stringify(this.toJson());
-        };
-        return AppointmentModel;
-    }());
-    exports.AppointmentModel = AppointmentModel;
-});
-define("models/index", ["require", "exports", "models/AppointmentModel"], function (require, exports, AppointmentModel_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = {
-        AppointmentModel: AppointmentModel_1.AppointmentModel,
-    };
-});
-define("types/MaritalStatus", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.MaritalStatus = void 0;
-    var MaritalStatus;
-    (function (MaritalStatus) {
-        MaritalStatus[MaritalStatus["Divorced"] = 1] = "Divorced";
-        MaritalStatus[MaritalStatus["Married"] = 2] = "Married";
-        MaritalStatus[MaritalStatus["NeverMarried"] = 3] = "NeverMarried";
-        MaritalStatus[MaritalStatus["Unmarried"] = 4] = "Unmarried";
-        MaritalStatus[MaritalStatus["Widowed"] = 5] = "Widowed";
-        MaritalStatus[MaritalStatus["Unknown"] = 6] = "Unknown";
-    })(MaritalStatus = exports.MaritalStatus || (exports.MaritalStatus = {}));
-});
-define("types/FamilyMember", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.FamilyMember = exports.FamilyMemberType = void 0;
-    var FamilyMemberType;
-    (function (FamilyMemberType) {
-        FamilyMemberType[FamilyMemberType["FamilyMember"] = 1] = "FamilyMember";
-        FamilyMemberType[FamilyMemberType["Child"] = 2] = "Child";
-        FamilyMemberType[FamilyMemberType["AdoptedChild"] = 3] = "AdoptedChild";
-        FamilyMemberType[FamilyMemberType["Parent"] = 4] = "Parent";
-        FamilyMemberType[FamilyMemberType["AdoptiveParent"] = 5] = "AdoptiveParent";
-        FamilyMemberType[FamilyMemberType["Husband"] = 6] = "Husband";
-        FamilyMemberType[FamilyMemberType["Wife"] = 7] = "Wife";
-        FamilyMemberType[FamilyMemberType["Brother"] = 8] = "Brother";
-        FamilyMemberType[FamilyMemberType["Sister"] = 9] = "Sister";
-        FamilyMemberType[FamilyMemberType["ExtendedFamilyMember"] = 10] = "ExtendedFamilyMember";
-    })(FamilyMemberType = exports.FamilyMemberType || (exports.FamilyMemberType = {}));
-    var FamilyMember = /** @class */ (function () {
-        function FamilyMember() {
-        }
-        return FamilyMember;
-    }());
-    exports.FamilyMember = FamilyMember;
-});
-define("types/Insurance", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Insurance = void 0;
-    var Insurance = /** @class */ (function () {
-        function Insurance() {
-        }
-        return Insurance;
-    }());
-    exports.Insurance = Insurance;
-});
-define("models/PatientModel", ["require", "exports", "types/FamilyMember", "types/Insurance", "types/Period"], function (require, exports, FamilyMember_1, Insurance_1, Period_4) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PatientModel = void 0;
-    var PatientModel = /** @class */ (function () {
-        function PatientModel() {
-        }
-        Object.defineProperty(PatientModel.prototype, "id", {
-            get: function () {
-                return this._id;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "surname", {
-            get: function () {
-                return this._surname;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "name", {
-            get: function () {
-                return this._name;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "phones", {
-            get: function () {
-                return this._phones;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "email", {
-            get: function () {
-                return this._email;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "gender", {
-            get: function () {
-                return this._gender;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "birthdate", {
-            get: function () {
-                return this._birthdate;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "deceased", {
-            get: function () {
-                return this._deceased;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "maritalStatus", {
-            get: function () {
-                return this._maritalStatus;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "photo", {
-            get: function () {
-                return this._photo;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "familyMembers", {
-            get: function () {
-                return this._familyMembers;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "address", {
-            get: function () {
-                return this._address;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "medcardNumber", {
-            get: function () {
-                return this._medcardNumber;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "insurances", {
-            get: function () {
-                return this._insurances;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        PatientModel.prototype.fromJson = function (json) {
-            this._id = json.id;
-            this._active = json.active;
-            this._surname = json.surname;
-            this._name = json.name;
-            this._phones = json.phones;
-            this._email = json.email;
-            this._gender = json.gender;
-            if (json.birthdate &&
-                json.birthdate.length &&
-                json.birthdate[json.birthdate.length - 1] !== "Z")
-                json.birthdate += "Z";
-            this._birthdate = new Date(Date.parse(json.birthdate));
-            this._deceased = json.deceased;
-            this._maritalStatus = json.maritalStatus;
-            this._photo = json.photo;
-            this._familyMembers = [];
-            if (json.familyMembers && json.familyMembers.length) {
-                for (var i = 0; i < json.familyMembers.length; ++i) {
-                    var fm = new FamilyMember_1.FamilyMember();
-                    fm.patientId = json.familyMembers[i].patientId;
-                    fm.type = json.familyMembers[i].type;
-                    this._familyMembers.push(fm);
-                }
-            }
-            this._address = json.address;
-            this._medcardNumber = json.medcardNumber;
-            this._insurances = [];
-            if (json.insurances && json.insurances.length) {
-                for (var i = 0; i < json.insurances.length; ++i) {
-                    var insurance = new Insurance_1.Insurance();
-                    insurance.companyId = json.insurances[i].companyId;
-                    insurance.period = new Period_4.Period();
-                    if (json.insurances[i].period)
-                        insurance.period.fromJson(json.insurances[i].period);
-                    insurance.policyNumber = json.insurances[i].policyNumber;
-                    this._insurances.push(insurance);
-                }
-            }
-        };
-        PatientModel.prototype.toJson = function () {
-            return this;
-        };
-        return PatientModel;
-    }());
-    exports.PatientModel = PatientModel;
-});
-define("types/UserSign", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-});
-define("types/PatientReportInfo", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PatientReportInfo = exports.PatientReportInfoType = void 0;
-    var PatientReportInfoType;
-    (function (PatientReportInfoType) {
-        PatientReportInfoType[PatientReportInfoType["Item"] = 0] = "Item";
-        PatientReportInfoType[PatientReportInfoType["Table"] = 1] = "Table";
-        PatientReportInfoType[PatientReportInfoType["Header"] = 2] = "Header";
-        PatientReportInfoType[PatientReportInfoType["ItemList"] = 3] = "ItemList";
-    })(PatientReportInfoType = exports.PatientReportInfoType || (exports.PatientReportInfoType = {}));
-    var PatientReportInfo = /** @class */ (function () {
-        function PatientReportInfo() {
-            this.type = PatientReportInfoType.Item;
-        }
-        return PatientReportInfo;
-    }());
-    exports.PatientReportInfo = PatientReportInfo;
-});
-define("messages/PatientMessage", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PatientMessage = void 0;
-    var PatientMessage = /** @class */ (function () {
-        function PatientMessage() {
-        }
-        return PatientMessage;
-    }());
-    exports.PatientMessage = PatientMessage;
-});
-define("services/filters/PatientFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_2, DatePeriodFilter_2, Filters_3, FilterTypes_3) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PatientFilters = exports.PatientByBirthdateFilter = exports.PatientByDoctorSpecialityIdsFilter = exports.PatientByDoctorSpecialityIdFilter = exports.PatientByPhoneFilter = exports.PatientByMedCardFilter = exports.PatientByNameFilter = void 0;
-    function isNullUndefEmpty(val) {
-        return val == undefined || val == null || val == "";
-    }
-    function isNullUndef(val) {
-        return val == null || val == undefined;
-    }
-    var PatientByNameFilter = /** @class */ (function (_super) {
-        __extends(PatientByNameFilter, _super);
-        function PatientByNameFilter() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.name = "";
-            return _this;
-        }
-        Object.defineProperty(PatientByNameFilter.prototype, "prettyValue", {
-            get: function () {
-                return this.name;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientByNameFilter.prototype, "kind", {
-            get: function () {
-                return FilterTypes_3.FilterTypeEnum.PatientByName;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        PatientByNameFilter.prototype.isEmpty = function () {
-            return isNullUndefEmpty(this.name);
-        };
-        PatientByNameFilter.prototype.setup = function (val) {
-            this.name = (val === null || val === void 0 ? void 0 : val.name) || "";
-        };
-        PatientByNameFilter.prototype.plain = function () {
-            return { name: this.name };
-        };
-        return PatientByNameFilter;
-    }(Filters_3.Filter));
-    exports.PatientByNameFilter = PatientByNameFilter;
-    var PatientByMedCardFilter = /** @class */ (function (_super) {
-        __extends(PatientByMedCardFilter, _super);
-        function PatientByMedCardFilter() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.medCardId = "";
-            return _this;
-        }
-        Object.defineProperty(PatientByMedCardFilter.prototype, "prettyValue", {
-            get: function () {
-                return this.medCardId;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientByMedCardFilter.prototype, "kind", {
-            get: function () {
-                return FilterTypes_3.FilterTypeEnum.PatientByMedCard;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        PatientByMedCardFilter.prototype.isEmpty = function () {
-            return isNullUndefEmpty(this.medCardId);
-        };
-        PatientByMedCardFilter.prototype.setup = function (val) {
-            this.medCardId = (val === null || val === void 0 ? void 0 : val.medCardId) || "";
-        };
-        PatientByMedCardFilter.prototype.plain = function () {
-            return { medCardId: this.medCardId };
-        };
-        return PatientByMedCardFilter;
-    }(Filters_3.Filter));
-    exports.PatientByMedCardFilter = PatientByMedCardFilter;
-    var PatientByPhoneFilter = /** @class */ (function (_super) {
-        __extends(PatientByPhoneFilter, _super);
-        function PatientByPhoneFilter() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.phone = "";
-            return _this;
-        }
-        Object.defineProperty(PatientByPhoneFilter.prototype, "prettyValue", {
-            get: function () {
-                return this.phone;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientByPhoneFilter.prototype, "kind", {
-            get: function () {
-                return FilterTypes_3.FilterTypeEnum.PatientByPhone;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        PatientByPhoneFilter.prototype.isEmpty = function () {
-            return isNullUndefEmpty(this.phone);
-        };
-        PatientByPhoneFilter.prototype.setup = function (val) {
-            this.phone = (val === null || val === void 0 ? void 0 : val.phone) || "";
-        };
-        PatientByPhoneFilter.prototype.plain = function () {
-            return { phone: this.phone };
-        };
-        return PatientByPhoneFilter;
-    }(Filters_3.Filter));
-    exports.PatientByPhoneFilter = PatientByPhoneFilter;
-    var PatientByDoctorSpecialityIdFilter = /** @class */ (function (_super) {
-        __extends(PatientByDoctorSpecialityIdFilter, _super);
-        function PatientByDoctorSpecialityIdFilter() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.specialityId = "";
-            return _this;
-        }
-        Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "prettyValue", {
-            get: function () {
-                return this.specialityId;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "kind", {
-            get: function () {
-                return FilterTypes_3.FilterTypeEnum.PatientByDoctorSpecialityId;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        PatientByDoctorSpecialityIdFilter.prototype.isEmpty = function () {
-            return isNullUndefEmpty(this.specialityId);
-        };
-        PatientByDoctorSpecialityIdFilter.prototype.setup = function (val) {
-            this.specialityId = val.id;
-        };
-        PatientByDoctorSpecialityIdFilter.prototype.plain = function () {
-            return { id: this.specialityId };
-        };
-        return PatientByDoctorSpecialityIdFilter;
-    }(Filters_3.Filter));
-    exports.PatientByDoctorSpecialityIdFilter = PatientByDoctorSpecialityIdFilter;
-    var PatientByDoctorSpecialityIdsFilter = /** @class */ (function (_super) {
-        __extends(PatientByDoctorSpecialityIdsFilter, _super);
-        function PatientByDoctorSpecialityIdsFilter() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.specialityIds = [];
-            return _this;
-        }
-        Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "prettyValue", {
-            get: function () {
-                return this.specialityIds.join(", ");
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "kind", {
-            get: function () {
-                return FilterTypes_3.FilterTypeEnum.PatientByDoctorSpecialityIds;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        PatientByDoctorSpecialityIdsFilter.prototype.isEmpty = function () {
-            return this.specialityIds.length == 0;
-        };
-        PatientByDoctorSpecialityIdsFilter.prototype.setup = function (val) {
-            this.specialityIds = val.ids;
-        };
-        PatientByDoctorSpecialityIdsFilter.prototype.plain = function () {
-            return { ids: this.specialityIds };
-        };
-        return PatientByDoctorSpecialityIdsFilter;
-    }(Filters_3.Filter));
-    exports.PatientByDoctorSpecialityIdsFilter = PatientByDoctorSpecialityIdsFilter;
-    var PatientByBirthdateFilter = /** @class */ (function (_super) {
-        __extends(PatientByBirthdateFilter, _super);
-        function PatientByBirthdateFilter() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        Object.defineProperty(PatientByBirthdateFilter.prototype, "kind", {
-            get: function () {
-                return FilterTypes_3.FilterTypeEnum.PatientByBirthdate;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        return PatientByBirthdateFilter;
-    }(DatePeriodFilter_2.DatePeriodFilter));
-    exports.PatientByBirthdateFilter = PatientByBirthdateFilter;
-    var PatientFilters = /** @class */ (function (_super) {
-        __extends(PatientFilters, _super);
-        function PatientFilters(localize) {
-            var _this = _super.call(this) || this;
-            _this.byMedCard = new PatientByMedCardFilter(localize);
-            _this.byName = new PatientByNameFilter(localize);
-            _this.byPhone = new PatientByPhoneFilter(localize);
-            _this.byBirthdate = new PatientByBirthdateFilter(localize);
-            _this.byDoctorSpecialityId = new PatientByDoctorSpecialityIdFilter(localize);
-            _this.byDoctorSpecialityIds = new PatientByDoctorSpecialityIdsFilter(localize);
-            return _this;
-        }
-        PatientFilters.createWithLocale = function (locale) {
-            return new PatientFilters(index_2.default.getByLocaleCode(locale)["filters"]);
-        };
-        PatientFilters.prototype.getFilters = function () {
-            return [
-                this.byName,
-                this.byMedCard,
-                this.byPhone,
-                this.byBirthdate,
-                this.byDoctorSpecialityId,
-                this.byDoctorSpecialityIds,
-            ];
-        };
-        PatientFilters.prototype.setup = function (val) {
-            if (isNullUndef(val))
-                return;
-            this.byName.setup(val["byName"]);
-            this.byMedCard.setup(val["byMedCard"]);
-            this.byPhone.setup(val["byPhone"]);
-            this.byBirthdate.setup(val["byBirthdate"]);
-            if (val["byDoctorSpecialityId"])
-                this.byDoctorSpecialityId.setup(val["byDoctorSpecialityId"]);
-            if (val["byDoctorSpecialityIds"])
-                this.byDoctorSpecialityIds.setup(val["byDoctorSpecialityIds"]);
-        };
-        PatientFilters.prototype.plain = function () {
-            return {
-                byName: this.byName.plain(),
-                byMedCard: this.byMedCard.plain(),
-                byPhone: this.byPhone.plain(),
-                byBirthdate: this.byBirthdate.plain(),
-                byDoctorSpecialityId: this.byDoctorSpecialityId.plain(),
-                byDoctorSpecialityIds: this.byDoctorSpecialityIds.plain(),
-            };
-        };
-        return PatientFilters;
     }(Filters_3.FilterList));
-    exports.PatientFilters = PatientFilters;
+    exports.AppointmentFilters = AppointmentFilters;
 });
 define("services/filters/DiagnosticReportFilters", ["require", "exports", "formatters/l10n/index", "services/filters/DatePeriodFilter", "services/filters/Filters", "services/filters/FilterTypes"], function (require, exports, index_3, DatePeriodFilter_3, Filters_4, FilterTypes_4) {
     "use strict";
@@ -3065,6 +2874,21 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
         req.send(jsonRpcRequest.serialize());
     };
 });
+define("messages/AppointmentMessage", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AppointmentMessage = void 0;
+    var AppointmentMessage = /** @class */ (function () {
+        function AppointmentMessage() {
+        }
+        return AppointmentMessage;
+    }());
+    exports.AppointmentMessage = AppointmentMessage;
+});
+define("services/AppointmentService", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
 define("services/jsonRPC/jsonRpcService", ["require", "exports", "services/jsonRPC/jsonRpcRequest", "services/RpcErrorCodes"], function (require, exports, jsonRpcRequest_1, RpcErrorCodes_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -3240,13 +3064,15 @@ define("Handlers", ["require", "exports"], function (require, exports) {
         Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";
         Handlers.HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
         Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
+        Handlers.HANDLER_FIND_PATIENTS_BY_PHONE_METHOD = "patient.find_patients_by_phone";
+        Handlers.HANDLER_FIND_PATIENTS_BY_MEDCARD_METHOD = "patient.find_patients_by_medcard";
         Handlers.HANDLER_SEARCH_PATIENT_EHR_METHOD = "patient.search_patient_ehr";
         Handlers.HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD = "patient.search_patient_ehr_count";
         return Handlers;
     }());
     exports.Handlers = Handlers;
 });
-define("services/jsonRPC/AppointmentService", ["require", "exports", "models/AppointmentModel", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, AppointmentModel_2, jsonRpcService_1, Handlers_1) {
+define("services/jsonRPC/AppointmentService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_1, Handlers_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AppointmentService = void 0;
@@ -3280,12 +3106,7 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
                 if (err)
                     return cb(err, null);
                 _this.lastValidationErrorsOfList_ = payload["validationErrors"];
-                var appointments = payload["appointments"].map(function (jsonApp) {
-                    var app = new AppointmentModel_2.AppointmentModel();
-                    app.fromJson(jsonApp);
-                    return app;
-                });
-                return cb(null, appointments);
+                return cb(null, payload["appointments"]);
             });
         };
         AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset) {
@@ -3385,10 +3206,21 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "models/App
     }(jsonRpcService_1.JsonRPCCredService));
     exports.AppointmentService = AppointmentService;
 });
-define("models/AppointmentResultModel", ["require", "exports", "types/index", "models/AppointmentModel"], function (require, exports, index_5, AppointmentModel_3) {
+define("models/AppointmentResultModel", ["require", "exports", "types/index"], function (require, exports, index_5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.AppointmentResultModel = void 0;
+    exports.AppointmentResultModel = exports.copyCommonPropertiesFromJson = void 0;
+    function copyCommonPropertiesFromJson(json) {
+        this._id = json.id;
+        this._patientId = json.patientId;
+        if (json.business)
+            this._business = json.business;
+        this._created = json.created;
+        this._start = json.start;
+        if (json.doctor)
+            this._doctor = json.doctor;
+    }
+    exports.copyCommonPropertiesFromJson = copyCommonPropertiesFromJson;
     /**
      * Класс модели записи.
      * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.
@@ -3499,7 +3331,7 @@ define("models/AppointmentResultModel", ["require", "exports", "types/index", "m
          * @param json
          */
         AppointmentResultModel.prototype.fromJson = function (json) {
-            AppointmentModel_3.copyCommonPropertiesFromJson.call(this, json);
+            copyCommonPropertiesFromJson.call(this, json);
             this._duration = json.duration;
             this._anamnesis = json.anamnesis;
             this._medicalExaminationResult = json.medicalExaminationResult;
@@ -4513,6 +4345,40 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
                 });
             });
         };
+        PatientService.prototype.findPatientsByPhone = function (phone, limit, offset, cb) {
+            this.exec(Handlers_6.Handlers.HANDLER_FIND_PATIENTS_BY_PHONE_METHOD, { phone: phone, limit: limit, offset: offset }, function (err, payload) {
+                if (err)
+                    return cb(err, null);
+                return cb(err, payload["patients"]);
+            });
+        };
+        PatientService.prototype.findPatientsByPhoneAsync = function (phone, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.findPatientsByPhone(phone, limit, offset, function (err, patients) {
+                    if (err)
+                        return rej(err);
+                    res(patients);
+                });
+            });
+        };
+        PatientService.prototype.findPatientsByMedCard = function (medCard, limit, offset, cb) {
+            this.exec(Handlers_6.Handlers.HANDLER_FIND_PATIENTS_BY_MEDCARD_METHOD, { medcardNumber: medCard, limit: limit, offset: offset }, function (err, payload) {
+                if (err)
+                    return cb(err, null);
+                return cb(err, payload["patients"]);
+            });
+        };
+        PatientService.prototype.findPatientsByMedCardAsync = function (medCard, limit, offset) {
+            var service = this;
+            return new Promise(function (res, rej) {
+                service.findPatientsByMedCard(medCard, limit, offset, function (err, patients) {
+                    if (err)
+                        return rej(err);
+                    res(patients);
+                });
+            });
+        };
         PatientService.prototype.searchPatientEhr = function (keywords, filters, offsetPatientId, limit, cb) {
             this.exec(Handlers_6.Handlers.HANDLER_SEARCH_PATIENT_EHR_METHOD, {
                 keywords: keywords,
@@ -5358,7 +5224,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             return {
                 type: FieldType.List,
                 format: function (val) {
-                    return val.map(function (item) { return item.name; });
+                    return val ? val.map(function (item) { return item.name; }) : [];
                 },
             };
         };
@@ -5738,6 +5604,8 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             return d.name + " " + d.surname;
         };
         FieldsFormatter.prototype.doctors = function (doctors) {
+            if (!doctors)
+                return [];
             var this_ = this;
             return doctors.map(function (d) { return this_.doctor(d); });
         };
@@ -5790,17 +5658,16 @@ define("messages/index", ["require", "exports", "messages/AppointmentMessage"], 
         AppointmentMessage: AppointmentMessage_1.AppointmentMessage,
     };
 });
-define("MedMe", ["require", "exports", "types/index", "models/index", "services/index", "formatters/index", "Handlers", "messages/index"], function (require, exports, Types, index_12, index_13, index_14, Handlers_8, index_15) {
+define("MedMe", ["require", "exports", "types/index", "services/index", "formatters/index", "Handlers", "messages/index"], function (require, exports, Types, index_12, index_13, Handlers_8, index_14) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EHR = void 0;
     exports.EHR = {
         SDK_VERSION: "1.8.13",
         Types: Types,
-        Models: index_12.default,
-        Services: index_13.default,
-        Formatters: index_14.default,
+        Services: index_12.default,
+        Formatters: index_13.default,
         Handlers: Handlers_8.Handlers,
-        Messages: index_15.default,
+        Messages: index_14.default,
     };
 });

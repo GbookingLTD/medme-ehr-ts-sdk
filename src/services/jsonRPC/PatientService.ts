@@ -167,6 +167,70 @@ export class PatientService
     });
   }
 
+  public findPatientsByPhone(
+    phone: string,
+    limit: number,
+    offset: number,
+    cb: (err: any, patients: PatientMessage[]) => void
+  ): void {
+    this.exec(
+      Handlers.HANDLER_FIND_PATIENTS_BY_PHONE_METHOD,
+      { phone, limit, offset },
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
+
+        return cb(err, payload["patients"]);
+      }
+    );
+  }
+
+  public findPatientsByPhoneAsync(
+    phone: string,
+    limit: number,
+    offset: number
+  ): Promise<PatientMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.findPatientsByPhone(phone, limit, offset, (err, patients) => {
+        if (err) return rej(err);
+
+        res(patients);
+      });
+    });
+  }
+
+  public findPatientsByMedCard(
+    medCard: string,
+    limit: number,
+    offset: number,
+    cb: (err: any, patients: PatientMessage[]) => void
+  ): void {
+    this.exec(
+      Handlers.HANDLER_FIND_PATIENTS_BY_MEDCARD_METHOD,
+      { medcardNumber: medCard, limit, offset },
+      (err: any, payload: object) => {
+        if (err) return cb(err, null);
+
+        return cb(err, payload["patients"]);
+      }
+    );
+  }
+
+  public findPatientsByMedCardAsync(
+    medCard: string,
+    limit: number,
+    offset: number
+  ): Promise<PatientMessage[]> {
+    const service = this;
+    return new Promise((res, rej) => {
+      service.findPatientsByMedCard(medCard, limit, offset, (err, patients) => {
+        if (err) return rej(err);
+
+        res(patients);
+      });
+    });
+  }
+
   public searchPatientEhr(
     keywords: SearchPatientEhrKeywords,
     filters: SearchPatientEhrFilters,

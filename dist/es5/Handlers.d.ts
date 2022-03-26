@@ -72,6 +72,8 @@ export declare class Handlers {
     static readonly HANDLER_GET_PATIENT_BY_ID_METHOD = "patient.get_patient_by_id";
     static readonly HANDLER_GET_PATIENTS_METHOD = "patient.get_patients";
     static readonly HANDLER_GET_PATIENTS_COUNT_METHOD = "patient.count";
+    static readonly HANDLER_FIND_PATIENTS_BY_PHONE_METHOD = "patient.find_patients_by_phone";
+    static readonly HANDLER_FIND_PATIENTS_BY_MEDCARD_METHOD = "patient.find_patients_by_medcard";
     static readonly HANDLER_SEARCH_PATIENT_EHR_METHOD = "patient.search_patient_ehr";
     static readonly HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD = "patient.search_patient_ehr_count";
 }

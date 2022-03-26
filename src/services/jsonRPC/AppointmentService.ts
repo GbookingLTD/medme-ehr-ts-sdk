@@ -1,5 +1,4 @@
 import { IAppointmentService } from "../AppointmentService";
-import { AppointmentModel } from "../../models/AppointmentModel";
 import { AppointmentInputProperties } from "../../types/AppointmentInputProperties";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
@@ -43,7 +42,7 @@ export class AppointmentService
     patientId: string,
     limit: number,
     offset: number,
-    cb: (err: any, appointments: AppointmentModel[]) => void
+    cb: (err: any, appointments: AppointmentMessage[]) => void
   ): void {
     let params = { patientId: patientId, limit: limit, offset: offset };
     this.exec(
@@ -52,12 +51,7 @@ export class AppointmentService
       (err: any, payload: object) => {
         if (err) return cb(err, null);
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
-        let appointments = payload["appointments"].map((jsonApp: object) => {
-          let app = new AppointmentModel();
-          app.fromJson(jsonApp);
-          return app;
-        });
-        return cb(null, appointments);
+        return cb(null, payload["appointments"]);
       }
     );
   }
@@ -65,14 +59,14 @@ export class AppointmentService
     patientId: string,
     limit: number,
     offset: number
-  ): Promise<AppointmentModel[]> {
+  ): Promise<AppointmentMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
       service.getPatientAppointments(
         patientId,
         limit,
         offset,
-        (err: any, appointments: AppointmentModel[]) => {
+        (err: any, appointments: AppointmentMessage[]) => {
           if (err) return rej(err);
 
           res(appointments);
