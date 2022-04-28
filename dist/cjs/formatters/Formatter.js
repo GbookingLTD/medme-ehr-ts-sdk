@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = void 0;
-exports.dateISOFormat = function (d) {
+var dateISOFormat = function (d) {
     return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };
+exports.dateISOFormat = dateISOFormat;
 function paragrathes(a) {
     if (a.length == 0)
         return "";
@@ -19,4 +20,5 @@ function paragrathes_nl(a, offset) {
     return "\n" + offset + a.join("\n\n");
 }
 exports.paragrathes_nl = paragrathes_nl;
-exports.trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
+var trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
+exports.trim = trim;
