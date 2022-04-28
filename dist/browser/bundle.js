@@ -2,10 +2,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2835,7 +2837,7 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
         if (verbose)
             console.debug.apply(console, args);
     };
-    exports.xhr = function (endpoint, header, requestPayload, cb) {
+    var xhr = function (endpoint, header, requestPayload, cb) {
         var _this = this;
         var req = new XMLHttpRequest();
         req.responseType = "json";
@@ -2873,6 +2875,7 @@ define("services/jsonRPC/xhr", ["require", "exports", "services/AuthService", "s
         debug("jsonRpcRequest.serialize()", jsonRpcRequest.serialize());
         req.send(jsonRpcRequest.serialize());
     };
+    exports.xhr = xhr;
 });
 define("messages/AppointmentMessage", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -4560,9 +4563,10 @@ define("formatters/Formatter", ["require", "exports"], function (require, export
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = void 0;
-    exports.dateISOFormat = function (d) {
+    var dateISOFormat = function (d) {
         return d == null ? "" : typeof d === "string" ? d : d.toISOString();
     };
+    exports.dateISOFormat = dateISOFormat;
     function paragrathes(a) {
         if (a.length == 0)
             return "";
@@ -4578,7 +4582,8 @@ define("formatters/Formatter", ["require", "exports"], function (require, export
         return "\n" + offset + a.join("\n\n");
     }
     exports.paragrathes_nl = paragrathes_nl;
-    exports.trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
+    var trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
+    exports.trim = trim;
 });
 define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter"], function (require, exports, index_9, Formatter_1) {
     "use strict";
@@ -5033,6 +5038,8 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         FieldsFormatter.prototype.dateField = function (opts) {
             var this_ = this;
             var format = function (intl, val) {
+                if (!val)
+                    return "";
                 if (typeof val == "string")
                     val = new Date(Date.parse(val));
                 var d = val;
@@ -5042,7 +5049,8 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
             return {
                 type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-                format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
+                format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
+                    ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
                     : function (val) {
                         return format(new Intl.DateTimeFormat("ru", {
                             year: "numeric",
@@ -5188,6 +5196,8 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 type: FieldType.DatePeriod,
                 format: function (val) {
                     var _a, _b;
+                    if (!val)
+                        return "";
                     var period = val;
                     var textPeriod = val;
                     return {

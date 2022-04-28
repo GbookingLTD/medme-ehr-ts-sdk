@@ -207,6 +207,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     const this_ = this;
 
     const format = (intl: Intl.DateTimeFormat, val: FieldValue): string => {
+      if (!val) return "";
       if (typeof val == "string") val = new Date(Date.parse(val as string));
       const d = val as Date;
       if (d.getFullYear() === 0 || d.getFullYear() === 1)
@@ -381,6 +382,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return {
       type: FieldType.DatePeriod,
       format: (val: FieldValue): FieldValue => {
+        if (!val) return "";
         const period = val as Period;
         const textPeriod = val as TextPeriod;
         return {
@@ -839,8 +841,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return {
       type: FieldType.ObjectList,
       format: (val: FieldValue): FieldValue => {
-        if (!val)
-          return [];
+        if (!val) return [];
         const obs = val as Observation[];
         return obs.map((o) => this_.observation(o));
       },
@@ -886,8 +887,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   private doctors(doctors: Doctor[]): string[] {
-    if (!doctors)
-      return [];
+    if (!doctors) return [];
     const this_ = this;
     return doctors.map((d) => this_.doctor(d));
   }

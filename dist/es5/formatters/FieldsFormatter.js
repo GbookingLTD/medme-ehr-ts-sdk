@@ -141,6 +141,8 @@ var FieldsFormatter = /** @class */ (function () {
     FieldsFormatter.prototype.dateField = function (opts) {
         var this_ = this;
         var format = function (intl, val) {
+            if (!val)
+                return "";
             if (typeof val == "string")
                 val = new Date(Date.parse(val));
             var d = val;
@@ -150,7 +152,8 @@ var FieldsFormatter = /** @class */ (function () {
         };
         return {
             type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
+            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
+                ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
                 : function (val) {
                     return format(new Intl.DateTimeFormat("ru", {
                         year: "numeric",
@@ -296,6 +299,8 @@ var FieldsFormatter = /** @class */ (function () {
             type: FieldType.DatePeriod,
             format: function (val) {
                 var _a, _b;
+                if (!val)
+                    return "";
                 var period = val;
                 var textPeriod = val;
                 return {
