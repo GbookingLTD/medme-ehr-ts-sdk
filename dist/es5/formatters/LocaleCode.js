@@ -3,3 +3,4 @@ export var LocaleCode;
     LocaleCode["ruRU"] = "ru-ru";
     LocaleCode["enUS"] = "en-us";
 })(LocaleCode || (LocaleCode = {}));
+//# sourceMappingURL=LocaleCode.js.map

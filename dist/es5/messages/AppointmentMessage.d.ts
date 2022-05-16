@@ -15,3 +15,4 @@ export declare class AppointmentMessage {
     clientPrice: ClientPrice;
     source: AppointmentSource;
 }
+//# sourceMappingURL=AppointmentMessage.d.ts.map

@@ -19,3 +19,4 @@ var ObservationValue = /** @class */ (function () {
     return ObservationValue;
 }());
 export { ObservationValue };
+//# sourceMappingURL=ObservationValue.js.map

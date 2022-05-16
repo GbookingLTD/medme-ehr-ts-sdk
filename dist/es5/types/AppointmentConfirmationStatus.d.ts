@@ -5,3 +5,4 @@ export declare enum AppointmentConfirmationStatus {
     CancelledByClient = 3,
     CancelledByBusiness = 4
 }
+//# sourceMappingURL=AppointmentConfirmationStatus.d.ts.map

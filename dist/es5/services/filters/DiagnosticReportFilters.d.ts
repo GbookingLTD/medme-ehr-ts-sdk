@@ -49,3 +49,4 @@ export declare class DiagnosticReportFilters extends FilterList implements ISeri
     byCreated: DiagnosticReportByCreatedFilter;
     byPatientId: DiagnosticReportByPatientIdFilter;
 }
+//# sourceMappingURL=DiagnosticReportFilters.d.ts.map

@@ -15,11 +15,11 @@ export declare class JsonRPCCredService extends JsonRPCService implements IResou
     private apikey_;
     protected lastValidationErrors_: string[];
     protected lastValidationErrorsOfList_: string[][];
-    constructor(endpoint: string, cred: Credentials, apiKey: string, request: IJsonRPCRequest);
+    constructor(endpoint: string, cred: Credentials, apiKey: string | null, request: IJsonRPCRequest);
     get cred(): Credentials;
     set cred(value: Credentials);
-    get apiKey(): string;
-    set apiKey(value: string);
+    get apiKey(): string | null;
+    set apiKey(value: string | null);
     onAuthNotAuthorized: () => void;
     onAuthExpired: () => void;
     onAuthUnknownAuthError: () => void;
@@ -27,3 +27,4 @@ export declare class JsonRPCCredService extends JsonRPCService implements IResou
     getLastValidationErrors(): string[];
     getLastValidationErrorsOfList(): string[][];
 }
+//# sourceMappingURL=jsonRpcService.d.ts.map

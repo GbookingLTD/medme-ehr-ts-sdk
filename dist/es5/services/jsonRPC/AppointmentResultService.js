@@ -168,3 +168,4 @@ var AppointmentResultService = /** @class */ (function (_super) {
     return AppointmentResultService;
 }(JsonRPCCredService));
 export { AppointmentResultService };
+//# sourceMappingURL=AppointmentResultService.js.map

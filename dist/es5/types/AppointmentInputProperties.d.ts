@@ -9,3 +9,4 @@ export declare class AppointmentInputProperties {
     sourceId: string;
     clientPrice: ClientPrice;
 }
+//# sourceMappingURL=AppointmentInputProperties.d.ts.map

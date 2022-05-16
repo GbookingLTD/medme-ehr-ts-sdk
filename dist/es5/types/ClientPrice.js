@@ -24,3 +24,4 @@ var ClientPrice = /** @class */ (function () {
     return ClientPrice;
 }());
 export { ClientPrice };
+//# sourceMappingURL=ClientPrice.js.map

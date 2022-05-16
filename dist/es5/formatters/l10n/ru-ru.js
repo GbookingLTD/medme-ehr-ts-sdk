@@ -145,3 +145,4 @@ export default {
         PrescriptionByBusiness: "ЛПУ",
     },
 };
+//# sourceMappingURL=ru-ru.js.map

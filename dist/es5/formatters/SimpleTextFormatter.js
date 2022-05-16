@@ -305,3 +305,4 @@ var SimpleTextFormatter = /** @class */ (function () {
     return SimpleTextFormatter;
 }());
 export { SimpleTextFormatter };
+//# sourceMappingURL=SimpleTextFormatter.js.map

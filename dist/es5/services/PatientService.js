@@ -28,3 +28,4 @@ var SearchPatientEhrResultItem = /** @class */ (function () {
     return SearchPatientEhrResultItem;
 }());
 export { SearchPatientEhrResultItem };
+//# sourceMappingURL=PatientService.js.map

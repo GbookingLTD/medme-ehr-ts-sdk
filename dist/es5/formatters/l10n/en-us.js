@@ -56,3 +56,4 @@ export default {
         2: "Capsules",
     },
 };
+//# sourceMappingURL=en-us.js.map

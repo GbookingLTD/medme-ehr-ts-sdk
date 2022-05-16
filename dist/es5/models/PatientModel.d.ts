@@ -39,3 +39,4 @@ export declare class PatientModel implements IJsonModel {
     fromJson(json: any): void;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=PatientModel.d.ts.map

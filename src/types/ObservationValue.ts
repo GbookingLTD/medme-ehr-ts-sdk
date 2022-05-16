@@ -1,9 +1,8 @@
 import { JSONObject, JSONValue } from "../json";
-import { ObservationUnit } from "./ObservationUnit";
 
 export class ObservationValue {
   serializedValue: string;
-  unit: ObservationUnit;
+  unit: string;
   code: string;
   value: string;
 

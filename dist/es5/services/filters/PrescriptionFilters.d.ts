@@ -51,3 +51,4 @@ export declare class PrescriptionFilters extends FilterList implements ISerializ
     byCreated: PrescriptionByCreatedFilter;
     byPatientId: PrescriptionByPatientIdFilter;
 }
+//# sourceMappingURL=PrescriptionFilters.d.ts.map

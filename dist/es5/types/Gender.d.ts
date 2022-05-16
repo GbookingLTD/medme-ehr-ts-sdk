@@ -4,3 +4,4 @@ export declare enum Gender {
     Other = 3,
     Unknown = 4
 }
+//# sourceMappingURL=Gender.d.ts.map

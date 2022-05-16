@@ -1,7 +1,6 @@
 import { IJsonModel } from "./JsonModel";
 import { Doctor } from "../types/Doctor";
 import { Period } from "../types/Period";
-import { DiagnosticReportStatus } from "../types/DiagnosticReportStatus";
 import { ObservationType } from "../types/ObservationType";
 import { Observation } from "../types/Observation";
 import { Service } from "../types/Service";
@@ -26,7 +25,7 @@ export declare class DiagnosticReportModel implements IJsonModel {
     /**
      * Статус диагностического отчета.
      */
-    get status(): DiagnosticReportStatus;
+    get status(): string;
     /**
      * Тип обследования.
      */
@@ -72,3 +71,4 @@ export declare class DiagnosticReportModel implements IJsonModel {
     fromJson(json: any): DiagnosticReportModel;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=DiagnosticReportModel.d.ts.map

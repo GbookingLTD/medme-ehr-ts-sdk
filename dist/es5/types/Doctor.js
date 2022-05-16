@@ -24,3 +24,4 @@ var Doctor = /** @class */ (function () {
     return Doctor;
 }());
 export { Doctor };
+//# sourceMappingURL=Doctor.js.map

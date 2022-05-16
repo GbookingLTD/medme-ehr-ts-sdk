@@ -34,3 +34,4 @@ var PrescriptionModel = /** @class */ (function (_super) {
     return PrescriptionModel;
 }(PrescriptionInfo));
 export { PrescriptionModel };
+//# sourceMappingURL=PrescriptionModel.js.map

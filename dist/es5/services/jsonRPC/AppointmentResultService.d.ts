@@ -33,3 +33,4 @@ export declare class AppointmentResultService extends JsonRPCCredService impleme
         support: boolean;
     }>;
 }
+//# sourceMappingURL=AppointmentResultService.d.ts.map

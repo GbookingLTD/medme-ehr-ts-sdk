@@ -12,3 +12,4 @@ export declare class AppointmentHistoryItem {
     discountPercent: number;
     discountValue: number;
 }
+//# sourceMappingURL=AppointmentHistoryItem.d.ts.map

@@ -13,3 +13,4 @@ export declare class PrescriptionMessage {
     numberOfRepeats: number;
     title: string;
 }
+//# sourceMappingURL=PrescriptionMessage.d.ts.map

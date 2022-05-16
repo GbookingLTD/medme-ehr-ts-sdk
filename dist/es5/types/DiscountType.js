@@ -3,3 +3,4 @@ export var DiscountType;
     DiscountType[DiscountType["Percent"] = 0] = "Percent";
     DiscountType[DiscountType["Absolute"] = 1] = "Absolute";
 })(DiscountType || (DiscountType = {}));
+//# sourceMappingURL=DiscountType.js.map

@@ -4,3 +4,4 @@ export declare class Insurance {
     policyNumber: string;
     period: Period;
 }
+//# sourceMappingURL=Insurance.d.ts.map

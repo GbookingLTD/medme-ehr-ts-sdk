@@ -9,7 +9,7 @@ export class PatientInfo {
   phones: string[];
   email: string;
   gender: Gender;
-  date: Date;
+  date?: Date;
   medcardNumber: string;
 
   fromJson(json: any): PatientInfo {

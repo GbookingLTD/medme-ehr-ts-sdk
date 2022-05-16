@@ -22,3 +22,4 @@ export declare class PatientMessage {
     insurances: Insurance[];
     reportInfos: PatientReportInfo[];
 }
+//# sourceMappingURL=PatientMessage.d.ts.map

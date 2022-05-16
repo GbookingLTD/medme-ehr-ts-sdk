@@ -40,5 +40,8 @@
     "editor.insertSpaces": false
   },
   "mochaExplorer.require": "ts-node/register",
-  "mochaExplorer.files": "tests/**/*.test.ts"
+  "mochaExplorer.files": "tests/**/*.test.ts",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

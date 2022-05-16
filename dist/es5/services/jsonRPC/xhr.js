@@ -53,3 +53,4 @@ export var xhr = function (endpoint, header, requestPayload, cb) {
     debug("jsonRpcRequest.serialize()", jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };
+//# sourceMappingURL=xhr.js.map

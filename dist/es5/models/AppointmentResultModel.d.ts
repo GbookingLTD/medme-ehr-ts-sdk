@@ -46,3 +46,4 @@ export declare class AppointmentResultModel implements IJsonModel {
      */
     toJson(): JSONValue;
 }
+//# sourceMappingURL=AppointmentResultModel.d.ts.map

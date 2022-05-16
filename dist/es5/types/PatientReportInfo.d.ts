@@ -8,6 +8,8 @@ export declare class PatientReportInfo {
     id: string;
     patientId: string;
     key: string;
+    name: string;
     value: object;
     type: PatientReportInfoType;
 }
+//# sourceMappingURL=PatientReportInfo.d.ts.map

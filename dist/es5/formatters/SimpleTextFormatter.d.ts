@@ -247,3 +247,4 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
     observations(o: Observation[], offset: string): string;
     observation(o: Observation, offset?: string): string;
 }
+//# sourceMappingURL=SimpleTextFormatter.d.ts.map

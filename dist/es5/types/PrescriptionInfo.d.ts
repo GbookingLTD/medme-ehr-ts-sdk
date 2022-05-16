@@ -15,3 +15,4 @@ export declare class PrescriptionInfo {
     fromJson(json: any): PrescriptionInfo;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=PrescriptionInfo.d.ts.map

@@ -3,3 +3,4 @@ export declare class Credentials {
     user: string;
     token: string;
 }
+//# sourceMappingURL=Credentials.d.ts.map

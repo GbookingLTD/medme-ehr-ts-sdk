@@ -6,3 +6,4 @@
  *  В этом случае будет выполнена передача креденшиалов на сторону ЭМК сервера и по этим креденшалам будут доступны данные.
  */
 export declare type UserSign = string;
+//# sourceMappingURL=UserSign.d.ts.map

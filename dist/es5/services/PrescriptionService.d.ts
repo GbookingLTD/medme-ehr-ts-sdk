@@ -40,3 +40,4 @@ export interface IPrescriptionService extends IResourceService {
         support: boolean;
     }>;
 }
+//# sourceMappingURL=PrescriptionService.d.ts.map

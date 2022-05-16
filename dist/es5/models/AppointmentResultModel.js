@@ -171,3 +171,4 @@ var AppointmentResultModel = /** @class */ (function () {
     return AppointmentResultModel;
 }());
 export { AppointmentResultModel };
+//# sourceMappingURL=AppointmentResultModel.js.map

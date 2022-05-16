@@ -3,3 +3,4 @@ export var Currency;
     Currency[Currency["Rur"] = 0] = "Rur";
     Currency[Currency["Usd"] = 1] = "Usd";
 })(Currency || (Currency = {}));
+//# sourceMappingURL=Currency.js.map

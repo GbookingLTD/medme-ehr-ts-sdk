@@ -59,3 +59,4 @@ export declare class AuthService extends JsonRPCService implements IAuthService 
     removeAuthInfo(cb: (err: any) => void): void;
     removeAuthInfoAsync(): Promise<void>;
 }
+//# sourceMappingURL=AuthService.d.ts.map

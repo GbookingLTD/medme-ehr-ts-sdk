@@ -19,3 +19,4 @@ var BusinessInfo = /** @class */ (function () {
     return BusinessInfo;
 }());
 export { BusinessInfo };
+//# sourceMappingURL=BusinessInfo.js.map

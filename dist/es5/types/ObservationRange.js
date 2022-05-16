@@ -26,3 +26,4 @@ var ObservationRange = /** @class */ (function () {
     return ObservationRange;
 }());
 export { ObservationRange };
+//# sourceMappingURL=ObservationRange.js.map

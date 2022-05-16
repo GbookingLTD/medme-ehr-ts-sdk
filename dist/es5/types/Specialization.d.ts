@@ -5,3 +5,4 @@ export declare class Specialization {
     fromJson(json: any): Specialization;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Specialization.d.ts.map

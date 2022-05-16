@@ -7,3 +7,4 @@ export declare class BusinessInfoService extends JsonRPCCredService implements I
     getSpecializationsByPattern(pattern: string, cb: (err: any, specializations: Specialization[]) => void): void;
     getSpecializationsByPatternAsync(pattern: string): Promise<Specialization[]>;
 }
+//# sourceMappingURL=BusinessInfoService.d.ts.map

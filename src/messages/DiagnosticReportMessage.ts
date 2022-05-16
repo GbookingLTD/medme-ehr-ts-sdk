@@ -1,6 +1,5 @@
 import { Doctor } from "../types/Doctor";
 import { Period } from "../types/Period";
-import { DiagnosticReportStatus } from "../types/DiagnosticReportStatus";
 import { ObservationType } from "../types/ObservationType";
 import { Observation } from "../types/Observation";
 import { Service } from "../types/Service";
@@ -9,7 +8,7 @@ import { BusinessInfo } from "../types/BusinessInfo";
 
 export class DiagnosticReportMessage {
   id: string;
-  status: DiagnosticReportStatus;
+  status: string;
   business: BusinessInfo;
   patientId: string;
   patient: PatientInfo;

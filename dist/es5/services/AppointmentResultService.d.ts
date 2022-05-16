@@ -39,3 +39,4 @@ export interface IAppointmentResultService extends IResourceService {
         support: boolean;
     }>;
 }
+//# sourceMappingURL=AppointmentResultService.d.ts.map

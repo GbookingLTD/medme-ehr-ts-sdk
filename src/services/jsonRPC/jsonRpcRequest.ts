@@ -4,7 +4,7 @@ export interface IJsonRpcHeader {
   id: string;
   method: string;
   cred: Credentials;
-  apiKey: string;
+  apiKey: string | null;
 }
 
 export interface IJsonRpcError {
@@ -30,13 +30,13 @@ export class JsonRpcHeader implements IJsonRpcHeader {
   private _id: string;
   private _method: string;
   private _cred: Credentials;
-  private _apiKey: string;
+  private _apiKey: string|null;
 
   public constructor(
     id: string,
     method: string,
     cred: Credentials = null,
-    apiKey: string = null
+    apiKey: string|null = null
   ) {
     this._id = id;
     this._method = method;
@@ -56,7 +56,7 @@ export class JsonRpcHeader implements IJsonRpcHeader {
     return this._cred;
   }
 
-  public get apiKey(): string {
+  public get apiKey(): string|null {
     return this._apiKey;
   }
 }

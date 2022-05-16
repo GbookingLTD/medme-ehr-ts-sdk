@@ -184,3 +184,4 @@ var DiagnosticReportModel = /** @class */ (function () {
     return DiagnosticReportModel;
 }());
 export { DiagnosticReportModel };
+//# sourceMappingURL=DiagnosticReportModel.js.map

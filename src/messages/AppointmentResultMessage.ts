@@ -4,6 +4,7 @@ import {
   Diagnosis,
   Procedure,
   PrescriptionInfo,
+  PatientReportInfo,
 } from "../types/index";
 import { JSONObject, JSONValue } from "../json";
 
@@ -22,4 +23,5 @@ export class AppointmentResultMessage {
   scheduledProcedures: Procedure[];
   prescriptions: PrescriptionInfo[];
   diagnosticReportIds: string[];
+  reportInfos?: PatientReportInfo[]
 }

@@ -117,3 +117,4 @@ export declare function getAuthenticatedPatient(patientService: IPatientService,
  * @param {function} cb
  */
 export declare function getAuthenticatedPatientByExchangeToken(exchangeToken: string, authService: IAuthService, patientInput: (next: AuthenticateInputResultCallback) => void, cb: (err: any, authenticated?: PatientAuthenticationResult) => void): void;
+//# sourceMappingURL=AuthService.d.ts.map

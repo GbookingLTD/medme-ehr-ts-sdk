@@ -1,11 +1,10 @@
-import { ObservationUnit } from "./ObservationUnit";
 import { ObservationType } from "./ObservationType";
 import { Period } from "./Period";
 import { JSONValue } from "../json";
 export declare class ObservationRange {
     low: number;
     high: number;
-    unit: ObservationUnit;
+    unit: string;
     type: ObservationType;
     age: Period;
     text: string;
@@ -13,3 +12,4 @@ export declare class ObservationRange {
     fromJson(json: any): ObservationRange;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=ObservationRange.d.ts.map

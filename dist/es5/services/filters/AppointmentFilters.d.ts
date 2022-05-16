@@ -61,3 +61,4 @@ export declare class AppointmentFilters extends FilterList implements ISerializa
     byStart: AppointmentByStartFilter;
     byPatientId: AppointmentByPatientIdFilter;
 }
+//# sourceMappingURL=AppointmentFilters.d.ts.map

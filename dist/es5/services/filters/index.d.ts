@@ -22,3 +22,4 @@ declare const _default: {
     PrescriptionFilters: typeof PrescriptionFilters;
 };
 export default _default;
+//# sourceMappingURL=index.d.ts.map

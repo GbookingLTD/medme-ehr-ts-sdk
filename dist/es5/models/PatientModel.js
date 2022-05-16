@@ -155,3 +155,4 @@ var PatientModel = /** @class */ (function () {
     return PatientModel;
 }());
 export { PatientModel };
+//# sourceMappingURL=PatientModel.js.map

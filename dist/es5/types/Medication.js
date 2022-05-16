@@ -28,3 +28,4 @@ var Medication = /** @class */ (function () {
     return Medication;
 }());
 export { Medication };
+//# sourceMappingURL=Medication.js.map

@@ -201,3 +201,4 @@ var PatientService = /** @class */ (function (_super) {
     return PatientService;
 }(JsonRPCCredService));
 export { PatientService };
+//# sourceMappingURL=PatientService.js.map

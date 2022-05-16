@@ -77,3 +77,4 @@ export declare class Handlers {
     static readonly HANDLER_SEARCH_PATIENT_EHR_METHOD = "patient.search_patient_ehr";
     static readonly HANDLER_SEARCH_PATIENT_EHR_COUNT_METHOD = "patient.search_patient_ehr_count";
 }
+//# sourceMappingURL=Handlers.d.ts.map

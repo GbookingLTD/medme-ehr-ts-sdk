@@ -3,3 +3,4 @@ export declare enum ProcedureType {
     Precedure = 1,
     Analisys = 2
 }
+//# sourceMappingURL=ProcedureType.d.ts.map

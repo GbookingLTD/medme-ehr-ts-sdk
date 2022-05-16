@@ -3,3 +3,4 @@ export declare enum MedicationForm {
     Tablets = 1,
     Capsule = 2
 }
+//# sourceMappingURL=MedicationForm.d.ts.map

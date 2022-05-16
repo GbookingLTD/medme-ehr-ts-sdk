@@ -22,3 +22,4 @@ export declare class RpcErrorCodes {
     static readonly LinkedPatientNotFound: number;
 }
 export declare function isAuthorizationError(err: any): boolean;
+//# sourceMappingURL=RpcErrorCodes.d.ts.map

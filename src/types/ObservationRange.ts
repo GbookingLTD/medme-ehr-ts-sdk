@@ -1,4 +1,3 @@
-import { ObservationUnit } from "./ObservationUnit";
 import { ObservationType } from "./ObservationType";
 import { Period } from "./Period";
 import { JSONObject, JSONValue } from "../json";
@@ -6,7 +5,7 @@ import { JSONObject, JSONValue } from "../json";
 export class ObservationRange {
   low: number;
   high: number;
-  unit: ObservationUnit;
+  unit: string;
   type: ObservationType;
   age: Period;
   text: string;

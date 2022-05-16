@@ -3,7 +3,7 @@ export interface IJsonRpcHeader {
     id: string;
     method: string;
     cred: Credentials;
-    apiKey: string;
+    apiKey: string | null;
 }
 export interface IJsonRpcError {
     code: number;
@@ -21,9 +21,10 @@ export declare class JsonRpcHeader implements IJsonRpcHeader {
     private _method;
     private _cred;
     private _apiKey;
-    constructor(id: string, method: string, cred?: Credentials, apiKey?: string);
+    constructor(id: string, method: string, cred?: Credentials, apiKey?: string | null);
     get id(): string;
     get method(): string;
     get cred(): Credentials;
-    get apiKey(): string;
+    get apiKey(): string | null;
 }
+//# sourceMappingURL=jsonRpcRequest.d.ts.map

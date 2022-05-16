@@ -51,14 +51,14 @@ export class JsonRPCCredService
   implements IResourceService
 {
   private cred_: Credentials;
-  private apikey_: string;
+  private apikey_: string | null;
   protected lastValidationErrors_: string[];
   protected lastValidationErrorsOfList_: string[][];
 
   public constructor(
     endpoint: string,
     cred: Credentials,
-    apiKey: string,
+    apiKey: string | null,
     request: IJsonRPCRequest
   ) {
     super(endpoint, request);
@@ -74,11 +74,11 @@ export class JsonRPCCredService
     this.cred_ = value;
   }
 
-  get apiKey(): string {
+  get apiKey(): string | null {
     return this.apikey_;
   }
 
-  set apiKey(value: string) {
+  set apiKey(value: string | null) {
     this.apikey_ = value;
   }
 

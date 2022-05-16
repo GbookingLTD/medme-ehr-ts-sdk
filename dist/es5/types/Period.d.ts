@@ -9,3 +9,4 @@ export declare class Period {
     fromJson(json: any): Period;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Period.d.ts.map

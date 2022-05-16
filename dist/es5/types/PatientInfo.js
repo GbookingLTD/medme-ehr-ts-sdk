@@ -29,3 +29,4 @@ var PatientInfo = /** @class */ (function () {
     return PatientInfo;
 }());
 export { PatientInfo };
+//# sourceMappingURL=PatientInfo.js.map

@@ -4,3 +4,4 @@ var AppointmentInputProperties = /** @class */ (function () {
     return AppointmentInputProperties;
 }());
 export { AppointmentInputProperties };
+//# sourceMappingURL=AppointmentInputProperties.js.map

@@ -23,3 +23,4 @@ var ObservationComponent = /** @class */ (function () {
     return ObservationComponent;
 }());
 export { ObservationComponent };
+//# sourceMappingURL=ObservationComponent.js.map

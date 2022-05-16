@@ -24,3 +24,4 @@ export default {
     SearchPatientEhrFilters: SearchPatientEhrFilters,
     SearchPatientEhrResultItem: SearchPatientEhrResultItem,
 };
+//# sourceMappingURL=index.js.map

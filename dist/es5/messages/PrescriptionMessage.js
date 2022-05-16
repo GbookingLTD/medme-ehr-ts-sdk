@@ -4,3 +4,4 @@ var PrescriptionMessage = /** @class */ (function () {
     return PrescriptionMessage;
 }());
 export { PrescriptionMessage };
+//# sourceMappingURL=PrescriptionMessage.js.map

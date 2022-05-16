@@ -18,4 +18,6 @@ import { PatientInputProperties } from "./PatientInputProperties";
 import { Medication } from "./Medication";
 import { Period } from "./Period";
 import { Specialization } from "./Specialization";
-export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentSource, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties, Medication, Period, Specialization };
+import { PatientReportInfo } from "./PatientReportInfo";
+export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentSource, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties, Medication, Period, Specialization, PatientReportInfo, };
+//# sourceMappingURL=index.d.ts.map

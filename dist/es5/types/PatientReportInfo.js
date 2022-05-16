@@ -12,3 +12,4 @@ var PatientReportInfo = /** @class */ (function () {
     return PatientReportInfo;
 }());
 export { PatientReportInfo };
+//# sourceMappingURL=PatientReportInfo.js.map

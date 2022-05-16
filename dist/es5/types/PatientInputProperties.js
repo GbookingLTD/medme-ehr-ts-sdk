@@ -15,3 +15,4 @@ var PatientInputProperties = /** @class */ (function () {
     return PatientInputProperties;
 }());
 export { PatientInputProperties };
+//# sourceMappingURL=PatientInputProperties.js.map

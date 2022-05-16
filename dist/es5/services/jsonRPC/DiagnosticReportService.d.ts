@@ -34,3 +34,4 @@ export declare class DiagnosticReportService extends JsonRPCCredService implemen
         support: boolean;
     }>;
 }
+//# sourceMappingURL=DiagnosticReportService.d.ts.map

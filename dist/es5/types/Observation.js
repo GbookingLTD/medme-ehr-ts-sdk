@@ -78,3 +78,4 @@ var Observation = /** @class */ (function () {
     return Observation;
 }());
 export { Observation };
+//# sourceMappingURL=Observation.js.map

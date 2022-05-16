@@ -7,3 +7,4 @@ export declare class Discount {
     fromJson(json: any): Discount;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Discount.d.ts.map

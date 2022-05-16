@@ -60,3 +60,4 @@ export declare class PatientFilters extends FilterList implements ISerializableF
     setup(val: any): void;
     plain(): any;
 }
+//# sourceMappingURL=PatientFilters.d.ts.map

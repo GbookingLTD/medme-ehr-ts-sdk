@@ -9,3 +9,4 @@ export declare class Diagnosis {
     constructor(json: any);
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Diagnosis.d.ts.map

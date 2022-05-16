@@ -7,12 +7,12 @@ import { Credentials } from "../Credentials";
 
 export class RequestCredObject extends jsonrpc.RequestObject {
   public cred: Credentials;
-  public apiKey: string;
+  public apiKey: string | null;
   constructor(
     id: jsonrpc.ID,
     method: string,
     cred: Credentials,
-    apiKey: string,
+    apiKey: string | null,
     params?: jsonrpc.RpcParams
   ) {
     super(id, method, params);
@@ -35,7 +35,7 @@ export function requestCred(
   id: jsonrpc.ID,
   method: string,
   cred: Credentials,
-  apiKey: string,
+  apiKey: string | null,
   params?: jsonrpc.RpcParams
 ): RequestCredObject {
   // call "standart" request function for validate message

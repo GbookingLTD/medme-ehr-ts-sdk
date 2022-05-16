@@ -4,3 +4,4 @@ var Insurance = /** @class */ (function () {
     return Insurance;
 }());
 export { Insurance };
+//# sourceMappingURL=Insurance.js.map

@@ -20,3 +20,4 @@ export default {
     PatientService: PatientService,
     BusinessInfoService: BusinessInfoService,
 };
+//# sourceMappingURL=index.js.map

@@ -7,3 +7,4 @@ export var MaritalStatus;
     MaritalStatus[MaritalStatus["Widowed"] = 5] = "Widowed";
     MaritalStatus[MaritalStatus["Unknown"] = 6] = "Unknown";
 })(MaritalStatus || (MaritalStatus = {}));
+//# sourceMappingURL=MaritalStatus.js.map

@@ -35,3 +35,4 @@ export declare class PatientService extends JsonRPCCredService implements IPatie
         support: boolean;
     }>;
 }
+//# sourceMappingURL=PatientService.d.ts.map

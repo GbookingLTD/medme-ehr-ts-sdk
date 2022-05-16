@@ -10,3 +10,4 @@ export default {
         }[locale];
     },
 };
+//# sourceMappingURL=index.js.map

@@ -34,3 +34,4 @@ export declare class PrescriptionService extends JsonRPCCredService implements I
         support: boolean;
     }>;
 }
+//# sourceMappingURL=PrescriptionService.d.ts.map

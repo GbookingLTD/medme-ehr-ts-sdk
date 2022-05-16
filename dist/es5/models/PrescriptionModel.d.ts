@@ -11,3 +11,4 @@ export declare class PrescriptionModel extends PrescriptionInfo implements IJson
     fromJson(json: any): PrescriptionInfo;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=PrescriptionModel.d.ts.map

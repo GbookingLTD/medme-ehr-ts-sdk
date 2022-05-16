@@ -63,3 +63,4 @@ var BusinessInfoService = /** @class */ (function (_super) {
     return BusinessInfoService;
 }(JsonRPCCredService));
 export { BusinessInfoService };
+//# sourceMappingURL=BusinessInfoService.js.map

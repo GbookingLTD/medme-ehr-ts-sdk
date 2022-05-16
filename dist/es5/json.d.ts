@@ -4,3 +4,4 @@ export interface JSONObject {
 }
 export interface JSONArray extends Array<JSONValue> {
 }
+//# sourceMappingURL=json.d.ts.map

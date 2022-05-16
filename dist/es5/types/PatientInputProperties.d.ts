@@ -10,3 +10,4 @@ export declare class PatientInputProperties {
     date: Date;
     fromJson(json: any): PatientInputProperties;
 }
+//# sourceMappingURL=PatientInputProperties.d.ts.map

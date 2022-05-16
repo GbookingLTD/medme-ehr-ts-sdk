@@ -13,3 +13,4 @@ export declare class ProcedureInfo {
      */
     constructor(json: any);
 }
+//# sourceMappingURL=ProcedureInfo.d.ts.map

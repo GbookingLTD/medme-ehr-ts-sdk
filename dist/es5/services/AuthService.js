@@ -170,3 +170,4 @@ export function getAuthenticatedPatientByExchangeToken(exchangeToken, authServic
         });
     });
 }
+//# sourceMappingURL=AuthService.js.map

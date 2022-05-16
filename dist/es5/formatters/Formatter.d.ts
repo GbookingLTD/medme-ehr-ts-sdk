@@ -17,3 +17,4 @@ export interface IFormatter<T> {
     diagnosticReport(dr: DiagnosticReportMessage): T;
     observation(o: Observation): T;
 }
+//# sourceMappingURL=Formatter.d.ts.map

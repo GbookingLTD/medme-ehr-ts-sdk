@@ -15,3 +15,4 @@ export function paragrathes_nl(a, offset) {
     return "\n" + offset + a.join("\n\n");
 }
 export var trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
+//# sourceMappingURL=Formatter.js.map

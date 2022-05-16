@@ -10,3 +10,4 @@ export declare abstract class DatePeriodFilter extends Filter implements ISerial
     to: Date;
     isEmpty(): boolean;
 }
+//# sourceMappingURL=DatePeriodFilter.d.ts.map

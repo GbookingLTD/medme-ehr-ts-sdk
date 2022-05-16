@@ -5,3 +5,4 @@ export var ProcedureExecStatus;
     ProcedureExecStatus[ProcedureExecStatus["Rejected"] = 2] = "Rejected";
     ProcedureExecStatus[ProcedureExecStatus["Completed"] = 3] = "Completed";
 })(ProcedureExecStatus || (ProcedureExecStatus = {}));
+//# sourceMappingURL=ProcedureExecStatus.js.map

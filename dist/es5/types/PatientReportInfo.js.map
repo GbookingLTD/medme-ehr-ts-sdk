@@ -1,0 +1,1 @@
+{"version":3,"file":"PatientReportInfo.js","sourceRoot":"","sources":["../../../src/types/PatientReportInfo.ts"],"names":[],"mappings":"AAAA,MAAM,CAAN,IAAY,qBAKX;AALD,WAAY,qBAAqB;IAC/B,iEAAQ,CAAA;IACR,mEAAK,CAAA;IACL,qEAAM,CAAA;IACN,yEAAQ,CAAA;AACV,CAAC,EALW,qBAAqB,KAArB,qBAAqB,QAKhC;AAED;IAAA;QAME,SAAI,GAA0B,qBAAqB,CAAC,IAAI,CAAC;IAC3D,CAAC;IAAD,wBAAC;AAAD,CAAC,AAPD,IAOC"}

@@ -13,3 +13,4 @@ export declare class Medication {
     fromJson(json: any): void;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Medication.d.ts.map

@@ -1,7 +1,6 @@
 import { IJsonModel } from "./JsonModel";
 import { Doctor } from "../types/Doctor";
 import { Period } from "../types/Period";
-import { DiagnosticReportStatus } from "../types/DiagnosticReportStatus";
 import { ObservationType } from "../types/ObservationType";
 import { Observation } from "../types/Observation";
 import { Service } from "../types/Service";
@@ -12,7 +11,7 @@ import { JSONObject, JSONValue } from "../json";
  */
 export class DiagnosticReportModel implements IJsonModel {
   private _id: string;
-  private _status: DiagnosticReportStatus;
+  private _status: string;
   private _type: ObservationType;
   private _effectivePeriod: Period;
   private _issuedDate: Date;
@@ -31,7 +30,7 @@ export class DiagnosticReportModel implements IJsonModel {
   /**
    * Статус диагностического отчета.
    */
-  get status(): DiagnosticReportStatus {
+  get status(): string {
     return this._status;
   }
 

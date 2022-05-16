@@ -20,3 +20,4 @@ export declare class Procedure {
     fromJson(json: any): Procedure;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Procedure.d.ts.map

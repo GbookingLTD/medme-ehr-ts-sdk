@@ -21,3 +21,4 @@ export default {
     PrescriptionByPatientIdFilter: PrescriptionByPatientIdFilter,
     PrescriptionFilters: PrescriptionFilters,
 };
+//# sourceMappingURL=index.js.map

@@ -40,3 +40,4 @@ export interface IDiagnosticReportService extends IResourceService {
         support: boolean;
     }>;
 }
+//# sourceMappingURL=DiagnosticReportService.d.ts.map

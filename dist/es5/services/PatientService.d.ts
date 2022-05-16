@@ -63,3 +63,4 @@ export declare class SearchPatientEhrResultItem {
     diagnosticReports: DiagnosticReportMessage[];
     prescriptions: PrescriptionMessage[];
 }
+//# sourceMappingURL=PatientService.d.ts.map

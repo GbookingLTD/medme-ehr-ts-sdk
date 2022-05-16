@@ -22,3 +22,4 @@ export declare class AppointmentService extends JsonRPCCredService implements IA
         support: boolean;
     }>;
 }
+//# sourceMappingURL=AppointmentService.d.ts.map

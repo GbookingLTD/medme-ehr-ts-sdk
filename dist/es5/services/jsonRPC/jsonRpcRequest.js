@@ -38,3 +38,4 @@ var JsonRpcHeader = /** @class */ (function () {
     return JsonRpcHeader;
 }());
 export { JsonRpcHeader };
+//# sourceMappingURL=jsonRpcRequest.js.map

@@ -7,3 +7,4 @@ export declare class BusinessInfo {
     fromJson(json: any): BusinessInfo;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=BusinessInfo.d.ts.map

@@ -21,3 +21,4 @@ var Period = /** @class */ (function () {
     return Period;
 }());
 export { Period };
+//# sourceMappingURL=Period.js.map

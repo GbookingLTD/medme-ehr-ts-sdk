@@ -1,6 +1,7 @@
 /// <amd-module name="MedMe" />
 import * as Types from "./types/index";
 import { Handlers } from "./Handlers";
+import * as Interfaces from "./interfaces/index";
 export declare const EHR: {
     SDK_VERSION: string;
     Types: typeof Types;
@@ -53,10 +54,13 @@ export declare const EHR: {
     Formatters: {
         LocaleCode: typeof import("./formatters/LocaleCode").LocaleCode;
         SimpleTextFormatter: typeof import("./formatters/SimpleTextFormatter").SimpleTextFormatter;
+        SimpleTextFormatterV2: typeof import("./formatters/SimpleTextFormatterV2").SimpleTextFormatterV2;
         FieldsFormatter: typeof import("./formatters/FieldsFormatter").FieldsFormatter;
     };
     Handlers: typeof Handlers;
     Messages: {
         AppointmentMessage: typeof import("./messages/AppointmentMessage").AppointmentMessage;
     };
+    Interfaces: typeof Interfaces;
 };
+//# sourceMappingURL=index.d.ts.map

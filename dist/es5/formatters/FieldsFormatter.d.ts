@@ -140,3 +140,4 @@ export declare class FieldsFormatter implements IFormatter<Field[]> {
     medicalExaminationResult(ar: string[]): string[];
     period(period: Period, offset: string): string;
 }
+//# sourceMappingURL=FieldsFormatter.d.ts.map

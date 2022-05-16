@@ -181,3 +181,4 @@ var PrescriptionService = /** @class */ (function (_super) {
     return PrescriptionService;
 }(JsonRPCCredService));
 export { PrescriptionService };
+//# sourceMappingURL=PrescriptionService.js.map

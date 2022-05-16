@@ -1,0 +1,1 @@
+//# sourceMappingURL=IObservationRange.js.map

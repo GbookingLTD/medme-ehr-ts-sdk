@@ -2,7 +2,6 @@ import { BusinessInfo } from "./BusinessInfo";
 import { Doctor } from "./Doctor";
 import { PatientInfo } from "./PatientInfo";
 import { ObservationType } from "./ObservationType";
-import { ObservationStatus } from "./ObservationStatus";
 import { Period } from "./Period";
 import { ObservationValue } from "./ObservationValue";
 import { ObservationRange } from "./ObservationRange";
@@ -15,7 +14,7 @@ export class Observation {
   patientInfo: PatientInfo;
   type: ObservationType;
   observationKey: string;
-  status: ObservationStatus;
+  status: string;
   effectivePeriod: Period;
   issuedDate: Date;
   performerDoctor: Doctor;

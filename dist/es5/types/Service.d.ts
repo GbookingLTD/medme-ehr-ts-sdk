@@ -9,3 +9,4 @@ export declare class Service {
     fromJson(json: any): Service;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Service.d.ts.map

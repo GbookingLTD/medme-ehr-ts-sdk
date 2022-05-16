@@ -39,3 +39,4 @@ var PrescriptionInfo = /** @class */ (function () {
     return PrescriptionInfo;
 }());
 export { PrescriptionInfo };
+//# sourceMappingURL=PrescriptionInfo.js.map

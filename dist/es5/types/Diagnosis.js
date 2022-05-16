@@ -16,3 +16,4 @@ var Diagnosis = /** @class */ (function () {
     return Diagnosis;
 }());
 export { Diagnosis };
+//# sourceMappingURL=Diagnosis.js.map

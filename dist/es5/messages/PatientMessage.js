@@ -4,3 +4,4 @@ var PatientMessage = /** @class */ (function () {
     return PatientMessage;
 }());
 export { PatientMessage };
+//# sourceMappingURL=PatientMessage.js.map

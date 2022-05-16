@@ -11,3 +11,4 @@ export declare class ClientPrice {
     fromJson(json: any): ClientPrice;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=ClientPrice.d.ts.map

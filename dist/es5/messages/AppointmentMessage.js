@@ -4,3 +4,4 @@ var AppointmentMessage = /** @class */ (function () {
     return AppointmentMessage;
 }());
 export { AppointmentMessage };
+//# sourceMappingURL=AppointmentMessage.js.map

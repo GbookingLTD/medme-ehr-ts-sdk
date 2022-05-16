@@ -41,3 +41,4 @@ export function requestCred(id, method, cred, apiKey, params) {
     jsonrpc.request(id, method, params);
     return new RequestCredObject(id, method, cred, apiKey, params);
 }
+//# sourceMappingURL=jsonrpc_cred.js.map

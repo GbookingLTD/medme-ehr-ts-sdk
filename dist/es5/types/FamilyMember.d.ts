@@ -14,3 +14,4 @@ export declare class FamilyMember {
     type: FamilyMemberType;
     patientId: string;
 }
+//# sourceMappingURL=FamilyMember.d.ts.map

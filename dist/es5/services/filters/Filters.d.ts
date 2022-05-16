@@ -29,3 +29,4 @@ export declare abstract class Filter implements IFilter {
     get title(): string;
     abstract isEmpty(): boolean;
 }
+//# sourceMappingURL=Filters.d.ts.map

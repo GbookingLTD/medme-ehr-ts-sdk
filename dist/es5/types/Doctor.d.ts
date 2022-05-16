@@ -8,3 +8,4 @@ export declare class Doctor {
     fromJson(json: any): Doctor;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=Doctor.d.ts.map

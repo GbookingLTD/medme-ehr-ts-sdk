@@ -4,3 +4,4 @@ var AppointmentHistoryItem = /** @class */ (function () {
     return AppointmentHistoryItem;
 }());
 export { AppointmentHistoryItem };
+//# sourceMappingURL=AppointmentHistoryItem.js.map

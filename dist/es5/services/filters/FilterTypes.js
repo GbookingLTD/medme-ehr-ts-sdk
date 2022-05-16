@@ -35,3 +35,4 @@ export var FilterKeys = (_a = {},
     _a[FilterTypeEnum.PrescriptionByCreated] = "PrescriptionByCreated",
     _a[FilterTypeEnum.PrescriptionByBusiness] = "PrescriptionByBusiness",
     _a);
+//# sourceMappingURL=FilterTypes.js.map

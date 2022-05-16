@@ -49,3 +49,4 @@ declare const _default: {
     SearchPatientEhrResultItem: typeof SearchPatientEhrResultItem;
 };
 export default _default;
+//# sourceMappingURL=index.d.ts.map

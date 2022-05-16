@@ -44,7 +44,7 @@ build_commonjs:
 	tsc --module commonjs --target ES5 --outDir dist/cjs ${FILES}
 
 build_es5:
-	tsc --module es2015 --declaration true --target ES5 --outDir dist/es5 ${FILES}
+	tsc --module es2015 --declaration true  --declarationMap true --sourceMap true --target ES5 --outDir dist/es5 ${FILES}
 
 build_browser:
 	tsc --module AMD --target ES5 --outfile dist/browser/bundle.js ${FILES}

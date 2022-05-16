@@ -6,3 +6,4 @@ export declare enum MaritalStatus {
     Widowed = 5,
     Unknown = 6
 }
+//# sourceMappingURL=MaritalStatus.d.ts.map

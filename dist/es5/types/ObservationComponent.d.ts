@@ -10,3 +10,4 @@ export declare class ObservationComponent {
     fromJson(json: any): ObservationComponent;
     toJson(): JSONValue;
 }
+//# sourceMappingURL=ObservationComponent.d.ts.map
