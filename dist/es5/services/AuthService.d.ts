@@ -1,7 +1,7 @@
 import { PatientInputProperties } from "../types/PatientInputProperties";
-import { PatientModel } from "../models/PatientModel";
 import { IPatientService } from "./PatientService";
 import { UserSign } from "../types/UserSign";
+import { PatientMessage } from "../messages/PatientMessage";
 export declare class ExchangeTokenResponse {
     exchangeToken: string;
 }
@@ -30,9 +30,9 @@ export interface IAuthService {
      * @param {string} medCardId
      * @param {Function} cb
      */
-    authenticate(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string, cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
+    authenticate(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string, cb: (err: any, patient: PatientMessage, userSign: UserSign) => void): void;
     authenticateAsync(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string): Promise<{
-        patient: PatientModel;
+        patient: PatientMessage;
         userSign: UserSign;
     }>;
     /**
@@ -54,7 +54,7 @@ export interface IAuthService {
 export declare class PatientAuthenticationResult {
     patientAuthenticated: boolean;
     patientFound: boolean;
-    patient: PatientModel;
+    patient: PatientMessage;
     userSign: UserSign;
     constructor();
 }

@@ -1,5 +1,4 @@
 import { IResourceService } from "./ResourceService";
-import { AppointmentResultModel } from "../models/AppointmentResultModel";
 import { AppointmentResultMessage } from "../messages/AppointmentResultMessage";
 import { AppointmentFilters } from "./filters/AppointmentFilters";
 export interface IAppointmentResultService extends IResourceService {
@@ -17,10 +16,10 @@ export interface IAppointmentResultService extends IResourceService {
      * @param offset смещение относительно начала списка записей
      * @param cb callback
      */
-    getPatientAppointmentResults(patientId: string, limit: number, offset: number, cb: (err: any, appointmentResults: AppointmentResultModel[]) => void): void;
-    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultModel[]>;
-    getAppointmentResults(limit: number, offset: number, lastId: string, cb: (err: any, appointmentResults: AppointmentResultModel[]) => void): void;
-    getAppointmentResultsAsync(limit: number, offset: number, lastId: string): Promise<AppointmentResultModel[]>;
+    getPatientAppointmentResults(patientId: string, limit: number, offset: number, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
+    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultMessage[]>;
+    getAppointmentResults(limit: number, offset: number, lastId: string, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
+    getAppointmentResultsAsync(limit: number, offset: number, lastId: string): Promise<AppointmentResultMessage[]>;
     getAppointmentResultsCount(cb: (err: any, count: number, support: boolean) => void): void;
     getAppointmentResultsCountAsync(): Promise<{
         count: number;

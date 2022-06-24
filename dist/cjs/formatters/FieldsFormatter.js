@@ -156,8 +156,7 @@ var FieldsFormatter = /** @class */ (function () {
         };
         return {
             type: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? FieldType.Date : FieldType.DateTime,
-            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly)
-                ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
+            format: (opts === null || opts === void 0 ? void 0 : opts.dateOnly) ? function (val) { return format(new Intl.DateTimeFormat("ru"), val); }
                 : function (val) {
                     return format(new Intl.DateTimeFormat("ru", {
                         year: "numeric",
@@ -208,9 +207,15 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.diagnosisField = function () {
+        var diag = function (v) {
+            return (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+                "\n" +
+                v.diagnosisText +
+                "\n\n";
+        };
         return {
-            type: FieldType.Object,
-            format: this.diagnosis.bind(this),
+            type: FieldType.Text,
+            format: function (x) { return (x === null || x === void 0 ? void 0 : x.length) > 0 ? x.map(diag).join("\n\n") : ""; }
         };
     };
     FieldsFormatter.prototype.FormattedFieldList = function (format) {
@@ -594,7 +599,10 @@ var FieldsFormatter = /** @class */ (function () {
             hint: "",
             type: FieldType.Text,
             originValue: v,
-            value: "cd10 " + v.cd10 + "\n" + v.description + "\n\n",
+            value: (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+                "\n" +
+                v.diagnosisText +
+                "\n\n",
         }); });
     };
     FieldsFormatter.prototype.procedure = function (p) {
@@ -623,6 +631,7 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.prescription = function (p) {
+        var this_ = this;
         var meta = {
             created: this.dateField(),
             recorderDoctor: this.doctorField(),
@@ -639,6 +648,7 @@ var FieldsFormatter = /** @class */ (function () {
             medications: this.medicationsField(),
             reasonText: this.textField(),
             numberOfRepeats: this.numberField(),
+            diagnoses: this.diagnosisField(),
         };
         return buildFieldArray(p, meta, this._localize["Prescription"]);
     };
@@ -688,6 +698,7 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.diagnosticReport = function (dr) {
+        var this_ = this;
         var meta = {
             id: this.idField(),
             active: this.activeField(),
@@ -699,6 +710,7 @@ var FieldsFormatter = /** @class */ (function () {
             // effectivePeriod: this.periodField({ dateOnly: true }),
             issuedDate: this.dateField({ dateOnly: true }),
             result: this.observationsField(),
+            diagnosis: this.diagnosisField(),
             services: this.servicesField(),
             resultInterpreter: this.doctorsField(),
             resultInterpretation: this.paragrathesField(),

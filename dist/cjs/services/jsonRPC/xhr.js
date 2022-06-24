@@ -18,7 +18,7 @@ var debug = function () {
     if (verbose)
         console.debug.apply(console, args);
 };
-var xhr = function (endpoint, header, requestPayload, cb) {
+exports.xhr = function (endpoint, header, requestPayload, cb) {
     var _this = this;
     var req = new XMLHttpRequest();
     req.responseType = "json";
@@ -56,4 +56,3 @@ var xhr = function (endpoint, header, requestPayload, cb) {
     debug("jsonRpcRequest.serialize()", jsonRpcRequest.serialize());
     req.send(jsonRpcRequest.serialize());
 };
-exports.xhr = xhr;

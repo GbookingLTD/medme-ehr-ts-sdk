@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
+exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
 var BusinessInfo_1 = require("./BusinessInfo");
 Object.defineProperty(exports, "BusinessInfo", { enumerable: true, get: function () { return BusinessInfo_1.BusinessInfo; } });
 var Doctor_1 = require("./Doctor");
@@ -19,6 +19,9 @@ var Currency_1 = require("./Currency");
 Object.defineProperty(exports, "Currency", { enumerable: true, get: function () { return Currency_1.Currency; } });
 var Diagnosis_1 = require("./Diagnosis");
 Object.defineProperty(exports, "Diagnosis", { enumerable: true, get: function () { return Diagnosis_1.Diagnosis; } });
+Object.defineProperty(exports, "KindDiagnosis", { enumerable: true, get: function () { return Diagnosis_1.KindDiagnosis; } });
+Object.defineProperty(exports, "TypeDiagnosis", { enumerable: true, get: function () { return Diagnosis_1.TypeDiagnosis; } });
+Object.defineProperty(exports, "Cd10", { enumerable: true, get: function () { return Diagnosis_1.Cd10; } });
 var ProcedureExecStatus_1 = require("./ProcedureExecStatus");
 Object.defineProperty(exports, "ProcedureExecStatus", { enumerable: true, get: function () { return ProcedureExecStatus_1.ProcedureExecStatus; } });
 var ProcedureType_1 = require("./ProcedureType");

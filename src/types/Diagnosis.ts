@@ -1,22 +1,33 @@
 import { JSONObject, JSONValue } from "../json";
 
+export enum KindDiagnosis {
+  // основное
+  Base = 0,
+  // осложнение
+  Complication = 1,
+  // сопутсвующее
+  Related = 2,
+}
+
+// характер заболевания
+export enum TypeDiagnosis {
+  // острое заболевание
+  AcuteDisease = 0,
+  // хроническое заболевание, впервые выявлено
+  ChronicalFirst = 1,
+  // хроническое заболевание, ранее выявленное
+  ChronicalEarly = 2,
+}
+
 export class Diagnosis {
+  id: string;
+  cd10: Cd10;
+  diagnosisText: string;
+  kind: KindDiagnosis;
+  type: TypeDiagnosis;
+}
+
+export class Cd10 {
   description: string;
-  cd10: string;
-
-  /**
-   * Cоздание объекта "диагноз" из json объекта.
-   * @param json json object
-   */
-  constructor(json: any) {
-    this.description = json.description;
-    this.cd10 = json.cd10;
-  }
-
-  toJson(): JSONValue {
-    let payload: JSONObject = {};
-    payload.description = this.description;
-    payload.cd10 = this.cd10;
-    return payload;
-  }
+  code: string;
 }

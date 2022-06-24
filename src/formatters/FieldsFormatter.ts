@@ -280,9 +280,15 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   private diagnosisField(): FieldMeta {
+    const diag = (v: Diagnosis) =>
+        (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+        "\n" +
+        v.diagnosisText +
+        "\n\n";
+
     return {
-      type: FieldType.Object,
-      format: this.diagnosis.bind(this),
+      type: FieldType.Text,
+      format: (x: object[]) => x?.length > 0 ? x.map(diag).join("\n\n") : ""
     };
   }
 
@@ -726,13 +732,17 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   public diagnosis(d: Diagnosis[]): Field[] {
     if (d == null || d.length === 0) return [];
     const t = this._localize;
-    return d.map((v) => ({
+    return d.map((v: Diagnosis) => ({
       key: "",
       title: "",
       hint: "",
       type: FieldType.Text,
       originValue: v,
-      value: "cd10 " + v.cd10 + "\n" + v.description + "\n\n",
+      value:
+        (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+        "\n" +
+        v.diagnosisText +
+        "\n\n",
     }));
   }
 
@@ -764,6 +774,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   public prescription(p: PrescriptionInfo): Field[] {
+    const this_ = this;
     let meta = {
       created: this.dateField(),
       recorderDoctor: this.doctorField(),
@@ -779,6 +790,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       medications: this.medicationsField(),
       reasonText: this.textField(),
       numberOfRepeats: this.numberField(),
+      diagnoses: this.diagnosisField(),
     } as FieldMetaMap;
 
     return buildFieldArray(p, meta, this._localize["Prescription"]);
@@ -849,6 +861,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   public diagnosticReport(dr: DiagnosticReportMessage): Field[] {
+    const this_ = this;
     const meta = {
       id: this.idField(),
       active: this.activeField(),
@@ -860,6 +873,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       // effectivePeriod: this.periodField({ dateOnly: true }),
       issuedDate: this.dateField({ dateOnly: true }),
       result: this.observationsField(),
+      diagnosis: this.diagnosisField(),
       services: this.servicesField(),
       resultInterpreter: this.doctorsField(),
       resultInterpretation: this.paragrathesField(),

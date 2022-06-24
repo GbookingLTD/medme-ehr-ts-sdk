@@ -1,6 +1,5 @@
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
-import { PrescriptionModel } from "../../models/PrescriptionModel";
 import { IPrescriptionService } from "../PrescriptionService";
 import { PrescriptionMessage } from "../../messages/PrescriptionMessage";
 import { PrescriptionFilters } from "../../services/filters/PrescriptionFilters";

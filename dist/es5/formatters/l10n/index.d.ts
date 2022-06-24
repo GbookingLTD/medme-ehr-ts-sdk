@@ -72,6 +72,7 @@ declare const _default: {
             reasonText: string;
             validityPeriod: string;
             numberOfRepeats: string;
+            diagnoses: string;
         };
         MedicationForm: {
             0: string;
@@ -277,6 +278,7 @@ declare const _default: {
             reasonText: string;
             validityPeriod: string;
             numberOfRepeats: string;
+            diagnoses: string;
         };
         MedicationForm: {
             0: string;

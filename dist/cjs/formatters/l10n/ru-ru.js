@@ -72,6 +72,7 @@ exports.default = {
         reasonText: "Причина назначения",
         validityPeriod: "Время, в течение которого рецепт действует",
         numberOfRepeats: "Сколько раз по этому рецепту можно получить лекарства",
+        diagnoses: "Диагнозы",
     },
     MedicationForm: {
         0: "Порошок",

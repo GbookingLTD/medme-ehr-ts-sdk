@@ -1,8 +1,8 @@
 import { PatientInputProperties } from "../types/PatientInputProperties";
-import { PatientModel } from "../models/PatientModel";
 import { IPatientService } from "./PatientService";
 import { RpcErrorCodes, isAuthorizationError } from "./RpcErrorCodes";
 import { UserSign } from "../types/UserSign";
+import { PatientMessage } from "../messages/PatientMessage";
 
 export class ExchangeTokenResponse {
   public exchangeToken: string;
@@ -40,14 +40,14 @@ export interface IAuthService {
     searchStrategy: string,
     patientProperties: PatientInputProperties,
     medCardId: string,
-    cb: (err: any, patient: PatientModel, userSign: UserSign) => void
+    cb: (err: any, patient: PatientMessage, userSign: UserSign) => void
   ): void;
   authenticateAsync(
     exchangeToken: string,
     searchStrategy: string,
     patientProperties: PatientInputProperties,
     medCardId: string
-  ): Promise<{ patient: PatientModel; userSign: UserSign }>;
+  ): Promise<{ patient: PatientMessage; userSign: UserSign }>;
 
   /**
    * Удаление сопоставления креденшиалов пользователя и пациента в МИСе.
@@ -70,7 +70,7 @@ export interface IAuthService {
 export class PatientAuthenticationResult {
   public patientAuthenticated: boolean;
   public patientFound: boolean;
-  public patient: PatientModel;
+  public patient: PatientMessage;
   public userSign: UserSign;
   public constructor() {
     this.patientAuthenticated = false;
@@ -188,7 +188,7 @@ export function getAuthenticatedPatient(
   cb: (err: any, authenticated?: PatientAuthenticationResult) => void
 ) {
   patientService.getPatient(
-    (err: any, patient?: PatientModel, userSign?: string) => {
+    (err: any, patient?: PatientMessage, userSign?: string) => {
       if (err && isAuthorizationError(err))
         return authService.getExchangeToken(
           (err: any, res: ExchangeTokenResponse) => {
@@ -223,7 +223,7 @@ export function getAuthenticatedPatient(
                   searchStrategy,
                   patientProperties,
                   medCardId,
-                  (err: any, patient: PatientModel, userSign: UserSign) => {
+                  (err: any, patient: PatientMessage, userSign: UserSign) => {
                     // Возможные типы ошибок:
                     // - пользователь не найден (ошибка аутентификации) - сообщение пользователю
                     // - пользователь уже аутентифицирован - перелогиниться
@@ -299,7 +299,7 @@ export function getAuthenticatedPatientByExchangeToken(
         searchStrategy,
         patientProperties,
         medCardId,
-        (err: any, patient: PatientModel, userSign: UserSign) => {
+        (err: any, patient: PatientMessage, userSign: UserSign) => {
           // Возможные типы ошибок:
           // - пользователь не найден (ошибка аутентификации) - сообщение пользователю
           // - пользователь уже аутентифицирован - перелогиниться

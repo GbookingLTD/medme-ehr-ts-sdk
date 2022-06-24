@@ -3,12 +3,10 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -19,7 +17,6 @@ exports.AuthService = void 0;
 var jsonRpcService_1 = require("./jsonRpcService");
 var AuthService_1 = require("../AuthService");
 var Handlers_1 = require("../../Handlers");
-var PatientModel_1 = require("../../models/PatientModel");
 var AuthService = /** @class */ (function (_super) {
     __extends(AuthService, _super);
     /**
@@ -86,11 +83,9 @@ var AuthService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_AUTHENTICATE_METHOD, requestData, function (err, payload) {
             if (err)
                 return cb(err, null, null);
-            var patient = new PatientModel_1.PatientModel();
-            patient.fromJson(payload["patient"]);
             if (!payload["userSign"])
                 throw new Error("expect userSign");
-            return cb(null, patient, payload["userSign"]);
+            return cb(null, payload["patient"], payload["userSign"]);
         }, this.ehrServerEndpoint_);
     };
     AuthService.prototype.authenticateAsync = function (exchangeToken, searchStrategy, patientProperties, medCardId) {

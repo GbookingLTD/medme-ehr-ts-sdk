@@ -1,5 +1,5 @@
 import { Doctor } from "../types/Doctor";
-import { Diagnosis } from "../types/Diagnosis";
+import { Cd10, Diagnosis } from "../types/Diagnosis";
 import { Procedure } from "../types/Procedure";
 import { PrescriptionInfo } from "../types/PrescriptionInfo";
 import { Service } from "../types/Service";
@@ -85,6 +85,7 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
                 reasonText: string;
                 validityPeriod: string;
                 numberOfRepeats: string;
+                diagnoses: string;
             };
             MedicationForm: {
                 0: string;
@@ -230,6 +231,7 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
     doctor(d: Doctor, offset?: string): string;
     diagnosis(d: Diagnosis[]): string;
     diagnosisOffset(d: Diagnosis[], offset: string): string;
+    cd10(item: Cd10): string;
     procedures(p: Procedure[], offset: string): string;
     procedure(p: Procedure, offset?: string): string;
     yesNo(b: boolean, offset: string): string;

@@ -1,18 +1,17 @@
 import { JsonRPCCredService } from "./jsonRpcService";
 import { IPatientService, SearchPatientEhrFilters, SearchPatientEhrKeywords, SearchPatientEhrResultItem } from "../PatientService";
-import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
 import { PatientMessage } from "../../messages/PatientMessage";
 import { PatientFilters } from "../../services/filters/PatientFilters";
 export declare class PatientService extends JsonRPCCredService implements IPatientService {
-    getPatient(cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void): void;
+    getPatient(cb: (err?: any, patient?: PatientMessage, userSign?: UserSign) => void): void;
     getPatientAsync(): Promise<{
-        patient: PatientModel;
+        patient: PatientMessage;
         userSign: UserSign;
     }>;
-    getPatientById(id: string, cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void): void;
+    getPatientById(id: string, cb: (err?: any, patient?: PatientMessage, userSign?: UserSign) => void): void;
     getPatientByIdAsync(id: string): Promise<{
-        patient: PatientModel;
+        patient: PatientMessage;
     }>;
     getPatients(limit: number, offset: number, lastId: string, cb: (err: any, patients: PatientMessage[]) => void): void;
     getPatientsAsync(limit: number, offset: number, lastId: string): Promise<PatientMessage[]>;

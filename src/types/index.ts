@@ -7,7 +7,7 @@ import { AppointmentSource } from "./AppointmentSource";
 import { AppointmentHistoryItem } from "./AppointmentHistoryItem";
 import { AppointmentInputProperties } from "./AppointmentInputProperties";
 import { Currency } from "./Currency";
-import { Diagnosis } from "./Diagnosis";
+import { Diagnosis, KindDiagnosis, TypeDiagnosis, Cd10 } from "./Diagnosis";
 import { ProcedureExecStatus } from "./ProcedureExecStatus";
 import { ProcedureType } from "./ProcedureType";
 import { ProcedureInfo } from "./ProcedureInfo";
@@ -30,6 +30,9 @@ export {
   AppointmentHistoryItem,
   AppointmentInputProperties,
   Diagnosis,
+  KindDiagnosis,
+  TypeDiagnosis,
+  Cd10,
   ProcedureExecStatus,
   ProcedureType,
   ProcedureInfo,
@@ -39,5 +42,5 @@ export {
   PatientInputProperties,
   Medication,
   Period,
-  Specialization
+  Specialization,
 };

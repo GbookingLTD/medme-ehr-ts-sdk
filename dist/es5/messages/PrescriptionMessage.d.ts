@@ -1,4 +1,4 @@
-import { Doctor, PatientInfo, Medication, Period, BusinessInfo } from "../types/index";
+import { Doctor, PatientInfo, Medication, Period, BusinessInfo, Diagnosis } from "../types/index";
 export declare class PrescriptionMessage {
     id: string;
     created: Date;
@@ -12,4 +12,5 @@ export declare class PrescriptionMessage {
     validityPeriod: Period;
     numberOfRepeats: number;
     title: string;
+    Diagnoses: Diagnosis[];
 }

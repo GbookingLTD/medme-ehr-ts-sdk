@@ -1,5 +1,4 @@
 import { IResourceService } from "./ResourceService";
-import { AppointmentResultModel } from "../models/AppointmentResultModel";
 import { AppointmentResultMessage } from "../messages/AppointmentResultMessage";
 import { AppointmentFilters } from "./filters/AppointmentFilters";
 
@@ -26,25 +25,25 @@ export interface IAppointmentResultService extends IResourceService {
     patientId: string,
     limit: number,
     offset: number,
-    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void
+    cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void
   ): void;
   getPatientAppointmentResultsAsync(
     patientId: string,
     limit: number,
     offset: number
-  ): Promise<AppointmentResultModel[]>;
+  ): Promise<AppointmentResultMessage[]>;
 
   getAppointmentResults(
     limit: number,
     offset: number,
     lastId: string,
-    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void
+    cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void
   ): void;
   getAppointmentResultsAsync(
     limit: number,
     offset: number,
     lastId: string
-  ): Promise<AppointmentResultModel[]>;
+  ): Promise<AppointmentResultMessage[]>;
 
   getAppointmentResultsCount(
     cb: (err: any, count: number, support: boolean) => void

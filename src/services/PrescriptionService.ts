@@ -1,5 +1,4 @@
 import { IResourceService } from "./ResourceService";
-import { PrescriptionModel } from "../models/PrescriptionModel";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
 import { PrescriptionFilters } from "./filters/PrescriptionFilters";
 

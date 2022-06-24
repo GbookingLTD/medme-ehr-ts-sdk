@@ -1,5 +1,4 @@
 import { IAppointmentResultService } from "../AppointmentResultService";
-import { AppointmentResultModel } from "../../models/AppointmentResultModel";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { AppointmentResultMessage } from "../../messages/AppointmentResultMessage";
 import { AppointmentFilters } from "../../services/filters/AppointmentFilters";
@@ -11,10 +10,10 @@ export declare class AppointmentResultService extends JsonRPCCredService impleme
      */
     getAppointmentResultById(id: string, cb: (err: any, appointmentResult: AppointmentResultMessage) => void): void;
     getAppointmentResultByIdAsync(id: string): Promise<AppointmentResultMessage>;
-    getPatientAppointmentResults(patientId: string, limit: number, offset: number, cb: (err: any, appointmentResults: AppointmentResultModel[]) => void): void;
-    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultModel[]>;
-    getAppointmentResults(limit: number, offset: number, lastId: string, cb: (err: any, appointmentResults: AppointmentResultModel[]) => void): void;
-    getAppointmentResultsAsync(limit: number, offset: number, lastId: string): Promise<AppointmentResultModel[]>;
+    getPatientAppointmentResults(patientId: string, limit: number, offset: number, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
+    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultMessage[]>;
+    getAppointmentResults(limit: number, offset: number, lastId: string, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
+    getAppointmentResultsAsync(limit: number, offset: number, lastId: string): Promise<AppointmentResultMessage[]>;
     getAppointmentResultsCount(cb: (err: any, count: number, support: boolean) => void): void;
     getAppointmentResultsCountAsync(): Promise<{
         count: number;

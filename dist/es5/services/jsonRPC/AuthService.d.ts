@@ -3,8 +3,8 @@ import { IAuthService, ExchangeTokenResponse } from "../AuthService";
 import { PatientInputProperties } from "../../types/PatientInputProperties";
 import { Credentials } from "../Credentials";
 import { IJsonRPCRequest } from "./jsonRpcRequest";
-import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
+import { PatientMessage } from "../../messages/PatientMessage";
 export declare class AuthService extends JsonRPCService implements IAuthService {
     private authCred_;
     private authServerEndpoint_;
@@ -38,9 +38,9 @@ export declare class AuthService extends JsonRPCService implements IAuthService 
      * @param {string} medCardId
      * @param {Function} cb
      */
-    authenticate(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string, cb: (err: any, patient: PatientModel, userSign: UserSign) => void): void;
+    authenticate(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string, cb: (err: any, patient: PatientMessage, userSign: UserSign) => void): void;
     authenticateAsync(exchangeToken: string, searchStrategy: string, patientProperties: PatientInputProperties, medCardId: string): Promise<{
-        patient: PatientModel;
+        patient: PatientMessage;
         userSign: UserSign;
     }>;
     /**
