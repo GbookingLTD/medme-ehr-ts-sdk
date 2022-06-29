@@ -774,8 +774,8 @@ define("formatters/l10n/ru-ru", ["require", "exports"], function (require, expor
             title: "Название",
             created: "Дата создания",
             recorderDoctor: "Врач, выписавший рецепт",
-            medications: "Список лекарств",
-            dosageText: "Список лекарств",
+            medications: "Список назначений",
+            dosageText: "Медикаментозные назначения",
             reasonText: "Причина назначения",
             validityPeriod: "Время, в течение которого рецепт действует",
             numberOfRepeats: "Сколько раз по этому рецепту можно получить лекарства",
@@ -4993,7 +4993,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             var meta = {};
             var itemModeMeta = {
                 firstLine: function (m) {
-                    return m.name + " " + m.itemSize;
+                    return m.name + " " + m.itemSize + " " + m.durationText;
                 },
                 secondLine: function (m) {
                     return m.code + " " + m.codeTable;

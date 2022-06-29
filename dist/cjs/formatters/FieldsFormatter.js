@@ -657,7 +657,7 @@ var FieldsFormatter = /** @class */ (function () {
         var meta = {};
         var itemModeMeta = {
             firstLine: function (m) {
-                return m.name + " " + m.itemSize;
+                return m.name + " " + m.itemSize + " " + m.durationText;
             },
             secondLine: function (m) {
                 return m.code + " " + m.codeTable;

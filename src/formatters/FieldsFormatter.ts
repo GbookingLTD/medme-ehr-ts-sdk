@@ -802,7 +802,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
 
     const itemModeMeta = {
       firstLine: (m: Medication): string => {
-        return m.name + " " + m.itemSize;
+        return m.name + " " + m.itemSize + " " + m.durationText;
       },
       secondLine: (m: Medication): string => {
         return m.code + " " + m.codeTable;
