@@ -44,9 +44,10 @@ var AppointmentResultService = /** @class */ (function (_super) {
             });
         });
     };
-    AppointmentResultService.prototype.getPatientAppointmentResults = function (patientId, limit, offset, cb) {
+    AppointmentResultService.prototype.getPatientAppointmentResults = function (patientId, limit, offset, cb, OrderByDescendingDate) {
         var _this_1 = this;
-        var params = { patientId: patientId, limit: limit, offset: offset };
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
+        var params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate: OrderByDescendingDate };
         this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -59,19 +60,21 @@ var AppointmentResultService = /** @class */ (function (_super) {
             return cb(null, appointmentResults);
         });
     };
-    AppointmentResultService.prototype.getPatientAppointmentResultsAsync = function (patientId, limit, offset) {
+    AppointmentResultService.prototype.getPatientAppointmentResultsAsync = function (patientId, limit, offset, OrderByDescendingDate) {
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
         var service = this;
         return new Promise(function (res, rej) {
             service.getPatientAppointmentResults(patientId, limit, offset, function (err, appResults) {
                 if (err)
                     return rej(err);
                 res(appResults);
-            });
+            }, OrderByDescendingDate);
         });
     };
-    AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, lastId, cb) {
+    AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, lastId, cb, OrderByDescendingDate) {
         var _this_1 = this;
-        var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
+        var params = lastId ? { limit: limit, lastItemId: lastId, OrderByDescendingDate: OrderByDescendingDate } : { limit: limit, offset: offset, OrderByDescendingDate: OrderByDescendingDate };
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -79,14 +82,15 @@ var AppointmentResultService = /** @class */ (function (_super) {
             return cb(null, payload["appointmentResults"]);
         });
     };
-    AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset, lastId) {
+    AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset, lastId, OrderByDescendingDate) {
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
         var service = this;
         return new Promise(function (res, rej) {
             service.getAppointmentResults(limit, offset, lastId, function (err, appResults) {
                 if (err)
                     return rej(err);
                 res(appResults);
-            });
+            }, OrderByDescendingDate);
         });
     };
     AppointmentResultService.prototype.getAppointmentResultsCount = function (cb) {

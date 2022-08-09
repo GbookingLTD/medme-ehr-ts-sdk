@@ -72,9 +72,10 @@ var AppointmentService = /** @class */ (function (_super) {
             });
         });
     };
-    AppointmentService.prototype.getPatientAppointments = function (patientId, limit, offset, cb) {
+    AppointmentService.prototype.getPatientAppointments = function (patientId, limit, offset, cb, OrderByDescendingDate) {
         var _this = this;
-        var params = { patientId: patientId, limit: limit, offset: offset };
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
+        var params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate: OrderByDescendingDate };
         this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -82,7 +83,8 @@ var AppointmentService = /** @class */ (function (_super) {
             return cb(null, payload["appointments"]);
         });
     };
-    AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset) {
+    AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset, OrderByDescendingDate) {
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
         return __awaiter(this, void 0, void 0, function () {
             var service;
             return __generator(this, function (_a) {
@@ -92,7 +94,7 @@ var AppointmentService = /** @class */ (function (_super) {
                             if (err)
                                 return rej(err);
                             res(appointments);
-                        });
+                        }, OrderByDescendingDate);
                     })];
             });
         });

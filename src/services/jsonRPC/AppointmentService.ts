@@ -42,9 +42,10 @@ export class AppointmentService
     patientId: string,
     limit: number,
     offset: number,
-    cb: (err: any, appointments: AppointmentMessage[]) => void
+    cb: (err: any, appointments: AppointmentMessage[]) => void,
+    OrderByDescendingDate: boolean = false
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset };
+    let params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_METHOD,
       params,
@@ -58,7 +59,8 @@ export class AppointmentService
   public async getPatientAppointmentsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    OrderByDescendingDate: boolean = false
   ): Promise<AppointmentMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -70,7 +72,8 @@ export class AppointmentService
           if (err) return rej(err);
 
           res(appointments);
-        }
+        },
+        OrderByDescendingDate
       );
     });
   }

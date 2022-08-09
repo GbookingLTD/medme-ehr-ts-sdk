@@ -45,9 +45,10 @@ export class PrescriptionService
     patientId: string,
     limit: number,
     offset: number,
-    cb: (err: any, p: PrescriptionMessage[]) => void
+    cb: (err: any, p: PrescriptionMessage[]) => void,
+    OrderByDescendingDate: boolean = false
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset };
+    let params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD,
       params,
@@ -63,7 +64,8 @@ export class PrescriptionService
   public getPatientPrescriptionsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    OrderByDescendingDate: boolean = false
   ): Promise<PrescriptionMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -75,7 +77,8 @@ export class PrescriptionService
           if (err) return rej(err);
 
           res(values);
-        }
+        },
+        OrderByDescendingDate
       );
     });
   }
@@ -84,9 +87,10 @@ export class PrescriptionService
     limit: number,
     offset: number,
     lastId: string,
-    cb: (err: any, p: PrescriptionMessage[]) => void
+    cb: (err: any, p: PrescriptionMessage[]) => void,
+    OrderByDescendingDate: boolean = false
   ): void {
-    let params = lastId ? { limit, lastItemId: lastId } : { limit: limit, offset: offset };
+    let params = lastId ? { limit, lastItemId: lastId, OrderByDescendingDate } : { limit: limit, offset: offset, OrderByDescendingDate };
     this.exec(
       Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD,
       params,
@@ -103,6 +107,7 @@ export class PrescriptionService
     limit: number,
     offset: number,
     lastId: string,
+    OrderByDescendingDate: boolean = false
   ): Promise<PrescriptionMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -114,7 +119,8 @@ export class PrescriptionService
           if (err) return rej(err);
 
           res(values);
-        }
+        },
+        OrderByDescendingDate
       );
     });
   }

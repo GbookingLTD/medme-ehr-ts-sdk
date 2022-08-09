@@ -10,8 +10,8 @@ export declare class DiagnosticReportService extends JsonRPCCredService implemen
      */
     getDiagnosticReportById(id: string, cb: (err: any, p: DiagnosticReportMessage) => void): void;
     getDiagnosticReportByIdAsync(id: string): Promise<DiagnosticReportMessage>;
-    getPatientDiagnosticReports(patientId: string, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
-    getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
+    getPatientDiagnosticReports(patientId: string, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void, OrderByDescendingDate?: boolean): void;
+    getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number, OrderByDescendingDate?: boolean): Promise<DiagnosticReportMessage[]>;
     getDiagnosticReports(limit: number, offset: number, lastId: string, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     getDiagnosticReportsAsync(limit: number, offset: number, lastId: string): Promise<DiagnosticReportMessage[]>;
     getFilteredDiagnosticReports(filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;

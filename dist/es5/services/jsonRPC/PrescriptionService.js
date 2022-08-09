@@ -42,9 +42,10 @@ var PrescriptionService = /** @class */ (function (_super) {
             });
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, cb) {
+    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, cb, OrderByDescendingDate) {
         var _this_1 = this;
-        var params = { patientId: patientId, limit: limit, offset: offset };
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
+        var params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate: OrderByDescendingDate };
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -52,19 +53,21 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset) {
+    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset, OrderByDescendingDate) {
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
         var service = this;
         return new Promise(function (res, rej) {
             service.getPatientPrescriptions(patientId, limit, offset, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);
-            });
+            }, OrderByDescendingDate);
         });
     };
-    PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, cb) {
+    PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, cb, OrderByDescendingDate) {
         var _this_1 = this;
-        var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
+        var params = lastId ? { limit: limit, lastItemId: lastId, OrderByDescendingDate: OrderByDescendingDate } : { limit: limit, offset: offset, OrderByDescendingDate: OrderByDescendingDate };
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -72,14 +75,15 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId) {
+    PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId, OrderByDescendingDate) {
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
         var service = this;
         return new Promise(function (res, rej) {
             service.getPrescriptions(limit, offset, lastId, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);
-            });
+            }, OrderByDescendingDate);
         });
     };
     PrescriptionService.prototype.getFilteredPrescriptions = function (filters, limit, offset, cb) {

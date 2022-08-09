@@ -43,9 +43,10 @@ var DiagnosticReportService = /** @class */ (function (_super) {
             });
         });
     };
-    DiagnosticReportService.prototype.getPatientDiagnosticReports = function (patientId, limit, offset, cb) {
+    DiagnosticReportService.prototype.getPatientDiagnosticReports = function (patientId, limit, offset, cb, OrderByDescendingDate) {
         var _this_1 = this;
-        var params = { patientId: patientId, limit: limit, offset: offset };
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
+        var params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate: OrderByDescendingDate };
         this.exec(Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -53,14 +54,15 @@ var DiagnosticReportService = /** @class */ (function (_super) {
             cb(null, payload["diagnosticReports"]);
         });
     };
-    DiagnosticReportService.prototype.getPatientDiagnosticReportsAsync = function (patientId, limit, offset) {
+    DiagnosticReportService.prototype.getPatientDiagnosticReportsAsync = function (patientId, limit, offset, OrderByDescendingDate) {
+        if (OrderByDescendingDate === void 0) { OrderByDescendingDate = false; }
         var service = this;
         return new Promise(function (res, rej) {
             service.getPatientDiagnosticReports(patientId, limit, offset, function (err, reports) {
                 if (err)
                     return rej(err);
                 res(reports);
-            });
+            }, OrderByDescendingDate);
         });
     };
     DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, lastId, cb) {

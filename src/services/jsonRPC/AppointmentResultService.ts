@@ -51,9 +51,10 @@ export class AppointmentResultService
     patientId: string,
     limit: number,
     offset: number,
-    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void
+    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void,
+    OrderByDescendingDate: boolean = false
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset };
+    let params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD,
       params,
@@ -75,7 +76,8 @@ export class AppointmentResultService
   getPatientAppointmentResultsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    OrderByDescendingDate: boolean = false
   ): Promise<AppointmentResultModel[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -87,7 +89,8 @@ export class AppointmentResultService
           if (err) return rej(err);
 
           res(appResults);
-        }
+        },
+        OrderByDescendingDate
       );
     });
   }
@@ -96,9 +99,10 @@ export class AppointmentResultService
     limit: number,
     offset: number,
     lastId: string,
-    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void
+    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void,
+    OrderByDescendingDate: boolean = false
   ): void {
-    let params = lastId ? { limit, lastItemId: lastId } : { limit: limit, offset: offset };
+    let params = lastId ? { limit, lastItemId: lastId, OrderByDescendingDate } : { limit: limit, offset: offset, OrderByDescendingDate };
     this.exec(
       Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD,
       params,
@@ -114,7 +118,8 @@ export class AppointmentResultService
   getAppointmentResultsAsync(
     limit: number,
     offset: number,
-    lastId: string
+    lastId: string,
+    OrderByDescendingDate: boolean = false
   ): Promise<AppointmentResultModel[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -126,7 +131,8 @@ export class AppointmentResultService
           if (err) return rej(err);
 
           res(appResults);
-        }
+        },
+        OrderByDescendingDate
       );
     });
   }

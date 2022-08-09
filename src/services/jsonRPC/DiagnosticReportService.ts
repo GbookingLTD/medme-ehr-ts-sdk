@@ -51,9 +51,10 @@ export class DiagnosticReportService
     patientId: string,
     limit: number,
     offset: number,
-    cb: (err: any, p: DiagnosticReportMessage[]) => void
+    cb: (err: any, p: DiagnosticReportMessage[]) => void,
+    OrderByDescendingDate: boolean = false
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset };
+    let params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_METHOD,
       params,
@@ -69,7 +70,8 @@ export class DiagnosticReportService
   public getPatientDiagnosticReportsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    OrderByDescendingDate: boolean = false
   ): Promise<DiagnosticReportMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -81,7 +83,8 @@ export class DiagnosticReportService
           if (err) return rej(err);
 
           res(reports);
-        }
+        },
+        OrderByDescendingDate
       );
     });
   }
