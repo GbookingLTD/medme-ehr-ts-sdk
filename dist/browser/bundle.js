@@ -590,10 +590,21 @@ define("types/PatientInputProperties", ["require", "exports"], function (require
     }());
     exports.PatientInputProperties = PatientInputProperties;
 });
-define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/Service", "types/AppointmentConfirmationStatus", "types/ClientPrice", "types/AppointmentHistoryItem", "types/AppointmentInputProperties", "types/Currency", "types/Diagnosis", "types/ProcedureExecStatus", "types/ProcedureType", "types/ProcedureInfo", "types/Procedure", "types/PrescriptionInfo", "types/PatientInfo", "types/PatientInputProperties", "types/Medication", "types/Period", "types/Specialization"], function (require, exports, BusinessInfo_1, Doctor_2, Service_2, AppointmentConfirmationStatus_1, ClientPrice_2, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1, Medication_2, Period_3, Specialization_2) {
+define("types/AttachmentInfo", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
+    exports.AttachmentInfo = void 0;
+    var AttachmentInfo = /** @class */ (function () {
+        function AttachmentInfo() {
+        }
+        return AttachmentInfo;
+    }());
+    exports.AttachmentInfo = AttachmentInfo;
+});
+define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/Service", "types/AppointmentConfirmationStatus", "types/ClientPrice", "types/AppointmentHistoryItem", "types/AppointmentInputProperties", "types/Currency", "types/Diagnosis", "types/ProcedureExecStatus", "types/ProcedureType", "types/ProcedureInfo", "types/Procedure", "types/PrescriptionInfo", "types/PatientInfo", "types/PatientInputProperties", "types/Medication", "types/Period", "types/Specialization", "types/AttachmentInfo"], function (require, exports, BusinessInfo_1, Doctor_2, Service_2, AppointmentConfirmationStatus_1, ClientPrice_2, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1, Medication_2, Period_3, Specialization_2, AttachmentInfo_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AttachmentInfo = exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
     Object.defineProperty(exports, "BusinessInfo", { enumerable: true, get: function () { return BusinessInfo_1.BusinessInfo; } });
     Object.defineProperty(exports, "Doctor", { enumerable: true, get: function () { return Doctor_2.Doctor; } });
     Object.defineProperty(exports, "Service", { enumerable: true, get: function () { return Service_2.Service; } });
@@ -616,6 +627,7 @@ define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor
     Object.defineProperty(exports, "Medication", { enumerable: true, get: function () { return Medication_2.Medication; } });
     Object.defineProperty(exports, "Period", { enumerable: true, get: function () { return Period_3.Period; } });
     Object.defineProperty(exports, "Specialization", { enumerable: true, get: function () { return Specialization_2.Specialization; } });
+    Object.defineProperty(exports, "AttachmentInfo", { enumerable: true, get: function () { return AttachmentInfo_1.AttachmentInfo; } });
 });
 define("services/ResourceService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -4358,6 +4370,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         FieldType["ObjectList"] = "objectList";
         FieldType["MediaList"] = "mediaList";
         FieldType["AttachmentList"] = "attachmentList";
+        FieldType["AttachmentInfoList"] = "attachmentInfoList";
         FieldType["Hidden"] = "hidden";
     })(FieldType = exports.FieldType || (exports.FieldType = {}));
     var FieldStatusColor;
@@ -4551,7 +4564,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
             return {
                 type: FieldType.Text,
-                format: function (x) { return (x === null || x === void 0 ? void 0 : x.length) > 0 ? x.map(diag).join("\n\n") : ""; }
+                format: function (x) { return ((x === null || x === void 0 ? void 0 : x.length) > 0 ? x.map(diag).join("\n\n") : ""); },
             };
         };
         FieldsFormatter.prototype.FormattedFieldList = function (format) {
@@ -4743,6 +4756,14 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 },
             };
         };
+        FieldsFormatter.prototype.AttachmentInfosField = function () {
+            return {
+                type: FieldType.AttachmentInfoList,
+                format: function (val) {
+                    return val;
+                },
+            };
+        };
         FieldsFormatter.prototype.attachmentsField = function () {
             return {
                 type: FieldType.AttachmentList,
@@ -4922,6 +4943,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 recommendations: this.FormattedFieldList(this.procedures.bind(this)),
                 scheduledProcedures: this.FormattedFieldList(this.procedures.bind(this)),
                 prescriptions: this.FormattedFieldList(this.prescriptions.bind(this)),
+                attachments: this.AttachmentInfosField(),
             };
             return buildFieldArray(ar, meta, this._localize["appointmentResult"]);
         };

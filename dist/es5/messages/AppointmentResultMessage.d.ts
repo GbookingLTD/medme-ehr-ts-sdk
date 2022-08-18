@@ -1,4 +1,4 @@
-import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo } from "../types/index";
+import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo, AttachmentInfo } from "../types/index";
 export declare class AppointmentResultMessage {
     id: string;
     patientId: string;
@@ -14,4 +14,5 @@ export declare class AppointmentResultMessage {
     scheduledProcedures: Procedure[];
     prescriptions: PrescriptionInfo[];
     diagnosticReportIds: string[];
+    attachments: AttachmentInfo[];
 }

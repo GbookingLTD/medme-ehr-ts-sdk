@@ -19,6 +19,7 @@ export var FieldType;
     FieldType["ObjectList"] = "objectList";
     FieldType["MediaList"] = "mediaList";
     FieldType["AttachmentList"] = "attachmentList";
+    FieldType["AttachmentInfoList"] = "attachmentInfoList";
     FieldType["Hidden"] = "hidden";
 })(FieldType || (FieldType = {}));
 export var FieldStatusColor;
@@ -211,7 +212,7 @@ var FieldsFormatter = /** @class */ (function () {
         };
         return {
             type: FieldType.Text,
-            format: function (x) { return (x === null || x === void 0 ? void 0 : x.length) > 0 ? x.map(diag).join("\n\n") : ""; }
+            format: function (x) { return ((x === null || x === void 0 ? void 0 : x.length) > 0 ? x.map(diag).join("\n\n") : ""); },
         };
     };
     FieldsFormatter.prototype.FormattedFieldList = function (format) {
@@ -403,6 +404,14 @@ var FieldsFormatter = /** @class */ (function () {
             },
         };
     };
+    FieldsFormatter.prototype.AttachmentInfosField = function () {
+        return {
+            type: FieldType.AttachmentInfoList,
+            format: function (val) {
+                return val;
+            },
+        };
+    };
     FieldsFormatter.prototype.attachmentsField = function () {
         return {
             type: FieldType.AttachmentList,
@@ -582,6 +591,7 @@ var FieldsFormatter = /** @class */ (function () {
             recommendations: this.FormattedFieldList(this.procedures.bind(this)),
             scheduledProcedures: this.FormattedFieldList(this.procedures.bind(this)),
             prescriptions: this.FormattedFieldList(this.prescriptions.bind(this)),
+            attachments: this.AttachmentInfosField(),
         };
         return buildFieldArray(ar, meta, this._localize["appointmentResult"]);
     };

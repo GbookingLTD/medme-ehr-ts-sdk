@@ -17,4 +17,5 @@ import { PatientInputProperties } from "./PatientInputProperties";
 import { Medication } from "./Medication";
 import { Period } from "./Period";
 import { Specialization } from "./Specialization";
-export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, KindDiagnosis, TypeDiagnosis, Cd10, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties, Medication, Period, Specialization, };
+import { AttachmentInfo } from "./AttachmentInfo";
+export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, KindDiagnosis, TypeDiagnosis, Cd10, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties, Medication, Period, Specialization, AttachmentInfo, };
