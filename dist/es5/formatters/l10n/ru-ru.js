@@ -23,6 +23,7 @@ export default {
         scheduledProceduresHint: "Назначенные на приеме процедуры, анализы, исследования",
         prescriptions: "Назначения",
         prescriptionsHint: "Медикаментозные назначения (выписанные лекарства)",
+        attachments: "Прикрепления"
     },
     procedure: {
         created: "Дата создания",

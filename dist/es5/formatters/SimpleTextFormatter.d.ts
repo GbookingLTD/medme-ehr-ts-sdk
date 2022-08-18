@@ -38,6 +38,7 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
                 scheduledProceduresHint: string;
                 prescriptions: string;
                 prescriptionsHint: string;
+                attachments: string;
             };
             procedure: {
                 created: string;
