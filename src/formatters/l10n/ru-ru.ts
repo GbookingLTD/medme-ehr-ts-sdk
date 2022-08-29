@@ -24,6 +24,7 @@ export default {
       "Назначенные на приеме процедуры, анализы, исследования",
     prescriptions: "Назначения",
     prescriptionsHint: "Медикаментозные назначения (выписанные лекарства)",
+    attachments: "Прикрепления"
   },
   procedure: {
     created: "Дата создания",
@@ -66,11 +67,12 @@ export default {
     title: "Название",
     created: "Дата создания",
     recorderDoctor: "Врач, выписавший рецепт",
-    medications: "Список лекарств",
-    dosageText: "Список лекарств",
+    medications: "Список назначений",
+    dosageText: "Медикаментозные назначения",
     reasonText: "Причина назначения",
     validityPeriod: "Время, в течение которого рецепт действует",
     numberOfRepeats: "Сколько раз по этому рецепту можно получить лекарства",
+    diagnoses: "Диагнозы",
   },
   MedicationForm: {
     0: "Порошок",

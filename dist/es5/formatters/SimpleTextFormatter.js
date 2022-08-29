@@ -95,19 +95,12 @@ var SimpleTextFormatter = /** @class */ (function () {
         return this.diagnosisOffset(d, this._baseOffset);
     };
     SimpleTextFormatter.prototype.diagnosisOffset = function (d, offset) {
-        var itemToString = function (item) {
-            return item.description + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
-        };
-        if (d.length === 0)
-            return "";
-        if (d.length == 1 &&
-            d[0].description.length < 100 &&
-            d[0].description.indexOf("\n") < 0) {
-            var hasKeyValue = typeof d[0].description === "string" &&
-                d[0].description.match(/([^:]*):(.*)/);
-            return (hasKeyValue ? "\n" : "") + itemToString(d[0]);
-        }
-        return "\n" + d.map(itemToString).join("\n\n");
+        var _this = this;
+        var itemToText = function (item) { return _this.cd10(item.cd10) + "\n" + item.diagnosisText; };
+        return d.map(itemToText).join("\n\n");
+    };
+    SimpleTextFormatter.prototype.cd10 = function (item) {
+        return item.description + (item.code ? " (cd10: " + item.code + ")" : "");
     };
     SimpleTextFormatter.prototype.procedures = function (p, offset) {
         var this_ = this;

@@ -4,6 +4,7 @@ import {
   Medication,
   Period,
   BusinessInfo,
+  Diagnosis,
 } from "../types/index";
 
 export class PrescriptionMessage {
@@ -19,4 +20,5 @@ export class PrescriptionMessage {
   validityPeriod: Period;
   numberOfRepeats: number;
   title: string;
+  Diagnoses: Diagnosis[];
 }

@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
-import { PatientModel } from "../../models/PatientModel";
 var PatientService = /** @class */ (function (_super) {
     __extends(PatientService, _super);
     function PatientService() {
@@ -26,10 +25,8 @@ var PatientService = /** @class */ (function (_super) {
                 return cb(err);
             if (!payload["userSign"])
                 return cb(new Error("userSign not found"));
-            var patient = new PatientModel();
             _this.lastValidationErrors_ = payload["validationErrors"];
-            patient.fromJson(payload["patient"]);
-            return cb(err, patient, payload["userSign"]);
+            return cb(err, payload["patient"], payload["userSign"]);
         });
     };
     PatientService.prototype.getPatientAsync = function () {

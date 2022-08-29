@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 import { JsonRPCService } from "./jsonRpcService";
 import { ExchangeTokenResponse } from "../AuthService";
 import { Handlers } from "../../Handlers";
-import { PatientModel } from "../../models/PatientModel";
 var AuthService = /** @class */ (function (_super) {
     __extends(AuthService, _super);
     /**
@@ -81,11 +80,9 @@ var AuthService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_AUTHENTICATE_METHOD, requestData, function (err, payload) {
             if (err)
                 return cb(err, null, null);
-            var patient = new PatientModel();
-            patient.fromJson(payload["patient"]);
             if (!payload["userSign"])
                 throw new Error("expect userSign");
-            return cb(null, patient, payload["userSign"]);
+            return cb(null, payload["patient"], payload["userSign"]);
         }, this.ehrServerEndpoint_);
     };
     AuthService.prototype.authenticateAsync = function (exchangeToken, searchStrategy, patientProperties, medCardId) {

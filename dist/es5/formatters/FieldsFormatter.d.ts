@@ -22,6 +22,7 @@ export declare enum FieldType {
     ObjectList = "objectList",
     MediaList = "mediaList",
     AttachmentList = "attachmentList",
+    AttachmentInfoList = "attachmentInfoList",
     Hidden = "hidden"
 }
 export declare enum FieldStatusColor {
@@ -106,6 +107,7 @@ export declare class FieldsFormatter implements IFormatter<Field[]> {
     private durationFormat;
     private durationField;
     private mediasField;
+    private AttachmentInfosField;
     private attachmentsField;
     business(b: BusinessInfo): Field[];
     clientPrice(p: ClientPrice): Field[];

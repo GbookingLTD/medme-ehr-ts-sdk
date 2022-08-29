@@ -7,7 +7,7 @@ import { AppointmentSource } from "./AppointmentSource";
 import { AppointmentHistoryItem } from "./AppointmentHistoryItem";
 import { AppointmentInputProperties } from "./AppointmentInputProperties";
 import { Currency } from "./Currency";
-import { Diagnosis } from "./Diagnosis";
+import { Diagnosis, KindDiagnosis, TypeDiagnosis, Cd10 } from "./Diagnosis";
 import { ProcedureExecStatus } from "./ProcedureExecStatus";
 import { ProcedureType } from "./ProcedureType";
 import { ProcedureInfo } from "./ProcedureInfo";
@@ -19,5 +19,6 @@ import { Medication } from "./Medication";
 import { Period } from "./Period";
 import { Specialization } from "./Specialization";
 import { PatientReportInfo } from "./PatientReportInfo";
-export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentSource, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties, Medication, Period, Specialization, PatientReportInfo, };
+import { AttachmentInfo } from "./AttachmentInfo";
+export { BusinessInfo, Doctor, Service, AppointmentConfirmationStatus, ClientPrice, Currency, AppointmentSource, AppointmentHistoryItem, AppointmentInputProperties, Diagnosis, KindDiagnosis, TypeDiagnosis, Cd10, ProcedureExecStatus, ProcedureType, ProcedureInfo, Procedure, PrescriptionInfo, PatientInfo, PatientInputProperties, Medication, Period, Specialization, PatientReportInfo, AttachmentInfo, };
 //# sourceMappingURL=index.d.ts.map

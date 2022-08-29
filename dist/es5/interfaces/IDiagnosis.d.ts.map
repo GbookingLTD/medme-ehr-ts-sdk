@@ -1,1 +1,1 @@
-{"version":3,"file":"IDiagnosis.d.ts","sourceRoot":"","sources":["../../../src/interfaces/IDiagnosis.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,UAAU;IACzB,WAAW,EAAE,MAAM,CAAC;IACpB,IAAI,EAAE,MAAM,CAAC;CACd"}
+{"version":3,"file":"IDiagnosis.d.ts","sourceRoot":"","sources":["../../../src/interfaces/IDiagnosis.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,UAAU;IACzB,WAAW,CAAC,EAAE,MAAM,CAAC;IACrB,IAAI,EAAE,IAAI,CAAC;CACZ;AAED,UAAU,IAAI;IACZ,WAAW,EAAE,MAAM,CAAC;IACpB,IAAI,EAAE,MAAM,CAAC;CACd"}

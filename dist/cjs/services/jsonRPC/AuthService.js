@@ -17,7 +17,6 @@ exports.AuthService = void 0;
 var jsonRpcService_1 = require("./jsonRpcService");
 var AuthService_1 = require("../AuthService");
 var Handlers_1 = require("../../Handlers");
-var PatientModel_1 = require("../../models/PatientModel");
 var AuthService = /** @class */ (function (_super) {
     __extends(AuthService, _super);
     /**
@@ -84,11 +83,9 @@ var AuthService = /** @class */ (function (_super) {
         this.exec(Handlers_1.Handlers.HANDLER_AUTHENTICATE_METHOD, requestData, function (err, payload) {
             if (err)
                 return cb(err, null, null);
-            var patient = new PatientModel_1.PatientModel();
-            patient.fromJson(payload["patient"]);
             if (!payload["userSign"])
                 throw new Error("expect userSign");
-            return cb(null, patient, payload["userSign"]);
+            return cb(null, payload["patient"], payload["userSign"]);
         }, this.ehrServerEndpoint_);
     };
     AuthService.prototype.authenticateAsync = function (exchangeToken, searchStrategy, patientProperties, medCardId) {

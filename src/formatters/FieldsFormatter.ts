@@ -21,6 +21,7 @@ import {
   ClientPrice,
   Currency,
   BusinessInfo,
+  AttachmentInfo,
 } from "../types/index";
 import { Observation } from "../types/Observation";
 import { PatientInfo } from "../types/PatientInfo";
@@ -47,6 +48,7 @@ export enum FieldType {
   ObjectList = "objectList", // list of objects
   MediaList = "mediaList",
   AttachmentList = "attachmentList",
+  AttachmentInfoList = "attachmentInfoList",
   Hidden = "hidden",
 }
 
@@ -207,6 +209,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     const this_ = this;
 
     const format = (intl: Intl.DateTimeFormat, val: FieldValue): string => {
+      if (!val) return "";
       if (typeof val == "string") val = new Date(Date.parse(val as string));
       const d = val as Date;
       if (d.getFullYear() === 0 || d.getFullYear() === 1)
@@ -279,9 +282,15 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   private diagnosisField(): FieldMeta {
+    const diag = (v: Diagnosis) =>
+      (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+      "\n" +
+      v.diagnosisText +
+      "\n\n";
+
     return {
-      type: FieldType.Object,
-      format: this.diagnosis.bind(this),
+      type: FieldType.Text,
+      format: (x: object[]) => (x?.length > 0 ? x.map(diag).join("\n\n") : ""),
     };
   }
 
@@ -381,6 +390,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return {
       type: FieldType.DatePeriod,
       format: (val: FieldValue): FieldValue => {
+        if (!val) return "";
         const period = val as Period;
         const textPeriod = val as TextPeriod;
         return {
@@ -482,6 +492,15 @@ export class FieldsFormatter implements IFormatter<Field[]> {
             // "https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwzMHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
           ];
         }
+        return val;
+      },
+    };
+  }
+
+  private AttachmentInfosField(): FieldMeta {
+    return {
+      type: FieldType.AttachmentInfoList,
+      format: (val: FieldValue) => {
         return val;
       },
     };
@@ -716,6 +735,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       recommendations: this.FormattedFieldList(this.procedures.bind(this)),
       scheduledProcedures: this.FormattedFieldList(this.procedures.bind(this)),
       prescriptions: this.FormattedFieldList(this.prescriptions.bind(this)),
+      attachments: this.AttachmentInfosField(),
     } as FieldMetaMap;
 
     return buildFieldArray(ar, meta, this._localize["appointmentResult"]);
@@ -724,13 +744,17 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   public diagnosis(d: Diagnosis[]): Field[] {
     if (d == null || d.length === 0) return [];
     const t = this._localize;
-    return d.map((v) => ({
+    return d.map((v: Diagnosis) => ({
       key: "",
       title: "",
       hint: "",
       type: FieldType.Text,
       originValue: v,
-      value: "cd10 " + v.cd10 + "\n" + v.description + "\n\n",
+      value:
+        (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+        "\n" +
+        v.diagnosisText +
+        "\n\n",
     }));
   }
 
@@ -762,6 +786,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   public prescription(p: PrescriptionInfo): Field[] {
+    const this_ = this;
     let meta = {
       created: this.dateField(),
       recorderDoctor: this.doctorField(),
@@ -777,6 +802,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       medications: this.medicationsField(),
       reasonText: this.textField(),
       numberOfRepeats: this.numberField(),
+      diagnoses: this.diagnosisField(),
     } as FieldMetaMap;
 
     return buildFieldArray(p, meta, this._localize["Prescription"]);
@@ -788,7 +814,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
 
     const itemModeMeta = {
       firstLine: (m: Medication): string => {
-        return m.name + " " + m.itemSize;
+        return m.name + " " + m.itemSize + " " + m.durationText;
       },
       secondLine: (m: Medication): string => {
         return m.code + " " + m.codeTable;
@@ -839,8 +865,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     return {
       type: FieldType.ObjectList,
       format: (val: FieldValue): FieldValue => {
-        if (!val)
-          return [];
+        if (!val) return [];
         const obs = val as Observation[];
         return obs.map((o) => this_.observation(o));
       },
@@ -848,6 +873,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   public diagnosticReport(dr: DiagnosticReportMessage): Field[] {
+    const this_ = this;
     const meta = {
       id: this.idField(),
       active: this.activeField(),
@@ -859,6 +885,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       // effectivePeriod: this.periodField({ dateOnly: true }),
       issuedDate: this.dateField({ dateOnly: true }),
       result: this.observationsField(),
+      diagnosis: this.diagnosisField(),
       services: this.servicesField(),
       resultInterpreter: this.doctorsField(),
       resultInterpretation: this.paragrathesField(),
@@ -886,8 +913,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
   }
 
   private doctors(doctors: Doctor[]): string[] {
-    if (!doctors)
-      return [];
+    if (!doctors) return [];
     const this_ = this;
     return doctors.map((d) => this_.doctor(d));
   }

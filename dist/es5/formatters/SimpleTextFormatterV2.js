@@ -98,15 +98,15 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
     };
     SimpleTextFormatterV2.prototype.diagnosisOffset = function (d, offset) {
         var itemToString = function (item) {
-            return item.description + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
+            return item.diagnosisText + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
         };
         if (d.length === 0)
             return "";
         if (d.length == 1 &&
-            d[0].description.length < 100 &&
-            d[0].description.indexOf("\n") < 0) {
-            var hasKeyValue = typeof d[0].description === "string" &&
-                d[0].description.match(/([^:]*):(.*)/);
+            d[0].diagnosisText.length < 100 &&
+            d[0].diagnosisText.indexOf("\n") < 0) {
+            var hasKeyValue = typeof d[0].diagnosisText === "string" &&
+                d[0].diagnosisText.match(/([^:]*):(.*)/);
             return (hasKeyValue ? "\n" : "") + itemToString(d[0]);
         }
         return "\n" + d.map(itemToString).join("\n\n");

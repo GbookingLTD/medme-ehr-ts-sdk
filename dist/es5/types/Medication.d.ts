@@ -10,6 +10,7 @@ export declare class Medication {
     form: MedicationForm;
     amount: number;
     expirationDate: Date;
+    durationText: string;
     fromJson(json: any): void;
     toJson(): JSONValue;
 }

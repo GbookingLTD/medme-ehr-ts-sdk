@@ -151,18 +151,18 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
 
   public diagnosisOffset(d: Diagnosis[], offset: string): string {
     const itemToString = (item: Diagnosis) =>
-      item.description + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
+      item.diagnosisText + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
 
     if (d.length === 0) return "";
 
     if (
       d.length == 1 &&
-      d[0].description.length < 100 &&
-      d[0].description.indexOf("\n") < 0
+      d[0].diagnosisText.length < 100 &&
+      d[0].diagnosisText.indexOf("\n") < 0
     ) {
       let hasKeyValue =
-        typeof d[0].description === "string" &&
-        d[0].description.match(/([^:]*):(.*)/);
+        typeof d[0].diagnosisText === "string" &&
+        d[0].diagnosisText.match(/([^:]*):(.*)/);
       return (hasKeyValue ? "\n" : "") + itemToString(d[0]);
     }
 

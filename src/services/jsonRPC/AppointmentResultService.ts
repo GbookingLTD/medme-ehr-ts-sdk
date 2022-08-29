@@ -1,5 +1,4 @@
 import { IAppointmentResultService } from "../AppointmentResultService";
-import { AppointmentResultModel } from "../../models/AppointmentResultModel";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 import { AppointmentResultMessage } from "../../messages/AppointmentResultMessage";
@@ -51,7 +50,7 @@ export class AppointmentResultService
     patientId: string,
     limit: number,
     offset: number,
-    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void,
+    cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void,
     OrderByDescendingDate: boolean = false
   ): void {
     let params = { patientId: patientId, limit: limit, offset: offset, OrderByDescendingDate };
@@ -61,13 +60,8 @@ export class AppointmentResultService
       (err: any, payload: object) => {
         if (err) return cb(err, null);
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
-        let appointmentResults = payload["appointmentResults"].map(
-          (jsonApp: object) => {
-            let app = new AppointmentResultModel();
-            app.fromJson(jsonApp);
-            return app;
-          }
-        );
+        let appointmentResults = payload["appointmentResults"];
+
         return cb(null, appointmentResults);
       }
     );
@@ -78,14 +72,14 @@ export class AppointmentResultService
     limit: number,
     offset: number,
     OrderByDescendingDate: boolean = false
-  ): Promise<AppointmentResultModel[]> {
+  ): Promise<AppointmentResultMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
       service.getPatientAppointmentResults(
         patientId,
         limit,
         offset,
-        (err: any, appResults: AppointmentResultModel[]) => {
+        (err: any, appResults: AppointmentResultMessage[]) => {
           if (err) return rej(err);
 
           res(appResults);
@@ -99,7 +93,7 @@ export class AppointmentResultService
     limit: number,
     offset: number,
     lastId: string,
-    cb: (err: any, appointmentResults: AppointmentResultModel[]) => void,
+    cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void,
     OrderByDescendingDate: boolean = false
   ): void {
     let params = lastId ? { limit, lastItemId: lastId, OrderByDescendingDate } : { limit: limit, offset: offset, OrderByDescendingDate };
@@ -120,14 +114,14 @@ export class AppointmentResultService
     offset: number,
     lastId: string,
     OrderByDescendingDate: boolean = false
-  ): Promise<AppointmentResultModel[]> {
+  ): Promise<AppointmentResultMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
       service.getAppointmentResults(
         limit,
         offset,
         lastId,
-        (err: any, appResults: AppointmentResultModel[]) => {
+        (err: any, appResults: AppointmentResultMessage[]) => {
           if (err) return rej(err);
 
           res(appResults);

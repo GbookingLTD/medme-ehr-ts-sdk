@@ -7,7 +7,6 @@ import {
 } from "../PatientService";
 import { PatientInfo } from "../../types/PatientInfo";
 import { Handlers } from "../../Handlers";
-import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
 import { PatientMessage } from "../../messages/PatientMessage";
 import { PatientFilters } from "../../services/filters/PatientFilters";
@@ -17,7 +16,7 @@ export class PatientService
   implements IPatientService
 {
   public getPatient(
-    cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void
+    cb: (err?: any, patient?: PatientMessage, userSign?: UserSign) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_PATIENT_METHOD,
@@ -27,16 +26,14 @@ export class PatientService
 
         if (!payload["userSign"]) return cb(new Error("userSign not found"));
 
-        let patient = new PatientModel();
         this.lastValidationErrors_ = payload["validationErrors"];
-        patient.fromJson(payload["patient"]);
-        return cb(err, patient, payload["userSign"]);
+        return cb(err, payload["patient"], payload["userSign"]);
       }
     );
   }
 
   public getPatientAsync(): Promise<{
-    patient: PatientModel;
+    patient: PatientMessage;
     userSign: UserSign;
   }> {
     const service = this;
@@ -51,7 +48,7 @@ export class PatientService
 
   public getPatientById(
     id: string,
-    cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void
+    cb: (err?: any, patient?: PatientMessage, userSign?: UserSign) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_PATIENT_BY_ID_METHOD,
@@ -66,7 +63,7 @@ export class PatientService
   }
 
   public getPatientByIdAsync(id: string): Promise<{
-    patient: PatientModel;
+    patient: PatientMessage;
   }> {
     const service = this;
     return new Promise((res, rej) => {

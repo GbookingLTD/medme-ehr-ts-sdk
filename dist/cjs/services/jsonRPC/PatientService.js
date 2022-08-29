@@ -16,7 +16,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatientService = void 0;
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
-var PatientModel_1 = require("../../models/PatientModel");
 var PatientService = /** @class */ (function (_super) {
     __extends(PatientService, _super);
     function PatientService() {
@@ -29,10 +28,8 @@ var PatientService = /** @class */ (function (_super) {
                 return cb(err);
             if (!payload["userSign"])
                 return cb(new Error("userSign not found"));
-            var patient = new PatientModel_1.PatientModel();
             _this.lastValidationErrors_ = payload["validationErrors"];
-            patient.fromJson(payload["patient"]);
-            return cb(err, patient, payload["userSign"]);
+            return cb(err, payload["patient"], payload["userSign"]);
         });
     };
     PatientService.prototype.getPatientAsync = function () {

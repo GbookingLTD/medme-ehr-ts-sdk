@@ -1,5 +1,4 @@
 import { IResourceService } from "./ResourceService";
-import { PatientModel } from "../models/PatientModel";
 import { UserSign } from "../types/UserSign";
 import { PatientMessage } from "../messages/PatientMessage";
 import { PatientFilters } from "./filters/PatientFilters";
@@ -10,14 +9,14 @@ import { AppointmentResultMessage } from "../messages/AppointmentResultMessage";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
 export interface IPatientService extends IResourceService {
-    getPatient(cb: (err?: any, patient?: PatientModel, userSign?: UserSign) => void): void;
+    getPatient(cb: (err?: any, patient?: PatientMessage, userSign?: UserSign) => void): void;
     getPatientAsync(): Promise<{
-        patient: PatientModel;
+        patient: PatientMessage;
         userSign: UserSign;
     }>;
-    getPatientById(id: string, cb: (err?: any, patient?: PatientModel) => void): void;
+    getPatientById(id: string, cb: (err?: any, patient?: PatientMessage) => void): void;
     getPatientByIdAsync(id: string): Promise<{
-        patient: PatientModel;
+        patient: PatientMessage;
     }>;
     getPatients(limit: number, offset: number, lastId: string, cb: (err: any, patients: PatientMessage[]) => void): void;
     getPatientsAsync(limit: number, offset: number, lastId: string): Promise<PatientMessage[]>;

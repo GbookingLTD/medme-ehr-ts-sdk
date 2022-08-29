@@ -34,6 +34,7 @@ export declare class SimpleTextFormatterV2 implements IFormatter<string> {
                 scheduledProceduresHint: string;
                 prescriptions: string;
                 prescriptionsHint: string;
+                attachments: string;
             };
             procedure: {
                 created: string;
@@ -81,6 +82,7 @@ export declare class SimpleTextFormatterV2 implements IFormatter<string> {
                 reasonText: string;
                 validityPeriod: string;
                 numberOfRepeats: string;
+                diagnoses: string;
             };
             MedicationForm: {
                 0: string;

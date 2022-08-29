@@ -11,7 +11,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { AppointmentResultModel } from "../../models/AppointmentResultModel";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 var AppointmentResultService = /** @class */ (function (_super) {
@@ -52,11 +51,7 @@ var AppointmentResultService = /** @class */ (function (_super) {
             if (err)
                 return cb(err, null);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            var appointmentResults = payload["appointmentResults"].map(function (jsonApp) {
-                var app = new AppointmentResultModel();
-                app.fromJson(jsonApp);
-                return app;
-            });
+            var appointmentResults = payload["appointmentResults"];
             return cb(null, appointmentResults);
         });
     };

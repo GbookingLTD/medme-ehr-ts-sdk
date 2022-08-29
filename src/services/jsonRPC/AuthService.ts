@@ -4,8 +4,8 @@ import { PatientInputProperties } from "../../types/PatientInputProperties";
 import { Handlers } from "../../Handlers";
 import { Credentials } from "../Credentials";
 import { IJsonRPCRequest } from "./jsonRpcRequest";
-import { PatientModel } from "../../models/PatientModel";
 import { UserSign } from "../../types/UserSign";
+import { PatientMessage } from "../../messages/PatientMessage";
 
 export class AuthService extends JsonRPCService implements IAuthService {
   private authCred_: Credentials;
@@ -88,7 +88,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
     searchStrategy: string,
     patientProperties: PatientInputProperties,
     medCardId: string,
-    cb: (err: any, patient: PatientModel, userSign: UserSign) => void
+    cb: (err: any, patient: PatientMessage, userSign: UserSign) => void
   ): void {
     if (["PHONE", "MEDCARD"].indexOf(searchStrategy) < 0)
       throw Error("Argument searchStrategy is out of range.");
@@ -106,10 +106,8 @@ export class AuthService extends JsonRPCService implements IAuthService {
       (err: any, payload: object) => {
         if (err) return cb(err, null, null);
 
-        let patient = new PatientModel();
-        patient.fromJson(payload["patient"]);
         if (!payload["userSign"]) throw new Error("expect userSign");
-        return cb(null, patient, payload["userSign"]);
+        return cb(null, payload["patient"], payload["userSign"]);
       },
       this.ehrServerEndpoint_
     );
@@ -120,7 +118,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
     searchStrategy: string,
     patientProperties: PatientInputProperties,
     medCardId: string
-  ): Promise<{ patient: PatientModel; userSign: UserSign }> {
+  ): Promise<{ patient: PatientMessage; userSign: UserSign }> {
     const service = this;
     return new Promise((res, rej) => {
       service.authenticate(
@@ -128,7 +126,7 @@ export class AuthService extends JsonRPCService implements IAuthService {
         searchStrategy,
         patientProperties,
         medCardId,
-        (err: any, patient: PatientModel, userSign: UserSign) => {
+        (err: any, patient: PatientMessage, userSign: UserSign) => {
           if (err) return rej(err);
 
           res({ patient, userSign });

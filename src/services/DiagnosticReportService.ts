@@ -1,5 +1,4 @@
 import { IResourceService } from "./ResourceService";
-import { DiagnosticReportModel } from "../models/DiagnosticReportModel";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import { DiagnosticReportFilters } from "./filters/DiagnosticReportFilters";
 

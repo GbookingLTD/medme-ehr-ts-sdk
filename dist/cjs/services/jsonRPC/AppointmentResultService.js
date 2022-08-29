@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentResultService = void 0;
-var AppointmentResultModel_1 = require("../../models/AppointmentResultModel");
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
 var AppointmentResultService = /** @class */ (function (_super) {
@@ -54,11 +53,7 @@ var AppointmentResultService = /** @class */ (function (_super) {
             if (err)
                 return cb(err, null);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            var appointmentResults = payload["appointmentResults"].map(function (jsonApp) {
-                var app = new AppointmentResultModel_1.AppointmentResultModel();
-                app.fromJson(jsonApp);
-                return app;
-            });
+            var appointmentResults = payload["appointmentResults"];
             return cb(null, appointmentResults);
         });
     };

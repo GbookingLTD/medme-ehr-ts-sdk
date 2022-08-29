@@ -1,4 +1,4 @@
-import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo, PatientReportInfo } from "../types/index";
+import { BusinessInfo, Doctor, Diagnosis, Procedure, PrescriptionInfo, PatientReportInfo, AttachmentInfo } from "../types/index";
 export declare class AppointmentResultMessage {
     id: string;
     patientId: string;
@@ -15,5 +15,6 @@ export declare class AppointmentResultMessage {
     prescriptions: PrescriptionInfo[];
     diagnosticReportIds: string[];
     reportInfos?: PatientReportInfo[];
+    attachments: AttachmentInfo[];
 }
 //# sourceMappingURL=AppointmentResultMessage.d.ts.map

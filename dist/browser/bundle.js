@@ -273,25 +273,38 @@ define("types/AppointmentInputProperties", ["require", "exports"], function (req
 define("types/Diagnosis", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Diagnosis = void 0;
+    exports.Cd10 = exports.Diagnosis = exports.TypeDiagnosis = exports.KindDiagnosis = void 0;
+    var KindDiagnosis;
+    (function (KindDiagnosis) {
+        // основное
+        KindDiagnosis[KindDiagnosis["Base"] = 0] = "Base";
+        // осложнение
+        KindDiagnosis[KindDiagnosis["Complication"] = 1] = "Complication";
+        // сопутсвующее
+        KindDiagnosis[KindDiagnosis["Related"] = 2] = "Related";
+    })(KindDiagnosis = exports.KindDiagnosis || (exports.KindDiagnosis = {}));
+    // характер заболевания
+    var TypeDiagnosis;
+    (function (TypeDiagnosis) {
+        // острое заболевание
+        TypeDiagnosis[TypeDiagnosis["AcuteDisease"] = 0] = "AcuteDisease";
+        // хроническое заболевание, впервые выявлено
+        TypeDiagnosis[TypeDiagnosis["ChronicalFirst"] = 1] = "ChronicalFirst";
+        // хроническое заболевание, ранее выявленное
+        TypeDiagnosis[TypeDiagnosis["ChronicalEarly"] = 2] = "ChronicalEarly";
+    })(TypeDiagnosis = exports.TypeDiagnosis || (exports.TypeDiagnosis = {}));
     var Diagnosis = /** @class */ (function () {
-        /**
-         * Cоздание объекта "диагноз" из json объекта.
-         * @param json json object
-         */
-        function Diagnosis(json) {
-            this.description = json.description;
-            this.cd10 = json.cd10;
+        function Diagnosis() {
         }
-        Diagnosis.prototype.toJson = function () {
-            var payload = {};
-            payload.description = this.description;
-            payload.cd10 = this.cd10;
-            return payload;
-        };
         return Diagnosis;
     }());
     exports.Diagnosis = Diagnosis;
+    var Cd10 = /** @class */ (function () {
+        function Cd10() {
+        }
+        return Cd10;
+    }());
+    exports.Cd10 = Cd10;
 });
 define("types/ProcedureExecStatus", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -577,10 +590,21 @@ define("types/PatientInputProperties", ["require", "exports"], function (require
     }());
     exports.PatientInputProperties = PatientInputProperties;
 });
-define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/Service", "types/AppointmentConfirmationStatus", "types/ClientPrice", "types/AppointmentHistoryItem", "types/AppointmentInputProperties", "types/Currency", "types/Diagnosis", "types/ProcedureExecStatus", "types/ProcedureType", "types/ProcedureInfo", "types/Procedure", "types/PrescriptionInfo", "types/PatientInfo", "types/PatientInputProperties", "types/Medication", "types/Period", "types/Specialization"], function (require, exports, BusinessInfo_1, Doctor_2, Service_2, AppointmentConfirmationStatus_1, ClientPrice_2, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1, Medication_2, Period_3, Specialization_2) {
+define("types/AttachmentInfo", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
+    exports.AttachmentInfo = void 0;
+    var AttachmentInfo = /** @class */ (function () {
+        function AttachmentInfo() {
+        }
+        return AttachmentInfo;
+    }());
+    exports.AttachmentInfo = AttachmentInfo;
+});
+define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/Service", "types/AppointmentConfirmationStatus", "types/ClientPrice", "types/AppointmentHistoryItem", "types/AppointmentInputProperties", "types/Currency", "types/Diagnosis", "types/ProcedureExecStatus", "types/ProcedureType", "types/ProcedureInfo", "types/Procedure", "types/PrescriptionInfo", "types/PatientInfo", "types/PatientInputProperties", "types/Medication", "types/Period", "types/Specialization", "types/AttachmentInfo"], function (require, exports, BusinessInfo_1, Doctor_2, Service_2, AppointmentConfirmationStatus_1, ClientPrice_2, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1, Medication_2, Period_3, Specialization_2, AttachmentInfo_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.AttachmentInfo = exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
     Object.defineProperty(exports, "BusinessInfo", { enumerable: true, get: function () { return BusinessInfo_1.BusinessInfo; } });
     Object.defineProperty(exports, "Doctor", { enumerable: true, get: function () { return Doctor_2.Doctor; } });
     Object.defineProperty(exports, "Service", { enumerable: true, get: function () { return Service_2.Service; } });
@@ -590,6 +614,9 @@ define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor
     Object.defineProperty(exports, "AppointmentInputProperties", { enumerable: true, get: function () { return AppointmentInputProperties_1.AppointmentInputProperties; } });
     Object.defineProperty(exports, "Currency", { enumerable: true, get: function () { return Currency_1.Currency; } });
     Object.defineProperty(exports, "Diagnosis", { enumerable: true, get: function () { return Diagnosis_1.Diagnosis; } });
+    Object.defineProperty(exports, "KindDiagnosis", { enumerable: true, get: function () { return Diagnosis_1.KindDiagnosis; } });
+    Object.defineProperty(exports, "TypeDiagnosis", { enumerable: true, get: function () { return Diagnosis_1.TypeDiagnosis; } });
+    Object.defineProperty(exports, "Cd10", { enumerable: true, get: function () { return Diagnosis_1.Cd10; } });
     Object.defineProperty(exports, "ProcedureExecStatus", { enumerable: true, get: function () { return ProcedureExecStatus_1.ProcedureExecStatus; } });
     Object.defineProperty(exports, "ProcedureType", { enumerable: true, get: function () { return ProcedureType_1.ProcedureType; } });
     Object.defineProperty(exports, "ProcedureInfo", { enumerable: true, get: function () { return ProcedureInfo_1.ProcedureInfo; } });
@@ -600,8 +627,13 @@ define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor
     Object.defineProperty(exports, "Medication", { enumerable: true, get: function () { return Medication_2.Medication; } });
     Object.defineProperty(exports, "Period", { enumerable: true, get: function () { return Period_3.Period; } });
     Object.defineProperty(exports, "Specialization", { enumerable: true, get: function () { return Specialization_2.Specialization; } });
+    Object.defineProperty(exports, "AttachmentInfo", { enumerable: true, get: function () { return AttachmentInfo_1.AttachmentInfo; } });
 });
-define("models/JsonModel", ["require", "exports"], function (require, exports) {
+define("services/ResourceService", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
+define("types/UserSign", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
@@ -653,173 +685,6 @@ define("types/Insurance", ["require", "exports"], function (require, exports) {
         return Insurance;
     }());
     exports.Insurance = Insurance;
-});
-define("models/PatientModel", ["require", "exports", "types/FamilyMember", "types/Insurance", "types/Period"], function (require, exports, FamilyMember_1, Insurance_1, Period_4) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PatientModel = void 0;
-    var PatientModel = /** @class */ (function () {
-        function PatientModel() {
-        }
-        Object.defineProperty(PatientModel.prototype, "id", {
-            get: function () {
-                return this._id;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "active", {
-            get: function () {
-                return this._active;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "surname", {
-            get: function () {
-                return this._surname;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "name", {
-            get: function () {
-                return this._name;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "phones", {
-            get: function () {
-                return this._phones;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "email", {
-            get: function () {
-                return this._email;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "gender", {
-            get: function () {
-                return this._gender;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "birthdate", {
-            get: function () {
-                return this._birthdate;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "deceased", {
-            get: function () {
-                return this._deceased;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "maritalStatus", {
-            get: function () {
-                return this._maritalStatus;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "photo", {
-            get: function () {
-                return this._photo;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "familyMembers", {
-            get: function () {
-                return this._familyMembers;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "address", {
-            get: function () {
-                return this._address;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "medcardNumber", {
-            get: function () {
-                return this._medcardNumber;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(PatientModel.prototype, "insurances", {
-            get: function () {
-                return this._insurances;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        PatientModel.prototype.fromJson = function (json) {
-            this._id = json.id;
-            this._active = json.active;
-            this._surname = json.surname;
-            this._name = json.name;
-            this._phones = json.phones;
-            this._email = json.email;
-            this._gender = json.gender;
-            if (json.birthdate &&
-                json.birthdate.length &&
-                json.birthdate[json.birthdate.length - 1] !== "Z")
-                json.birthdate += "Z";
-            this._birthdate = new Date(Date.parse(json.birthdate));
-            this._deceased = json.deceased;
-            this._maritalStatus = json.maritalStatus;
-            this._photo = json.photo;
-            this._familyMembers = [];
-            if (json.familyMembers && json.familyMembers.length) {
-                for (var i = 0; i < json.familyMembers.length; ++i) {
-                    var fm = new FamilyMember_1.FamilyMember();
-                    fm.patientId = json.familyMembers[i].patientId;
-                    fm.type = json.familyMembers[i].type;
-                    this._familyMembers.push(fm);
-                }
-            }
-            this._address = json.address;
-            this._medcardNumber = json.medcardNumber;
-            this._insurances = [];
-            if (json.insurances && json.insurances.length) {
-                for (var i = 0; i < json.insurances.length; ++i) {
-                    var insurance = new Insurance_1.Insurance();
-                    insurance.companyId = json.insurances[i].companyId;
-                    insurance.period = new Period_4.Period();
-                    if (json.insurances[i].period)
-                        insurance.period.fromJson(json.insurances[i].period);
-                    insurance.policyNumber = json.insurances[i].policyNumber;
-                    this._insurances.push(insurance);
-                }
-            }
-        };
-        PatientModel.prototype.toJson = function () {
-            return this;
-        };
-        return PatientModel;
-    }());
-    exports.PatientModel = PatientModel;
-});
-define("services/ResourceService", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-});
-define("types/UserSign", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
 });
 define("types/PatientReportInfo", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -879,6 +744,7 @@ define("formatters/l10n/ru-ru", ["require", "exports"], function (require, expor
             scheduledProceduresHint: "Назначенные на приеме процедуры, анализы, исследования",
             prescriptions: "Назначения",
             prescriptionsHint: "Медикаментозные назначения (выписанные лекарства)",
+            attachments: "Прикрепления"
         },
         procedure: {
             created: "Дата создания",
@@ -921,11 +787,12 @@ define("formatters/l10n/ru-ru", ["require", "exports"], function (require, expor
             title: "Название",
             created: "Дата создания",
             recorderDoctor: "Врач, выписавший рецепт",
-            medications: "Список лекарств",
-            dosageText: "Список лекарств",
+            medications: "Список назначений",
+            dosageText: "Медикаментозные назначения",
             reasonText: "Причина назначения",
             validityPeriod: "Время, в течение которого рецепт действует",
             numberOfRepeats: "Сколько раз по этому рецепту можно получить лекарства",
+            diagnoses: "Диагнозы",
         },
         MedicationForm: {
             0: "Порошок",
@@ -1941,13 +1808,13 @@ define("types/ObservationValue", ["require", "exports"], function (require, expo
     }());
     exports.ObservationValue = ObservationValue;
 });
-define("types/ObservationRange", ["require", "exports", "types/Period"], function (require, exports, Period_5) {
+define("types/ObservationRange", ["require", "exports", "types/Period"], function (require, exports, Period_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ObservationRange = void 0;
     var ObservationRange = /** @class */ (function () {
         function ObservationRange() {
-            this.age = new Period_5.Period();
+            this.age = new Period_4.Period();
         }
         ObservationRange.prototype.fromJson = function (json) {
             this.low = json.low;
@@ -2002,14 +1869,14 @@ define("types/ObservationComponent", ["require", "exports", "types/ObservationRa
     }());
     exports.ObservationComponent = ObservationComponent;
 });
-define("types/Observation", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/PatientInfo", "types/Period", "types/ObservationValue", "types/ObservationRange", "types/ObservationComponent"], function (require, exports, BusinessInfo_2, Doctor_3, PatientInfo_2, Period_6, ObservationValue_1, ObservationRange_2, ObservationComponent_1) {
+define("types/Observation", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/PatientInfo", "types/Period", "types/ObservationValue", "types/ObservationRange", "types/ObservationComponent"], function (require, exports, BusinessInfo_2, Doctor_3, PatientInfo_2, Period_5, ObservationValue_1, ObservationRange_2, ObservationComponent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Observation = void 0;
     var Observation = /** @class */ (function () {
         function Observation() {
             this.patientInfo = new PatientInfo_2.PatientInfo();
-            this.effectivePeriod = new Period_6.Period();
+            this.effectivePeriod = new Period_5.Period();
             this.performerDoctor = new Doctor_3.Doctor();
             this.performerBusiness = new BusinessInfo_2.BusinessInfo();
             this.value = new ObservationValue_1.ObservationValue();
@@ -3206,189 +3073,11 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "services/j
     }(jsonRpcService_1.JsonRPCCredService));
     exports.AppointmentService = AppointmentService;
 });
-define("models/AppointmentResultModel", ["require", "exports", "types/index"], function (require, exports, index_5) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.AppointmentResultModel = exports.copyCommonPropertiesFromJson = void 0;
-    function copyCommonPropertiesFromJson(json) {
-        this._id = json.id;
-        this._patientId = json.patientId;
-        if (json.business)
-            this._business = json.business;
-        this._created = json.created;
-        this._start = json.start;
-        if (json.doctor)
-            this._doctor = json.doctor;
-    }
-    exports.copyCommonPropertiesFromJson = copyCommonPropertiesFromJson;
-    /**
-     * Класс модели записи.
-     * Обеспечивает доступ к методам создания, редактирования, загружки данных из сервера.
-     */
-    var AppointmentResultModel = /** @class */ (function () {
-        function AppointmentResultModel() {
-        }
-        Object.defineProperty(AppointmentResultModel.prototype, "id", {
-            get: function () {
-                return this._id;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "patientId", {
-            get: function () {
-                return this._patientId;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "business", {
-            get: function () {
-                return this._business;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "created", {
-            get: function () {
-                return this._created;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "start", {
-            get: function () {
-                return this._start;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "doctor", {
-            get: function () {
-                return this._doctor;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "duration", {
-            get: function () {
-                return this._duration;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "anamnesis", {
-            get: function () {
-                return this._anamnesis;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "medicalExaminationResult", {
-            get: function () {
-                return this._medicalExaminationResult;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "diagnosis", {
-            get: function () {
-                return this._diagnosis;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "recommendations", {
-            get: function () {
-                return this._recommendations;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "scheduledProcedures", {
-            get: function () {
-                return this._scheduledProcedures;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "prescriptions", {
-            get: function () {
-                return this._prescriptions;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(AppointmentResultModel.prototype, "diagnosticReportIds", {
-            get: function () {
-                return this._diagnosticReportIds;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        /**
-         *
-         * @param json
-         */
-        AppointmentResultModel.prototype.fromJson = function (json) {
-            copyCommonPropertiesFromJson.call(this, json);
-            this._duration = json.duration;
-            this._anamnesis = json.anamnesis;
-            this._medicalExaminationResult = json.medicalExaminationResult;
-            this._diagnosis = json.diagnosis
-                ? json.diagnosis.map(function (d) { return new index_5.Diagnosis(d); })
-                : [];
-            this._recommendations = json.recommendations
-                ? json.recommendations.map(function (r) { return new index_5.Procedure().fromJson(r); })
-                : [];
-            this._scheduledProcedures = json.scheduledProcedures
-                ? json.scheduledProcedures.map(function (p) { return new index_5.Procedure().fromJson(p); })
-                : [];
-            this._prescriptions = json.prescriptions
-                ? json.prescriptions.map(function (p) { return new index_5.PrescriptionInfo().fromJson(p); })
-                : [];
-            this._diagnosticReportIds = json.diagnosticReportIds || [];
-            return this;
-        };
-        /**
-         *
-         */
-        AppointmentResultModel.prototype.toJson = function () {
-            var payload = {
-                id: this._id,
-                patientId: this._patientId,
-            };
-            payload.business = this._business.toJson();
-            payload.created = this._created.toJSON();
-            payload.start = this._start.toJSON();
-            payload.doctor = this._doctor.toJson();
-            payload.duration = this._duration;
-            payload.anamnesis = this._anamnesis;
-            payload.medicalExaminationResult = this._medicalExaminationResult;
-            payload.diagnosis = Array.isArray(this._diagnosis)
-                ? this._diagnosis.map(function (d) { return d.toJson(); })
-                : [];
-            payload.recommendations = Array.isArray(this._recommendations)
-                ? this._recommendations.map(function (r) { return r.toJson(); })
-                : [];
-            payload.scheduledProcedures = Array.isArray(this._scheduledProcedures)
-                ? this._scheduledProcedures.map(function (r) { return r.toJson(); })
-                : [];
-            payload.prescriptions = Array.isArray(this._prescriptions)
-                ? this._prescriptions.map(function (p) { return p.toJson(); })
-                : [];
-            payload.diagnosticReportIds = this._diagnosticReportIds;
-            return payload;
-        };
-        return AppointmentResultModel;
-    }());
-    exports.AppointmentResultModel = AppointmentResultModel;
-});
 define("services/AppointmentResultService", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
-define("services/jsonRPC/AppointmentResultService", ["require", "exports", "models/AppointmentResultModel", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, AppointmentResultModel_1, jsonRpcService_2, Handlers_2) {
+define("services/jsonRPC/AppointmentResultService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_2, Handlers_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AppointmentResultService = void 0;
@@ -3429,11 +3118,7 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
                 if (err)
                     return cb(err, null);
                 _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-                var appointmentResults = payload["appointmentResults"].map(function (jsonApp) {
-                    var app = new AppointmentResultModel_1.AppointmentResultModel();
-                    app.fromJson(jsonApp);
-                    return app;
-                });
+                var appointmentResults = payload["appointmentResults"];
                 return cb(null, appointmentResults);
             });
         };
@@ -3546,32 +3231,6 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "mode
         return AppointmentResultService;
     }(jsonRpcService_2.JsonRPCCredService));
     exports.AppointmentResultService = AppointmentResultService;
-});
-define("models/PrescriptionModel", ["require", "exports", "types/index", "types/PatientInfo"], function (require, exports, index_6, PatientInfo_3) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PrescriptionModel = void 0;
-    /**
-     * Класс модели медикаментозного назначения.
-     */
-    var PrescriptionModel = /** @class */ (function (_super) {
-        __extends(PrescriptionModel, _super);
-        function PrescriptionModel() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        PrescriptionModel.prototype.fromJson = function (json) {
-            _super.prototype.fromJson.call(this, json);
-            this.patientId = json.patientInfo.id;
-            this.patientInfo = new PatientInfo_3.PatientInfo();
-            this.patientInfo.fromJson(json.patientInfo);
-            return this;
-        };
-        PrescriptionModel.prototype.toJson = function () {
-            return this;
-        };
-        return PrescriptionModel;
-    }(index_6.PrescriptionInfo));
-    exports.PrescriptionModel = PrescriptionModel;
 });
 define("services/PrescriptionService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -3749,193 +3408,6 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
         return PrescriptionService;
     }(jsonRpcService_3.JsonRPCCredService));
     exports.PrescriptionService = PrescriptionService;
-});
-define("models/DiagnosticReportModel", ["require", "exports", "types/Doctor", "types/Period", "types/Observation", "types/Service"], function (require, exports, Doctor_4, Period_7, Observation_1, Service_3) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.DiagnosticReportModel = void 0;
-    /**
-     * Класс модели медикаментозного назначения.
-     */
-    var DiagnosticReportModel = /** @class */ (function () {
-        function DiagnosticReportModel() {
-            this._issuedDate = new Date();
-            this._effectivePeriod = new Period_7.Period();
-            this._result = [];
-            this._resultInterpreter = [];
-            this._resultInterpretation = [];
-            this._imagineMedia = [];
-            this._attachments = [];
-            this._services = [];
-        }
-        Object.defineProperty(DiagnosticReportModel.prototype, "id", {
-            get: function () {
-                return this._id;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "status", {
-            /**
-             * Статус диагностического отчета.
-             */
-            get: function () {
-                return this._status;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "type", {
-            /**
-             * Тип обследования.
-             */
-            get: function () {
-                return this._type;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "services", {
-            /**
-             * Список оказанных на исследовании услуг.
-             */
-            get: function () {
-                return this._services;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "category", {
-            /**
-             * Категория сервисов диагностики (код).
-             * @see http://hl7.org/fhir/valueset-diagnostic-service-sections.html
-             */
-            get: function () {
-                return this._category;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "effectivePeriod", {
-            /**
-             * Период дат, в течение которых результаты теста считать действительными.
-             */
-            get: function () {
-                return this._effectivePeriod;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "issuedDate", {
-            /**
-             * Дата публикации обследования пациенту.
-             */
-            get: function () {
-                return this._issuedDate;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "result", {
-            /**
-             * Результаты обследования в нормализованном виде.
-             */
-            get: function () {
-                return this._result;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "resultInterpreter", {
-            /**
-             * Врач, который интерпретировал результаты.
-             */
-            get: function () {
-                return this._resultInterpreter;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "resultInterpretation", {
-            /**
-             * Интерпретация результатов обследования/анализов.
-             */
-            get: function () {
-                return this._resultInterpretation;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "imagineMedia", {
-            /**
-             * Список ссылок на флюорографии, ЭКГ и т.п.
-             */
-            get: function () {
-                return this._imagineMedia;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        Object.defineProperty(DiagnosticReportModel.prototype, "attachments", {
-            /**
-             * Весь отчет, как документ ворд, pdf  т.п.
-             */
-            get: function () {
-                return this._attachments;
-            },
-            enumerable: false,
-            configurable: true
-        });
-        DiagnosticReportModel.prototype.fromJson = function (json) {
-            this._id = json.id;
-            this._status = json.status;
-            this._type = json.type;
-            this._effectivePeriod = new Period_7.Period().fromJson(json.effectivePeriod);
-            this._issuedDate = new Date(json.issuedDate);
-            this._result = [];
-            if (json.result)
-                for (var i = 0; i < json.result.length; ++i)
-                    this._result.push(new Observation_1.Observation().fromJson(json.result[i]));
-            this._resultInterpreter = json.resultInterpreter
-                ? json.resultInterpreter.map(function (d) { return new Doctor_4.Doctor().fromJson(d); })
-                : [];
-            this._resultInterpretation = json.resultInterpretation || [];
-            this._imagineMedia = json.imagineMedia || [];
-            this._attachments = json.attachments || [];
-            this._services = [];
-            if (json.services)
-                for (var i = 0; i < json.services.length; ++i)
-                    this._services.push(new Service_3.Service().fromJson(json.services[i]));
-            this._category = json.category;
-            return this;
-        };
-        DiagnosticReportModel.prototype.toJson = function () {
-            var payload = {};
-            payload.id = this._id;
-            payload.status = this._status;
-            payload.type = this._type;
-            payload.effectivePeriod = this._effectivePeriod
-                ? this._effectivePeriod.toJson()
-                : null;
-            payload.issuedDate = this._issuedDate.toJSON();
-            payload.result = this._result
-                ? this._result.map(function (value) { return value.toJson(); })
-                : null;
-            payload.resultInterpreter = this._resultInterpreter
-                ? this._resultInterpreter.map(function (i) { return i.toJson(); })
-                : null;
-            payload.resultInterpretation = this._resultInterpretation;
-            payload.imagineMedia = this._imagineMedia;
-            payload.attachments = this._attachments;
-            payload.services = this._services
-                ? this._services.map(function (s) { return s.toJson(); })
-                : null;
-            payload.category = this._category;
-            return payload;
-        };
-        return DiagnosticReportModel;
-    }());
-    exports.DiagnosticReportModel = DiagnosticReportModel;
 });
 define("services/DiagnosticReportService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -4115,7 +3587,7 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
     }(jsonRpcService_4.JsonRPCCredService));
     exports.DiagnosticReportService = DiagnosticReportService;
 });
-define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/jsonRpcService", "services/AuthService", "Handlers", "models/PatientModel"], function (require, exports, jsonRpcService_5, AuthService_2, Handlers_5, PatientModel_1) {
+define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/jsonRpcService", "services/AuthService", "Handlers"], function (require, exports, jsonRpcService_5, AuthService_2, Handlers_5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AuthService = void 0;
@@ -4185,11 +3657,9 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
             this.exec(Handlers_5.Handlers.HANDLER_AUTHENTICATE_METHOD, requestData, function (err, payload) {
                 if (err)
                     return cb(err, null, null);
-                var patient = new PatientModel_1.PatientModel();
-                patient.fromJson(payload["patient"]);
                 if (!payload["userSign"])
                     throw new Error("expect userSign");
-                return cb(null, patient, payload["userSign"]);
+                return cb(null, payload["patient"], payload["userSign"]);
             }, this.ehrServerEndpoint_);
         };
         AuthService.prototype.authenticateAsync = function (exchangeToken, searchStrategy, patientProperties, medCardId) {
@@ -4243,7 +3713,7 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
     }(jsonRpcService_5.JsonRPCService));
     exports.AuthService = AuthService;
 });
-define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers", "models/PatientModel"], function (require, exports, jsonRpcService_6, Handlers_6, PatientModel_2) {
+define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_6, Handlers_6) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PatientService = void 0;
@@ -4259,10 +3729,8 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
                     return cb(err);
                 if (!payload["userSign"])
                     return cb(new Error("userSign not found"));
-                var patient = new PatientModel_2.PatientModel();
                 _this.lastValidationErrors_ = payload["validationErrors"];
-                patient.fromJson(payload["patient"]);
-                return cb(err, patient, payload["userSign"]);
+                return cb(err, payload["patient"], payload["userSign"]);
             });
         };
         PatientService.prototype.getPatientAsync = function () {
@@ -4534,13 +4002,13 @@ define("services/filters/index", ["require", "exports", "services/filters/Patien
         PrescriptionFilters: PrescriptionFilters_1.PrescriptionFilters,
     };
 });
-define("services/index", ["require", "exports", "services/jsonRPC/index", "services/AuthService", "services/Credentials", "services/RpcErrorCodes", "services/filters/index", "services/PatientService"], function (require, exports, index_7, AuthService_4, Credentials_1, RpcErrorCodes_3, index_8, PatientService_2) {
+define("services/index", ["require", "exports", "services/jsonRPC/index", "services/AuthService", "services/Credentials", "services/RpcErrorCodes", "services/filters/index", "services/PatientService"], function (require, exports, index_5, AuthService_4, Credentials_1, RpcErrorCodes_3, index_6, PatientService_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = {
         // InMemory
         //, BinRPC
-        JsonRPC: index_7.default,
+        JsonRPC: index_5.default,
         PatientAuthenticationResult: AuthService_4.PatientAuthenticationResult,
         PatientAuthenticationStep: AuthService_4.PatientAuthenticationStep,
         PatientAuthenticationError: AuthService_4.PatientAuthenticationError,
@@ -4549,7 +4017,7 @@ define("services/index", ["require", "exports", "services/jsonRPC/index", "servi
         getAuthenticatedPatientByExchangeToken: AuthService_4.getAuthenticatedPatientByExchangeToken,
         Credentials: Credentials_1.Credentials,
         RpcErrorCodes: RpcErrorCodes_3.RpcErrorCodes,
-        Filters: index_8.default,
+        Filters: index_6.default,
         SearchEntityKeywords: PatientService_2.SearchEntityKeywords,
         SearchPatientEhrKeywords: PatientService_2.SearchPatientEhrKeywords,
         SearchPatientEhrFilters: PatientService_2.SearchPatientEhrFilters,
@@ -4580,7 +4048,7 @@ define("formatters/Formatter", ["require", "exports"], function (require, export
     exports.paragrathes_nl = paragrathes_nl;
     exports.trim = function (str) { return str.replace(/^\s+/, "").replace(/\s+$/, ""); };
 });
-define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter"], function (require, exports, index_9, Formatter_1) {
+define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter"], function (require, exports, index_7, Formatter_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SimpleTextFormatter = void 0;
@@ -4679,19 +4147,12 @@ define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n
             return this.diagnosisOffset(d, this._baseOffset);
         };
         SimpleTextFormatter.prototype.diagnosisOffset = function (d, offset) {
-            var itemToString = function (item) {
-                return item.description + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
-            };
-            if (d.length === 0)
-                return "";
-            if (d.length == 1 &&
-                d[0].description.length < 100 &&
-                d[0].description.indexOf("\n") < 0) {
-                var hasKeyValue = typeof d[0].description === "string" &&
-                    d[0].description.match(/([^:]*):(.*)/);
-                return (hasKeyValue ? "\n" : "") + itemToString(d[0]);
-            }
-            return "\n" + d.map(itemToString).join("\n\n");
+            var _this = this;
+            var itemToText = function (item) { return _this.cd10(item.cd10) + "\n" + item.diagnosisText; };
+            return d.map(itemToText).join("\n\n");
+        };
+        SimpleTextFormatter.prototype.cd10 = function (item) {
+            return item.description + (item.code ? " (cd10: " + item.code + ")" : "");
         };
         SimpleTextFormatter.prototype.procedures = function (p, offset) {
             var this_ = this;
@@ -4883,14 +4344,14 @@ define("formatters/SimpleTextFormatter", ["require", "exports", "formatters/l10n
             return text;
         };
         SimpleTextFormatter.LOCALIZE = {
-            "ru-ru": index_9.default.ruRU,
-            "en-us": index_9.default.enUS,
+            "ru-ru": index_7.default.ruRU,
+            "en-us": index_7.default.enUS,
         };
         return SimpleTextFormatter;
     }());
     exports.SimpleTextFormatter = SimpleTextFormatter;
 });
-define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter", "types/index", "types/ObservationType", "types/DiscountType"], function (require, exports, index_10, Formatter_2, index_11, ObservationType_1, DiscountType_1) {
+define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/index", "formatters/Formatter", "types/index", "types/ObservationType", "types/DiscountType"], function (require, exports, index_8, Formatter_2, index_9, ObservationType_1, DiscountType_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FieldsFormatter = exports.buildFieldArray = exports.FieldItemModeMeta = exports.FieldMeta = exports.Field = exports.FieldItemMode = exports.FieldStatusColor = exports.FieldType = void 0;
@@ -4910,6 +4371,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         FieldType["ObjectList"] = "objectList";
         FieldType["MediaList"] = "mediaList";
         FieldType["AttachmentList"] = "attachmentList";
+        FieldType["AttachmentInfoList"] = "attachmentInfoList";
         FieldType["Hidden"] = "hidden";
     })(FieldType = exports.FieldType || (exports.FieldType = {}));
     var FieldStatusColor;
@@ -5026,13 +4488,15 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         }
         FieldsFormatter.create = function (locale, dateFormat) {
             if (dateFormat === void 0) { dateFormat = Formatter_2.dateISOFormat; }
-            return new FieldsFormatter(index_10.default.getByLocaleCode(locale), dateFormat);
+            return new FieldsFormatter(index_8.default.getByLocaleCode(locale), dateFormat);
         };
         // ----------------------------------
         // Common field definitions
         FieldsFormatter.prototype.dateField = function (opts) {
             var this_ = this;
             var format = function (intl, val) {
+                if (!val)
+                    return "";
                 if (typeof val == "string")
                     val = new Date(Date.parse(val));
                 var d = val;
@@ -5093,9 +4557,15 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
         };
         FieldsFormatter.prototype.diagnosisField = function () {
+            var diag = function (v) {
+                return (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+                    "\n" +
+                    v.diagnosisText +
+                    "\n\n";
+            };
             return {
-                type: FieldType.Object,
-                format: this.diagnosis.bind(this),
+                type: FieldType.Text,
+                format: function (x) { return ((x === null || x === void 0 ? void 0 : x.length) > 0 ? x.map(diag).join("\n\n") : ""); },
             };
         };
         FieldsFormatter.prototype.FormattedFieldList = function (format) {
@@ -5188,6 +4658,8 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 type: FieldType.DatePeriod,
                 format: function (val) {
                     var _a, _b;
+                    if (!val)
+                        return "";
                     var period = val;
                     var textPeriod = val;
                     return {
@@ -5285,6 +4757,14 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 },
             };
         };
+        FieldsFormatter.prototype.AttachmentInfosField = function () {
+            return {
+                type: FieldType.AttachmentInfoList,
+                format: function (val) {
+                    return val;
+                },
+            };
+        };
         FieldsFormatter.prototype.attachmentsField = function () {
             return {
                 type: FieldType.AttachmentList,
@@ -5336,7 +4816,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                         var d = val;
                         return d.discountType == DiscountType_1.DiscountType.Percent
                             ? d.discountPercent + "%"
-                            : this_.priceFormat(d.discountValue, index_11.Currency.Rur);
+                            : this_.priceFormat(d.discountValue, index_9.Currency.Rur);
                     },
                 },
             };
@@ -5464,6 +4944,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 recommendations: this.FormattedFieldList(this.procedures.bind(this)),
                 scheduledProcedures: this.FormattedFieldList(this.procedures.bind(this)),
                 prescriptions: this.FormattedFieldList(this.prescriptions.bind(this)),
+                attachments: this.AttachmentInfosField(),
             };
             return buildFieldArray(ar, meta, this._localize["appointmentResult"]);
         };
@@ -5477,7 +4958,10 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 hint: "",
                 type: FieldType.Text,
                 originValue: v,
-                value: "cd10 " + v.cd10 + "\n" + v.description + "\n\n",
+                value: (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+                    "\n" +
+                    v.diagnosisText +
+                    "\n\n",
             }); });
         };
         FieldsFormatter.prototype.procedure = function (p) {
@@ -5506,6 +4990,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
         };
         FieldsFormatter.prototype.prescription = function (p) {
+            var this_ = this;
             var meta = {
                 created: this.dateField(),
                 recorderDoctor: this.doctorField(),
@@ -5522,6 +5007,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 medications: this.medicationsField(),
                 reasonText: this.textField(),
                 numberOfRepeats: this.numberField(),
+                diagnoses: this.diagnosisField(),
             };
             return buildFieldArray(p, meta, this._localize["Prescription"]);
         };
@@ -5530,7 +5016,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             var meta = {};
             var itemModeMeta = {
                 firstLine: function (m) {
-                    return m.name + " " + m.itemSize;
+                    return m.name + " " + m.itemSize + " " + m.durationText;
                 },
                 secondLine: function (m) {
                     return m.code + " " + m.codeTable;
@@ -5571,6 +5057,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
             };
         };
         FieldsFormatter.prototype.diagnosticReport = function (dr) {
+            var this_ = this;
             var meta = {
                 id: this.idField(),
                 active: this.activeField(),
@@ -5582,6 +5069,7 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
                 // effectivePeriod: this.periodField({ dateOnly: true }),
                 issuedDate: this.dateField({ dateOnly: true }),
                 result: this.observationsField(),
+                diagnosis: this.diagnosisField(),
                 services: this.servicesField(),
                 resultInterpreter: this.doctorsField(),
                 resultInterpretation: this.paragrathesField(),
@@ -5658,16 +5146,16 @@ define("messages/index", ["require", "exports", "messages/AppointmentMessage"], 
         AppointmentMessage: AppointmentMessage_1.AppointmentMessage,
     };
 });
-define("MedMe", ["require", "exports", "types/index", "services/index", "formatters/index", "Handlers", "messages/index"], function (require, exports, Types, index_12, index_13, Handlers_8, index_14) {
+define("MedMe", ["require", "exports", "types/index", "services/index", "formatters/index", "Handlers", "messages/index"], function (require, exports, Types, index_10, index_11, Handlers_8, index_12) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.EHR = void 0;
     exports.EHR = {
         SDK_VERSION: "1.8.13",
         Types: Types,
-        Services: index_12.default,
-        Formatters: index_13.default,
+        Services: index_10.default,
+        Formatters: index_11.default,
         Handlers: Handlers_8.Handlers,
-        Messages: index_14.default,
+        Messages: index_12.default,
     };
 });

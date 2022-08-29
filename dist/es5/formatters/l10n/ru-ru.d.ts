@@ -23,6 +23,7 @@ declare const _default: {
         scheduledProceduresHint: string;
         prescriptions: string;
         prescriptionsHint: string;
+        attachments: string;
     };
     procedure: {
         created: string;
@@ -70,6 +71,7 @@ declare const _default: {
         reasonText: string;
         validityPeriod: string;
         numberOfRepeats: string;
+        diagnoses: string;
     };
     MedicationForm: {
         0: string;

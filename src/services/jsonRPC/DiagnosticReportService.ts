@@ -1,6 +1,5 @@
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
-import { DiagnosticReportModel } from "../../models/DiagnosticReportModel";
 import { IDiagnosticReportService } from "../DiagnosticReportService";
 import { DiagnosticReportMessage } from "../../messages/DiagnosticReportMessage";
 import { DiagnosticReportFilters } from "../../services/filters/DiagnosticReportFilters";

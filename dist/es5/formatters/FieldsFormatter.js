@@ -19,6 +19,7 @@ export var FieldType;
     FieldType["ObjectList"] = "objectList";
     FieldType["MediaList"] = "mediaList";
     FieldType["AttachmentList"] = "attachmentList";
+    FieldType["AttachmentInfoList"] = "attachmentInfoList";
     FieldType["Hidden"] = "hidden";
 })(FieldType || (FieldType = {}));
 export var FieldStatusColor;
@@ -141,6 +142,8 @@ var FieldsFormatter = /** @class */ (function () {
     FieldsFormatter.prototype.dateField = function (opts) {
         var this_ = this;
         var format = function (intl, val) {
+            if (!val)
+                return "";
             if (typeof val == "string")
                 val = new Date(Date.parse(val));
             var d = val;
@@ -201,9 +204,15 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.diagnosisField = function () {
+        var diag = function (v) {
+            return (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+                "\n" +
+                v.diagnosisText +
+                "\n\n";
+        };
         return {
-            type: FieldType.Object,
-            format: this.diagnosis.bind(this),
+            type: FieldType.Text,
+            format: function (x) { return ((x === null || x === void 0 ? void 0 : x.length) > 0 ? x.map(diag).join("\n\n") : ""); },
         };
     };
     FieldsFormatter.prototype.FormattedFieldList = function (format) {
@@ -296,6 +305,8 @@ var FieldsFormatter = /** @class */ (function () {
             type: FieldType.DatePeriod,
             format: function (val) {
                 var _a, _b;
+                if (!val)
+                    return "";
                 var period = val;
                 var textPeriod = val;
                 return {
@@ -389,6 +400,14 @@ var FieldsFormatter = /** @class */ (function () {
                     // "https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?ixid=MnwyNDUwMjR8MHwxfHNlYXJjaHwzMHx8cG9ydHJhaXR8ZW58MHx8fHwxNjMxMjg1OTkx&ixlib=rb-1.2.1&cs=tinysrgb&fm=jpg&fit=facearea&facepad=4&q=60&w=256&h=256",
                     ];
                 }
+                return val;
+            },
+        };
+    };
+    FieldsFormatter.prototype.AttachmentInfosField = function () {
+        return {
+            type: FieldType.AttachmentInfoList,
+            format: function (val) {
                 return val;
             },
         };
@@ -572,6 +591,7 @@ var FieldsFormatter = /** @class */ (function () {
             recommendations: this.FormattedFieldList(this.procedures.bind(this)),
             scheduledProcedures: this.FormattedFieldList(this.procedures.bind(this)),
             prescriptions: this.FormattedFieldList(this.prescriptions.bind(this)),
+            attachments: this.AttachmentInfosField(),
         };
         return buildFieldArray(ar, meta, this._localize["appointmentResult"]);
     };
@@ -585,7 +605,10 @@ var FieldsFormatter = /** @class */ (function () {
             hint: "",
             type: FieldType.Text,
             originValue: v,
-            value: "cd10 " + v.cd10 + "\n" + v.description + "\n\n",
+            value: (v.cd10 != null ? "(" + v.cd10.code + ") " + v.cd10.description : "") +
+                "\n" +
+                v.diagnosisText +
+                "\n\n",
         }); });
     };
     FieldsFormatter.prototype.procedure = function (p) {
@@ -614,6 +637,7 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.prescription = function (p) {
+        var this_ = this;
         var meta = {
             created: this.dateField(),
             recorderDoctor: this.doctorField(),
@@ -630,6 +654,7 @@ var FieldsFormatter = /** @class */ (function () {
             medications: this.medicationsField(),
             reasonText: this.textField(),
             numberOfRepeats: this.numberField(),
+            diagnoses: this.diagnosisField(),
         };
         return buildFieldArray(p, meta, this._localize["Prescription"]);
     };
@@ -638,7 +663,7 @@ var FieldsFormatter = /** @class */ (function () {
         var meta = {};
         var itemModeMeta = {
             firstLine: function (m) {
-                return m.name + " " + m.itemSize;
+                return m.name + " " + m.itemSize + " " + m.durationText;
             },
             secondLine: function (m) {
                 return m.code + " " + m.codeTable;
@@ -679,6 +704,7 @@ var FieldsFormatter = /** @class */ (function () {
         };
     };
     FieldsFormatter.prototype.diagnosticReport = function (dr) {
+        var this_ = this;
         var meta = {
             id: this.idField(),
             active: this.activeField(),
@@ -690,6 +716,7 @@ var FieldsFormatter = /** @class */ (function () {
             // effectivePeriod: this.periodField({ dateOnly: true }),
             issuedDate: this.dateField({ dateOnly: true }),
             result: this.observationsField(),
+            diagnosis: this.diagnosisField(),
             services: this.servicesField(),
             resultInterpreter: this.doctorsField(),
             resultInterpretation: this.paragrathesField(),

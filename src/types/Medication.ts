@@ -11,6 +11,7 @@ export class Medication {
   form: MedicationForm;
   amount: number;
   expirationDate: Date;
+  durationText: string;
 
   fromJson(json: any) {
     this.name = json.name;
