@@ -1,6 +1,6 @@
 const moment = require("moment");
 
-import { Diagnosis } from "../types/Diagnosis";
+import { Cd10, Diagnosis } from "../types/Diagnosis";
 import { Procedure } from "../types/Procedure";
 import { PrescriptionInfo } from "../types/PrescriptionInfo";
 import { ProcedureType } from "../types/ProcedureType";
@@ -149,24 +149,15 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
     return this.diagnosisOffset(d, this._baseOffset);
   }
 
+
   public diagnosisOffset(d: Diagnosis[], offset: string): string {
-    const itemToString = (item: Diagnosis) =>
-      item.diagnosisText + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
+    const _this = this;
+    const itemToText = (item: Diagnosis) => _this.cd10(item.cd10) + "\n" + item.diagnosisText;
+    return d.map(itemToText).join("\n\n");
+  }
 
-    if (d.length === 0) return "";
-
-    if (
-      d.length == 1 &&
-      d[0].diagnosisText.length < 100 &&
-      d[0].diagnosisText.indexOf("\n") < 0
-    ) {
-      let hasKeyValue =
-        typeof d[0].diagnosisText === "string" &&
-        d[0].diagnosisText.match(/([^:]*):(.*)/);
-      return (hasKeyValue ? "\n" : "") + itemToString(d[0]);
-    }
-
-    return "\n" + d.map(itemToString).join("\n\n");
+  public cd10(item: Cd10): string {
+    return item.description + (item.code ? " (cd10: " + item.code + ")" : "");
   }
 
   public procedures(p: Procedure[], offset: string): string {
