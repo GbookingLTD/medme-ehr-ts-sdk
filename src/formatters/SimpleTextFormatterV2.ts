@@ -16,7 +16,7 @@ import {
   IFormatter,
 } from "./Formatter";
 import { IAppointmentResultMessage, IDiagnosticReportMessage, IDoctor, IObservation, IPeriod, IService } from "interfaces/index";
-import { PatientReportInfo } from "types/index";
+import { AttachmentInfo, PatientReportInfo } from "types/index";
 
 function alignStrings(obj: object, keys: string[]) {
   // find max strings length
@@ -46,7 +46,7 @@ function formatObject(
     keys.filter((key) => !notAlignedKeys[key])
   );
   keys.forEach((key) => {
-    if (!obj[key] || (Array.isArray(obj[key]) && !obj[key].length)) return;
+    if (!obj[key] || (Array.isArray(obj[key]) && !obj[key].length || !obj[key].some(k=>!!k))) return;
     if (propFormats[key])
       ret +=
         offset +
@@ -83,9 +83,6 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
     offset: string = ""
   ): string {
     let keys = [
-      "created",
-      "start",
-      "doctor",
       "duration",
       "anamnesis",
       "medicalExaminationResult",
@@ -93,6 +90,7 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
       "recommendations",
       "scheduledProcedures",
       "prescriptions",
+      "attachments",
     ];
     let propFormats = {
       created: this._dateFormat.bind(this),
@@ -105,6 +103,7 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
       scheduledProcedures: this.procedures.bind(this),
       prescriptions: this.prescriptions.bind(this),
       reportInfos: this.reportInfos.bind(this),
+      attachments: this.attachmentInfos.bind(this),
     };
     let notAlignedKeys = {
       scheduledProcedures: 1,
@@ -132,13 +131,12 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
     });
     return "\n" + paragrathes(ar) + "\n\n";
   }
-
-  public anamnesis(ar: string[], offset: string): string {
-    return "\n" + paragrathes(ar) + "\n";
+  public anamnesis (ar: string[], offset: string): string {
+    return ar.length && ar.some(el=>!!el)  ? "\n" + paragrathes(ar) + "\n" : "";
   }
 
   public duration(n: number): string {
-    return n.toString() + " " + this._localize["MINUTE_UNIT"];
+    return n ? n.toString() + " " + this._localize["MINUTE_UNIT"] : ''
   }
 
   public doctor(d: IDoctor, offset: string = ""): string {
@@ -260,6 +258,14 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
       return `\n ${offset} <b>${r.name}</b>\n${r.value.map(v=>this.reportInfoValue(v,offset))}`
     }
   }
+
+  public attachmentInfos (a: AttachmentInfo[], offset: string): string {
+    return "\n" + a.map((item) => this.attachmentInfo(item, offset)).join("\n");
+  }
+
+  public attachmentInfo(a:AttachmentInfo, offset: string = ""): string {
+    return `\n ${offset} <a href="${a.url}" target="_blank">${a.file}</a>\n`
+  }
   public reportInfoValue(r:any, offset: string):string {
     if(r.paramValue && Array.isArray(r.paramValue)){
       return `\n ${offset} <b>${r.paramName}</b>\n${r.value.map(v=>this.reportInfoValue(v,offset))}`
@@ -334,23 +340,14 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
       offset +
       this.diagnosticReportTitle(dr) +
       "\n" +
-      "\n" +
       offset +
-      this._localize["CREATED"] +
-      " " +
-      this._dateFormat(dr.issuedDate) +
-      "\n" +
-      offset +
-      this._localize["DiagnosticReport"]["doctor"] +
-      " " +
-      dr.resultInterpreter.map((d) => _this.doctor(d)) +
       "\n" +
       offset +
       this._localize["DiagnosticReport"]["result"] +
       "\n" +
       offset +
       this.observations(dr.result, offset + "  ") +
-      (dr.effectivePeriod && dr.effectivePeriod.begin
+      (dr.effectivePeriod && dr.effectivePeriod.begin && moment(dr.effectivePeriod.begin).isAfter(moment("1900-00-00 00:00:00"))
         ? "\n" +
           offset +
           this._localize["DiagnosticReport"]["effectivePeriod"] +
@@ -359,7 +356,7 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
       (dr.resultInterpretation && dr.resultInterpretation.length
         ? "\n" + offset + "\n" + paragrathes_nl(dr.resultInterpretation, offset)
         : "") +
-      (dr.imagineMedia && dr.imagineMedia.length
+      (dr.imagineMedia && dr.imagineMedia.length && dr.imagineMedia.some(k=>!!k)
         ? "\n" +
           offset +
           "\n" +
@@ -367,13 +364,13 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
           this._localize["DiagnosticReport"]["images"] +
           dr.imagineMedia.map((img) => +"\n" + offset + img)
         : "") +
-      (dr.attachments && dr.attachments.length
+      (dr.attachments && dr.attachments.length && dr.attachments.some(k=>!!k)
         ? "\n" +
           offset +
           "\n" +
           offset +
           this._localize["DiagnosticReport"]["attachments"] +
-          dr.attachments.map((a) => +"\n" + offset + a)
+          dr.attachments.map((a) => this.attachmentInfo(a, offset))
         : "")
     );
   }

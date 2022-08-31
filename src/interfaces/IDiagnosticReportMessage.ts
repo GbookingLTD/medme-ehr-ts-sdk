@@ -1,4 +1,5 @@
 import { IBusinessInfo, IDoctor, IObservation, IPatientInfo, IPeriod, IService } from "interfaces/index";
+import { AttachmentInfo } from "types/AttachmentInfo";
 import { ObservationType } from "types/ObservationType";
 
 export interface IDiagnosticReportMessage {
@@ -14,7 +15,7 @@ export interface IDiagnosticReportMessage {
   resultInterpreter: IDoctor[];
   resultInterpretation: string[];
   imagineMedia: string[];
-  attachments: string[];
+  attachments: AttachmentInfo[];
   services: IService[];
   category: string;
 }

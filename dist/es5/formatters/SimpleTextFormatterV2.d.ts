@@ -1,4 +1,4 @@
-import { Diagnosis } from "../types/Diagnosis";
+import { Cd10, Diagnosis } from "../types/Diagnosis";
 import { Procedure } from "../types/Procedure";
 import { PrescriptionInfo } from "../types/PrescriptionInfo";
 import { ProcedureType } from "../types/ProcedureType";
@@ -6,7 +6,7 @@ import { ProcedureExecStatus } from "../types/ProcedureExecStatus";
 import { Medication } from "../types/Medication";
 import { DateFormatFunc, IFormatter } from "./Formatter";
 import { IAppointmentResultMessage, IDiagnosticReportMessage, IDoctor, IObservation, IPeriod, IService } from "interfaces/index";
-import { PatientReportInfo } from "types/index";
+import { AttachmentInfo, PatientReportInfo } from "types/index";
 export declare class SimpleTextFormatterV2 implements IFormatter<string> {
     static LOCALIZE: {
         "ru-ru": {
@@ -228,6 +228,7 @@ export declare class SimpleTextFormatterV2 implements IFormatter<string> {
     doctor(d: IDoctor, offset?: string): string;
     diagnosis(d: Diagnosis[]): string;
     diagnosisOffset(d: Diagnosis[], offset: string): string;
+    cd10(item: Cd10): string;
     procedures(p: Procedure[], offset: string): string;
     procedure(p: Procedure, offset?: string): string;
     yesNo(b: boolean, offset: string): string;
@@ -235,6 +236,8 @@ export declare class SimpleTextFormatterV2 implements IFormatter<string> {
     prescription(p: PrescriptionInfo, offset?: string): string;
     reportInfos(p: PatientReportInfo[], offset: string): string;
     reportInfo(r: PatientReportInfo, offset?: string): string;
+    attachmentInfos(a: AttachmentInfo[], offset: string): string;
+    attachmentInfo(a: AttachmentInfo, offset?: string): string;
     reportInfoValue(r: any, offset: string): string;
     reportInfoValueHandler(value: string): string;
     medications(s: Medication[], offset: string): string;

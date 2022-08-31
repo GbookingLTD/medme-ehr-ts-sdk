@@ -5,6 +5,7 @@ import { Observation } from "../types/Observation";
 import { Service } from "../types/Service";
 import { PatientInfo } from "../types/PatientInfo";
 import { BusinessInfo } from "../types/BusinessInfo";
+import { AttachmentInfo } from "types/AttachmentInfo";
 
 export class DiagnosticReportMessage {
   id: string;
@@ -19,7 +20,7 @@ export class DiagnosticReportMessage {
   resultInterpreter: Doctor[];
   resultInterpretation: string[];
   imagineMedia: string[];
-  attachments: string[];
+  attachments: AttachmentInfo[];
   services: Service[];
   category: string;
 }

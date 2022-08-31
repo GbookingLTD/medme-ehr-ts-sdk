@@ -18,7 +18,7 @@ function formatObject(obj, keys, notAlignedKeys, propFormats, localize, offset) 
     }, {});
     alignStrings(localizedKeys, keys.filter(function (key) { return !notAlignedKeys[key]; }));
     keys.forEach(function (key) {
-        if (!obj[key] || (Array.isArray(obj[key]) && !obj[key].length))
+        if (!obj[key] || (Array.isArray(obj[key]) && !obj[key].length || !obj[key].some(function (k) { return !!k; })))
             return;
         if (propFormats[key])
             ret +=
@@ -43,9 +43,6 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
     SimpleTextFormatterV2.prototype.appointmentResult = function (ar, offset) {
         if (offset === void 0) { offset = ""; }
         var keys = [
-            "created",
-            "start",
-            "doctor",
             "duration",
             "anamnesis",
             "medicalExaminationResult",
@@ -53,6 +50,7 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
             "recommendations",
             "scheduledProcedures",
             "prescriptions",
+            "attachments",
         ];
         var propFormats = {
             created: this._dateFormat.bind(this),
@@ -65,6 +63,7 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
             scheduledProcedures: this.procedures.bind(this),
             prescriptions: this.prescriptions.bind(this),
             reportInfos: this.reportInfos.bind(this),
+            attachments: this.attachmentInfos.bind(this),
         };
         var notAlignedKeys = {
             scheduledProcedures: 1,
@@ -84,10 +83,10 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
         return "\n" + paragrathes(ar) + "\n\n";
     };
     SimpleTextFormatterV2.prototype.anamnesis = function (ar, offset) {
-        return "\n" + paragrathes(ar) + "\n";
+        return ar.length && ar.some(function (el) { return !!el; }) ? "\n" + paragrathes(ar) + "\n" : "";
     };
     SimpleTextFormatterV2.prototype.duration = function (n) {
-        return n.toString() + " " + this._localize["MINUTE_UNIT"];
+        return n ? n.toString() + " " + this._localize["MINUTE_UNIT"] : '';
     };
     SimpleTextFormatterV2.prototype.doctor = function (d, offset) {
         if (offset === void 0) { offset = ""; }
@@ -97,19 +96,12 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
         return this.diagnosisOffset(d, this._baseOffset);
     };
     SimpleTextFormatterV2.prototype.diagnosisOffset = function (d, offset) {
-        var itemToString = function (item) {
-            return item.diagnosisText + (item.cd10 ? " (cd10: " + item.cd10 + ")" : "");
-        };
-        if (d.length === 0)
-            return "";
-        if (d.length == 1 &&
-            d[0].diagnosisText.length < 100 &&
-            d[0].diagnosisText.indexOf("\n") < 0) {
-            var hasKeyValue = typeof d[0].diagnosisText === "string" &&
-                d[0].diagnosisText.match(/([^:]*):(.*)/);
-            return (hasKeyValue ? "\n" : "") + itemToString(d[0]);
-        }
-        return "\n" + d.map(itemToString).join("\n\n");
+        var _this = this;
+        var itemToText = function (item) { return _this.cd10(item.cd10) + "\n" + item.diagnosisText; };
+        return d.map(itemToText).join("\n\n");
+    };
+    SimpleTextFormatterV2.prototype.cd10 = function (item) {
+        return item.description + (item.code ? " (cd10: " + item.code + ")" : "");
     };
     SimpleTextFormatterV2.prototype.procedures = function (p, offset) {
         var this_ = this;
@@ -194,6 +186,14 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
             return "\n " + offset + " <b>" + r.name + "</b>\n" + r.value.map(function (v) { return _this_1.reportInfoValue(v, offset); });
         }
     };
+    SimpleTextFormatterV2.prototype.attachmentInfos = function (a, offset) {
+        var _this_1 = this;
+        return "\n" + a.map(function (item) { return _this_1.attachmentInfo(item, offset); }).join("\n");
+    };
+    SimpleTextFormatterV2.prototype.attachmentInfo = function (a, offset) {
+        if (offset === void 0) { offset = ""; }
+        return "\n " + offset + " <a href=\"" + a.url + "\" target=\"_blank\">" + a.file + "</a>\n";
+    };
     SimpleTextFormatterV2.prototype.reportInfoValue = function (r, offset) {
         var _this_1 = this;
         if (r.paramValue && Array.isArray(r.paramValue)) {
@@ -252,28 +252,20 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
             "\n");
     };
     SimpleTextFormatterV2.prototype.diagnosticReport = function (dr, offset) {
+        var _this_1 = this;
         if (offset === void 0) { offset = ""; }
         var _this = this;
         return (offset +
             this.diagnosticReportTitle(dr) +
             "\n" +
-            "\n" +
             offset +
-            this._localize["CREATED"] +
-            " " +
-            this._dateFormat(dr.issuedDate) +
-            "\n" +
-            offset +
-            this._localize["DiagnosticReport"]["doctor"] +
-            " " +
-            dr.resultInterpreter.map(function (d) { return _this.doctor(d); }) +
             "\n" +
             offset +
             this._localize["DiagnosticReport"]["result"] +
             "\n" +
             offset +
             this.observations(dr.result, offset + "  ") +
-            (dr.effectivePeriod && dr.effectivePeriod.begin
+            (dr.effectivePeriod && dr.effectivePeriod.begin && moment(dr.effectivePeriod.begin).isAfter(moment("1900-00-00 00:00:00"))
                 ? "\n" +
                     offset +
                     this._localize["DiagnosticReport"]["effectivePeriod"] +
@@ -282,7 +274,7 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
             (dr.resultInterpretation && dr.resultInterpretation.length
                 ? "\n" + offset + "\n" + paragrathes_nl(dr.resultInterpretation, offset)
                 : "") +
-            (dr.imagineMedia && dr.imagineMedia.length
+            (dr.imagineMedia && dr.imagineMedia.length && dr.imagineMedia.some(function (k) { return !!k; })
                 ? "\n" +
                     offset +
                     "\n" +
@@ -290,13 +282,13 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
                     this._localize["DiagnosticReport"]["images"] +
                     dr.imagineMedia.map(function (img) { return +"\n" + offset + img; })
                 : "") +
-            (dr.attachments && dr.attachments.length
+            (dr.attachments && dr.attachments.length && dr.attachments.some(function (k) { return !!k; })
                 ? "\n" +
                     offset +
                     "\n" +
                     offset +
                     this._localize["DiagnosticReport"]["attachments"] +
-                    dr.attachments.map(function (a) { return +"\n" + offset + a; })
+                    dr.attachments.map(function (a) { return _this_1.attachmentInfo(a, offset); })
                 : ""));
     };
     SimpleTextFormatterV2.prototype.diagnosticReportTitle = function (dr) {
