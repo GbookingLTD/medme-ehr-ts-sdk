@@ -26,4 +26,6 @@ export class AppointmentResultMessage {
   diagnosticReportIds: string[];
   reportInfos?: PatientReportInfo[]
   attachments: AttachmentInfo[];
+  sourceAppointmentId?: string;
+  sourceAppointmentResultId?: string;
 }
