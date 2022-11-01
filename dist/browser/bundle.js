@@ -2991,9 +2991,13 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "services/j
                 });
             });
         };
-        AppointmentService.prototype.getAppointments = function (limit, offset, lastId, cb) {
+        AppointmentService.prototype.getAppointments = function (limit, offset, lastId, prevCreated, cb) {
             var _this = this;
-            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+            var params = prevCreated
+                ? { limit: limit, lastItemCreated: prevCreated }
+                : (lastId
+                    ? { limit: limit, lastItemId: lastId }
+                    : { limit: limit, offset: offset });
             this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3001,10 +3005,10 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "services/j
                 cb(null, payload["appointments"]);
             });
         };
-        AppointmentService.prototype.getAppointmentsAsync = function (limit, offset, lastId) {
+        AppointmentService.prototype.getAppointmentsAsync = function (limit, offset, lastId, prevCreated) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getAppointments(limit, offset, lastId, function (err, appointments) {
+                service.getAppointments(limit, offset, lastId, prevCreated, function (err, appointments) {
                     if (err)
                         return rej(err);
                     res(appointments);
@@ -3132,9 +3136,13 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "serv
                 });
             });
         };
-        AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, lastId, cb) {
+        AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, lastId, prevCreated, cb) {
             var _this_1 = this;
-            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+            var params = prevCreated
+                ? { limit: limit, lastItemCreated: prevCreated }
+                : (lastId
+                    ? { limit: limit, lastItemId: lastId }
+                    : { limit: limit, offset: offset });
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3142,10 +3150,10 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "serv
                 return cb(null, payload["appointmentResults"]);
             });
         };
-        AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset, lastId) {
+        AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset, lastId, prevCreated) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getAppointmentResults(limit, offset, lastId, function (err, appResults) {
+                service.getAppointmentResults(limit, offset, lastId, prevCreated, function (err, appResults) {
                     if (err)
                         return rej(err);
                     res(appResults);
@@ -3289,9 +3297,13 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
                 });
             });
         };
-        PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, cb) {
+        PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, prevCreated, cb) {
             var _this_1 = this;
-            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+            var params = prevCreated
+                ? { limit: limit, lastItemCreated: prevCreated }
+                : lastId
+                    ? { limit: limit, lastItemId: lastId }
+                    : { limit: limit, offset: offset };
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3299,10 +3311,10 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
                 return cb(null, payload["prescriptions"]);
             });
         };
-        PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId) {
+        PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId, prevCreated) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPrescriptions(limit, offset, lastId, function (err, values) {
+                service.getPrescriptions(limit, offset, lastId, prevCreated, function (err, values) {
                     if (err)
                         return rej(err);
                     res(values);
@@ -3467,9 +3479,13 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
                 });
             });
         };
-        DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, lastId, cb) {
+        DiagnosticReportService.prototype.getDiagnosticReports = function (limit, offset, lastId, prevCreated, cb) {
             var _this_1 = this;
-            var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+            var params = prevCreated
+                ? { limit: limit, lastItemCreated: prevCreated }
+                : (lastId
+                    ? { limit: limit, lastItemId: lastId }
+                    : { limit: limit, offset: offset });
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3477,10 +3493,10 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
                 cb(null, payload["diagnosticReports"]);
             });
         };
-        DiagnosticReportService.prototype.getDiagnosticReportsAsync = function (limit, offset, lastId) {
+        DiagnosticReportService.prototype.getDiagnosticReportsAsync = function (limit, offset, lastId, prevCreated) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getDiagnosticReports(limit, offset, lastId, function (err, reports) {
+                service.getDiagnosticReports(limit, offset, lastId, prevCreated, function (err, reports) {
                     if (err)
                         return rej(err);
                     res(reports);
@@ -3762,17 +3778,22 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
                 });
             });
         };
-        PatientService.prototype.getPatients = function (limit, offset, lastId, cb) {
-            this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENTS_METHOD, lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset }, function (err, payload) {
+        PatientService.prototype.getPatients = function (limit, offset, lastId, prevCreated, cb) {
+            var params = prevCreated
+                ? { limit: limit, lastItemCreated: prevCreated }
+                : lastId
+                    ? { limit: limit, lastItemId: lastId }
+                    : { limit: limit, offset: offset };
+            this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
                 return cb(err, payload["patients"]);
             });
         };
-        PatientService.prototype.getPatientsAsync = function (limit, offset, lastId) {
+        PatientService.prototype.getPatientsAsync = function (limit, offset, lastId, prevCreated) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPatients(limit, offset, lastId, function (err, patients) {
+                service.getPatients(limit, offset, lastId, prevCreated, function (err, patients) {
                     if (err)
                         return rej(err);
                     res(patients);

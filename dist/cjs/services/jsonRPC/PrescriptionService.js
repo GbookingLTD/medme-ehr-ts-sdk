@@ -65,9 +65,13 @@ var PrescriptionService = /** @class */ (function (_super) {
             });
         });
     };
-    PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, cb) {
+    PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, prevCreated, cb) {
         var _this_1 = this;
-        var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+        var params = prevCreated
+            ? { limit: limit, lastItemCreated: prevCreated }
+            : lastId
+                ? { limit: limit, lastItemId: lastId }
+                : { limit: limit, offset: offset };
         this.exec(Handlers_1.Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -75,10 +79,10 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId) {
+    PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId, prevCreated) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPrescriptions(limit, offset, lastId, function (err, values) {
+            service.getPrescriptions(limit, offset, lastId, prevCreated, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);
