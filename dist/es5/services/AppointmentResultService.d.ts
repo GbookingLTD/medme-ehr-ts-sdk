@@ -18,8 +18,8 @@ export interface IAppointmentResultService extends IResourceService {
      */
     getPatientAppointmentResults(patientId: string, limit: number, offset: number, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
     getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultMessage[]>;
-    getAppointmentResults(limit: number, offset: number, lastId: string, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
-    getAppointmentResultsAsync(limit: number, offset: number, lastId: string): Promise<AppointmentResultMessage[]>;
+    getAppointmentResults(limit: number, offset: number, lastId: string, prevCreated: string, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
+    getAppointmentResultsAsync(limit: number, offset: number, lastId: string, prevCreated: string): Promise<AppointmentResultMessage[]>;
     getAppointmentResultsCount(cb: (err: any, count: number, support: boolean) => void): void;
     getAppointmentResultsCountAsync(): Promise<{
         count: number;

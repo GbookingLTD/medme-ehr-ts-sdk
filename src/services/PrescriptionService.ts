@@ -37,12 +37,14 @@ export interface IPrescriptionService extends IResourceService {
     limit: number,
     offset: number,
     lastId: string,
+    prevCreated: string,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void;
   getPrescriptionsAsync(
     limit: number,
     offset: number,
-    lastId: string
+    lastId: string,
+    prevCreated: string
   ): Promise<PrescriptionMessage[]>;
 
   getFilteredPrescriptions(

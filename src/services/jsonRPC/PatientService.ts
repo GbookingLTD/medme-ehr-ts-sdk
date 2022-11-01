@@ -79,11 +79,17 @@ export class PatientService
     limit: number,
     offset: number,
     lastId: string,
+    prevCreated: string,
     cb: (err: any, patients: PatientMessage[]) => void
   ): void {
+    let params = prevCreated
+      ? { limit, lastItemCreated: prevCreated }
+      : lastId
+      ? { limit, lastItemId: lastId }
+      : { limit: limit, offset: offset };
     this.exec(
       Handlers.HANDLER_GET_PATIENTS_METHOD,
-      lastId ? { limit, lastItemId: lastId } : { limit, offset },
+      params,
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
@@ -95,15 +101,22 @@ export class PatientService
   public getPatientsAsync(
     limit: number,
     offset: number,
-    lastId: string
+    lastId: string,
+    prevCreated: string
   ): Promise<PatientMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
-      service.getPatients(limit, offset, lastId, (err, patients) => {
-        if (err) return rej(err);
+      service.getPatients(
+        limit,
+        offset,
+        lastId,
+        prevCreated,
+        (err, patients) => {
+          if (err) return rej(err);
 
-        res(patients);
-      });
+          res(patients);
+        }
+      );
     });
   }
 

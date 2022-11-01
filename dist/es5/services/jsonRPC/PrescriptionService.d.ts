@@ -12,8 +12,8 @@ export declare class PrescriptionService extends JsonRPCCredService implements I
     getPrescriptionByIdAsync(id: string): Promise<PrescriptionMessage>;
     getPatientPrescriptions(patientId: string, limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
     getPatientPrescriptionsAsync(patientId: string, limit: number, offset: number): Promise<PrescriptionMessage[]>;
-    getPrescriptions(limit: number, offset: number, lastId: string, cb: (err: any, p: PrescriptionMessage[]) => void): void;
-    getPrescriptionsAsync(limit: number, offset: number, lastId: string): Promise<PrescriptionMessage[]>;
+    getPrescriptions(limit: number, offset: number, lastId: string, prevCreated: string, cb: (err: any, p: PrescriptionMessage[]) => void): void;
+    getPrescriptionsAsync(limit: number, offset: number, lastId: string, prevCreated: string): Promise<PrescriptionMessage[]>;
     getFilteredPrescriptions(filters: PrescriptionFilters, limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
     getFilteredPrescriptionsAsync(filters: PrescriptionFilters, limit: number, offset: number): Promise<PrescriptionMessage[]>;
     getPrescriptionsCount(cb: (err: any, count: number, support: boolean) => void): void;

@@ -79,9 +79,14 @@ export class AppointmentService
     limit: number,
     offset: number,
     lastId: string,
+    prevCreated: string,
     cb: (err: any, appointments: AppointmentMessage[]) => void
   ): void {
-    let params = lastId ? { limit, lastItemId: lastId } : { limit: limit, offset: offset };
+    let params = prevCreated
+      ? { limit, lastItemCreated: prevCreated }
+      : (lastId
+      ? { limit, lastItemId: lastId }
+      : { limit: limit, offset: offset });
     this.exec(
       Handlers.HANDLER_GET_APPOINTMENTS_METHOD,
       params,
@@ -98,6 +103,7 @@ export class AppointmentService
     limit: number,
     offset: number,
     lastId: string,
+    prevCreated: string
   ): Promise<AppointmentMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -105,6 +111,7 @@ export class AppointmentService
         limit,
         offset,
         lastId,
+        prevCreated,
         (err: any, appointments: AppointmentMessage[]) => {
           if (err) return rej(err);
 

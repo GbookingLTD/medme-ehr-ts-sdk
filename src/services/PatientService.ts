@@ -25,9 +25,15 @@ export interface IPatientService extends IResourceService {
     limit: number,
     offset: number,
     lastId: string,
+    prevCreated: string,
     cb: (err: any, patients: PatientMessage[]) => void
   ): void;
-  getPatientsAsync(limit: number, offset: number, lastId: string): Promise<PatientMessage[]>;
+  getPatientsAsync(
+    limit: number,
+    offset: number,
+    lastId: string,
+    prevCreated: string
+  ): Promise<PatientMessage[]>;
 
   getFilteredPatients(
     filters: PatientFilters,

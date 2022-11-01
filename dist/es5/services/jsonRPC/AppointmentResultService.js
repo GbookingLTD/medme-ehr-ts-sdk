@@ -64,9 +64,13 @@ var AppointmentResultService = /** @class */ (function (_super) {
             });
         });
     };
-    AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, lastId, cb) {
+    AppointmentResultService.prototype.getAppointmentResults = function (limit, offset, lastId, prevCreated, cb) {
         var _this_1 = this;
-        var params = lastId ? { limit: limit, lastItemId: lastId } : { limit: limit, offset: offset };
+        var params = prevCreated
+            ? { limit: limit, lastItemCreated: prevCreated }
+            : (lastId
+                ? { limit: limit, lastItemId: lastId }
+                : { limit: limit, offset: offset });
         this.exec(Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -74,10 +78,10 @@ var AppointmentResultService = /** @class */ (function (_super) {
             return cb(null, payload["appointmentResults"]);
         });
     };
-    AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset, lastId) {
+    AppointmentResultService.prototype.getAppointmentResultsAsync = function (limit, offset, lastId, prevCreated) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getAppointmentResults(limit, offset, lastId, function (err, appResults) {
+            service.getAppointmentResults(limit, offset, lastId, prevCreated, function (err, appResults) {
                 if (err)
                     return rej(err);
                 res(appResults);
