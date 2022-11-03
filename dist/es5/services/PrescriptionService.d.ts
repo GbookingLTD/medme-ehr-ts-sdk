@@ -1,3 +1,4 @@
+import { CursorType } from "../types/CursorType";
 import { IResourceService } from "./ResourceService";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
 import { PrescriptionFilters } from "./filters/PrescriptionFilters";
@@ -22,15 +23,17 @@ export interface IPrescriptionService extends IResourceService {
     getPrescriptionsAsync(limit: number, offset: number, lastId: string, prevCreated: string): Promise<PrescriptionMessage[]>;
     getFilteredPrescriptions(filters: PrescriptionFilters, limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
     getFilteredPrescriptionsAsync(filters: PrescriptionFilters, limit: number, offset: number): Promise<PrescriptionMessage[]>;
-    getPrescriptionsCount(cb: (err: any, count: number, support: boolean) => void): void;
+    getPrescriptionsCount(cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void): void;
     getPrescriptionsCountAsync(): Promise<{
         count: number;
         support: boolean;
+        cursorType: CursorType;
     }>;
-    getPatientPrescriptionsCount(patientId: string, cb: (err: any, count: number, support: boolean) => void): void;
+    getPatientPrescriptionsCount(patientId: string, cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void): void;
     getPatientPrescriptionsCountAsync(patientId: string): Promise<{
         count: number;
         support: boolean;
+        cursorType: CursorType;
     }>;
     searchPrescriptions(includes: string[], excludes: string[], filters: PrescriptionFilters, limit: number, offset: number, cb: (err: any, p: PrescriptionMessage[]) => void): void;
     searchPrescriptionsAsync(includes: string[], excludes: string[], filters: PrescriptionFilters, limit: number, offset: number): Promise<PrescriptionMessage[]>;

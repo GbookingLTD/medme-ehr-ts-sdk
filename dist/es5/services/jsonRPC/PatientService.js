@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
+import { CursorType } from "../../types/CursorType";
 var PatientService = /** @class */ (function (_super) {
     __extends(PatientService, _super);
     function PatientService() {
@@ -100,17 +101,17 @@ var PatientService = /** @class */ (function (_super) {
     PatientService.prototype.getPatientsCount = function (cb) {
         this.exec(Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
-                return cb(err, null, false);
-            return cb(err, payload["count"], payload["support"]);
+                return cb(err, null, false, CursorType.None);
+            return cb(err, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     PatientService.prototype.getPatientsCountAsync = function () {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientsCount(function (err, count, support) {
+            service.getPatientsCount(function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };

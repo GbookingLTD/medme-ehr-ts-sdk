@@ -1,5 +1,6 @@
 import { IResourceService } from "./ResourceService";
 import { UserSign } from "../types/UserSign";
+import { CursorType } from "../types/CursorType";
 import { PatientMessage } from "../messages/PatientMessage";
 import { PatientFilters } from "./filters/PatientFilters";
 import { AppointmentFilters } from "./filters/AppointmentFilters";
@@ -22,10 +23,11 @@ export interface IPatientService extends IResourceService {
     getPatientsAsync(limit: number, offset: number, lastId: string, prevCreated: string): Promise<PatientMessage[]>;
     getFilteredPatients(filters: PatientFilters, limit: number, offset: number, cb: (err: any, patients: PatientMessage[]) => void): void;
     getFilteredPatientsAsync(filters: PatientFilters, limit: number, offset: number): Promise<PatientMessage[]>;
-    getPatientsCount(cb: (err: any, count: number, support: boolean) => void): void;
+    getPatientsCount(cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void): void;
     getPatientsCountAsync(): Promise<{
         count: number;
         support: boolean;
+        cursorType: CursorType;
     }>;
     findPatientsByPhone(phone: string, limit: number, offset: number, cb: (err: any, patients: PatientMessage[]) => void): void;
     findPatientsByPhoneAsync(phone: string, limit: number, offset: number): Promise<PatientMessage[]>;

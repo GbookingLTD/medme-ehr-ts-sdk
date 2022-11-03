@@ -1,3 +1,4 @@
+import { CursorType } from "../types/CursorType";
 import { IResourceService } from "./ResourceService";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import { DiagnosticReportFilters } from "./filters/DiagnosticReportFilters";
@@ -22,15 +23,17 @@ export interface IDiagnosticReportService extends IResourceService {
     getDiagnosticReportsAsync(limit: number, offset: number, lastId: string, prevCreated: string): Promise<DiagnosticReportMessage[]>;
     getFilteredDiagnosticReports(filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     getFilteredDiagnosticReportsAsync(filters: DiagnosticReportFilters, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
-    getDiagnosticReportsCount(cb: (err: any, count: number, support: boolean) => void): void;
+    getDiagnosticReportsCount(cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void): void;
     getDiagnosticReportsCountAsync(): Promise<{
         count: number;
         support: boolean;
+        cursorType: CursorType;
     }>;
-    getPatientDiagnosticReportsCount(patientId: string, cb: (err: any, count: number, support: boolean) => void): void;
+    getPatientDiagnosticReportsCount(patientId: string, cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void): void;
     getPatientDiagnosticReportsCountAsync(patientId: string): Promise<{
         count: number;
         support: boolean;
+        cursorType: CursorType;
     }>;
     searchDiagnosticReports(includes: string[], excludes: string[], filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     searchDiagnosticReportsAsync(includes: string[], excludes: string[], filters: DiagnosticReportFilters, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;

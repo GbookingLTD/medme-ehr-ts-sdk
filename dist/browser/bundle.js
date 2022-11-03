@@ -601,10 +601,22 @@ define("types/AttachmentInfo", ["require", "exports"], function (require, export
     }());
     exports.AttachmentInfo = AttachmentInfo;
 });
-define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/Service", "types/AppointmentConfirmationStatus", "types/ClientPrice", "types/AppointmentHistoryItem", "types/AppointmentInputProperties", "types/Currency", "types/Diagnosis", "types/ProcedureExecStatus", "types/ProcedureType", "types/ProcedureInfo", "types/Procedure", "types/PrescriptionInfo", "types/PatientInfo", "types/PatientInputProperties", "types/Medication", "types/Period", "types/Specialization", "types/AttachmentInfo"], function (require, exports, BusinessInfo_1, Doctor_2, Service_2, AppointmentConfirmationStatus_1, ClientPrice_2, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1, Medication_2, Period_3, Specialization_2, AttachmentInfo_1) {
+define("types/CursorType", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.AttachmentInfo = exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
+    exports.CursorType = void 0;
+    var CursorType;
+    (function (CursorType) {
+        CursorType[CursorType["None"] = 0] = "None";
+        CursorType[CursorType["GtId"] = 1] = "GtId";
+        CursorType[CursorType["Offset"] = 2] = "Offset";
+        CursorType[CursorType["GtCreated"] = 3] = "GtCreated";
+    })(CursorType = exports.CursorType || (exports.CursorType = {}));
+});
+define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor", "types/Service", "types/AppointmentConfirmationStatus", "types/ClientPrice", "types/AppointmentHistoryItem", "types/AppointmentInputProperties", "types/Currency", "types/Diagnosis", "types/ProcedureExecStatus", "types/ProcedureType", "types/ProcedureInfo", "types/Procedure", "types/PrescriptionInfo", "types/PatientInfo", "types/PatientInputProperties", "types/Medication", "types/Period", "types/Specialization", "types/AttachmentInfo", "types/CursorType"], function (require, exports, BusinessInfo_1, Doctor_2, Service_2, AppointmentConfirmationStatus_1, ClientPrice_2, AppointmentHistoryItem_1, AppointmentInputProperties_1, Currency_1, Diagnosis_1, ProcedureExecStatus_1, ProcedureType_1, ProcedureInfo_1, Procedure_1, PrescriptionInfo_1, PatientInfo_1, PatientInputProperties_1, Medication_2, Period_3, Specialization_2, AttachmentInfo_1, CursorType_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.CursorType = exports.AttachmentInfo = exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
     Object.defineProperty(exports, "BusinessInfo", { enumerable: true, get: function () { return BusinessInfo_1.BusinessInfo; } });
     Object.defineProperty(exports, "Doctor", { enumerable: true, get: function () { return Doctor_2.Doctor; } });
     Object.defineProperty(exports, "Service", { enumerable: true, get: function () { return Service_2.Service; } });
@@ -628,6 +640,7 @@ define("types/index", ["require", "exports", "types/BusinessInfo", "types/Doctor
     Object.defineProperty(exports, "Period", { enumerable: true, get: function () { return Period_3.Period; } });
     Object.defineProperty(exports, "Specialization", { enumerable: true, get: function () { return Specialization_2.Specialization; } });
     Object.defineProperty(exports, "AttachmentInfo", { enumerable: true, get: function () { return AttachmentInfo_1.AttachmentInfo; } });
+    Object.defineProperty(exports, "CursorType", { enumerable: true, get: function () { return CursorType_1.CursorType; } });
 });
 define("services/ResourceService", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -2939,7 +2952,7 @@ define("Handlers", ["require", "exports"], function (require, exports) {
     }());
     exports.Handlers = Handlers;
 });
-define("services/jsonRPC/AppointmentService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_1, Handlers_1) {
+define("services/jsonRPC/AppointmentService", ["require", "exports", "types/CursorType", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, CursorType_2, jsonRpcService_1, Handlers_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AppointmentService = void 0;
@@ -3039,18 +3052,18 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "services/j
             var _this = this;
             this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_2.CursorType.None);
                 _this.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         AppointmentService.prototype.getAppointmentsCountAsync = function () {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getAppointmentsCount(function (err, count, support) {
+                service.getAppointmentsCount(function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3058,18 +3071,18 @@ define("services/jsonRPC/AppointmentService", ["require", "exports", "services/j
             var _this = this;
             this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_2.CursorType.None);
                 _this.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         AppointmentService.prototype.getPatientAppointmentsCountAsync = function (patientId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPatientAppointmentsCount(patientId, function (err, count, support) {
+                service.getPatientAppointmentsCount(patientId, function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3081,7 +3094,7 @@ define("services/AppointmentResultService", ["require", "exports"], function (re
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
-define("services/jsonRPC/AppointmentResultService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_2, Handlers_2) {
+define("services/jsonRPC/AppointmentResultService", ["require", "exports", "types/CursorType", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, CursorType_3, jsonRpcService_2, Handlers_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.AppointmentResultService = void 0;
@@ -3140,9 +3153,9 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "serv
             var _this_1 = this;
             var params = prevCreated
                 ? { limit: limit, lastItemCreated: prevCreated }
-                : (lastId
+                : lastId
                     ? { limit: limit, lastItemId: lastId }
-                    : { limit: limit, offset: offset });
+                    : { limit: limit, offset: offset };
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3164,18 +3177,18 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "serv
             var _this_1 = this;
             this.exec(Handlers_2.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_3.CursorType.None);
                 _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         AppointmentResultService.prototype.getAppointmentResultsCountAsync = function () {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getAppointmentResultsCount(function (err, count, support) {
+                service.getAppointmentResultsCount(function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3183,18 +3196,18 @@ define("services/jsonRPC/AppointmentResultService", ["require", "exports", "serv
             var _this_1 = this;
             this.exec(Handlers_2.Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_3.CursorType.None);
                 _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         AppointmentResultService.prototype.getPatientAppointmentResultsCountAsync = function (patientId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPatientAppointmentResultsCount(patientId, function (err, count, support) {
+                service.getPatientAppointmentResultsCount(patientId, function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3244,7 +3257,7 @@ define("services/PrescriptionService", ["require", "exports"], function (require
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
-define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_3, Handlers_3) {
+define("services/jsonRPC/PrescriptionService", ["require", "exports", "types/CursorType", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, CursorType_4, jsonRpcService_3, Handlers_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PrescriptionService = void 0;
@@ -3345,18 +3358,18 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             var _this_1 = this;
             this.exec(Handlers_3.Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_4.CursorType.None);
                 _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         PrescriptionService.prototype.getPrescriptionsCountAsync = function () {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPrescriptionsCount(function (err, count, support) {
+                service.getPrescriptionsCount(function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3364,18 +3377,18 @@ define("services/jsonRPC/PrescriptionService", ["require", "exports", "services/
             var _this_1 = this;
             this.exec(Handlers_3.Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_4.CursorType.None);
                 _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         PrescriptionService.prototype.getPatientPrescriptionsCountAsync = function (patientId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPatientPrescriptionsCount(patientId, function (err, count, support) {
+                service.getPatientPrescriptionsCount(patientId, function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3425,7 +3438,7 @@ define("services/DiagnosticReportService", ["require", "exports"], function (req
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
 });
-define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_4, Handlers_4) {
+define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "types/CursorType", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, CursorType_5, jsonRpcService_4, Handlers_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.DiagnosticReportService = void 0;
@@ -3483,9 +3496,9 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             var _this_1 = this;
             var params = prevCreated
                 ? { limit: limit, lastItemCreated: prevCreated }
-                : (lastId
+                : lastId
                     ? { limit: limit, lastItemId: lastId }
-                    : { limit: limit, offset: offset });
+                    : { limit: limit, offset: offset };
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
                 if (err)
                     return cb(err, null);
@@ -3527,18 +3540,18 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             var _this_1 = this;
             this.exec(Handlers_4.Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_5.CursorType.None);
                 _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         DiagnosticReportService.prototype.getDiagnosticReportsCountAsync = function () {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getDiagnosticReportsCount(function (err, count, support) {
+                service.getDiagnosticReportsCount(function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3546,18 +3559,18 @@ define("services/jsonRPC/DiagnosticReportService", ["require", "exports", "servi
             var _this_1 = this;
             this.exec(Handlers_4.Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
+                    return cb(err, null, false, CursorType_5.CursorType.None);
                 _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-                cb(null, payload["count"], payload["support"]);
+                cb(null, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         DiagnosticReportService.prototype.getPatientDiagnosticReportsCountAsync = function (patientId) {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPatientDiagnosticReportsCount(patientId, function (err, count, support) {
+                service.getPatientDiagnosticReportsCount(patientId, function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };
@@ -3729,7 +3742,7 @@ define("services/jsonRPC/AuthService", ["require", "exports", "services/jsonRPC/
     }(jsonRpcService_5.JsonRPCService));
     exports.AuthService = AuthService;
 });
-define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers"], function (require, exports, jsonRpcService_6, Handlers_6) {
+define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonRPC/jsonRpcService", "Handlers", "types/CursorType"], function (require, exports, jsonRpcService_6, Handlers_6, CursorType_6) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.PatientService = void 0;
@@ -3820,17 +3833,17 @@ define("services/jsonRPC/PatientService", ["require", "exports", "services/jsonR
         PatientService.prototype.getPatientsCount = function (cb) {
             this.exec(Handlers_6.Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD, {}, function (err, payload) {
                 if (err)
-                    return cb(err, null, false);
-                return cb(err, payload["count"], payload["support"]);
+                    return cb(err, null, false, CursorType_6.CursorType.None);
+                return cb(err, payload["count"], payload["support"], payload["cursorType"]);
             });
         };
         PatientService.prototype.getPatientsCountAsync = function () {
             var service = this;
             return new Promise(function (res, rej) {
-                service.getPatientsCount(function (err, count, support) {
+                service.getPatientsCount(function (err, count, support, cursorType) {
                     if (err)
                         return rej(err);
-                    res({ count: count, support: support });
+                    res({ count: count, support: support, cursorType: cursorType });
                 });
             });
         };

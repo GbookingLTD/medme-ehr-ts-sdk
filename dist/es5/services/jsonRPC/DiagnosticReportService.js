@@ -11,6 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { CursorType } from "../../types/CursorType";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 var DiagnosticReportService = /** @class */ (function (_super) {
@@ -67,9 +68,9 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         var _this_1 = this;
         var params = prevCreated
             ? { limit: limit, lastItemCreated: prevCreated }
-            : (lastId
+            : lastId
                 ? { limit: limit, lastItemId: lastId }
-                : { limit: limit, offset: offset });
+                : { limit: limit, offset: offset };
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -111,18 +112,18 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         var _this_1 = this;
         this.exec(Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType.None);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     DiagnosticReportService.prototype.getDiagnosticReportsCountAsync = function () {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getDiagnosticReportsCount(function (err, count, support) {
+            service.getDiagnosticReportsCount(function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };
@@ -130,18 +131,18 @@ var DiagnosticReportService = /** @class */ (function (_super) {
         var _this_1 = this;
         this.exec(Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType.None);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     DiagnosticReportService.prototype.getPatientDiagnosticReportsCountAsync = function (patientId) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientDiagnosticReportsCount(patientId, function (err, count, support) {
+            service.getPatientDiagnosticReportsCount(patientId, function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };

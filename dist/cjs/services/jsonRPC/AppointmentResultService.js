@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentResultService = void 0;
+var CursorType_1 = require("../../types/CursorType");
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
 var AppointmentResultService = /** @class */ (function (_super) {
@@ -71,9 +72,9 @@ var AppointmentResultService = /** @class */ (function (_super) {
         var _this_1 = this;
         var params = prevCreated
             ? { limit: limit, lastItemCreated: prevCreated }
-            : (lastId
+            : lastId
                 ? { limit: limit, lastItemId: lastId }
-                : { limit: limit, offset: offset });
+                : { limit: limit, offset: offset };
         this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -95,18 +96,18 @@ var AppointmentResultService = /** @class */ (function (_super) {
         var _this_1 = this;
         this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENT_RESULTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType_1.CursorType.None);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     AppointmentResultService.prototype.getAppointmentResultsCountAsync = function () {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getAppointmentResultsCount(function (err, count, support) {
+            service.getAppointmentResultsCount(function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };
@@ -114,18 +115,18 @@ var AppointmentResultService = /** @class */ (function (_super) {
         var _this_1 = this;
         this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType_1.CursorType.None);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     AppointmentResultService.prototype.getPatientAppointmentResultsCountAsync = function (patientId) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientAppointmentResultsCount(patientId, function (err, count, support) {
+            service.getPatientAppointmentResultsCount(patientId, function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };

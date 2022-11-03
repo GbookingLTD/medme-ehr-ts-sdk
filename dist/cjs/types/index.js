@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AttachmentInfo = exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
+exports.CursorType = exports.AttachmentInfo = exports.Specialization = exports.Period = exports.Medication = exports.PatientInputProperties = exports.PatientInfo = exports.PrescriptionInfo = exports.Procedure = exports.ProcedureInfo = exports.ProcedureType = exports.ProcedureExecStatus = exports.Cd10 = exports.TypeDiagnosis = exports.KindDiagnosis = exports.Diagnosis = exports.AppointmentInputProperties = exports.AppointmentHistoryItem = exports.Currency = exports.ClientPrice = exports.AppointmentConfirmationStatus = exports.Service = exports.Doctor = exports.BusinessInfo = void 0;
 var BusinessInfo_1 = require("./BusinessInfo");
 Object.defineProperty(exports, "BusinessInfo", { enumerable: true, get: function () { return BusinessInfo_1.BusinessInfo; } });
 var Doctor_1 = require("./Doctor");
@@ -44,3 +44,5 @@ var Specialization_1 = require("./Specialization");
 Object.defineProperty(exports, "Specialization", { enumerable: true, get: function () { return Specialization_1.Specialization; } });
 var AttachmentInfo_1 = require("./AttachmentInfo");
 Object.defineProperty(exports, "AttachmentInfo", { enumerable: true, get: function () { return AttachmentInfo_1.AttachmentInfo; } });
+var CursorType_1 = require("./CursorType");
+Object.defineProperty(exports, "CursorType", { enumerable: true, get: function () { return CursorType_1.CursorType; } });

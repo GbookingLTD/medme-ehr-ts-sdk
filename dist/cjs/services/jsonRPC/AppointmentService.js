@@ -50,6 +50,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentService = void 0;
+var CursorType_1 = require("../../types/CursorType");
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
 var AppointmentService = /** @class */ (function (_super) {
@@ -148,18 +149,18 @@ var AppointmentService = /** @class */ (function (_super) {
         var _this = this;
         this.exec(Handlers_1.Handlers.HANDLER_GET_APPOINTMENTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType_1.CursorType.None);
             _this.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     AppointmentService.prototype.getAppointmentsCountAsync = function () {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getAppointmentsCount(function (err, count, support) {
+            service.getAppointmentsCount(function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };
@@ -167,18 +168,18 @@ var AppointmentService = /** @class */ (function (_super) {
         var _this = this;
         this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType_1.CursorType.None);
             _this.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     AppointmentService.prototype.getPatientAppointmentsCountAsync = function (patientId) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientAppointmentsCount(patientId, function (err, count, support) {
+            service.getPatientAppointmentsCount(patientId, function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };

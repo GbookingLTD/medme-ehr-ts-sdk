@@ -16,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatientService = void 0;
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
+var CursorType_1 = require("../../types/CursorType");
 var PatientService = /** @class */ (function (_super) {
     __extends(PatientService, _super);
     function PatientService() {
@@ -103,17 +104,17 @@ var PatientService = /** @class */ (function (_super) {
     PatientService.prototype.getPatientsCount = function (cb) {
         this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
-                return cb(err, null, false);
-            return cb(err, payload["count"], payload["support"]);
+                return cb(err, null, false, CursorType_1.CursorType.None);
+            return cb(err, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     PatientService.prototype.getPatientsCountAsync = function () {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientsCount(function (err, count, support) {
+            service.getPatientsCount(function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };

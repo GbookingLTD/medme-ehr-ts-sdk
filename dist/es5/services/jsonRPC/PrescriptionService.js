@@ -11,6 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { CursorType } from "../../types/CursorType";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 var PrescriptionService = /** @class */ (function (_super) {
@@ -110,18 +111,18 @@ var PrescriptionService = /** @class */ (function (_super) {
         var _this_1 = this;
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType.None);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     PrescriptionService.prototype.getPrescriptionsCountAsync = function () {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPrescriptionsCount(function (err, count, support) {
+            service.getPrescriptionsCount(function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };
@@ -129,18 +130,18 @@ var PrescriptionService = /** @class */ (function (_super) {
         var _this_1 = this;
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
-                return cb(err, null, false);
+                return cb(err, null, false, CursorType.None);
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
-            cb(null, payload["count"], payload["support"]);
+            cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
     };
     PrescriptionService.prototype.getPatientPrescriptionsCountAsync = function (patientId) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientPrescriptionsCount(patientId, function (err, count, support) {
+            service.getPatientPrescriptionsCount(patientId, function (err, count, support, cursorType) {
                 if (err)
                     return rej(err);
-                res({ count: count, support: support });
+                res({ count: count, support: support, cursorType: cursorType });
             });
         });
     };
