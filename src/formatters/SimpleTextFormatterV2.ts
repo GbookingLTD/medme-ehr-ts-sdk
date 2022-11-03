@@ -280,7 +280,7 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
     if(typeof value === 'boolean') {
       return value ? 'Да' : 'Нет'
     }
-    if (value.length > 6 && moment(value).isValid()) {
+    if (value.length > 6 && value.length < 12 && moment(value).isValid()) {
       return moment(value).format('DD.MM.YYYY HH:mm')
     }
     return value
