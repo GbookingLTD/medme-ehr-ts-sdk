@@ -19,6 +19,7 @@ import { Medication } from "./Medication";
 import { Period } from "./Period";
 import { Specialization } from "./Specialization";
 import { AttachmentInfo } from "./AttachmentInfo";
+import { CursorType } from "./CursorType";
 
 export {
   BusinessInfo,
@@ -45,4 +46,5 @@ export {
   Period,
   Specialization,
   AttachmentInfo,
+  CursorType
 };

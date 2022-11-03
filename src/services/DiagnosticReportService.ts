@@ -1,3 +1,4 @@
+import { CursorType } from "../types/CursorType";
 import { IResourceService } from "./ResourceService";
 import { DiagnosticReportMessage } from "../messages/DiagnosticReportMessage";
 import { DiagnosticReportFilters } from "./filters/DiagnosticReportFilters";
@@ -60,20 +61,31 @@ export interface IDiagnosticReportService extends IResourceService {
   ): Promise<DiagnosticReportMessage[]>;
 
   getDiagnosticReportsCount(
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (
+      err: any,
+      count: number,
+      support: boolean,
+      cursorType: CursorType
+    ) => void
   ): void;
   getDiagnosticReportsCountAsync(): Promise<{
     count: number;
     support: boolean;
+    cursorType: CursorType;
   }>;
 
   getPatientDiagnosticReportsCount(
     patientId: string,
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (
+      err: any,
+      count: number,
+      support: boolean,
+      cursorType: CursorType
+    ) => void
   ): void;
   getPatientDiagnosticReportsCountAsync(
     patientId: string
-  ): Promise<{ count: number; support: boolean }>;
+  ): Promise<{ count: number; support: boolean; cursorType: CursorType }>;
 
   searchDiagnosticReports(
     includes: string[],

@@ -8,6 +8,7 @@ import {
 import { PatientInfo } from "../../types/PatientInfo";
 import { Handlers } from "../../Handlers";
 import { UserSign } from "../../types/UserSign";
+import { CursorType } from "../../types/CursorType";
 import { PatientMessage } from "../../messages/PatientMessage";
 import { PatientFilters } from "../../services/filters/PatientFilters";
 
@@ -153,26 +154,26 @@ export class PatientService
   }
 
   public getPatientsCount(
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_PATIENTS_COUNT_METHOD,
       {},
       (err: any, payload: object) => {
-        if (err) return cb(err, null, false);
+        if (err) return cb(err, null, false, CursorType.None);
 
-        return cb(err, payload["count"], payload["support"]);
+        return cb(err, payload["count"], payload["support"], payload["cursorType"]);
       }
     );
   }
 
-  public getPatientsCountAsync(): Promise<{ count: number; support: boolean }> {
+  public getPatientsCountAsync(): Promise<{ count: number; support: boolean; cursorType: CursorType }> {
     const service = this;
     return new Promise((res, rej) => {
-      service.getPatientsCount((err, count, support) => {
+      service.getPatientsCount((err, count, support, cursorType) => {
         if (err) return rej(err);
 
-        res({ count, support });
+        res({ count, support, cursorType });
       });
     });
   }

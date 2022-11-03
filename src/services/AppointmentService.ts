@@ -1,3 +1,4 @@
+import { CursorType } from "../types/CursorType";
 import { IResourceService } from "./ResourceService";
 import { AppointmentMessage } from "../messages/AppointmentMessage";
 import { AppointmentFilters } from "./filters/AppointmentFilters";
@@ -66,15 +67,20 @@ export interface IAppointmentService extends IResourceService {
   ): Promise<AppointmentMessage[]>;
 
   getAppointmentsCount(
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (
+      err: any,
+      count: number,
+      support: boolean,
+      cursorType: CursorType
+    ) => void
   ): void;
-  getAppointmentsCountAsync(): Promise<{ count: number; support: boolean }>;
+  getAppointmentsCountAsync(): Promise<{ count: number; support: boolean; cursorType: CursorType }>;
 
   getPatientAppointmentsCount(
     patientId: string,
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void
   ): void;
   getPatientAppointmentsCountAsync(
     patientId: string
-  ): Promise<{ count: number; support: boolean }>;
+  ): Promise<{ count: number; support: boolean; cursorType: CursorType }>;
 }

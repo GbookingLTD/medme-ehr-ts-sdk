@@ -1,3 +1,4 @@
+import { CursorType } from "../../types/CursorType";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
 import { IDiagnosticReportService } from "../DiagnosticReportService";
@@ -94,9 +95,9 @@ export class DiagnosticReportService
   ): void {
     let params = prevCreated
       ? { limit, lastItemCreated: prevCreated }
-      : (lastId
+      : lastId
       ? { limit, lastItemId: lastId }
-      : { limit: limit, offset: offset });
+      : { limit: limit, offset: offset };
     this.exec(
       Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_METHOD,
       params,
@@ -171,16 +172,21 @@ export class DiagnosticReportService
   }
 
   public getDiagnosticReportsCount(
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (
+      err: any,
+      count: number,
+      support: boolean,
+      cursorType: CursorType
+    ) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_DIAGNOSTIC_REPORTS_COUNT_METHOD,
       {},
       (err: any, payload: object) => {
-        if (err) return cb(err, null, false);
+        if (err) return cb(err, null, false, CursorType.None);
 
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
-        cb(null, payload["count"], payload["support"]);
+        cb(null, payload["count"], payload["support"], payload["cursorType"]);
       }
     );
   }
@@ -188,14 +194,15 @@ export class DiagnosticReportService
   public getDiagnosticReportsCountAsync(): Promise<{
     count: number;
     support: boolean;
+    cursorType: CursorType;
   }> {
     const service = this;
     return new Promise((res, rej) => {
       service.getDiagnosticReportsCount(
-        (err: any, count: number, support: boolean) => {
+        (err: any, count: number, support: boolean, cursorType: CursorType) => {
           if (err) return rej(err);
 
-          res({ count, support });
+          res({ count, support, cursorType });
         }
       );
     });
@@ -203,31 +210,36 @@ export class DiagnosticReportService
 
   public getPatientDiagnosticReportsCount(
     patientId: string,
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (
+      err: any,
+      count: number,
+      support: boolean,
+      cursorType: CursorType
+    ) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_COUNT_METHOD,
       { patientId },
       (err: any, payload: object) => {
-        if (err) return cb(err, null, false);
+        if (err) return cb(err, null, false, CursorType.None);
 
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
-        cb(null, payload["count"], payload["support"]);
+        cb(null, payload["count"], payload["support"], payload["cursorType"]);
       }
     );
   }
 
   public getPatientDiagnosticReportsCountAsync(
     patientId: string
-  ): Promise<{ count: number; support: boolean }> {
+  ): Promise<{ count: number; support: boolean; cursorType: CursorType }> {
     const service = this;
     return new Promise((res, rej) => {
       service.getPatientDiagnosticReportsCount(
         patientId,
-        (err: any, count: number, support: boolean) => {
+        (err: any, count: number, support: boolean, cursorType: CursorType) => {
           if (err) return rej(err);
 
-          res({ count, support });
+          res({ count, support, cursorType });
         }
       );
     });

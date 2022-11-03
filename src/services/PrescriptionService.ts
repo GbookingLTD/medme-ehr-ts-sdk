@@ -1,3 +1,4 @@
+import { CursorType } from "../types/CursorType";
 import { IResourceService } from "./ResourceService";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
 import { PrescriptionFilters } from "./filters/PrescriptionFilters";
@@ -60,17 +61,17 @@ export interface IPrescriptionService extends IResourceService {
   ): Promise<PrescriptionMessage[]>;
 
   getPrescriptionsCount(
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void
   ): void;
-  getPrescriptionsCountAsync(): Promise<{ count: number; support: boolean }>;
+  getPrescriptionsCountAsync(): Promise<{ count: number; support: boolean; cursorType: CursorType }>;
 
   getPatientPrescriptionsCount(
     patientId: string,
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void
   ): void;
   getPatientPrescriptionsCountAsync(
     patientId: string
-  ): Promise<{ count: number; support: boolean }>;
+  ): Promise<{ count: number; support: boolean; cursorType: CursorType }>;
 
   searchPrescriptions(
     includes: string[],

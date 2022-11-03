@@ -1,3 +1,4 @@
+import { CursorType } from "../../types/CursorType"
 import { IAppointmentService } from "../AppointmentService";
 import { AppointmentInputProperties } from "../../types/AppointmentInputProperties";
 import { JsonRPCCredService } from "./jsonRpcService";
@@ -161,28 +162,28 @@ export class AppointmentService
   }
 
   getAppointmentsCount(
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_APPOINTMENTS_COUNT_METHOD,
       {},
       (err: any, payload: object) => {
-        if (err) return cb(err, null, false);
+        if (err) return cb(err, null, false, CursorType.None);
 
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
-        cb(null, payload["count"], payload["support"]);
+        cb(null, payload["count"], payload["support"], payload["cursorType"]);
       }
     );
   }
 
-  getAppointmentsCountAsync(): Promise<{ count: number; support: boolean }> {
+  getAppointmentsCountAsync(): Promise<{ count: number; support: boolean; cursorType: CursorType }> {
     const service = this;
     return new Promise((res, rej) => {
       service.getAppointmentsCount(
-        (err: any, count: number, support: boolean) => {
+        (err: any, count: number, support: boolean, cursorType: CursorType) => {
           if (err) return rej(err);
 
-          res({ count, support });
+          res({ count, support, cursorType });
         }
       );
     });
@@ -190,31 +191,31 @@ export class AppointmentService
 
   getPatientAppointmentsCount(
     patientId: string,
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_COUNT_METHOD,
       { patientId },
       (err: any, payload: object) => {
-        if (err) return cb(err, null, false);
+        if (err) return cb(err, null, false, CursorType.None);
 
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
-        cb(null, payload["count"], payload["support"]);
+        cb(null, payload["count"], payload["support"], payload["cursorType"]);
       }
     );
   }
 
   getPatientAppointmentsCountAsync(
     patientId: string
-  ): Promise<{ count: number; support: boolean }> {
+  ): Promise<{ count: number; support: boolean; cursorType: CursorType }> {
     const service = this;
     return new Promise((res, rej) => {
       service.getPatientAppointmentsCount(
         patientId,
-        (err: any, count: number, support: boolean) => {
+        (err: any, count: number, support: boolean, cursorType: CursorType) => {
           if (err) return rej(err);
 
-          res({ count, support });
+          res({ count, support, cursorType });
         }
       );
     });

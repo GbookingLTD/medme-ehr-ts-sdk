@@ -1,5 +1,6 @@
 import { IResourceService } from "./ResourceService";
 import { UserSign } from "../types/UserSign";
+import { CursorType } from "../types/CursorType";
 import { PatientMessage } from "../messages/PatientMessage";
 import { PatientFilters } from "./filters/PatientFilters";
 import { AppointmentFilters } from "./filters/AppointmentFilters";
@@ -48,9 +49,9 @@ export interface IPatientService extends IResourceService {
   ): Promise<PatientMessage[]>;
 
   getPatientsCount(
-    cb: (err: any, count: number, support: boolean) => void
+    cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void
   ): void;
-  getPatientsCountAsync(): Promise<{ count: number; support: boolean }>;
+  getPatientsCountAsync(): Promise<{ count: number; support: boolean; cursorType: CursorType }>;
 
   findPatientsByPhone(
     phone: string,
