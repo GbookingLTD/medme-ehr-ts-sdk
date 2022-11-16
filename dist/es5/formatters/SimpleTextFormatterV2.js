@@ -185,6 +185,7 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
         if (Array.isArray(r.value)) {
             return "\n " + offset + " <b>" + r.name + "</b>\n" + r.value.map(function (v) { return _this_1.reportInfoValue(v, offset); });
         }
+        return r.value ? "\n " + offset + " <b>" + r.name + "</b>\n" + r.value : '';
     };
     SimpleTextFormatterV2.prototype.attachmentInfos = function (a, offset) {
         var _this_1 = this;

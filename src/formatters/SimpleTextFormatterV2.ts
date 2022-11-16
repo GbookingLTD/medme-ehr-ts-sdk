@@ -257,6 +257,7 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
     if(Array.isArray(r.value)) {
       return `\n ${offset} <b>${r.name}</b>\n${r.value.map(v=>this.reportInfoValue(v,offset))}`
     }
+    return r.value ? `\n ${offset} <b>${r.name}</b>\n${r.value}` : ''
   }
 
   public attachmentInfos (a: AttachmentInfo[], offset: string): string {
