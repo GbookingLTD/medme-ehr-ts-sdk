@@ -790,7 +790,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     let meta = {
       created: this.dateField(),
       recorderDoctor: this.doctorField(),
-      validityPeriod: this.periodField(),
+      // validityPeriod: this.periodField(),
       dosageText: {
         type: FieldType.Paragraphs,
         format: (val: FieldValue): FieldValue => {
@@ -801,7 +801,7 @@ export class FieldsFormatter implements IFormatter<Field[]> {
       },
       medications: this.medicationsField(),
       reasonText: this.textField(),
-      numberOfRepeats: this.numberField(),
+      //numberOfRepeats: this.numberField(),
       diagnoses: this.diagnosisField(),
     } as FieldMetaMap;
 

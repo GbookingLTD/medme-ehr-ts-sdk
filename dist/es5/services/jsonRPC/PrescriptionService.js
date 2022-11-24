@@ -17,7 +17,9 @@ import { Handlers } from "../../Handlers";
 var PrescriptionService = /** @class */ (function (_super) {
     __extends(PrescriptionService, _super);
     function PrescriptionService() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this_1 = _super !== null && _super.apply(this, arguments) || this;
+        _this_1.recognitionResults = [];
+        return _this_1;
     }
     /**
      * Возвращает назначение по идентификатору.
@@ -29,6 +31,7 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, { id: id }, function (err, payload) {
             if (err)
                 return cb(err, null);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this_1.lastValidationErrors_ = payload["validationErrors"];
             cb(null, payload["prescription"]);
         });
@@ -49,6 +52,7 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
             return cb(null, payload["prescriptions"]);
         });
@@ -73,6 +77,7 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
             return cb(null, payload["prescriptions"]);
         });
@@ -93,6 +98,7 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
             return cb(null, payload["prescriptions"]);
         });
@@ -112,6 +118,7 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_COUNT_METHOD, {}, function (err, payload) {
             if (err)
                 return cb(err, null, false, CursorType.None);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
             cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
@@ -131,6 +138,7 @@ var PrescriptionService = /** @class */ (function (_super) {
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_COUNT_METHOD, { patientId: patientId }, function (err, payload) {
             if (err)
                 return cb(err, null, false, CursorType.None);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this_1.lastValidationErrorsOfList_ = payload["validationErrors"];
             cb(null, payload["count"], payload["support"], payload["cursorType"]);
         });
@@ -146,10 +154,12 @@ var PrescriptionService = /** @class */ (function (_super) {
         });
     };
     PrescriptionService.prototype.searchPrescriptions = function (includes, excludes, filters, limit, offset, cb) {
+        var _this_1 = this;
         var _this = this;
         this.exec(Handlers.HANDLER_SEARCH_PRESCRIPTIONS_METHOD, { includes: includes, excludes: excludes, filters: filters.plain(), limit: limit, offset: offset }, function (err, payload) {
             if (err)
                 return cb(err, []);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this.lastValidationErrorsOfList_ = payload["validationErrors"];
             cb(null, payload["prescriptions"]);
         });
@@ -165,10 +175,12 @@ var PrescriptionService = /** @class */ (function (_super) {
         });
     };
     PrescriptionService.prototype.searchPrescriptionsCount = function (includes, excludes, filters, cb) {
+        var _this_1 = this;
         var _this = this;
         this.exec(Handlers.HANDLER_SEARCH_PRESCRIPTIONS_COUNT_METHOD, { includes: includes, excludes: excludes, filters: filters.plain() }, function (err, payload) {
             if (err)
                 return cb(err, 0, false);
+            _this_1.recognitionResults = payload["recognitionResults"];
             _this.lastValidationErrorsOfList_ = payload["validationErrors"];
             cb(null, payload["count"], payload["support"]);
         });

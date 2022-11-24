@@ -4,6 +4,7 @@ import { IPrescriptionService } from "../PrescriptionService";
 import { PrescriptionMessage } from "../../messages/PrescriptionMessage";
 import { PrescriptionFilters } from "../../services/filters/PrescriptionFilters";
 export declare class PrescriptionService extends JsonRPCCredService implements IPrescriptionService {
+    recognitionResults: object[];
     /**
      * Возвращает назначение по идентификатору.
      * @param id идентификатор результата записи

@@ -645,7 +645,7 @@ var FieldsFormatter = /** @class */ (function () {
         var meta = {
             created: this.dateField(),
             recorderDoctor: this.doctorField(),
-            validityPeriod: this.periodField(),
+            // validityPeriod: this.periodField(),
             dosageText: {
                 type: FieldType.Paragraphs,
                 format: function (val) {
@@ -657,7 +657,7 @@ var FieldsFormatter = /** @class */ (function () {
             },
             medications: this.medicationsField(),
             reasonText: this.textField(),
-            numberOfRepeats: this.numberField(),
+            //numberOfRepeats: this.numberField(),
             diagnoses: this.diagnosisField(),
         };
         return buildFieldArray(p, meta, this._localize["Prescription"]);

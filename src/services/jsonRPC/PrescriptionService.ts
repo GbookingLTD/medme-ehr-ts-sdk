@@ -9,6 +9,8 @@ export class PrescriptionService
   extends JsonRPCCredService
   implements IPrescriptionService
 {
+  public recognitionResults: object[] = [];
+
   /**
    * Возвращает назначение по идентификатору.
    * @param id идентификатор результата записи
@@ -24,6 +26,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
+        this.recognitionResults = payload["recognitionResults"];
         this.lastValidationErrors_ = payload["validationErrors"];
         cb(null, payload["prescription"]);
       }
@@ -54,6 +57,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
+        this.recognitionResults = payload["recognitionResults"];
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
         return cb(null, payload["prescriptions"]);
       }
@@ -98,6 +102,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
+        this.recognitionResults = payload["recognitionResults"];
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
         return cb(null, payload["prescriptions"]);
       }
@@ -139,6 +144,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
+        this.recognitionResults = payload["recognitionResults"];
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
         return cb(null, payload["prescriptions"]);
       }
@@ -179,6 +185,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, null, false, CursorType.None);
 
+        this.recognitionResults = payload["recognitionResults"];
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
         cb(null, payload["count"], payload["support"], payload["cursorType"]);
       }
@@ -217,6 +224,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, null, false, CursorType.None);
 
+        this.recognitionResults = payload["recognitionResults"];
         this.lastValidationErrorsOfList_ = payload["validationErrors"];
         cb(null, payload["count"], payload["support"], payload["cursorType"]);
       }
@@ -254,6 +262,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, []);
 
+        this.recognitionResults = payload["recognitionResults"];
         _this.lastValidationErrorsOfList_ = payload["validationErrors"];
         cb(null, payload["prescriptions"]);
       }
@@ -296,6 +305,7 @@ export class PrescriptionService
       (err: any, payload: object) => {
         if (err) return cb(err, 0, false);
 
+        this.recognitionResults = payload["recognitionResults"];
         _this.lastValidationErrorsOfList_ = payload["validationErrors"];
         cb(null, payload["count"], payload["support"]);
       }
