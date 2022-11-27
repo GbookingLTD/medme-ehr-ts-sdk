@@ -12,6 +12,7 @@ export class Medication {
   amount: number;
   expirationDate: Date;
   durationText: string;
+  dosageInstruction: object[];
 
   fromJson(json: any) {
     this.name = json.name;

@@ -11,6 +11,7 @@ export declare class Medication {
     amount: number;
     expirationDate: Date;
     durationText: string;
+    dosageInstruction: object[];
     fromJson(json: any): void;
     toJson(): JSONValue;
 }

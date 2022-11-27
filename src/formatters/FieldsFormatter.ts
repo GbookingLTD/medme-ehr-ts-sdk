@@ -812,12 +812,20 @@ export class FieldsFormatter implements IFormatter<Field[]> {
     const this_ = this;
     const meta = {} as FieldMetaMap;
 
+    const lim = (t, n, ph) => (!t ? ph : (t.length > n ? t.substr(0, n) + "_" : t));
+    const diMap = (di) =>
+      `доз: ${lim(di.text, 15, "?")}, р/д: ${lim(di.timing?.numberPerPeriod, 10, "?")}, `+
+      `когда: ${lim(di.timing?.when, 10, "?")}`;
+
     const itemModeMeta = {
       firstLine: (m: Medication): string => {
-        return m.name + " " + m.itemSize + " " + m.durationText;
+        // return m.name + " " + m.itemSize + " " + m.durationText;
+        return lim(m.name, 300, "[name]");
       },
       secondLine: (m: Medication): string => {
-        return m.code + " " + m.codeTable;
+        // return m.code + " " + m.codeTable;
+        return lim(m.durationText, 15, "[dur]") + " | " +
+          lim(m.dosageInstruction?.map(diMap).join(" | "), 120, "[instruction]");
       },
     } as FieldItemModeMeta;
 

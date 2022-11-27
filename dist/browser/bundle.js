@@ -5060,12 +5060,22 @@ define("formatters/FieldsFormatter", ["require", "exports", "formatters/l10n/ind
         FieldsFormatter.prototype.medication = function (m) {
             var this_ = this;
             var meta = {};
+            var lim = function (t, n, ph) { return (!t ? ph : (t.length > n ? t.substr(0, n) + "_" : t)); };
+            var diMap = function (di) {
+                var _a, _b;
+                return "\u0434\u043E\u0437: " + lim(di.text, 15, "?") + ", \u0440/\u0434: " + lim((_a = di.timing) === null || _a === void 0 ? void 0 : _a.numberPerPeriod, 10, "?") + ", " +
+                    ("\u043A\u043E\u0433\u0434\u0430: " + lim((_b = di.timing) === null || _b === void 0 ? void 0 : _b.when, 10, "?"));
+            };
             var itemModeMeta = {
                 firstLine: function (m) {
-                    return m.name + " " + m.itemSize + " " + m.durationText;
+                    // return m.name + " " + m.itemSize + " " + m.durationText;
+                    return lim(m.name, 300, "[name]");
                 },
                 secondLine: function (m) {
-                    return m.code + " " + m.codeTable;
+                    var _a;
+                    // return m.code + " " + m.codeTable;
+                    return lim(m.durationText, 15, "[dur]") + " | " +
+                        lim((_a = m.dosageInstruction) === null || _a === void 0 ? void 0 : _a.map(diMap).join(" | "), 120, "[instruction]");
                 },
             };
             return buildFieldArray(m, meta, this._localize["Medication"], [], itemModeMeta);
