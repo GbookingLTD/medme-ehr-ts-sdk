@@ -11,6 +11,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { CursorType } from "../../types/CursorType";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
@@ -26,9 +37,9 @@ var PrescriptionService = /** @class */ (function (_super) {
      * @param id идентификатор результата записи
      * @param cb callback
      */
-    PrescriptionService.prototype.getPrescriptionById = function (id, cb) {
+    PrescriptionService.prototype.getPrescriptionById = function (id, opts, cb) {
         var _this_1 = this;
-        this.exec(Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, { id: id }, function (err, payload) {
+        this.exec(Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD, __assign({ id: id }, opts), function (err, payload) {
             if (err)
                 return cb(err, null);
             _this_1.recognitionResults = payload["recognitionResults"];
@@ -36,19 +47,19 @@ var PrescriptionService = /** @class */ (function (_super) {
             cb(null, payload["prescription"]);
         });
     };
-    PrescriptionService.prototype.getPrescriptionByIdAsync = function (id) {
+    PrescriptionService.prototype.getPrescriptionByIdAsync = function (id, opts) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPrescriptionById(id, function (err, pm) {
+            service.getPrescriptionById(id, opts, function (err, pm) {
                 if (err)
                     return rej(err);
                 res(pm);
             });
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, cb) {
+    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, opts, cb) {
         var _this_1 = this;
-        var params = { patientId: patientId, limit: limit, offset: offset };
+        var params = __assign({ patientId: patientId, limit: limit, offset: offset }, opts);
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -57,24 +68,24 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset) {
+    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset, opts) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientPrescriptions(patientId, limit, offset, function (err, values) {
+            service.getPatientPrescriptions(patientId, limit, offset, opts, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);
             });
         });
     };
-    PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, prevCreated, cb) {
+    PrescriptionService.prototype.getPrescriptions = function (limit, offset, lastId, prevCreated, opts, cb) {
         var _this_1 = this;
         var params = prevCreated
             ? { limit: limit, lastItemCreated: prevCreated }
             : lastId
                 ? { limit: limit, lastItemId: lastId }
                 : { limit: limit, offset: offset };
-        this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
+        this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, Object.assign(params, opts), function (err, payload) {
             if (err)
                 return cb(err, null);
             _this_1.recognitionResults = payload["recognitionResults"];
@@ -82,19 +93,19 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId, prevCreated) {
+    PrescriptionService.prototype.getPrescriptionsAsync = function (limit, offset, lastId, prevCreated, opts) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPrescriptions(limit, offset, lastId, prevCreated, function (err, values) {
+            service.getPrescriptions(limit, offset, lastId, prevCreated, opts, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);
             });
         });
     };
-    PrescriptionService.prototype.getFilteredPrescriptions = function (filters, limit, offset, cb) {
+    PrescriptionService.prototype.getFilteredPrescriptions = function (filters, limit, offset, opts, cb) {
         var _this_1 = this;
-        var params = { filters: filters.plain(), limit: limit, offset: offset };
+        var params = __assign({ filters: filters.plain(), limit: limit, offset: offset }, opts);
         this.exec(Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -103,10 +114,10 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getFilteredPrescriptionsAsync = function (filters, limit, offset) {
+    PrescriptionService.prototype.getFilteredPrescriptionsAsync = function (filters, limit, offset, opts) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getFilteredPrescriptions(filters, limit, offset, function (err, values) {
+            service.getFilteredPrescriptions(filters, limit, offset, opts, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);
@@ -153,10 +164,10 @@ var PrescriptionService = /** @class */ (function (_super) {
             });
         });
     };
-    PrescriptionService.prototype.searchPrescriptions = function (includes, excludes, filters, limit, offset, cb) {
+    PrescriptionService.prototype.searchPrescriptions = function (includes, excludes, filters, limit, offset, opts, cb) {
         var _this_1 = this;
         var _this = this;
-        this.exec(Handlers.HANDLER_SEARCH_PRESCRIPTIONS_METHOD, { includes: includes, excludes: excludes, filters: filters.plain(), limit: limit, offset: offset }, function (err, payload) {
+        this.exec(Handlers.HANDLER_SEARCH_PRESCRIPTIONS_METHOD, __assign({ includes: includes, excludes: excludes, filters: filters.plain(), limit: limit, offset: offset }, opts), function (err, payload) {
             if (err)
                 return cb(err, []);
             _this_1.recognitionResults = payload["recognitionResults"];
@@ -164,10 +175,10 @@ var PrescriptionService = /** @class */ (function (_super) {
             cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.searchPrescriptionsAsync = function (includes, excludes, filters, limit, offset) {
+    PrescriptionService.prototype.searchPrescriptionsAsync = function (includes, excludes, filters, limit, offset, opts) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.searchPrescriptions(includes, excludes, filters, limit, offset, function (err, reports) {
+            service.searchPrescriptions(includes, excludes, filters, limit, offset, opts, function (err, reports) {
                 if (err)
                     return rej(err);
                 res(reports);

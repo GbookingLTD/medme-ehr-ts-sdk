@@ -2,6 +2,7 @@ import { CursorType } from "../types/CursorType";
 import { IResourceService } from "./ResourceService";
 import { PrescriptionMessage } from "../messages/PrescriptionMessage";
 import { PrescriptionFilters } from "./filters/PrescriptionFilters";
+import { ReqOptions } from "./ReqOptions";
 
 export interface IPrescriptionService extends IResourceService {
   /**
@@ -11,9 +12,10 @@ export interface IPrescriptionService extends IResourceService {
    */
   getPrescriptionById(
     id: string,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage) => void
   ): void;
-  getPrescriptionByIdAsync(id: string): Promise<PrescriptionMessage>;
+  getPrescriptionByIdAsync(id: string, opts: ReqOptions): Promise<PrescriptionMessage>;
 
   /**
    * Возвращает список назначений пациента.
@@ -26,12 +28,14 @@ export interface IPrescriptionService extends IResourceService {
     patientId: string,
     limit: number,
     offset: number,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void;
   getPatientPrescriptionsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    opts: ReqOptions,
   ): Promise<PrescriptionMessage[]>;
 
   getPrescriptions(
@@ -39,25 +43,29 @@ export interface IPrescriptionService extends IResourceService {
     offset: number,
     lastId: string,
     prevCreated: string,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void;
   getPrescriptionsAsync(
     limit: number,
     offset: number,
     lastId: string,
-    prevCreated: string
+    prevCreated: string,
+    opts: ReqOptions,
   ): Promise<PrescriptionMessage[]>;
 
   getFilteredPrescriptions(
     filters: PrescriptionFilters,
     limit: number,
     offset: number,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void;
   getFilteredPrescriptionsAsync(
     filters: PrescriptionFilters,
     limit: number,
-    offset: number
+    offset: number,
+    opts: ReqOptions,
   ): Promise<PrescriptionMessage[]>;
 
   getPrescriptionsCount(
@@ -79,6 +87,7 @@ export interface IPrescriptionService extends IResourceService {
     filters: PrescriptionFilters,
     limit: number,
     offset: number,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void;
   searchPrescriptionsAsync(
@@ -86,7 +95,8 @@ export interface IPrescriptionService extends IResourceService {
     excludes: string[],
     filters: PrescriptionFilters,
     limit: number,
-    offset: number
+    offset: number,
+    opts: ReqOptions,
   ): Promise<PrescriptionMessage[]>;
 
   searchPrescriptionsCount(

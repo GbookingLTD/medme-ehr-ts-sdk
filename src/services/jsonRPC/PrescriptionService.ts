@@ -1,6 +1,7 @@
 import { CursorType } from "../../types/CursorType";
 import { JsonRPCCredService } from "./jsonRpcService";
 import { Handlers } from "../../Handlers";
+import { ReqOptions } from "../ReqOptions";
 import { IPrescriptionService } from "../PrescriptionService";
 import { PrescriptionMessage } from "../../messages/PrescriptionMessage";
 import { PrescriptionFilters } from "../../services/filters/PrescriptionFilters";
@@ -18,11 +19,12 @@ export class PrescriptionService
    */
   public getPrescriptionById(
     id: string,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage) => void
   ): void {
     this.exec(
       Handlers.HANDLER_GET_PRESCRIPTION_BY_ID_METHOD,
-      { id: id },
+      { id, ...opts },
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
@@ -33,10 +35,10 @@ export class PrescriptionService
     );
   }
 
-  public getPrescriptionByIdAsync(id: string): Promise<PrescriptionMessage> {
+  public getPrescriptionByIdAsync(id: string, opts: ReqOptions): Promise<PrescriptionMessage> {
     const service = this;
     return new Promise((res, rej) => {
-      service.getPrescriptionById(id, (err: any, pm: PrescriptionMessage) => {
+      service.getPrescriptionById(id, opts, (err: any, pm: PrescriptionMessage) => {
         if (err) return rej(err);
 
         res(pm);
@@ -48,9 +50,10 @@ export class PrescriptionService
     patientId: string,
     limit: number,
     offset: number,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset };
+    let params = { patientId: patientId, limit: limit, offset: offset, ...opts };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD,
       params,
@@ -67,7 +70,8 @@ export class PrescriptionService
   public getPatientPrescriptionsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    opts: ReqOptions,
   ): Promise<PrescriptionMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -75,6 +79,7 @@ export class PrescriptionService
         patientId,
         limit,
         offset,
+        opts,
         (err: any, values: PrescriptionMessage[]) => {
           if (err) return rej(err);
 
@@ -89,6 +94,7 @@ export class PrescriptionService
     offset: number,
     lastId: string,
     prevCreated: string,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void {
     let params = prevCreated
@@ -98,7 +104,7 @@ export class PrescriptionService
       : { limit: limit, offset: offset };
     this.exec(
       Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD,
-      params,
+      Object.assign(params, opts),
       (err: any, payload: object) => {
         if (err) return cb(err, null);
 
@@ -113,7 +119,8 @@ export class PrescriptionService
     limit: number,
     offset: number,
     lastId: string,
-    prevCreated: string
+    prevCreated: string,
+    opts: ReqOptions,
   ): Promise<PrescriptionMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -122,6 +129,7 @@ export class PrescriptionService
         offset,
         lastId,
         prevCreated,
+        opts,
         (err: any, values: PrescriptionMessage[]) => {
           if (err) return rej(err);
 
@@ -135,9 +143,10 @@ export class PrescriptionService
     filters: PrescriptionFilters,
     limit: number,
     offset: number,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void {
-    let params = { filters: filters.plain(), limit: limit, offset: offset };
+    let params = { filters: filters.plain(), limit: limit, offset: offset, ...opts };
     this.exec(
       Handlers.HANDLER_GET_PRESCRIPTIONS_METHOD,
       params,
@@ -154,7 +163,8 @@ export class PrescriptionService
   getFilteredPrescriptionsAsync(
     filters: PrescriptionFilters,
     limit: number,
-    offset: number
+    offset: number,
+    opts: ReqOptions
   ): Promise<PrescriptionMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -162,6 +172,7 @@ export class PrescriptionService
         filters,
         limit,
         offset,
+        opts,
         (err: any, values: PrescriptionMessage[]) => {
           if (err) return rej(err);
 
@@ -253,12 +264,13 @@ export class PrescriptionService
     filters: PrescriptionFilters,
     limit: number,
     offset: number,
+    opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void {
     const _this = this;
     this.exec(
       Handlers.HANDLER_SEARCH_PRESCRIPTIONS_METHOD,
-      { includes, excludes, filters: filters.plain(), limit, offset },
+      { includes, excludes, filters: filters.plain(), limit, offset, ...opts },
       (err: any, payload: object) => {
         if (err) return cb(err, []);
 
@@ -274,7 +286,8 @@ export class PrescriptionService
     excludes: string[],
     filters: PrescriptionFilters,
     limit: number,
-    offset: number
+    offset: number,
+    opts: ReqOptions,
   ): Promise<PrescriptionMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -284,6 +297,7 @@ export class PrescriptionService
         filters,
         limit,
         offset,
+        opts,
         (err: any, reports: PrescriptionMessage[]) => {
           if (err) return rej(err);
           res(reports);
