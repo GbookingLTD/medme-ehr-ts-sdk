@@ -220,6 +220,7 @@ export declare class SimpleTextFormatterV2 implements IFormatter<string> {
     private _localize;
     private _dateFormat;
     private _baseOffset;
+    private _openTable;
     constructor(localize: object, dateFormat?: DateFormatFunc);
     appointmentResult(ar: IAppointmentResultMessage, offset?: string): string;
     medicalExaminationResult(ar: string[], offset: string): string;
@@ -239,6 +240,7 @@ export declare class SimpleTextFormatterV2 implements IFormatter<string> {
     attachmentInfos(a: AttachmentInfo[], offset: string): string;
     attachmentInfo(a: AttachmentInfo, offset?: string): string;
     reportInfoValue(r: any, offset: string): string;
+    reportInfoTable(r: any, offset: string): string;
     reportInfoValueHandler(value: string): string;
     medications(s: Medication[], offset: string): string;
     medication(s: Medication, offset?: string): string;

@@ -37,6 +37,7 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
     function SimpleTextFormatterV2(localize, dateFormat) {
         if (dateFormat === void 0) { dateFormat = dateISOFormat; }
         this._baseOffset = "";
+        this._openTable = false;
         this._localize = localize;
         this._dateFormat = dateFormat;
     }
@@ -182,10 +183,17 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
         var _this_1 = this;
         if (offset === void 0) { offset = ""; }
         //return "\n" + p.map((item) => this.reportInfo(item, offset)).join("\n");
-        if (Array.isArray(r.value)) {
-            return "\n " + offset + " <b>" + r.name + "</b>\n" + r.value.map(function (v) { return _this_1.reportInfoValue(v, offset); });
+        var str = '';
+        if (r.type === 1) {
+            return this.reportInfoTable(r, offset);
         }
-        return r.value ? "\n " + offset + " <b>" + r.name + "</b>\n" + r.value : '';
+        else if (this._openTable) {
+            str = '</table>';
+        }
+        if (Array.isArray(r.value)) {
+            return str + "\n " + offset + " <b>" + r.name + "</b>\n" + r.value.map(function (v) { return _this_1.reportInfoValue(v, offset); });
+        }
+        return r.value ? str + "\n " + offset + " <b>" + r.name + "</b>\n" + r.value : "" + str;
     };
     SimpleTextFormatterV2.prototype.attachmentInfos = function (a, offset) {
         var _this_1 = this;
@@ -201,6 +209,14 @@ var SimpleTextFormatterV2 = /** @class */ (function () {
             return "\n " + offset + " <b>" + r.paramName + "</b>\n" + r.value.map(function (v) { return _this_1.reportInfoValue(v, offset); });
         }
         return r.paramName ? "\n " + offset + " " + r.paramName + ": " + this.reportInfoValueHandler(r.paramValue) : '';
+    };
+    SimpleTextFormatterV2.prototype.reportInfoTable = function (r, offset) {
+        var str = '';
+        if (!this._openTable) {
+            this._openTable = true;
+            str = '<table class="reportInfoTable">';
+        }
+        return str + "<tr><td>" + r.name + "</td><td>" + r.value + "</td></tr>";
     };
     SimpleTextFormatterV2.prototype.reportInfoValueHandler = function (value) {
         if (['true', 'false'].includes(value)) {

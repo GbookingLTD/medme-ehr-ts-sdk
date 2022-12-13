@@ -69,6 +69,7 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
   private _localize: object;
   private _dateFormat: DateFormatFunc;
   private _baseOffset = "";
+  private _openTable = false
 
   public constructor(
     localize: object,
@@ -254,10 +255,16 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
 
   public reportInfo(r:PatientReportInfo, offset: string = ""): string {
     //return "\n" + p.map((item) => this.reportInfo(item, offset)).join("\n");
-    if(Array.isArray(r.value)) {
-      return `\n ${offset} <b>${r.name}</b>\n${r.value.map(v=>this.reportInfoValue(v,offset))}`
+    let str = '';
+    if (r.type === 1) {
+      return this.reportInfoTable(r, offset)
+    } else if (this._openTable) {
+      str = '</table>'
     }
-    return r.value ? `\n ${offset} <b>${r.name}</b>\n${r.value}` : ''
+    if(Array.isArray(r.value)) {
+      return `${str}\n ${offset} <b>${r.name}</b>\n${r.value.map(v=>this.reportInfoValue(v,offset))}`
+    }
+    return r.value ? `${str}\n ${offset} <b>${r.name}</b>\n${r.value}` : `${str}`
   }
 
   public attachmentInfos (a: AttachmentInfo[], offset: string): string {
@@ -272,6 +279,14 @@ export class SimpleTextFormatterV2 implements IFormatter<string> {
       return `\n ${offset} <b>${r.paramName}</b>\n${r.value.map(v=>this.reportInfoValue(v,offset))}`
     }
     return r.paramName ? `\n ${offset} ${r.paramName}: ${this.reportInfoValueHandler(r.paramValue)}` : ''
+  }
+  public reportInfoTable (r: any, offset: string): string {
+    let str = ''
+    if (!this._openTable) {
+      this._openTable = true
+      str = '<table class="reportInfoTable">'
+    }
+    return `${str}<tr><td>${r.name}</td><td>${r.value}</td></tr>`
   }
 
   public reportInfoValueHandler (value: string): string {
