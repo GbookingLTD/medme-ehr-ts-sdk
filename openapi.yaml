@@ -1,0 +1,376 @@
+openapi: 3.1.0
+info:
+  title: MedMe EHR RPCServer
+  version: 1.9.492
+  description: |
+    ## Medme EHR API
+
+    Medme EHR API для предоставления медицинских данных конечным пользователям в виде мобильного приложения, веб интерфейса или другим способом.
+
+    Главная цель API для EHR — это унификация передачи мед. данных между клиентом и сервером.
+servers:
+  - url: http://localhost:9999
+tags:
+  - name: Info
+    description: |
+      Запросы для получения информации о сервере
+  - name: Auth
+    description: |
+      Описывает подключение к серверу
+  - name: Files
+    description: |
+      Запросы на получение файлов
+  - name: Appointment
+    description: |
+      Записи на прием
+paths:
+  /#api_info.healthcheck:
+    post:
+      tags:
+        - ApiInfo
+      summary: Получение информации о поднятом сервере и БД
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/ApiInfo/Healthcheck'
+  /#api_info.get_specializations_by_pattern:
+    post:
+      tags:
+        - ApiInfo
+      summary: Поиск специализации по её названию
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/ApiInfo/GetSpecializationsByPattern'
+  /#misc.get_attached_file:
+    get:
+      tags:
+        - Misc
+      summary: Запрос на скачивание присоединенного файла
+      parameters:
+        - in: query
+          name: key
+          schema:
+            type: string
+          required: true
+          description: Unique file key
+  /#appointment.get_appointment_by_id:
+    post:
+      tags:
+        - Appointment
+      summary: Получение записи на прием по идентификатору
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Appointment/GetAppointmentById'
+      responses:
+        '200':
+          description: Возвращает данные о записи в МИСе
+          content:
+            application/json:
+              schema:
+                type: object
+                required: null
+                properties: null
+        '401':
+          $ref: '#/components/errorResponses/NotAuthorized'
+        '403':
+          $ref: '#/components/errorResponses/AccessForbidden'
+        '500':
+          $ref: '#/components/errorResponses/UnknownError'
+  /#appointment.get_patient_appointments:
+    post:
+      tags:
+        - Appointment
+      summary: Получение записей пациента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Appointment/GetPatientAppointments'
+  /#appointment.get_appointments:
+    post:
+      tags:
+        - Appointment
+      summary: Получение всех записей
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Appointment/GetAppointments'
+  /#appointment.count:
+    post:
+      tags:
+        - Appointment
+      summary: Получение количества записей
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Appointment/Count'
+  /#appointment.patient_appointments_count:
+    post:
+      tags:
+        - Appointment
+      summary: Получение количества записей по пациенту
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Appointment/PatientAppointmentCount'
+components:
+  Request:
+    description: jsonrpc2 запрос
+    properties:
+      jsonrpc:
+        description: версия протокола - 2.0
+        type: string
+        const: 2
+      id:
+        description: значение числового типа для идентификации запроса на сервере
+        type:
+          - number
+          - string
+      cred:
+        description: параметры авторизации
+        oneOf:
+          - type: object
+            params: []
+            required: []
+            additionalProperties: false
+          - type: object
+            properties:
+              user:
+                description: идентификатор профиля пользователя
+                type: string
+              token:
+                description: временный token для доступа
+                type: string
+            required:
+              - user
+              - token
+            additionalProperties: false
+      method:
+        description: название jsonrpc метода
+        type: string
+      params:
+        description: параметры запроса
+        type:
+          - object
+          - array
+    required:
+      - jsonrpc
+      - id
+      - method
+      - params
+    additionalProperties: false
+  ErrorResponse:
+    type: object
+    properties:
+      jsonrpc:
+        description: версия протокола (2.0)
+        type: string
+        const: '2.0'
+      id:
+        description: значение числового типа для идентификации запроса на сервере
+        type: number
+      error:
+        description: объект, содержащий информацию об ошибке
+        type: object
+        properties:
+          code:
+            description: код ошибки
+            type: number
+          message:
+            description: текстовая информация об ошибке
+            type: string
+          data:
+            description: дополнительные данные об ошибке
+            type:
+              - string
+              - object
+        required:
+          - code
+          - message
+    required:
+      - jsonrpc
+      - id
+      - error
+    additionalProperties: false
+  Response:
+    type: object
+    properties:
+      jsonrpc:
+        description: версия протокола (2.0)
+        type: string
+        const: '2.0'
+      id:
+        description: значение числового типа для идентификации запроса на сервере
+        type: number
+      result:
+        description: данные, передаваемые в ответ
+        type: object
+    required:
+      - jsonrpc
+      - id
+      - result
+    additionalProperties: false
+  errorResponses:
+    NotAuthorized:
+      allOf:
+        - $ref: '#/components/ErrorResponse'
+        - type: object
+          properties:
+            code:
+              type: number
+              description: код ошибки
+              const: -33000
+    UnknownError:
+      allOf:
+        - $ref: '#/components/ErrorResponse'
+        - type: object
+          properties:
+            code:
+              type: number
+              description: код ошибки
+              const: -32603
+    AccessForbidden:
+      allOf:
+        - $ref: '#/components/ErrorResponse'
+        - type: object
+          properties:
+            code:
+              type: number
+              description: код ошибки
+              const: -33403
+  requests:
+    Appointment:
+      GetAppointmentById:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+                description: Идентификатор записи на прием
+      GetPatientAppointments:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - params
+            properties:
+              params:
+                $ref: '#/components/schemas/PatientIdAppointmentListRequest'
+      PatientAppointmentCount:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - params
+            properties:
+              params:
+                $ref: '#/components/schemas/PatientIdRequest'
+      Count:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required: []
+            properties: null
+      GetAppointments:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - params
+            properties:
+              params:
+                $ref: '#/components/schemas/PatientIdAppointmentListRequest'
+    ApiInfo:
+      GetSpecializationsByPattern:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - text
+            properties:
+              text:
+                type: string
+                description: Шаблон, по которому ищется специализация
+      Healthcheck:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required: []
+            properties: null
+  schemas:
+    RpcRequestPayload:
+      type: object
+      additionalProperties: false
+    PatientIdAppointmentListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientIdAppointmentListRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - PatientId
+            - Limit
+            - Offset
+          properties:
+            PatientId:
+              type:
+                - null
+                - string
+            Limit:
+              type: integer
+              format: int32
+            Offset:
+              type: integer
+              format: int32
+            OrderByDescendingDate:
+              type: boolean
+            NeedRecognition:
+              type: boolean
+    PatientIdRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientIdRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - PatientId
+          properties:
+            PatientId:
+              type:
+                - null
+                - string

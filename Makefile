@@ -63,3 +63,6 @@ clean:
 
 dev:
 	./dev.sh
+
+redocly_lint:
+	redocly lint openapi.yaml

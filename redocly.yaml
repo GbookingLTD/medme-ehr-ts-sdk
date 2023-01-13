@@ -6,9 +6,9 @@ apis:
     # Update the path to your OpenAPI root file
     root: ./openapi.yaml
 
-lint:
-  extends:
-    - recommended
+# lint:
+#   extends:
+#     - recommended
 
 features.openapi:
   generateCodeSamples:

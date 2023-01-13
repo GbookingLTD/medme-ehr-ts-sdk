@@ -4,3 +4,4 @@ web_sample/lib/env-prod.js
 web_sample/lib/clients-data.js
 .htpasswd
 tests/user999_ehr_user_sign.txt
+.fake
