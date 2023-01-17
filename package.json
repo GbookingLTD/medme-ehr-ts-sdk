@@ -1,6 +1,6 @@
 {
   "name": "medme-ehr-js-sdk",
-  "version": "1.9.451",
+  "version": "1.9.492",
   "description": "",
   "main": "src/index.ts",
   "directories": {

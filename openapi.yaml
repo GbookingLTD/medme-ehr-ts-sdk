@@ -11,15 +11,12 @@ info:
 servers:
   - url: http://localhost:9999
 tags:
-  - name: Info
+  - name: ApiInfo
     description: |
       Запросы для получения информации о сервере
   - name: Auth
     description: |
       Описывает подключение к серверу
-  - name: Files
-    description: |
-      Запросы на получение файлов
   - name: Appointment
     description: |
       Записи на прием
@@ -79,8 +76,6 @@ paths:
             application/json:
               schema:
                 type: object
-                required: null
-                properties: null
         '401':
           $ref: '#/components/errorResponses/NotAuthorized'
         '403':
@@ -142,7 +137,7 @@ components:
       jsonrpc:
         description: версия протокола - 2.0
         type: string
-        const: 2
+        const: '2.0'
       id:
         description: значение числового типа для идентификации запроса на сервере
         type:
@@ -171,10 +166,9 @@ components:
         description: название jsonrpc метода
         type: string
       params:
+        additionalProperties: true
         description: параметры запроса
-        type:
-          - object
-          - array
+        type: object
     required:
       - jsonrpc
       - id
@@ -269,9 +263,8 @@ components:
             required:
               - id
             properties:
-              id:
-                type: string
-                description: Идентификатор записи на прием
+              params:
+                $ref: '#/components/schemas/IDRequest'
       GetPatientAppointments:
         allOf:
           - $ref: '#/components/Request'
@@ -294,8 +287,8 @@ components:
         allOf:
           - $ref: '#/components/Request'
           - type: object
+            additionalProperties: false
             required: []
-            properties: null
       GetAppointments:
         allOf:
           - $ref: '#/components/Request'
@@ -313,19 +306,47 @@ components:
             required:
               - text
             properties:
-              text:
-                type: string
-                description: Шаблон, по которому ищется специализация
+              params:
+                type: object
+                additionalProperties: false
+                properties:
+                  text:
+                    type: string
+                    description: Шаблон, по которому ищется специализация
       Healthcheck:
         allOf:
           - $ref: '#/components/Request'
           - type: object
+            additionalProperties: false
             required: []
-            properties: null
+            properties:
+              params:
+                type: object
+                additionalProperties: false
   schemas:
     RpcRequestPayload:
       type: object
       additionalProperties: false
+    IDRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: IDRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - id
+          properties:
+            id:
+              type:
+                - null
+                - string
+            needRecognition:
+              type: boolean
     PatientIdAppointmentListRequest:
       $schema: http://json-schema.org/draft-04/schema#
       title: PatientIdAppointmentListRequest
@@ -338,23 +359,23 @@ components:
         - type: object
           additionalProperties: false
           required:
-            - PatientId
-            - Limit
-            - Offset
+            - patientId
+            - limit
+            - offset
           properties:
-            PatientId:
+            patientId:
               type:
                 - null
                 - string
-            Limit:
+            limit:
               type: integer
               format: int32
-            Offset:
+            offset:
               type: integer
               format: int32
-            OrderByDescendingDate:
+            orderByDescendingDate:
               type: boolean
-            NeedRecognition:
+            needRecognition:
               type: boolean
     PatientIdRequest:
       $schema: http://json-schema.org/draft-04/schema#
@@ -368,9 +389,9 @@ components:
         - type: object
           additionalProperties: false
           required:
-            - PatientId
+            - patientId
           properties:
-            PatientId:
+            patientId:
               type:
                 - null
                 - string
