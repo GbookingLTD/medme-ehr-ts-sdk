@@ -3,9 +3,9 @@ info:
   title: MedMe EHR RPCServer
   version: 1.9.492
   description: |
-    ## Medme EHR API
+    ## MedMe EHR API
 
-    Medme EHR API для предоставления медицинских данных конечным пользователям в виде мобильного приложения, веб интерфейса или другим способом.
+    MedMe EHR API для предоставления медицинских данных конечным пользователям в виде мобильного приложения, веб интерфейса или другим способом.
 
     Главная цель API для EHR — это унификация передачи мед. данных между клиентом и сервером.
 servers:
@@ -20,6 +20,14 @@ tags:
   - name: Appointment
     description: |
       Записи на прием
+  - name: AppointmentResult
+    description: Результаты приемов
+  - name: DiagnosticReport
+    description: Диагностические отчеты
+  - name: Prescription
+    description: Медикаментозные назначения
+  - name: Misc
+    description: Прочее
 paths:
   /#api_info.healthcheck:
     post:
@@ -52,7 +60,7 @@ paths:
             schema:
               type: object
               $ref: '#/components/requests/ApiInfo/GetSpecializationsByPattern'
-  /#misc.get_attached_file:
+  /get_attached_file:
     get:
       tags:
         - Misc
@@ -130,6 +138,21 @@ paths:
             schema:
               type: object
               $ref: '#/components/requests/Appointment/GetAppointments'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о записях в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Appointment/GetAppointments'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
   /#appointment.count:
     post:
       tags:
@@ -184,6 +207,411 @@ paths:
                     title: Not authorized
                   - $ref: '#/components/errorResponses/AccessForbidden'
                     title: Access forbidden
+  /#appointment_result.get_appointment_result_by_id:
+    post:
+      tags:
+        - AppointmentResult
+      summary: Получение данных по приему по идентификатору
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/AppointmentResult/GetAppointmentResultById'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о приеме в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/AppointmentResult/GetAppointmentResultById'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#appointment_result.get_patient_appointment_results:
+    post:
+      tags:
+        - AppointmentResult
+      summary: Получение приемов пациента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/AppointmentResult/GetPatientAppointmentResults'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о записях пациента в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/AppointmentResult/GetPatientAppointmentResults'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#appointment_result.get_appointment_results:
+    post:
+      tags:
+        - AppointmentResult
+      summary: Получение приемов в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/AppointmentResult/GetAppointmentResults'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о приемах в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/AppointmentResult/GetAppointmentResults'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#appointment_result.count:
+    post:
+      tags:
+        - AppointmentResult
+      summary: Получение количества приемов в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/AppointmentResult/Count'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество приемов в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/AppointmentResult/Count'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#appointment_result.patient_appointment_results_count:
+    post:
+      tags:
+        - AppointmentResult
+      summary: Получение количества приемов по пациенту
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/AppointmentResult/PatientAppointmentResultCount'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество приемов пациента в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/AppointmentResult/PatientAppointmentResultCount'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#diagnostic_report.get_diagnostic_report_by_id:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Получение диагностического отчета по идентификатору
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/DiagnosticReport/GetDiagnosticReportById'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о диагностических отчетах в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/DiagnosticReport/GetDiagnosticReportById'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#diagnostic_report.get_patient_diagnostic_reports:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Получение диагностических отчетов пациента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/DiagnosticReport/GetPatientDiagnosticReports'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о диагностических отчетах пациента в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/DiagnosticReport/GetPatientDiagnosticReports'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#diagnostic_report.get_diagnostic_reports:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Получение приемов в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/DiagnosticReport/GetDiagnosticReports'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о диагностических отчетах в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/DiagnosticReport/GetDiagnosticReports'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#diagnostic_report.count:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Получение количества диагностических отчетов в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/DiagnosticReport/Count'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество диагностических отчетов в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/DiagnosticReport/Count'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#diagnostic_report.patient_diagnostic_reports_count:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Получение количества диагностических отчетов по пациенту
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/DiagnosticReport/PatientDiagnosticReportCount'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество диагностических отчетов пациента в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/DiagnosticReport/PatientDiagnosticReportCount'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#prescription.get_prescription_by_id:
+    post:
+      tags:
+        - Prescription
+      summary: Получение данных по назначению по идентификатору
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Prescription/GetPrescriptionById'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о назначению в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Prescription/GetPrescriptionById'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#prescription.get_patient_prescriptions:
+    post:
+      tags:
+        - Prescription
+      summary: Получение назначениям пациента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Prescription/GetPatientPrescriptions'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о назначениях пациента в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Prescription/GetPatientPrescriptions'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#prescription.get_prescriptions:
+    post:
+      tags:
+        - Prescription
+      summary: Получение назначений в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Prescription/GetPrescriptions'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о назначениях в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Prescription/GetPrescriptions'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#prescription.count:
+    post:
+      tags:
+        - Prescription
+      summary: Получение количества назначений в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Prescription/Count'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество назначений в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Prescription/Count'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#prescription.patient_prescriptions_count:
+    post:
+      tags:
+        - Prescription
+      summary: Получение количества назначений по пациенту
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Prescription/PatientPrescriptionCount'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество назначений пациента в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Prescription/PatientPrescriptionCount'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
 components:
   Request:
     description: jsonrpc2 запрос
@@ -201,10 +629,12 @@ components:
         description: параметры авторизации
         oneOf:
           - type: object
+            title: без параметров
             params: []
             required: []
             additionalProperties: false
           - type: object
+            title: с параметрами авторизации
             properties:
               user:
                 description: идентификатор профиля пользователя
@@ -315,8 +745,11 @@ components:
           - $ref: '#/components/Request'
           - type: object
             required:
+              - method
               - params
             properties:
+              method:
+                const: appointment.get_appointment_by_id
               params:
                 $ref: '#/components/schemas/IDRequest'
       GetPatientAppointments:
@@ -324,8 +757,11 @@ components:
           - $ref: '#/components/Request'
           - type: object
             required:
+              - method
               - params
             properties:
+              method:
+                const: appointment.get_patient_appointments
               params:
                 $ref: '#/components/schemas/PatientIdAppointmentListRequest'
       PatientAppointmentCount:
@@ -333,8 +769,11 @@ components:
           - $ref: '#/components/Request'
           - type: object
             required:
+              - method
               - params
             properties:
+              method:
+                const: appointment.patient_appointment_count
               params:
                 $ref: '#/components/schemas/PatientIdRequest'
       Count:
@@ -343,8 +782,11 @@ components:
           - type: object
             additionalProperties: false
             required:
+              - method
               - params
             properties:
+              method:
+                const: appointment.count
               params:
                 type: object
                 additionalProperties: false
@@ -353,18 +795,213 @@ components:
           - $ref: '#/components/Request'
           - type: object
             required:
+              - method
               - params
             properties:
+              method:
+                const: appointment.get_appointments
               params:
                 $ref: '#/components/schemas/PatientIdAppointmentListRequest'
+    AppointmentResult:
+      GetAppointmentResultById:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: appointment_result.get_appointment_result_by_id
+              params:
+                $ref: '#/components/schemas/IDRequest'
+      GetPatientAppointmentResults:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: appointment_result.get_patient_appointment_results
+              params:
+                $ref: '#/components/schemas/PatientIdAppointmentResultListRequest'
+      PatientAppointmentResultCount:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: appointment_result.patient_appointment_result_count
+              params:
+                $ref: '#/components/schemas/PatientIdRequest'
+      Count:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            additionalProperties: false
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: appointment_result.count
+              params:
+                type: object
+                additionalProperties: false
+      GetAppointmentResults:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: appointment_result.get_appointment_results
+              params:
+                $ref: '#/components/schemas/PatientIdAppointmentResultListRequest'
+    DiagnosticReport:
+      GetDiagnosticReportById:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: diagnostic_report.get_diagnostic_report_by_id
+              params:
+                $ref: '#/components/schemas/IDRequest'
+      GetPatientDiagnosticReports:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: diagnostic_report.get_patient_diagnostic_reports
+              params:
+                $ref: '#/components/schemas/PatientIdDiagnosticReportListRequest'
+      PatientDiagnosticReportCount:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: diagnostic_report.patient_diagnostic_report_count
+              params:
+                $ref: '#/components/schemas/PatientIdRequest'
+      Count:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            additionalProperties: false
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: diagnostic_report.count
+              params:
+                type: object
+                additionalProperties: false
+      GetDiagnosticReports:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: diagnostic_report.get_diagnostic_reports
+              params:
+                $ref: '#/components/schemas/PatientIdDiagnosticReportListRequest'
+    Prescription:
+      GetPrescriptionById:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: prescription.get_prescription_by_id
+              params:
+                $ref: '#/components/schemas/IDRequest'
+      GetPatientPrescriptions:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: prescription.get_patient_prescriptions
+              params:
+                $ref: '#/components/schemas/PatientIdPrescriptionListRequest'
+      PatientPrescriptionCount:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: prescription.patient_prescription_count
+              params:
+                $ref: '#/components/schemas/PatientIdRequest'
+      Count:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            additionalProperties: false
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: prescription.count
+              params:
+                type: object
+                additionalProperties: false
+      GetPrescriptions:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: prescription.get_prescriptions
+              params:
+                $ref: '#/components/schemas/PatientIdPrescriptionListRequest'
     ApiInfo:
       GetSpecializationsByPattern:
         allOf:
           - $ref: '#/components/Request'
           - type: object
             required:
+              - method
               - paras
             properties:
+              method:
+                const: api_info.get_specializations_by_pattern
               params:
                 type: object
                 additionalProperties: false
@@ -380,8 +1017,11 @@ components:
           - type: object
             additionalProperties: false
             required:
+              - method
               - params
             properties:
+              method:
+                const: api_info.healthcheck
               params:
                 type: object
                 additionalProperties: false
@@ -418,6 +1058,16 @@ components:
             properties:
               result:
                 $ref: '#/components/schemas/AppointmentListResponse'
+      GetAppointments:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/AppointmentListResponse'
       Count:
         allOf:
           - $ref: '#/components/Response'
@@ -429,6 +1079,159 @@ components:
               result:
                 $ref: '#/components/schemas/CountResponse'
       PatientAppointmentCount:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
+    AppointmentResult:
+      GetAppointmentResultById:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/AppointmentResultResponse'
+      GetPatientAppointmentResults:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/AppointmentResultListResponse'
+      GetAppointmentResults:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/AppointmentResultListResponse'
+      Count:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
+      PatientAppointmentResultCount:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
+    DiagnosticReport:
+      GetDiagnosticReportById:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/DiagnosticReportResponse'
+      GetPatientDiagnosticReports:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/DiagnosticReportListResponse'
+      GetDiagnosticReports:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/DiagnosticReportListResponse'
+      Count:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
+      PatientDiagnosticReportCount:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
+    Prescription:
+      GetPrescriptionById:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PrescriptionResponse'
+      GetPatientPrescriptions:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PrescriptionListResponse'
+      GetPrescriptions:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PrescriptionListResponse'
+      Count:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
+      PatientPrescriptionCount:
         allOf:
           - $ref: '#/components/Response'
           - type: object
@@ -1539,3 +2342,3848 @@ components:
           properties:
             patientId:
               type: string
+    Cd10:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+    KindDiagnosis:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Base
+        - Complication
+        - Related
+      enum:
+        - 0
+        - 1
+        - 2
+      x-enumDescriptions:
+        '0': Base
+        '1': Complication
+        '2': Related
+    TypeDiagnosis:
+      type: integer
+      description: ''
+      x-enumNames:
+        - AcuteDisease
+        - ChronicalFirst
+        - ChronicalEarly
+      enum:
+        - 0
+        - 1
+        - 2
+      x-enumDescriptions:
+        '0': AcuteDisease
+        '1': ChronicalFirst
+        '2': ChronicalEarly
+    Diagnosis:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        cd10:
+          $ref: '#/components/schemas/Cd10'
+        diagnosisText:
+          type: string
+        kind:
+          $ref: '#/components/schemas/KindDiagnosis'
+        type:
+          $ref: '#/components/schemas/TypeDiagnosis'
+    ProcedureType:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Recomendation
+        - Precedure
+        - Analisys
+      enum:
+        - 0
+        - 1
+        - 2
+      x-enumDescriptions:
+        '0': Recomendation
+        '1': Precedure
+        '2': Analisys
+    ProcedureExecStatus:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Scheduled
+        - InProgress
+        - Rejected
+        - Completed
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      x-enumDescriptions:
+        '0': Scheduled
+        '1': InProgress
+        '2': Rejected
+        '3': Completed
+    Period:
+      type: object
+      additionalProperties: false
+      properties:
+        begin:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+    ProcedureMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+        title:
+          type: string
+        service:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+        type:
+          $ref: '#/components/schemas/ProcedureType'
+        required:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/ProcedureExecStatus'
+        period:
+          $ref: '#/components/schemas/Period'
+        strictPeriod:
+          $ref: '#/components/schemas/Period'
+        preparations:
+          type: array
+          items:
+            type: string
+        requiredPreparations:
+          type: array
+          items:
+            type: string
+        appointmentResultId:
+          type: string
+    MedicationForm:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Powder
+        - Tablets
+        - Capsule
+      enum:
+        - 0
+        - 1
+        - 2
+      x-enumDescriptions:
+        '0': Powder
+        '1': Tablets
+        '2': Capsule
+    DosageTiming:
+      type: object
+      additionalProperties: false
+      properties:
+        event:
+          type: string
+        duration:
+          type: integer
+          format: int32
+        durationUnit:
+          type: string
+        frequency:
+          type: integer
+          format: int32
+        frequencyMax:
+          type: integer
+          format: int32
+        period:
+          type: integer
+          format: int32
+        periodUnit:
+          type: string
+        periodMax:
+          type: integer
+          format: int32
+        dayOfWeek:
+          type: string
+        numberItems:
+          type: string
+        numberPerPeriod:
+          type: string
+        timeOfDay:
+          type: string
+        when:
+          type: string
+        offset:
+          type: integer
+          format: int32
+        periodStart:
+          type: string
+          format: date-time
+        periodEnd:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int32
+    Dosage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        medicationId:
+          type: string
+        text:
+          type: string
+        additionalInstruction:
+          type: string
+        patientInstruction:
+          type: string
+        timing:
+          $ref: '#/components/schemas/DosageTiming'
+    Medication:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+        codeTable:
+          type: string
+        reference:
+          type: string
+        itemSize:
+          type: string
+        dosageText:
+          type: string
+        form:
+          $ref: '#/components/schemas/MedicationForm'
+        dosageInstruction:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dosage'
+        durationText:
+          type: string
+        durationDays:
+          type: integer
+          format: int32
+        amount:
+          type: number
+          format: double
+        expirationDate:
+          type: string
+          format: date-time
+    AppointmentResultResponse_definitions-Exception:
+      type: object
+      additionalProperties: false
+      properties:
+        Message:
+          type: string
+        InnerException:
+          oneOf:
+            - type: null
+            - $ref: '#/components/schemas/AppointmentResultResponse_definitions-Exception'
+        Source:
+          type:
+            - null
+            - string
+        StackTrace:
+          type:
+            - null
+            - string
+    AppointmentResultResponse_definitions-PropertiesMismatch:
+      allOf:
+        - $ref: '#/components/schemas/AppointmentResultResponse_definitions-Exception'
+        - type: object
+          additionalProperties: false
+          properties:
+            a: {}
+            b: {}
+            name:
+              type: string
+    PrescriptionInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+        patientInfo:
+          $ref: '#/components/schemas/PatientInfo'
+        recorderDoctor:
+          $ref: '#/components/schemas/Doctor'
+        medications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Medication'
+        title:
+          type: string
+        dosageText:
+          type: string
+        reasonText:
+          type: string
+        validityPeriod:
+          $ref: '#/components/schemas/Period'
+        numberOfRepeats:
+          type: integer
+          format: int32
+        lastPropertiesMismatch:
+          $ref: '#/components/schemas/AppointmentResultResponse_definitions-PropertiesMismatch'
+    AttachmentInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        file:
+          type: string
+    ParamType:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Item
+        - Table
+        - Header
+        - ItemList
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      x-enumDescriptions:
+        '0': Item
+        '1': Table
+        '2': Header
+        '3': ItemList
+    ReportInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        patientId:
+          type: string
+        parentId:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        value: {}
+        type:
+          $ref: '#/components/schemas/ParamType'
+        entity:
+          type: string
+    AppointmentResultMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+        business:
+          $ref: '#/components/schemas/BusinessInfo'
+        patientId:
+          type: string
+        patient:
+          $ref: '#/components/schemas/PatientInfo'
+        appointmentId:
+          type: string
+        doctor:
+          $ref: '#/components/schemas/Doctor'
+        start:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+        anamnesis:
+          type: array
+          items:
+            type: string
+        medicalExaminationResult:
+          type: array
+          items:
+            type: string
+        diagnosis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Diagnosis'
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureMessage'
+        scheduledProcedures:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureMessage'
+        prescriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrescriptionInfo'
+        diagnosticReportIds:
+          type: array
+          items:
+            type: string
+        imagineMedia:
+          type: array
+          items:
+            type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentInfo'
+        reportInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportInfo'
+        reportInfoFeedId:
+          type: string
+        recognitionErrors:
+          type: array
+          items:
+            type: string
+        lastPropertiesMismatch:
+          $ref: '#/components/schemas/AppointmentResultResponse_definitions-PropertiesMismatch'
+    AppointmentResultResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: AppointmentResultResponse
+      type: object
+      additionalProperties: false
+      properties:
+        appointmentResult:
+          description: AppointmentResult data
+          oneOf:
+            - $ref: '#/components/schemas/AppointmentResultMessage'
+        validationErrors:
+          type: array
+          description: Validation errors
+          items:
+            type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results
+          items:
+            $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        AppointmentResultMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            created:
+              type: string
+              format: date-time
+            business:
+              $ref: '#/components/schemas/BusinessInfo'
+            patientId:
+              type: string
+            patient:
+              $ref: '#/components/schemas/PatientInfo'
+            appointmentId:
+              type: string
+            doctor:
+              $ref: '#/components/schemas/Doctor'
+            start:
+              type: string
+              format: date-time
+            duration:
+              type: integer
+            anamnesis:
+              type: array
+              items:
+                type: string
+            medicalExaminationResult:
+              type: array
+              items:
+                type: string
+            diagnosis:
+              type: array
+              items:
+                $ref: '#/components/schemas/Diagnosis'
+            recommendations:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProcedureMessage'
+            scheduledProcedures:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProcedureMessage'
+            prescriptions:
+              type: array
+              items:
+                $ref: '#/components/schemas/PrescriptionInfo'
+            diagnosticReportIds:
+              type: array
+              items:
+                type: string
+            imagineMedia:
+              type: array
+              items:
+                type: string
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/AttachmentInfo'
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+            reportInfoFeedId:
+              type: string
+            recognitionErrors:
+              type: array
+              items:
+                type: string
+            lastPropertiesMismatch:
+              $ref: '#/components/schemas/AppointmentResultResponse_definitions-PropertiesMismatch'
+        BusinessInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            active:
+              type: boolean
+            name:
+              type: string
+            location:
+              type: string
+            filialId:
+              type: string
+            networkId:
+              type: string
+            networkFilialKey:
+              type: string
+        PatientInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            medcardNumber:
+              type: string
+            descriptionText:
+              type: string
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        Doctor:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            name:
+              type: string
+            specialization:
+              $ref: '#/components/schemas/Specialization'
+            specializations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specialization'
+        Specialization:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        Diagnosis:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            cd10:
+              $ref: '#/components/schemas/Cd10'
+            diagnosisText:
+              type: string
+            kind:
+              $ref: '#/components/schemas/KindDiagnosis'
+            type:
+              $ref: '#/components/schemas/TypeDiagnosis'
+        Cd10:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            description:
+              type: string
+        KindDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Base
+            - Complication
+            - Related
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Base
+            '1': Complication
+            '2': Related
+        TypeDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - AcuteDisease
+            - ChronicalFirst
+            - ChronicalEarly
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': AcuteDisease
+            '1': ChronicalFirst
+            '2': ChronicalEarly
+        ProcedureMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            created:
+              type: string
+              format: date-time
+            title:
+              type: string
+            service:
+              type: array
+              items:
+                $ref: '#/components/schemas/Service'
+            type:
+              $ref: '#/components/schemas/ProcedureType'
+            required:
+              type: boolean
+            status:
+              $ref: '#/components/schemas/ProcedureExecStatus'
+            period:
+              $ref: '#/components/schemas/Period'
+            strictPeriod:
+              $ref: '#/components/schemas/Period'
+            preparations:
+              type: array
+              items:
+                type: string
+            requiredPreparations:
+              type: array
+              items:
+                type: string
+            appointmentResultId:
+              type: string
+        Service:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              $ref: '#/components/schemas/ClientPrice'
+            duration:
+              type: integer
+        ClientPrice:
+          type: object
+          additionalProperties: false
+          properties:
+            currency:
+              $ref: '#/components/schemas/Currency'
+            originValue:
+              type: number
+              format: double
+            discountValue:
+              type: number
+              format: double
+            value:
+              type: number
+              format: double
+            discount:
+              $ref: '#/components/schemas/Discount'
+        Currency:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Rur
+            - Usd
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Rur
+            '1': Usd
+        Discount:
+          type: object
+          additionalProperties: false
+          properties:
+            discountType:
+              $ref: '#/components/schemas/DiscountType'
+            discountPercent:
+              type: integer
+            discountValue:
+              type: number
+              format: double
+        DiscountType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Percent
+            - Absolute
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Percent
+            '1': Absolute
+        ProcedureType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Recomendation
+            - Precedure
+            - Analisys
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Recomendation
+            '1': Precedure
+            '2': Analisys
+        ProcedureExecStatus:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Scheduled
+            - InProgress
+            - Rejected
+            - Completed
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Scheduled
+            '1': InProgress
+            '2': Rejected
+            '3': Completed
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        PrescriptionInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            created:
+              type: string
+              format: date-time
+            patientInfo:
+              $ref: '#/components/schemas/PatientInfo'
+            recorderDoctor:
+              $ref: '#/components/schemas/Doctor'
+            medications:
+              type: array
+              items:
+                $ref: '#/components/schemas/Medication'
+            title:
+              type: string
+            dosageText:
+              type: string
+            reasonText:
+              type: string
+            validityPeriod:
+              $ref: '#/components/schemas/Period'
+            numberOfRepeats:
+              type: integer
+              format: int32
+            lastPropertiesMismatch:
+              $ref: '#/components/schemas/AppointmentResultResponse_definitions-PropertiesMismatch'
+        Medication:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            code:
+              type: string
+            codeTable:
+              type: string
+            reference:
+              type: string
+            itemSize:
+              type: string
+            dosageText:
+              type: string
+            form:
+              $ref: '#/components/schemas/MedicationForm'
+            dosageInstruction:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dosage'
+            durationText:
+              type: string
+            durationDays:
+              type: integer
+              format: int32
+            amount:
+              type: number
+              format: double
+            expirationDate:
+              type: string
+              format: date-time
+        MedicationForm:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Powder
+            - Tablets
+            - Capsule
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Powder
+            '1': Tablets
+            '2': Capsule
+        Dosage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            medicationId:
+              type: string
+            text:
+              type: string
+            additionalInstruction:
+              type: string
+            patientInstruction:
+              type: string
+            timing:
+              $ref: '#/components/schemas/DosageTiming'
+        DosageTiming:
+          type: object
+          additionalProperties: false
+          properties:
+            event:
+              type: string
+            duration:
+              type: integer
+              format: int32
+            durationUnit:
+              type: string
+            frequency:
+              type: integer
+              format: int32
+            frequencyMax:
+              type: integer
+              format: int32
+            period:
+              type: integer
+              format: int32
+            periodUnit:
+              type: string
+            periodMax:
+              type: integer
+              format: int32
+            dayOfWeek:
+              type: string
+            numberItems:
+              type: string
+            numberPerPeriod:
+              type: string
+            timeOfDay:
+              type: string
+            when:
+              type: string
+            offset:
+              type: integer
+              format: int32
+            periodStart:
+              type: string
+              format: date-time
+            periodEnd:
+              type: string
+              format: date-time
+            count:
+              type: integer
+              format: int32
+        PropertiesMismatch:
+          allOf:
+            - $ref: '#/components/schemas/AppointmentResultResponse_definitions-Exception'
+            - type: object
+              additionalProperties: false
+              properties:
+                a: {}
+                b: {}
+                name:
+                  type: string
+        Exception:
+          type: object
+          additionalProperties: false
+          properties:
+            Message:
+              type: string
+            InnerException:
+              oneOf:
+                - type: null
+                - $ref: '#/components/schemas/AppointmentResultResponse_definitions-Exception'
+            Source:
+              type:
+                - null
+                - string
+            StackTrace:
+              type:
+                - null
+                - string
+        AttachmentInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            url:
+              type: string
+            file:
+              type: string
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    PatientIdAppointmentResultListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientIdAppointmentResultListRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - patientId
+            - limit
+            - offset
+          properties:
+            patientId:
+              type: string
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            orderByDescendingDate:
+              type: boolean
+            needRecognition:
+              type: boolean
+    AppointmentResultListResponse_definitions-Exception:
+      type: object
+      additionalProperties: false
+      properties:
+        Message:
+          type: string
+        InnerException:
+          oneOf:
+            - type: null
+            - $ref: '#/components/schemas/AppointmentResultListResponse_definitions-Exception'
+        Source:
+          type:
+            - null
+            - string
+        StackTrace:
+          type:
+            - null
+            - string
+    AppointmentResultListResponse_definitions-PropertiesMismatch:
+      allOf:
+        - $ref: '#/components/schemas/AppointmentResultListResponse_definitions-Exception'
+        - type: object
+          additionalProperties: false
+          properties:
+            a: {}
+            b: {}
+            name:
+              type: string
+    definitions-PrescriptionInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+        patientInfo:
+          $ref: '#/components/schemas/PatientInfo'
+        recorderDoctor:
+          $ref: '#/components/schemas/Doctor'
+        medications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Medication'
+        title:
+          type: string
+        dosageText:
+          type: string
+        reasonText:
+          type: string
+        validityPeriod:
+          $ref: '#/components/schemas/Period'
+        numberOfRepeats:
+          type: integer
+          format: int32
+        lastPropertiesMismatch:
+          $ref: '#/components/schemas/AppointmentResultListResponse_definitions-PropertiesMismatch'
+    definitions-AppointmentResultMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+        business:
+          $ref: '#/components/schemas/BusinessInfo'
+        patientId:
+          type: string
+        patient:
+          $ref: '#/components/schemas/PatientInfo'
+        appointmentId:
+          type: string
+        doctor:
+          $ref: '#/components/schemas/Doctor'
+        start:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+        anamnesis:
+          type: array
+          items:
+            type: string
+        medicalExaminationResult:
+          type: array
+          items:
+            type: string
+        diagnosis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Diagnosis'
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureMessage'
+        scheduledProcedures:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcedureMessage'
+        prescriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/definitions-PrescriptionInfo'
+        diagnosticReportIds:
+          type: array
+          items:
+            type: string
+        imagineMedia:
+          type: array
+          items:
+            type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentInfo'
+        reportInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportInfo'
+        reportInfoFeedId:
+          type: string
+        recognitionErrors:
+          type: array
+          items:
+            type: string
+        lastPropertiesMismatch:
+          $ref: '#/components/schemas/AppointmentResultListResponse_definitions-PropertiesMismatch'
+    AppointmentResultListResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: AppointmentResultListResponse
+      type: object
+      additionalProperties: false
+      properties:
+        appointmentResults:
+          type: array
+          description: List of appointment results
+          items:
+            $ref: '#/components/schemas/definitions-AppointmentResultMessage'
+        validationErrors:
+          type: array
+          description: Validation errors. i-th item matches with i-th element of AppointmentResult array.
+          items:
+            type: array
+            items:
+              type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results. Item of this array by i-th index contains recognition results of i-th element of the AppointmentResults array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        AppointmentResultMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            created:
+              type: string
+              format: date-time
+            business:
+              $ref: '#/components/schemas/BusinessInfo'
+            patientId:
+              type: string
+            patient:
+              $ref: '#/components/schemas/PatientInfo'
+            appointmentId:
+              type: string
+            doctor:
+              $ref: '#/components/schemas/Doctor'
+            start:
+              type: string
+              format: date-time
+            duration:
+              type: integer
+            anamnesis:
+              type: array
+              items:
+                type: string
+            medicalExaminationResult:
+              type: array
+              items:
+                type: string
+            diagnosis:
+              type: array
+              items:
+                $ref: '#/components/schemas/Diagnosis'
+            recommendations:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProcedureMessage'
+            scheduledProcedures:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProcedureMessage'
+            prescriptions:
+              type: array
+              items:
+                $ref: '#/components/schemas/definitions-PrescriptionInfo'
+            diagnosticReportIds:
+              type: array
+              items:
+                type: string
+            imagineMedia:
+              type: array
+              items:
+                type: string
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/AttachmentInfo'
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+            reportInfoFeedId:
+              type: string
+            recognitionErrors:
+              type: array
+              items:
+                type: string
+            lastPropertiesMismatch:
+              $ref: '#/components/schemas/AppointmentResultListResponse_definitions-PropertiesMismatch'
+        BusinessInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            active:
+              type: boolean
+            name:
+              type: string
+            location:
+              type: string
+            filialId:
+              type: string
+            networkId:
+              type: string
+            networkFilialKey:
+              type: string
+        PatientInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            medcardNumber:
+              type: string
+            descriptionText:
+              type: string
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        Doctor:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            name:
+              type: string
+            specialization:
+              $ref: '#/components/schemas/Specialization'
+            specializations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specialization'
+        Specialization:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        Diagnosis:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            cd10:
+              $ref: '#/components/schemas/Cd10'
+            diagnosisText:
+              type: string
+            kind:
+              $ref: '#/components/schemas/KindDiagnosis'
+            type:
+              $ref: '#/components/schemas/TypeDiagnosis'
+        Cd10:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            description:
+              type: string
+        KindDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Base
+            - Complication
+            - Related
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Base
+            '1': Complication
+            '2': Related
+        TypeDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - AcuteDisease
+            - ChronicalFirst
+            - ChronicalEarly
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': AcuteDisease
+            '1': ChronicalFirst
+            '2': ChronicalEarly
+        ProcedureMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            created:
+              type: string
+              format: date-time
+            title:
+              type: string
+            service:
+              type: array
+              items:
+                $ref: '#/components/schemas/Service'
+            type:
+              $ref: '#/components/schemas/ProcedureType'
+            required:
+              type: boolean
+            status:
+              $ref: '#/components/schemas/ProcedureExecStatus'
+            period:
+              $ref: '#/components/schemas/Period'
+            strictPeriod:
+              $ref: '#/components/schemas/Period'
+            preparations:
+              type: array
+              items:
+                type: string
+            requiredPreparations:
+              type: array
+              items:
+                type: string
+            appointmentResultId:
+              type: string
+        Service:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              $ref: '#/components/schemas/ClientPrice'
+            duration:
+              type: integer
+        ClientPrice:
+          type: object
+          additionalProperties: false
+          properties:
+            currency:
+              $ref: '#/components/schemas/Currency'
+            originValue:
+              type: number
+              format: double
+            discountValue:
+              type: number
+              format: double
+            value:
+              type: number
+              format: double
+            discount:
+              $ref: '#/components/schemas/Discount'
+        Currency:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Rur
+            - Usd
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Rur
+            '1': Usd
+        Discount:
+          type: object
+          additionalProperties: false
+          properties:
+            discountType:
+              $ref: '#/components/schemas/DiscountType'
+            discountPercent:
+              type: integer
+            discountValue:
+              type: number
+              format: double
+        DiscountType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Percent
+            - Absolute
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Percent
+            '1': Absolute
+        ProcedureType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Recomendation
+            - Precedure
+            - Analisys
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Recomendation
+            '1': Precedure
+            '2': Analisys
+        ProcedureExecStatus:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Scheduled
+            - InProgress
+            - Rejected
+            - Completed
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Scheduled
+            '1': InProgress
+            '2': Rejected
+            '3': Completed
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        PrescriptionInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            created:
+              type: string
+              format: date-time
+            patientInfo:
+              $ref: '#/components/schemas/PatientInfo'
+            recorderDoctor:
+              $ref: '#/components/schemas/Doctor'
+            medications:
+              type: array
+              items:
+                $ref: '#/components/schemas/Medication'
+            title:
+              type: string
+            dosageText:
+              type: string
+            reasonText:
+              type: string
+            validityPeriod:
+              $ref: '#/components/schemas/Period'
+            numberOfRepeats:
+              type: integer
+              format: int32
+            lastPropertiesMismatch:
+              $ref: '#/components/schemas/AppointmentResultListResponse_definitions-PropertiesMismatch'
+        Medication:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            code:
+              type: string
+            codeTable:
+              type: string
+            reference:
+              type: string
+            itemSize:
+              type: string
+            dosageText:
+              type: string
+            form:
+              $ref: '#/components/schemas/MedicationForm'
+            dosageInstruction:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dosage'
+            durationText:
+              type: string
+            durationDays:
+              type: integer
+              format: int32
+            amount:
+              type: number
+              format: double
+            expirationDate:
+              type: string
+              format: date-time
+        MedicationForm:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Powder
+            - Tablets
+            - Capsule
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Powder
+            '1': Tablets
+            '2': Capsule
+        Dosage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            medicationId:
+              type: string
+            text:
+              type: string
+            additionalInstruction:
+              type: string
+            patientInstruction:
+              type: string
+            timing:
+              $ref: '#/components/schemas/DosageTiming'
+        DosageTiming:
+          type: object
+          additionalProperties: false
+          properties:
+            event:
+              type: string
+            duration:
+              type: integer
+              format: int32
+            durationUnit:
+              type: string
+            frequency:
+              type: integer
+              format: int32
+            frequencyMax:
+              type: integer
+              format: int32
+            period:
+              type: integer
+              format: int32
+            periodUnit:
+              type: string
+            periodMax:
+              type: integer
+              format: int32
+            dayOfWeek:
+              type: string
+            numberItems:
+              type: string
+            numberPerPeriod:
+              type: string
+            timeOfDay:
+              type: string
+            when:
+              type: string
+            offset:
+              type: integer
+              format: int32
+            periodStart:
+              type: string
+              format: date-time
+            periodEnd:
+              type: string
+              format: date-time
+            count:
+              type: integer
+              format: int32
+        PropertiesMismatch:
+          allOf:
+            - $ref: '#/components/schemas/AppointmentResultListResponse_definitions-Exception'
+            - type: object
+              additionalProperties: false
+              properties:
+                a: {}
+                b: {}
+                name:
+                  type: string
+        Exception:
+          type: object
+          additionalProperties: false
+          properties:
+            Message:
+              type: string
+            InnerException:
+              oneOf:
+                - type: null
+                - $ref: '#/components/schemas/AppointmentResultListResponse_definitions-Exception'
+            Source:
+              type:
+                - null
+                - string
+            StackTrace:
+              type:
+                - null
+                - string
+        AttachmentInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            url:
+              type: string
+            file:
+              type: string
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    DiagnosticReportStatus:
+      type: integer
+      description: ''
+    ObservationType:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Observation
+        - LaboratoryTest
+      enum:
+        - 1
+        - 2
+      x-enumDescriptions:
+        '0': Observation
+        '1': LaboratoryTest
+    ObservationStatus:
+      type: integer
+      description: ''
+      x-enumNames:
+        - None
+      enum:
+        - 1
+      x-enumDescriptions:
+        '0': None
+    ObservationUnit:
+      type: integer
+      description: ''
+    ObservationValue:
+      type: object
+      additionalProperties: false
+      properties:
+        serializedValue:
+          type: string
+        unit:
+          $ref: '#/components/schemas/ObservationUnit'
+        code:
+          type: string
+        value:
+          type: string
+    ObservationRange:
+      type: object
+      additionalProperties: false
+      properties:
+        low:
+          type: number
+          format: decimal
+        high:
+          type: number
+          format: decimal
+        unit:
+          $ref: '#/components/schemas/ObservationUnit'
+        type:
+          $ref: '#/components/schemas/ObservationType'
+        age:
+          $ref: '#/components/schemas/Period'
+        text:
+          type: string
+    ObservationComponent:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          $ref: '#/components/schemas/ObservationType'
+        value:
+          $ref: '#/components/schemas/ObservationValue'
+        interpretation:
+          type: string
+        ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObservationRange'
+    ObservationMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        createdDate:
+          type: string
+          format: date-time
+        created:
+          type: string
+          format: date-time
+        patientInfo:
+          $ref: '#/components/schemas/PatientInfo'
+        type:
+          $ref: '#/components/schemas/ObservationType'
+        observationKey:
+          type: string
+        status:
+          $ref: '#/components/schemas/ObservationStatus'
+        effectivePeriod:
+          $ref: '#/components/schemas/Period'
+        issuedDate:
+          type: string
+          format: date-time
+        performerDoctor:
+          $ref: '#/components/schemas/Doctor'
+        performerBusiness:
+          $ref: '#/components/schemas/BusinessInfo'
+        value:
+          $ref: '#/components/schemas/ObservationValue'
+        note:
+          type: string
+        device:
+          type: string
+        interpretation:
+          type: array
+          items:
+            type: string
+        ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObservationRange'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObservationComponent'
+    IDiagnosticReportMessage:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        isActive:
+          type: boolean
+        patientId:
+          type: string
+        patient:
+          $ref: '#/components/schemas/PatientInfo'
+        appointmentResultId:
+          type: string
+        status:
+          $ref: '#/components/schemas/DiagnosticReportStatus'
+        type:
+          $ref: '#/components/schemas/ObservationType'
+        category:
+          type: string
+        effectivePeriod:
+          $ref: '#/components/schemas/Period'
+        issuedDate:
+          type: string
+          format: date-time
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObservationMessage'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+        resultInterpreter:
+          type: array
+          items:
+            $ref: '#/components/schemas/Doctor'
+        resultInterpretation:
+          type: array
+          items:
+            type: string
+        diagnosis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Diagnosis'
+        imagineMedia:
+          type: array
+          items:
+            type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentInfo'
+        reportInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportInfo'
+        reportInfoFeedId:
+          type: string
+        recognitionErrors:
+          type: array
+          items:
+            type: string
+    DiagnosticReportResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: DiagnosticReportResponse
+      type: object
+      additionalProperties: false
+      properties:
+        diagnosticReport:
+          description: Diagnostic result data
+          oneOf:
+            - $ref: '#/components/schemas/IDiagnosticReportMessage'
+        validationErrors:
+          type: array
+          description: Validation errors
+          items:
+            type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results
+          items:
+            $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        IDiagnosticReportMessage:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+          properties:
+            isActive:
+              type: boolean
+            patientId:
+              type: string
+            patient:
+              $ref: '#/components/schemas/PatientInfo'
+            appointmentResultId:
+              type: string
+            status:
+              $ref: '#/components/schemas/DiagnosticReportStatus'
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            category:
+              type: string
+            effectivePeriod:
+              $ref: '#/components/schemas/Period'
+            issuedDate:
+              type: string
+              format: date-time
+            result:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationMessage'
+            services:
+              type: array
+              items:
+                $ref: '#/components/schemas/Service'
+            resultInterpreter:
+              type: array
+              items:
+                $ref: '#/components/schemas/Doctor'
+            resultInterpretation:
+              type: array
+              items:
+                type: string
+            diagnosis:
+              type: array
+              items:
+                $ref: '#/components/schemas/Diagnosis'
+            imagineMedia:
+              type: array
+              items:
+                type: string
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/AttachmentInfo'
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+            reportInfoFeedId:
+              type: string
+            recognitionErrors:
+              type: array
+              items:
+                type: string
+        PatientInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            medcardNumber:
+              type: string
+            descriptionText:
+              type: string
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        DiagnosticReportStatus:
+          type: integer
+          description: ''
+        ObservationType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Observation
+            - LaboratoryTest
+          enum:
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Observation
+            '1': LaboratoryTest
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        ObservationMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            createdDate:
+              type: string
+              format: date-time
+            created:
+              type: string
+              format: date-time
+            patientInfo:
+              $ref: '#/components/schemas/PatientInfo'
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            observationKey:
+              type: string
+            status:
+              $ref: '#/components/schemas/ObservationStatus'
+            effectivePeriod:
+              $ref: '#/components/schemas/Period'
+            issuedDate:
+              type: string
+              format: date-time
+            performerDoctor:
+              $ref: '#/components/schemas/Doctor'
+            performerBusiness:
+              $ref: '#/components/schemas/BusinessInfo'
+            value:
+              $ref: '#/components/schemas/ObservationValue'
+            note:
+              type: string
+            device:
+              type: string
+            interpretation:
+              type: array
+              items:
+                type: string
+            ranges:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationRange'
+            components:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationComponent'
+        ObservationStatus:
+          type: integer
+          description: ''
+          x-enumNames:
+            - None
+          enum:
+            - 1
+          x-enumDescriptions:
+            '0': None
+        Doctor:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            name:
+              type: string
+            specialization:
+              $ref: '#/components/schemas/Specialization'
+            specializations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specialization'
+        Specialization:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        BusinessInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            active:
+              type: boolean
+            name:
+              type: string
+            location:
+              type: string
+            filialId:
+              type: string
+            networkId:
+              type: string
+            networkFilialKey:
+              type: string
+        ObservationValue:
+          type: object
+          additionalProperties: false
+          properties:
+            serializedValue:
+              type: string
+            unit:
+              $ref: '#/components/schemas/ObservationUnit'
+            code:
+              type: string
+            value:
+              type: string
+        ObservationUnit:
+          type: integer
+          description: ''
+        ObservationRange:
+          type: object
+          additionalProperties: false
+          properties:
+            low:
+              type: number
+              format: decimal
+            high:
+              type: number
+              format: decimal
+            unit:
+              $ref: '#/components/schemas/ObservationUnit'
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            age:
+              $ref: '#/components/schemas/Period'
+            text:
+              type: string
+        ObservationComponent:
+          type: object
+          additionalProperties: false
+          properties:
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            value:
+              $ref: '#/components/schemas/ObservationValue'
+            interpretation:
+              type: string
+            ranges:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationRange'
+        Service:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              $ref: '#/components/schemas/ClientPrice'
+            duration:
+              type: integer
+        ClientPrice:
+          type: object
+          additionalProperties: false
+          properties:
+            currency:
+              $ref: '#/components/schemas/Currency'
+            originValue:
+              type: number
+              format: double
+            discountValue:
+              type: number
+              format: double
+            value:
+              type: number
+              format: double
+            discount:
+              $ref: '#/components/schemas/Discount'
+        Currency:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Rur
+            - Usd
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Rur
+            '1': Usd
+        Discount:
+          type: object
+          additionalProperties: false
+          properties:
+            discountType:
+              $ref: '#/components/schemas/DiscountType'
+            discountPercent:
+              type: integer
+            discountValue:
+              type: number
+              format: double
+        DiscountType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Percent
+            - Absolute
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Percent
+            '1': Absolute
+        Diagnosis:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            cd10:
+              $ref: '#/components/schemas/Cd10'
+            diagnosisText:
+              type: string
+            kind:
+              $ref: '#/components/schemas/KindDiagnosis'
+            type:
+              $ref: '#/components/schemas/TypeDiagnosis'
+        Cd10:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            description:
+              type: string
+        KindDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Base
+            - Complication
+            - Related
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Base
+            '1': Complication
+            '2': Related
+        TypeDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - AcuteDisease
+            - ChronicalFirst
+            - ChronicalEarly
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': AcuteDisease
+            '1': ChronicalFirst
+            '2': ChronicalEarly
+        AttachmentInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            url:
+              type: string
+            file:
+              type: string
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    PatientIdDiagnosticReportListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientIdDiagnosticReportListRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - patientId
+            - limit
+            - offset
+          properties:
+            patientId:
+              type: string
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            orderByDescendingDate:
+              type: boolean
+            needRecognition:
+              type: boolean
+    DiagnosticReportListResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: DiagnosticReportListResponse
+      type: object
+      additionalProperties: false
+      properties:
+        diagnosticReports:
+          type: array
+          description: List of diagnostic results
+          items:
+            $ref: '#/components/schemas/IDiagnosticReportMessage'
+        validationErrors:
+          type: array
+          description: Validation errors. i-th item matches with i-th element of AppointmentResult array.
+          items:
+            type: array
+            items:
+              type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results. Item of this array by i-th index contains recognition results of i-th element of the AppointmentResults array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        IDiagnosticReportMessage:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+          properties:
+            isActive:
+              type: boolean
+            patientId:
+              type: string
+            patient:
+              $ref: '#/components/schemas/PatientInfo'
+            appointmentResultId:
+              type: string
+            status:
+              $ref: '#/components/schemas/DiagnosticReportStatus'
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            category:
+              type: string
+            effectivePeriod:
+              $ref: '#/components/schemas/Period'
+            issuedDate:
+              type: string
+              format: date-time
+            result:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationMessage'
+            services:
+              type: array
+              items:
+                $ref: '#/components/schemas/Service'
+            resultInterpreter:
+              type: array
+              items:
+                $ref: '#/components/schemas/Doctor'
+            resultInterpretation:
+              type: array
+              items:
+                type: string
+            diagnosis:
+              type: array
+              items:
+                $ref: '#/components/schemas/Diagnosis'
+            imagineMedia:
+              type: array
+              items:
+                type: string
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/AttachmentInfo'
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+            reportInfoFeedId:
+              type: string
+            recognitionErrors:
+              type: array
+              items:
+                type: string
+        PatientInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            medcardNumber:
+              type: string
+            descriptionText:
+              type: string
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        DiagnosticReportStatus:
+          type: integer
+          description: ''
+        ObservationType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Observation
+            - LaboratoryTest
+          enum:
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Observation
+            '1': LaboratoryTest
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        ObservationMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            createdDate:
+              type: string
+              format: date-time
+            created:
+              type: string
+              format: date-time
+            patientInfo:
+              $ref: '#/components/schemas/PatientInfo'
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            observationKey:
+              type: string
+            status:
+              $ref: '#/components/schemas/ObservationStatus'
+            effectivePeriod:
+              $ref: '#/components/schemas/Period'
+            issuedDate:
+              type: string
+              format: date-time
+            performerDoctor:
+              $ref: '#/components/schemas/Doctor'
+            performerBusiness:
+              $ref: '#/components/schemas/BusinessInfo'
+            value:
+              $ref: '#/components/schemas/ObservationValue'
+            note:
+              type: string
+            device:
+              type: string
+            interpretation:
+              type: array
+              items:
+                type: string
+            ranges:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationRange'
+            components:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationComponent'
+        ObservationStatus:
+          type: integer
+          description: ''
+          x-enumNames:
+            - None
+          enum:
+            - 1
+          x-enumDescriptions:
+            '0': None
+        Doctor:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            name:
+              type: string
+            specialization:
+              $ref: '#/components/schemas/Specialization'
+            specializations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specialization'
+        Specialization:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        BusinessInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            active:
+              type: boolean
+            name:
+              type: string
+            location:
+              type: string
+            filialId:
+              type: string
+            networkId:
+              type: string
+            networkFilialKey:
+              type: string
+        ObservationValue:
+          type: object
+          additionalProperties: false
+          properties:
+            serializedValue:
+              type: string
+            unit:
+              $ref: '#/components/schemas/ObservationUnit'
+            code:
+              type: string
+            value:
+              type: string
+        ObservationUnit:
+          type: integer
+          description: ''
+        ObservationRange:
+          type: object
+          additionalProperties: false
+          properties:
+            low:
+              type: number
+              format: decimal
+            high:
+              type: number
+              format: decimal
+            unit:
+              $ref: '#/components/schemas/ObservationUnit'
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            age:
+              $ref: '#/components/schemas/Period'
+            text:
+              type: string
+        ObservationComponent:
+          type: object
+          additionalProperties: false
+          properties:
+            type:
+              $ref: '#/components/schemas/ObservationType'
+            value:
+              $ref: '#/components/schemas/ObservationValue'
+            interpretation:
+              type: string
+            ranges:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObservationRange'
+        Service:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              $ref: '#/components/schemas/ClientPrice'
+            duration:
+              type: integer
+        ClientPrice:
+          type: object
+          additionalProperties: false
+          properties:
+            currency:
+              $ref: '#/components/schemas/Currency'
+            originValue:
+              type: number
+              format: double
+            discountValue:
+              type: number
+              format: double
+            value:
+              type: number
+              format: double
+            discount:
+              $ref: '#/components/schemas/Discount'
+        Currency:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Rur
+            - Usd
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Rur
+            '1': Usd
+        Discount:
+          type: object
+          additionalProperties: false
+          properties:
+            discountType:
+              $ref: '#/components/schemas/DiscountType'
+            discountPercent:
+              type: integer
+            discountValue:
+              type: number
+              format: double
+        DiscountType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Percent
+            - Absolute
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Percent
+            '1': Absolute
+        Diagnosis:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            cd10:
+              $ref: '#/components/schemas/Cd10'
+            diagnosisText:
+              type: string
+            kind:
+              $ref: '#/components/schemas/KindDiagnosis'
+            type:
+              $ref: '#/components/schemas/TypeDiagnosis'
+        Cd10:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            description:
+              type: string
+        KindDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Base
+            - Complication
+            - Related
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Base
+            '1': Complication
+            '2': Related
+        TypeDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - AcuteDisease
+            - ChronicalFirst
+            - ChronicalEarly
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': AcuteDisease
+            '1': ChronicalFirst
+            '2': ChronicalEarly
+        AttachmentInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            url:
+              type: string
+            file:
+              type: string
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    IPrescriptionMessage:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        isActive:
+          type: boolean
+        patientId:
+          type: string
+        patientInfo:
+          $ref: '#/components/schemas/PatientInfo'
+        recorderDoctor:
+          $ref: '#/components/schemas/Doctor'
+        medications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Medication'
+        title:
+          type: string
+        dosageText:
+          type: string
+        reasonText:
+          type: string
+        validityPeriod:
+          $ref: '#/components/schemas/Period'
+        numberOfRepeats:
+          type: integer
+          format: int32
+        appointmentResultId:
+          type: string
+        reportInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportInfo'
+        reportInfoFeedId:
+          type: string
+        recognitionErrors:
+          type: array
+          items:
+            type: string
+        diagnoses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Diagnosis'
+    PrescriptionResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PrescriptionResponse
+      type: object
+      additionalProperties: false
+      properties:
+        prescription:
+          description: Prescription data
+          oneOf:
+            - $ref: '#/components/schemas/IPrescriptionMessage'
+        validationErrors:
+          type: array
+          description: Validation errors
+          items:
+            type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results
+          items:
+            $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        IPrescriptionMessage:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+          properties:
+            isActive:
+              type: boolean
+            patientId:
+              type: string
+            patientInfo:
+              $ref: '#/components/schemas/PatientInfo'
+            recorderDoctor:
+              $ref: '#/components/schemas/Doctor'
+            medications:
+              type: array
+              items:
+                $ref: '#/components/schemas/Medication'
+            title:
+              type: string
+            dosageText:
+              type: string
+            reasonText:
+              type: string
+            validityPeriod:
+              $ref: '#/components/schemas/Period'
+            numberOfRepeats:
+              type: integer
+              format: int32
+            appointmentResultId:
+              type: string
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+            reportInfoFeedId:
+              type: string
+            recognitionErrors:
+              type: array
+              items:
+                type: string
+            diagnoses:
+              type: array
+              items:
+                $ref: '#/components/schemas/Diagnosis'
+        PatientInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            medcardNumber:
+              type: string
+            descriptionText:
+              type: string
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        Doctor:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            name:
+              type: string
+            specialization:
+              $ref: '#/components/schemas/Specialization'
+            specializations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specialization'
+        Specialization:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        Medication:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            code:
+              type: string
+            codeTable:
+              type: string
+            reference:
+              type: string
+            itemSize:
+              type: string
+            dosageText:
+              type: string
+            form:
+              $ref: '#/components/schemas/MedicationForm'
+            dosageInstruction:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dosage'
+            durationText:
+              type: string
+            durationDays:
+              type: integer
+              format: int32
+            amount:
+              type: number
+              format: double
+            expirationDate:
+              type: string
+              format: date-time
+        MedicationForm:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Powder
+            - Tablets
+            - Capsule
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Powder
+            '1': Tablets
+            '2': Capsule
+        Dosage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            medicationId:
+              type: string
+            text:
+              type: string
+            additionalInstruction:
+              type: string
+            patientInstruction:
+              type: string
+            timing:
+              $ref: '#/components/schemas/DosageTiming'
+        DosageTiming:
+          type: object
+          additionalProperties: false
+          properties:
+            event:
+              type: string
+            duration:
+              type: integer
+              format: int32
+            durationUnit:
+              type: string
+            frequency:
+              type: integer
+              format: int32
+            frequencyMax:
+              type: integer
+              format: int32
+            period:
+              type: integer
+              format: int32
+            periodUnit:
+              type: string
+            periodMax:
+              type: integer
+              format: int32
+            dayOfWeek:
+              type: string
+            numberItems:
+              type: string
+            numberPerPeriod:
+              type: string
+            timeOfDay:
+              type: string
+            when:
+              type: string
+            offset:
+              type: integer
+              format: int32
+            periodStart:
+              type: string
+              format: date-time
+            periodEnd:
+              type: string
+              format: date-time
+            count:
+              type: integer
+              format: int32
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        Diagnosis:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            cd10:
+              $ref: '#/components/schemas/Cd10'
+            diagnosisText:
+              type: string
+            kind:
+              $ref: '#/components/schemas/KindDiagnosis'
+            type:
+              $ref: '#/components/schemas/TypeDiagnosis'
+        Cd10:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            description:
+              type: string
+        KindDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Base
+            - Complication
+            - Related
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Base
+            '1': Complication
+            '2': Related
+        TypeDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - AcuteDisease
+            - ChronicalFirst
+            - ChronicalEarly
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': AcuteDisease
+            '1': ChronicalFirst
+            '2': ChronicalEarly
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    PatientIdPrescriptionListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientIdPrescriptionListRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - patientId
+            - limit
+            - offset
+          properties:
+            patientId:
+              type: string
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            orderByDescendingDate:
+              type: boolean
+            needRecognition:
+              type: boolean
+    PageGtIdCursorInfo:
+      type: object
+      additionalProperties: false
+      required:
+        - pageSize
+        - lastItemId
+      properties:
+        pageSize:
+          type: integer
+          format: int32
+        lastItemId:
+          type: string
+    PageOffsetCursorInfo:
+      type: object
+      additionalProperties: false
+      required:
+        - pageSize
+        - offset
+      properties:
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int32
+    PageCursorInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          $ref: '#/components/schemas/PageCursorType'
+        gtIdCursor:
+          $ref: '#/components/schemas/PageGtIdCursorInfo'
+        offsetCursor:
+          $ref: '#/components/schemas/PageOffsetCursorInfo'
+    PrescriptionListResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PrescriptionListResponse
+      type: object
+      additionalProperties: false
+      properties:
+        prescriptions:
+          type: array
+          description: Prescription list
+          items:
+            $ref: '#/components/schemas/IPrescriptionMessage'
+        cursor:
+          description: Cursor data for pagination on client-side
+          oneOf:
+            - $ref: '#/components/schemas/PageCursorInfo'
+        validationErrors:
+          type: array
+          description: Validation errors. i-th item matches with i-th element of Prescriptions array
+          items:
+            type: array
+            items:
+              type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results. Item of this array by i-th index contains recognition results of i-th element of the Prescriptions array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        IPrescriptionMessage:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+          properties:
+            isActive:
+              type: boolean
+            patientId:
+              type: string
+            patientInfo:
+              $ref: '#/components/schemas/PatientInfo'
+            recorderDoctor:
+              $ref: '#/components/schemas/Doctor'
+            medications:
+              type: array
+              items:
+                $ref: '#/components/schemas/Medication'
+            title:
+              type: string
+            dosageText:
+              type: string
+            reasonText:
+              type: string
+            validityPeriod:
+              $ref: '#/components/schemas/Period'
+            numberOfRepeats:
+              type: integer
+              format: int32
+            appointmentResultId:
+              type: string
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+            reportInfoFeedId:
+              type: string
+            recognitionErrors:
+              type: array
+              items:
+                type: string
+            diagnoses:
+              type: array
+              items:
+                $ref: '#/components/schemas/Diagnosis'
+        PatientInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            medcardNumber:
+              type: string
+            descriptionText:
+              type: string
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        Doctor:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            name:
+              type: string
+            specialization:
+              $ref: '#/components/schemas/Specialization'
+            specializations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specialization'
+        Specialization:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        Medication:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            code:
+              type: string
+            codeTable:
+              type: string
+            reference:
+              type: string
+            itemSize:
+              type: string
+            dosageText:
+              type: string
+            form:
+              $ref: '#/components/schemas/MedicationForm'
+            dosageInstruction:
+              type: array
+              items:
+                $ref: '#/components/schemas/Dosage'
+            durationText:
+              type: string
+            durationDays:
+              type: integer
+              format: int32
+            amount:
+              type: number
+              format: double
+            expirationDate:
+              type: string
+              format: date-time
+        MedicationForm:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Powder
+            - Tablets
+            - Capsule
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Powder
+            '1': Tablets
+            '2': Capsule
+        Dosage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            medicationId:
+              type: string
+            text:
+              type: string
+            additionalInstruction:
+              type: string
+            patientInstruction:
+              type: string
+            timing:
+              $ref: '#/components/schemas/DosageTiming'
+        DosageTiming:
+          type: object
+          additionalProperties: false
+          properties:
+            event:
+              type: string
+            duration:
+              type: integer
+              format: int32
+            durationUnit:
+              type: string
+            frequency:
+              type: integer
+              format: int32
+            frequencyMax:
+              type: integer
+              format: int32
+            period:
+              type: integer
+              format: int32
+            periodUnit:
+              type: string
+            periodMax:
+              type: integer
+              format: int32
+            dayOfWeek:
+              type: string
+            numberItems:
+              type: string
+            numberPerPeriod:
+              type: string
+            timeOfDay:
+              type: string
+            when:
+              type: string
+            offset:
+              type: integer
+              format: int32
+            periodStart:
+              type: string
+              format: date-time
+            periodEnd:
+              type: string
+              format: date-time
+            count:
+              type: integer
+              format: int32
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        Diagnosis:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            cd10:
+              $ref: '#/components/schemas/Cd10'
+            diagnosisText:
+              type: string
+            kind:
+              $ref: '#/components/schemas/KindDiagnosis'
+            type:
+              $ref: '#/components/schemas/TypeDiagnosis'
+        Cd10:
+          type: object
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+            description:
+              type: string
+        KindDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Base
+            - Complication
+            - Related
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': Base
+            '1': Complication
+            '2': Related
+        TypeDiagnosis:
+          type: integer
+          description: ''
+          x-enumNames:
+            - AcuteDisease
+            - ChronicalFirst
+            - ChronicalEarly
+          enum:
+            - 0
+            - 1
+            - 2
+          x-enumDescriptions:
+            '0': AcuteDisease
+            '1': ChronicalFirst
+            '2': ChronicalEarly
+        PageCursorInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            type:
+              $ref: '#/components/schemas/PageCursorType'
+            gtIdCursor:
+              $ref: '#/components/schemas/PageGtIdCursorInfo'
+            offsetCursor:
+              $ref: '#/components/schemas/PageOffsetCursorInfo'
+        PageCursorType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - None
+            - GtId
+            - LimitOffset
+            - GtDate
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': None
+            '1': GtId
+            '2': LimitOffset
+            '3': GtDate
+        PageGtIdCursorInfo:
+          type: object
+          additionalProperties: false
+          required:
+            - pageSize
+            - lastItemId
+          properties:
+            pageSize:
+              type: integer
+              format: int32
+            lastItemId:
+              type: string
+        PageOffsetCursorInfo:
+          type: object
+          additionalProperties: false
+          required:
+            - pageSize
+            - offset
+          properties:
+            pageSize:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
