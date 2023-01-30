@@ -17,6 +17,9 @@ tags:
   - name: Auth
     description: |
       Описывает подключение к серверу
+  - name: Patient
+    description: |
+      Данные пациента
   - name: Appointment
     description: |
       Записи на прием
@@ -72,6 +75,303 @@ paths:
             type: string
           required: true
           description: Unique file key
+  /#auth.save_exchange_token:
+    post:
+      tags:
+        - Auth
+      summary: Сохранение токена обмена в БД
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Auth/SaveExchangeToken'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Сохранение токена обмена в БД
+                oneOf:
+                  - $ref: '#/components/responses/Auth/SaveExchangeToken'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#auth.authenticate:
+    post:
+      tags:
+        - Auth
+      summary: Аутентификация пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Auth/Authenticate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные об аутентифицированном пользователе
+                oneOf:
+                  - $ref: '#/components/responses/Auth/Authenticate'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#auth.remove_authentication:
+    post:
+      tags:
+        - Auth
+      summary: Удаление аутентификации пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Auth/RemoveAuthentication'
+        responses:
+          '200':
+            content:
+              application/json:
+                schema:
+                  description: Возвращает данные об аутентифицированном пользователе
+                  oneOf:
+                    - $ref: '#/components/responses/Auth/RemoveAuthentication'
+                      title: Success
+                    - $ref: '#/components/errorResponses/UnknownError'
+                      title: Unknown error
+                    - $ref: '#/components/errorResponses/NotAuthorized'
+                      title: Not authorized
+                    - $ref: '#/components/errorResponses/AccessForbidden'
+                      title: Access forbidden
+  /#auth.save_auth_info:
+    post:
+      tags:
+        - Auth
+      summary: Сохранение данных аутентификации пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Auth/SaveAuthInfo'
+        responses:
+          '200':
+            content:
+              application/json:
+                schema:
+                  description: Возвращает данные о записи в МИСе
+                  oneOf:
+                    - $ref: '#/components/responses/Auth/SaveAuthInfo'
+                      title: Success
+                    - $ref: '#/components/errorResponses/UnknownError'
+                      title: Unknown error
+                    - $ref: '#/components/errorResponses/NotAuthorized'
+                      title: Not authorized
+                    - $ref: '#/components/errorResponses/AccessForbidden'
+                      title: Access forbidden
+  /#auth.remove_auth_info:
+    post:
+      tags:
+        - Auth
+      summary: Удаление данных аутентификации пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Auth/RemoveAuthInfo'
+        responses:
+          '200':
+            content:
+              application/json:
+                schema:
+                  description: Возвращает данные о записи в МИСе
+                  oneOf:
+                    - $ref: '#/components/responses/Auth/RemoveAuthInfo'
+                      title: Success
+                    - $ref: '#/components/errorResponses/UnknownError'
+                      title: Unknown error
+                    - $ref: '#/components/errorResponses/NotAuthorized'
+                      title: Not authorized
+                    - $ref: '#/components/errorResponses/AccessForbidden'
+                      title: Access forbidden
+  /#patient.get_patient:
+    post:
+      tags:
+        - Patient
+      summary: Получение пациента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Patient/GetPatient'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные пациента
+                oneOf:
+                  - $ref: '#/components/responses/Patient/GetPatient'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#patient.get_patient_by_id:
+    post:
+      tags:
+        - Patient
+      summary: Получение пациента по идентификатору
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Patient/GetPatientByID'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные пациента
+                oneOf:
+                  - $ref: '#/components/responses/Patient/GetPatientByID'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#patient.get_patients:
+    post:
+      tags:
+        - Patient
+      summary: Получение всех пациентов
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Patient/GetPatients'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные пациентов
+                oneOf:
+                  - $ref: '#/components/responses/Patient/GetPatients'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#patient.find_patients_by_phone:
+    post:
+      tags:
+        - Patients
+      summary: Поиск пациентов по номеру телефона
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Patient/FindPatientsByPhone'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные пациентов
+                oneOf:
+                  - $ref: '#/components/responses/Patient/FindPatientsByPhone'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#patient.find_patients_by_medcard:
+    post:
+      tags:
+        - Patients
+      summary: Поиск пациентов по медиконам
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Patient/FindPatientsByMedCard'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные пациентов
+                oneOf:
+                  - $ref: '#/components/responses/Patient/FindPatientsByMedCard'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#patient.count:
+    post:
+      tags:
+        - Patient
+      summary: Получение количества пациентов
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Patient/Count'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные пациентов
+                oneOf:
+                  - $ref: '#/components/responses/Patient/Count'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
   /#appointment.get_appointment_by_id:
     post:
       tags:
@@ -131,6 +431,17 @@ paths:
       tags:
         - Appointment
       summary: Получение всех записей
+      description: |
+        For realize what exactly request parameter need to use to loading data you should to call `appointment.count` request.
+        There are 3 possible ways to loading data using one of three parameters:
+        1. `offset`
+        2. `lastItemId`
+        3. `lastItemCreated`
+
+        The `appointment.count` request returns `result.cursorType` property. According received value of this property you can choose how to load data.
+        - If you receive `GtId` value use should use `lastItemId`.
+        - If you receive `GtDate` value use `lastItemCreated` request.
+        - If you receive `LimitOffset` value use `offset` request.
       requestBody:
         required: true
         content:
@@ -342,6 +653,60 @@ paths:
                     title: Not authorized
                   - $ref: '#/components/errorResponses/AccessForbidden'
                     title: Access forbidden
+  /#appointment_result.search_appointment_results:
+    post:
+      tags:
+        - AppointmentResult
+      summary: Поиск результатов приемов в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/AppointmentResult/SearchAppointmentResults'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает результаты поиска результатов приемов пациента в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/AppointmentResult/SearchAppointmentResults'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#appointment_result.search_appointment_results_count:
+    post:
+      tags:
+        - AppointmentResult
+      summary: Количество результатов приемов по поисковому запросу в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/AppointmentResult/SearchAppointmentResults'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество результатов приемов по поисковому запросу в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/AppointmentResult/SearchAppointmentResultsCount'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
   /#diagnostic_report.get_diagnostic_report_by_id:
     post:
       tags:
@@ -470,6 +835,60 @@ paths:
                 description: Возвращает количество диагностических отчетов пациента в МИСе
                 oneOf:
                   - $ref: '#/components/responses/DiagnosticReport/PatientDiagnosticReportCount'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#diagnostic_report.search_diagnostic_reports:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Поиск диагностических отчетов
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/DiagnosticReport/SearchDiagnosticReports'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает возвращает результаты диагностических отчетов в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/DiagnosticReport/SearchDiagnosticReports'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#diagnostic_report.search_diagnostic_reports_count:
+    post:
+      tags:
+        - DiagnosticReport
+      summary: Количество элементов в поиске диагностических отчетов
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/DiagnosticReport/SearchDiagnosticReportsCount'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает количество элементов в поиске диагностических отчетов в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/DiagnosticReport/Count'
                     title: Success
                   - $ref: '#/components/errorResponses/UnknownError'
                     title: Unknown error
@@ -612,6 +1031,60 @@ paths:
                     title: Not authorized
                   - $ref: '#/components/errorResponses/AccessForbidden'
                     title: Access forbidden
+  /#prescription.search_prescriptions:
+    post:
+      tags:
+        - Prescription
+      summary: Поиск назначений в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Prescription/SearchPrescriptions'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает результаты поиска назначений в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Prescription/SearchPrescriptions'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#prescription.search_prescriptions_count:
+    post:
+      tags:
+        - Prescription
+      summary: Количество элементов в поисковой выдаче назначений в МИСе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Prescription/SearchPrescriptionsCount'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает Количество элементов в поисковой выдаче назначений в МИСе
+                oneOf:
+                  - $ref: '#/components/responses/Prescription/SearchPrescriptionsCount'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
 components:
   Request:
     description: jsonrpc2 запрос
@@ -739,6 +1212,140 @@ components:
               description: код ошибки
               const: -33403
   requests:
+    Auth:
+      SaveExchangeToken:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: auth.save_exchange_token
+              params:
+                $ref: '#/components/schemas/ExchangeTokenRequest'
+      Authenticate:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: auth.authenticate
+              params:
+                $ref: '#/components/schemas/AuthenticateRequest'
+      RemoveAuthentication:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: auth.remove_authentication
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
+      SaveAuthInfo:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: auth.save_auth_info
+              params:
+                $ref: '#/components/schemas/AuthInfoRequest'
+      RemoveAuthInfo:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: auth.remove_auth_info
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
+    Patient:
+      GetPatient:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: patient.get_patient
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
+      GetPatientByID:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: patient.get_patient_by_id
+              params:
+                $ref: '#/components/schemas/IDRequest'
+      GetPatients:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: patient.get_patients
+              params:
+                $ref: '#/components/schemas/PatientListRequest'
+      FindPatientsByPhone:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: patient.find_patients_by_phone
+              params:
+                $ref: '#/components/schemas/PatientsByPhoneRequest'
+      FindPatientsByMedCard:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: patient.find_patients_by_med_card
+              params:
+                $ref: '#/components/schemas/PatientsByMedCardRequest'
+      Count:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: patient.count
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
     Appointment:
       GetAppointmentById:
         allOf:
@@ -801,7 +1408,7 @@ components:
               method:
                 const: appointment.get_appointments
               params:
-                $ref: '#/components/schemas/PatientIdAppointmentListRequest'
+                $ref: '#/components/schemas/AppointmentListRequest'
     AppointmentResult:
       GetAppointmentResultById:
         allOf:
@@ -865,6 +1472,30 @@ components:
                 const: appointment_result.get_appointment_results
               params:
                 $ref: '#/components/schemas/PatientIdAppointmentResultListRequest'
+      SearchAppointmentResults:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: appointment_result.search_appointment_results
+              params:
+                $ref: '#/components/schemas/AppointmentResultsSearchRequest'
+      SearchAppointmentResultsCount:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: appointment_result.search_appointment_results_count
+              params:
+                $ref: ./schemas/generated/Requests/AppointmentResultsSearchCountRequest.yml
     DiagnosticReport:
       GetDiagnosticReportById:
         allOf:
@@ -928,6 +1559,30 @@ components:
                 const: diagnostic_report.get_diagnostic_reports
               params:
                 $ref: '#/components/schemas/PatientIdDiagnosticReportListRequest'
+      SearchDiagnosticReports:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: diagnostic_report.search_diagnostic_reports
+              params:
+                $ref: '#/components/schemas/DiagnosticReportsSearchRequest'
+      SearchDiagnosticReportsCount:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: diagnostic_report.get_diagnostic_reports_count
+              params:
+                $ref: '#/components/schemas/DiagnosticReportListRequest'
     Prescription:
       GetPrescriptionById:
         allOf:
@@ -991,6 +1646,30 @@ components:
                 const: prescription.get_prescriptions
               params:
                 $ref: '#/components/schemas/PatientIdPrescriptionListRequest'
+      SearchPrescriptions:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: prescription.search_prescriptions
+              params:
+                $ref: '#/components/schemas/PrescriptionsSearchRequest'
+      SearchPrescriptionsCount:
+        allOf:
+          - $ref: '#/components/Request'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: prescription.search_prescriptions_count
+              params:
+                $ref: '#/components/schemas/PrescriptionsSearchCountRequest'
     ApiInfo:
       GetSpecializationsByPattern:
         allOf:
@@ -1037,6 +1716,118 @@ components:
             properties:
               result:
                 $ref: '#/components/schemas/HealthCheckResponse'
+    Auth:
+      SaveExchangeToken:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/IdResponse'
+      Authenticate:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PatientResponse'
+      RemoveAuthentication:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: ./schemas/generated/Responses/EmptyResponse.yml
+      SaveAuthInfo:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: ./schemas/generated/Responses/IdResponse.yml
+      RemoveAuthInfo:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: ./schemas/generated/Responses/EmptyResponse.yml
+    Patient:
+      GetPatient:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PatientResponse'
+      GetPatientByID:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PatientResponse'
+      GetPatients:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PatientListResponse'
+      FindPatientsByPhone:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PatientListResponse'
+      FindPatientsByMedCard:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PatientListResponse'
+      Count:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
     Appointment:
       GetAppointmentById:
         allOf:
@@ -1139,6 +1930,26 @@ components:
             properties:
               result:
                 $ref: '#/components/schemas/CountResponse'
+      SearchAppointmentResults:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/AppointmentResultListResponse'
+      SearchAppointmentResultsCount:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
     DiagnosticReport:
       GetDiagnosticReportById:
         allOf:
@@ -1190,6 +2001,26 @@ components:
             properties:
               result:
                 $ref: '#/components/schemas/CountResponse'
+      SearchDiagnosticReportsCount:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: ./schemas/generated/Responses/CountResponse.yml
+      SearchDiagnosticReports:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/DiagnosticReportListResponse'
     Prescription:
       GetPrescriptionById:
         allOf:
@@ -1232,6 +2063,26 @@ components:
               result:
                 $ref: '#/components/schemas/CountResponse'
       PatientPrescriptionCount:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/CountResponse'
+      SearchPrescriptions:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/PrescriptionListResponse'
+      SearchPrescriptionsCount:
         allOf:
           - $ref: '#/components/Response'
           - type: object
@@ -1284,6 +2135,545 @@ components:
     RpcRequestPayload:
       type: object
       additionalProperties: false
+    AuthInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        user:
+          type: string
+        token:
+          type: string
+        created:
+          type: string
+        ttl:
+          type: integer
+    ExchangeTokenRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: ExchangeTokenRequest
+      definitions:
+        AuthInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            user:
+              type: string
+            token:
+              type: string
+            created:
+              type: string
+            ttl:
+              type: integer
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          properties:
+            exchangeToken:
+              type: string
+            authInfo:
+              $ref: '#/components/schemas/AuthInfo'
+    IdResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: IdResponse
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: Entity identifier
+    Gender:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Male
+        - Female
+        - Other
+        - Unknown
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      x-enumDescriptions:
+        '0': Male
+        '1': Female
+        '2': Other
+        '3': Unknown
+    PatientInputProperties:
+      type: object
+      additionalProperties: false
+      properties:
+        surname:
+          type: string
+        name:
+          type: string
+        middleName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        gender:
+          $ref: '#/components/schemas/Gender'
+        date:
+          type: string
+          format: date-time
+    AuthenticateRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: AuthenticateRequest
+      definitions:
+        PatientInputProperties:
+          type: object
+          additionalProperties: false
+          properties:
+            surname:
+              type: string
+            name:
+              type: string
+            middleName:
+              type: string
+            phone:
+              type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            date:
+              type: string
+              format: date-time
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          properties:
+            exchangeToken:
+              type: string
+            searchStrategy:
+              type: string
+            patientProperties:
+              $ref: '#/components/schemas/PatientInputProperties'
+            medCardId:
+              type: string
+    MaritalStatus:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Divorced
+        - Married
+        - NeverMarried
+        - Unmarried
+        - Widowed
+        - Unknown
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      x-enumDescriptions:
+        '0': Divorced
+        '1': Married
+        '2': NeverMarried
+        '3': Unmarried
+        '4': Widowed
+        '5': Unknown
+    FamilyMemberType:
+      type: integer
+      description: ''
+      x-enumNames:
+        - FamilyMember
+        - Child
+        - AdoptedChild
+        - Parent
+        - AdoptiveParent
+        - Husband
+        - Wife
+        - Brother
+        - Sister
+        - ExtendedFamilyMember
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+      x-enumDescriptions:
+        '0': FamilyMember
+        '1': Child
+        '2': AdoptedChild
+        '3': Parent
+        '4': AdoptiveParent
+        '5': Husband
+        '6': Wife
+        '7': Brother
+        '8': Sister
+        '9': ExtendedFamilyMember
+    FamilyMember:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          $ref: '#/components/schemas/FamilyMemberType'
+        patientId:
+          type: string
+    Period:
+      type: object
+      additionalProperties: false
+      properties:
+        begin:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+    Insurance:
+      type: object
+      additionalProperties: false
+      properties:
+        companyId:
+          type: string
+        policyNumber:
+          type: string
+        period:
+          $ref: '#/components/schemas/Period'
+    ParamType:
+      type: integer
+      description: ''
+      x-enumNames:
+        - Item
+        - Table
+        - Header
+        - ItemList
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      x-enumDescriptions:
+        '0': Item
+        '1': Table
+        '2': Header
+        '3': ItemList
+    ReportInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        patientId:
+          type: string
+        parentId:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        value: {}
+        type:
+          $ref: '#/components/schemas/ParamType'
+        entity:
+          type: string
+    IPatientMessage:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+      properties:
+        created:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        isActive:
+          type: boolean
+        deceased:
+          type: boolean
+        maritalStatus:
+          $ref: '#/components/schemas/MaritalStatus'
+        photo:
+          type: string
+        familyMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyMember'
+        address:
+          type: string
+        insurances:
+          type: array
+          items:
+            $ref: '#/components/schemas/Insurance'
+        reportInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportInfo'
+    RecognitionResultInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        ruleName:
+          type: string
+        numberOfMatches:
+          type: integer
+          format: int32
+    PatientResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientResponse
+      type: object
+      additionalProperties: false
+      properties:
+        patient:
+          description: Patient data
+          oneOf:
+            - $ref: '#/components/schemas/IPatientMessage'
+        userSign:
+          type: string
+          description: User part of sign. Second part stores in the oauth2 server. Both of them need to the ehr server matching user. Client app should store it into the local store
+        patientAlreadyMatched:
+          type: boolean
+          description: Patient was already matched previously
+        validationErrors:
+          type: array
+          description: Validation errors
+          items:
+            type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results
+          items:
+            $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        IPatientMessage:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+          properties:
+            created:
+              type: string
+              format: date-time
+            active:
+              type: boolean
+            isActive:
+              type: boolean
+            deceased:
+              type: boolean
+            maritalStatus:
+              $ref: '#/components/schemas/MaritalStatus'
+            photo:
+              type: string
+            familyMembers:
+              type: array
+              items:
+                $ref: '#/components/schemas/FamilyMember'
+            address:
+              type: string
+            insurances:
+              type: array
+              items:
+                $ref: '#/components/schemas/Insurance'
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+        MaritalStatus:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Divorced
+            - Married
+            - NeverMarried
+            - Unmarried
+            - Widowed
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          x-enumDescriptions:
+            '0': Divorced
+            '1': Married
+            '2': NeverMarried
+            '3': Unmarried
+            '4': Widowed
+            '5': Unknown
+        FamilyMember:
+          type: object
+          additionalProperties: false
+          properties:
+            type:
+              $ref: '#/components/schemas/FamilyMemberType'
+            patientId:
+              type: string
+        FamilyMemberType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - FamilyMember
+            - Child
+            - AdoptedChild
+            - Parent
+            - AdoptiveParent
+            - Husband
+            - Wife
+            - Brother
+            - Sister
+            - ExtendedFamilyMember
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+          x-enumDescriptions:
+            '0': FamilyMember
+            '1': Child
+            '2': AdoptedChild
+            '3': Parent
+            '4': AdoptiveParent
+            '5': Husband
+            '6': Wife
+            '7': Brother
+            '8': Sister
+            '9': ExtendedFamilyMember
+        Insurance:
+          type: object
+          additionalProperties: false
+          properties:
+            companyId:
+              type: string
+            policyNumber:
+              type: string
+            period:
+              $ref: '#/components/schemas/Period'
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    EmptyRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: EmptyRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+    AuthInfoRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: AuthInfoRequest
+      definitions:
+        AuthInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            user:
+              type: string
+            token:
+              type: string
+            created:
+              type: string
+            ttl:
+              type: integer
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          properties:
+            authInfo:
+              $ref: '#/components/schemas/AuthInfo'
     IDRequest:
       $schema: http://json-schema.org/draft-04/schema#
       title: IDRequest
@@ -1302,6 +2692,663 @@ components:
               type: string
             needRecognition:
               type: boolean
+    RequestFilters:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+    RequestFilter:
+      type: object
+      x-abstract: true
+      additionalProperties: false
+    PatientByMedCardFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          required:
+            - medCardId
+          properties:
+            medCardId:
+              type: string
+    PatientByNameFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          required:
+            - name
+          properties:
+            name:
+              type: string
+    PatientByPhoneFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          required:
+            - phone
+          properties:
+            phone:
+              type: string
+    PatientByBirthdateFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+    PatientByDoctorSpecialityIdFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          required:
+            - id
+          properties:
+            id:
+              type: string
+    PatientByDoctorSpecialityIdsFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          required:
+            - ids
+          properties:
+            ids:
+              type: array
+              items:
+                type: string
+    PatientFilters:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilters'
+        - type: object
+          additionalProperties: false
+          properties:
+            byMedCard:
+              $ref: '#/components/schemas/PatientByMedCardFilter'
+            byName:
+              $ref: '#/components/schemas/PatientByNameFilter'
+            byPhone:
+              $ref: '#/components/schemas/PatientByPhoneFilter'
+            byBirthdate:
+              $ref: '#/components/schemas/PatientByBirthdateFilter'
+            byDoctorSpecialityId:
+              $ref: '#/components/schemas/PatientByDoctorSpecialityIdFilter'
+            byDoctorSpecialityIds:
+              $ref: '#/components/schemas/PatientByDoctorSpecialityIdsFilter'
+    PatientListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientListRequest
+      definitions:
+        PatientFilters:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilters'
+            - type: object
+              additionalProperties: false
+              properties:
+                byMedCard:
+                  $ref: '#/components/schemas/PatientByMedCardFilter'
+                byName:
+                  $ref: '#/components/schemas/PatientByNameFilter'
+                byPhone:
+                  $ref: '#/components/schemas/PatientByPhoneFilter'
+                byBirthdate:
+                  $ref: '#/components/schemas/PatientByBirthdateFilter'
+                byDoctorSpecialityId:
+                  $ref: '#/components/schemas/PatientByDoctorSpecialityIdFilter'
+                byDoctorSpecialityIds:
+                  $ref: '#/components/schemas/PatientByDoctorSpecialityIdsFilter'
+        PatientByMedCardFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              required:
+                - medCardId
+              properties:
+                medCardId:
+                  type: string
+        RequestFilter:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        PatientByNameFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+        PatientByPhoneFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              required:
+                - phone
+              properties:
+                phone:
+                  type: string
+        PatientByBirthdateFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        PatientByDoctorSpecialityIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+        PatientByDoctorSpecialityIdsFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              required:
+                - ids
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: string
+        RequestFilters:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - limit
+          properties:
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            lastItemId:
+              type: string
+            lastItemCreated:
+              type: string
+              format: date-time
+            orderByDescendingDate:
+              type: boolean
+            needRecognition:
+              type: boolean
+            filters:
+              $ref: '#/components/schemas/PatientFilters'
+    Exception:
+      type: object
+      additionalProperties: false
+      properties:
+        Message:
+          type: string
+        InnerException:
+          oneOf:
+            - type: null
+            - $ref: '#/components/schemas/Exception'
+        Source:
+          type:
+            - null
+            - string
+        StackTrace:
+          type:
+            - null
+            - string
+    PropertiesMismatch:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+        - type: object
+          additionalProperties: false
+          properties:
+            a: {}
+            b: {}
+            name:
+              type: string
+    PatientMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        surname:
+          type: string
+        middleName:
+          type: string
+        name:
+          type: string
+        phones:
+          type: array
+          items:
+            type: string
+        email:
+          type: string
+        gender:
+          $ref: '#/components/schemas/Gender'
+        birthdate:
+          type: string
+          format: date-time
+        deceased:
+          type: boolean
+        maritalStatus:
+          $ref: '#/components/schemas/MaritalStatus'
+        photo:
+          type: string
+        familyMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyMember'
+        address:
+          type: string
+        medcardNumber:
+          type: string
+        insurances:
+          type: array
+          items:
+            $ref: '#/components/schemas/Insurance'
+        reportInfos:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportInfo'
+        descriptionText:
+          type: string
+        lastPropertiesMismatch:
+          $ref: '#/components/schemas/PropertiesMismatch'
+    PatientListResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientListResponse
+      type: object
+      additionalProperties: false
+      properties:
+        patients:
+          type: array
+          description: Patient datas
+          items:
+            $ref: '#/components/schemas/PatientMessage'
+        validationErrors:
+          type: array
+          description: Validation errors. i-th item matches with i-th element of Patients array.
+          items:
+            type: array
+            items:
+              type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results. Item of this array by i-th index contains recognition results of i-th element of the Patients array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecognitionResultInfo'
+      definitions:
+        PatientMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            created:
+              type: string
+              format: date-time
+            active:
+              type: boolean
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            deceased:
+              type: boolean
+            maritalStatus:
+              $ref: '#/components/schemas/MaritalStatus'
+            photo:
+              type: string
+            familyMembers:
+              type: array
+              items:
+                $ref: '#/components/schemas/FamilyMember'
+            address:
+              type: string
+            medcardNumber:
+              type: string
+            insurances:
+              type: array
+              items:
+                $ref: '#/components/schemas/Insurance'
+            reportInfos:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportInfo'
+            descriptionText:
+              type: string
+            lastPropertiesMismatch:
+              $ref: '#/components/schemas/PropertiesMismatch'
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        MaritalStatus:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Divorced
+            - Married
+            - NeverMarried
+            - Unmarried
+            - Widowed
+            - Unknown
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          x-enumDescriptions:
+            '0': Divorced
+            '1': Married
+            '2': NeverMarried
+            '3': Unmarried
+            '4': Widowed
+            '5': Unknown
+        FamilyMember:
+          type: object
+          additionalProperties: false
+          properties:
+            type:
+              $ref: '#/components/schemas/FamilyMemberType'
+            patientId:
+              type: string
+        FamilyMemberType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - FamilyMember
+            - Child
+            - AdoptedChild
+            - Parent
+            - AdoptiveParent
+            - Husband
+            - Wife
+            - Brother
+            - Sister
+            - ExtendedFamilyMember
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+          x-enumDescriptions:
+            '0': FamilyMember
+            '1': Child
+            '2': AdoptedChild
+            '3': Parent
+            '4': AdoptiveParent
+            '5': Husband
+            '6': Wife
+            '7': Brother
+            '8': Sister
+            '9': ExtendedFamilyMember
+        Insurance:
+          type: object
+          additionalProperties: false
+          properties:
+            companyId:
+              type: string
+            policyNumber:
+              type: string
+            period:
+              $ref: '#/components/schemas/Period'
+        Period:
+          type: object
+          additionalProperties: false
+          properties:
+            begin:
+              type: string
+              format: date-time
+            end:
+              type: string
+              format: date-time
+        ReportInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            patientId:
+              type: string
+            parentId:
+              type: string
+            key:
+              type: string
+            name:
+              type: string
+            value: {}
+            type:
+              $ref: '#/components/schemas/ParamType'
+            entity:
+              type: string
+        ParamType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Item
+            - Table
+            - Header
+            - ItemList
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': Item
+            '1': Table
+            '2': Header
+            '3': ItemList
+        PropertiesMismatch:
+          allOf:
+            - $ref: '#/components/schemas/Exception'
+            - type: object
+              additionalProperties: false
+              properties:
+                a: {}
+                b: {}
+                name:
+                  type: string
+        Exception:
+          type: object
+          additionalProperties: false
+          properties:
+            Message:
+              type: string
+            InnerException:
+              oneOf:
+                - type: null
+                - $ref: '#/components/schemas/Exception'
+            Source:
+              type:
+                - null
+                - string
+            StackTrace:
+              type:
+                - null
+                - string
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    PatientsByPhoneRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientsByPhoneRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - limit
+            - phone
+          properties:
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            phone:
+              type: string
+            needRecognition:
+              type: boolean
+    PatientsByMedCardRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientsByMedCardRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - limit
+            - medcardNumber
+          properties:
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            medcardNumber:
+              type: string
+            needRecognition:
+              type: boolean
+    PageCursorType:
+      type: integer
+      description: ''
+      x-enumNames:
+        - None
+        - GtId
+        - LimitOffset
+        - GtDate
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      x-enumDescriptions:
+        '0': None
+        '1': GtId
+        '2': LimitOffset
+        '3': GtDate
+    CountResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: CountResponse
+      type: object
+      additionalProperties: false
+      properties:
+        count:
+          type: integer
+          description: Items count or 0 when this "count" request isn't supported
+          format: int32
+        support:
+          type: boolean
+          description: Returns true when the API supports this "count" request
+        cursorType:
+          description: Cursor type for clients pagination
+          oneOf:
+            - $ref: '#/components/schemas/PageCursorType'
+      definitions:
+        PageCursorType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - None
+            - GtId
+            - LimitOffset
+            - GtDate
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          x-enumDescriptions:
+            '0': None
+            '1': GtId
+            '2': LimitOffset
+            '3': GtDate
     BusinessInfo:
       type: object
       additionalProperties: false
@@ -1429,24 +3476,6 @@ components:
         '2': ConfirmedByBusiness
         '3': CancelledByClient
         '4': CancelledByBusiness
-    Gender:
-      type: integer
-      description: ''
-      x-enumNames:
-        - Male
-        - Female
-        - Other
-        - Unknown
-      enum:
-        - 0
-        - 1
-        - 2
-        - 3
-      x-enumDescriptions:
-        '0': Male
-        '1': Female
-        '2': Other
-        '3': Unknown
     PatientInfo:
       type: object
       additionalProperties: false
@@ -1498,7 +3527,7 @@ components:
         '3': YaMap
         '4': Allianz
         '5': NaPopravku
-    Exception:
+    definitions-Exception:
       type: object
       additionalProperties: false
       properties:
@@ -1507,7 +3536,7 @@ components:
         InnerException:
           oneOf:
             - type: null
-            - $ref: '#/components/schemas/Exception'
+            - $ref: '#/components/schemas/definitions-Exception'
         Source:
           type:
             - null
@@ -1516,9 +3545,9 @@ components:
           type:
             - null
             - string
-    PropertiesMismatch:
+    definitions-PropertiesMismatch:
       allOf:
-        - $ref: '#/components/schemas/Exception'
+        - $ref: '#/components/schemas/definitions-Exception'
         - type: object
           additionalProperties: false
           properties:
@@ -1567,16 +3596,7 @@ components:
         comment:
           type: string
         lastPropertiesMismatch:
-          $ref: '#/components/schemas/PropertiesMismatch'
-    RecognitionResultInfo:
-      type: object
-      additionalProperties: false
-      properties:
-        ruleName:
-          type: string
-        numberOfMatches:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/definitions-PropertiesMismatch'
     AppointmentResponse:
       $schema: http://json-schema.org/draft-04/schema#
       title: AppointmentResponse
@@ -1597,405 +3617,6 @@ components:
           description: Information about recognition engine work results
           items:
             $ref: '#/components/schemas/RecognitionResultInfo'
-      definitions:
-        AppointmentMessage:
-          type: object
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-            isActive:
-              type: boolean
-            business:
-              $ref: '#/components/schemas/BusinessInfo'
-            created:
-              type: string
-              format: date-time
-            start:
-              type: string
-              format: date-time
-            doctor:
-              $ref: '#/components/schemas/Doctor'
-            services:
-              type: array
-              items:
-                $ref: '#/components/schemas/Service'
-            duration:
-              type: integer
-            status:
-              $ref: '#/components/schemas/AppointmentConfirmationStatus'
-            clientAppear:
-              type: boolean
-            patientId:
-              type: string
-            patient:
-              $ref: '#/components/schemas/PatientInfo'
-            resultId:
-              type: string
-            clientPrice:
-              $ref: '#/components/schemas/ClientPrice'
-            source:
-              $ref: '#/components/schemas/AppointmentSource'
-            comment:
-              type: string
-            lastPropertiesMismatch:
-              $ref: '#/components/schemas/PropertiesMismatch'
-        BusinessInfo:
-          type: object
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-            active:
-              type: boolean
-            name:
-              type: string
-            location:
-              type: string
-            filialId:
-              type: string
-            networkId:
-              type: string
-            networkFilialKey:
-              type: string
-        Doctor:
-          type: object
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-            surname:
-              type: string
-            name:
-              type: string
-            specialization:
-              $ref: '#/components/schemas/Specialization'
-            specializations:
-              type: array
-              items:
-                $ref: '#/components/schemas/Specialization'
-        Specialization:
-          type: object
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-        Service:
-          type: object
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            price:
-              $ref: '#/components/schemas/ClientPrice'
-            duration:
-              type: integer
-        ClientPrice:
-          type: object
-          additionalProperties: false
-          properties:
-            currency:
-              $ref: '#/components/schemas/Currency'
-            originValue:
-              type: number
-              format: double
-            discountValue:
-              type: number
-              format: double
-            value:
-              type: number
-              format: double
-            discount:
-              $ref: '#/components/schemas/Discount'
-        Currency:
-          type: integer
-          description: ''
-          x-enumNames:
-            - Rur
-            - Usd
-          enum:
-            - 0
-            - 1
-          x-enumDescriptions:
-            '0': Rur
-            '1': Usd
-        Discount:
-          type: object
-          additionalProperties: false
-          properties:
-            discountType:
-              $ref: '#/components/schemas/DiscountType'
-            discountPercent:
-              type: integer
-            discountValue:
-              type: number
-              format: double
-        DiscountType:
-          type: integer
-          description: ''
-          x-enumNames:
-            - Percent
-            - Absolute
-          enum:
-            - 0
-            - 1
-          x-enumDescriptions:
-            '0': Percent
-            '1': Absolute
-        AppointmentConfirmationStatus:
-          type: integer
-          description: ''
-          x-enumNames:
-            - Tentative
-            - ConfirmedByClient
-            - ConfirmedByBusiness
-            - CancelledByClient
-            - CancelledByBusiness
-          enum:
-            - 0
-            - 1
-            - 2
-            - 3
-            - 4
-          x-enumDescriptions:
-            '0': Tentative
-            '1': ConfirmedByClient
-            '2': ConfirmedByBusiness
-            '3': CancelledByClient
-            '4': CancelledByBusiness
-        PatientInfo:
-          type: object
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-            surname:
-              type: string
-            middleName:
-              type: string
-            name:
-              type: string
-            phones:
-              type: array
-              items:
-                type: string
-            email:
-              type: string
-            gender:
-              $ref: '#/components/schemas/Gender'
-            birthdate:
-              type: string
-              format: date-time
-            medcardNumber:
-              type: string
-            descriptionText:
-              type: string
-        Gender:
-          type: integer
-          description: ''
-          x-enumNames:
-            - Male
-            - Female
-            - Other
-            - Unknown
-          enum:
-            - 0
-            - 1
-            - 2
-            - 3
-          x-enumDescriptions:
-            '0': Male
-            '1': Female
-            '2': Other
-            '3': Unknown
-        AppointmentSource:
-          type: integer
-          description: ''
-          x-enumNames:
-            - MobileClinicWebsite
-            - DesktopClinicWebsite
-            - MobileClinicApp
-            - YaMap
-            - Allianz
-            - NaPopravku
-          enum:
-            - 0
-            - 1
-            - 2
-            - 3
-            - 4
-            - 5
-          x-enumDescriptions:
-            '0': MobileClinicWebsite
-            '1': DesktopClinicWebsite
-            '2': MobileClinicApp
-            '3': YaMap
-            '4': Allianz
-            '5': NaPopravku
-        PropertiesMismatch:
-          allOf:
-            - $ref: '#/components/schemas/Exception'
-            - type: object
-              additionalProperties: false
-              properties:
-                a: {}
-                b: {}
-                name:
-                  type: string
-        Exception:
-          type: object
-          additionalProperties: false
-          properties:
-            Message:
-              type: string
-            InnerException:
-              oneOf:
-                - type: null
-                - $ref: '#/components/schemas/Exception'
-            Source:
-              type:
-                - null
-                - string
-            StackTrace:
-              type:
-                - null
-                - string
-        RecognitionResultInfo:
-          type: object
-          additionalProperties: false
-          properties:
-            ruleName:
-              type: string
-            numberOfMatches:
-              type: integer
-              format: int32
-    PatientIdAppointmentListRequest:
-      $schema: http://json-schema.org/draft-04/schema#
-      title: PatientIdAppointmentListRequest
-      definitions:
-        RpcRequestPayload:
-          type: object
-          additionalProperties: false
-      allOf:
-        - $ref: '#/components/schemas/RpcRequestPayload'
-        - type: object
-          additionalProperties: false
-          required:
-            - patientId
-            - limit
-            - offset
-          properties:
-            patientId:
-              type: string
-            limit:
-              type: integer
-              format: int32
-            offset:
-              type: integer
-              format: int32
-            orderByDescendingDate:
-              type: boolean
-            needRecognition:
-              type: boolean
-    definitions-Exception:
-      type: object
-      additionalProperties: false
-      properties:
-        Message:
-          type: string
-        InnerException:
-          oneOf:
-            - type: null
-            - $ref: '#/components/schemas/definitions-Exception'
-        Source:
-          type:
-            - null
-            - string
-        StackTrace:
-          type:
-            - null
-            - string
-    definitions-PropertiesMismatch:
-      allOf:
-        - $ref: '#/components/schemas/definitions-Exception'
-        - type: object
-          additionalProperties: false
-          properties:
-            a: {}
-            b: {}
-            name:
-              type: string
-    definitions-AppointmentMessage:
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-        isActive:
-          type: boolean
-        business:
-          $ref: '#/components/schemas/BusinessInfo'
-        created:
-          type: string
-          format: date-time
-        start:
-          type: string
-          format: date-time
-        doctor:
-          $ref: '#/components/schemas/Doctor'
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/Service'
-        duration:
-          type: integer
-        status:
-          $ref: '#/components/schemas/AppointmentConfirmationStatus'
-        clientAppear:
-          type: boolean
-        patientId:
-          type: string
-        patient:
-          $ref: '#/components/schemas/PatientInfo'
-        resultId:
-          type: string
-        clientPrice:
-          $ref: '#/components/schemas/ClientPrice'
-        source:
-          $ref: '#/components/schemas/AppointmentSource'
-        comment:
-          type: string
-        lastPropertiesMismatch:
-          $ref: '#/components/schemas/definitions-PropertiesMismatch'
-    AppointmentListResponse:
-      $schema: http://json-schema.org/draft-04/schema#
-      title: AppointmentListResponse
-      type: object
-      additionalProperties: false
-      properties:
-        appointments:
-          type: array
-          description: List of appointments
-          items:
-            $ref: '#/components/schemas/definitions-AppointmentMessage'
-        validationErrors:
-          type: array
-          description: Validation errors. i-th item matches with i-th element of Appointment array.
-          items:
-            type: array
-            items:
-              type: string
-        recognitionResults:
-          type: array
-          description: Information about recognition engine work results. Item of this array by i-th index contains recognition results of i-th element of the Appointments array
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/RecognitionResultInfo'
       definitions:
         AppointmentMessage:
           type: object
@@ -2272,60 +3893,585 @@ components:
             numberOfMatches:
               type: integer
               format: int32
-    PageCursorType:
-      type: integer
-      description: ''
-      x-enumNames:
-        - None
-        - GtId
-        - LimitOffset
-        - GtDate
-      enum:
-        - 0
-        - 1
-        - 2
-        - 3
-      x-enumDescriptions:
-        '0': None
-        '1': GtId
-        '2': LimitOffset
-        '3': GtDate
-    CountResponse:
+    PatientIdAppointmentListRequest:
       $schema: http://json-schema.org/draft-04/schema#
-      title: CountResponse
+      title: PatientIdAppointmentListRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - patientId
+            - limit
+            - offset
+          properties:
+            patientId:
+              type: string
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            orderByDescendingDate:
+              type: boolean
+            needRecognition:
+              type: boolean
+    AppointmentListResponse_definitions-Exception:
       type: object
       additionalProperties: false
       properties:
-        count:
-          type: integer
-          description: Items count or 0 when this "count" request isn't supported
-          format: int32
-        support:
-          type: boolean
-          description: Returns true when the API supports this "count" request
-        cursorType:
-          description: Cursor type for clients pagination
+        Message:
+          type: string
+        InnerException:
           oneOf:
-            - $ref: '#/components/schemas/PageCursorType'
+            - type: null
+            - $ref: '#/components/schemas/AppointmentListResponse_definitions-Exception'
+        Source:
+          type:
+            - null
+            - string
+        StackTrace:
+          type:
+            - null
+            - string
+    AppointmentListResponse_definitions-PropertiesMismatch:
+      allOf:
+        - $ref: '#/components/schemas/AppointmentListResponse_definitions-Exception'
+        - type: object
+          additionalProperties: false
+          properties:
+            a: {}
+            b: {}
+            name:
+              type: string
+    definitions-AppointmentMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isActive:
+          type: boolean
+        business:
+          $ref: '#/components/schemas/BusinessInfo'
+        created:
+          type: string
+          format: date-time
+        start:
+          type: string
+          format: date-time
+        doctor:
+          $ref: '#/components/schemas/Doctor'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+        duration:
+          type: integer
+        status:
+          $ref: '#/components/schemas/AppointmentConfirmationStatus'
+        clientAppear:
+          type: boolean
+        patientId:
+          type: string
+        patient:
+          $ref: '#/components/schemas/PatientInfo'
+        resultId:
+          type: string
+        clientPrice:
+          $ref: '#/components/schemas/ClientPrice'
+        source:
+          $ref: '#/components/schemas/AppointmentSource'
+        comment:
+          type: string
+        lastPropertiesMismatch:
+          $ref: '#/components/schemas/AppointmentListResponse_definitions-PropertiesMismatch'
+    AppointmentListResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: AppointmentListResponse
+      type: object
+      additionalProperties: false
+      properties:
+        appointments:
+          type: array
+          description: List of appointments
+          items:
+            $ref: '#/components/schemas/definitions-AppointmentMessage'
+        validationErrors:
+          type: array
+          description: Validation errors. i-th item matches with i-th element of Appointment array.
+          items:
+            type: array
+            items:
+              type: string
+        recognitionResults:
+          type: array
+          description: Information about recognition engine work results. Item of this array by i-th index contains recognition results of i-th element of the Appointments array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/RecognitionResultInfo'
       definitions:
-        PageCursorType:
+        AppointmentMessage:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isActive:
+              type: boolean
+            business:
+              $ref: '#/components/schemas/BusinessInfo'
+            created:
+              type: string
+              format: date-time
+            start:
+              type: string
+              format: date-time
+            doctor:
+              $ref: '#/components/schemas/Doctor'
+            services:
+              type: array
+              items:
+                $ref: '#/components/schemas/Service'
+            duration:
+              type: integer
+            status:
+              $ref: '#/components/schemas/AppointmentConfirmationStatus'
+            clientAppear:
+              type: boolean
+            patientId:
+              type: string
+            patient:
+              $ref: '#/components/schemas/PatientInfo'
+            resultId:
+              type: string
+            clientPrice:
+              $ref: '#/components/schemas/ClientPrice'
+            source:
+              $ref: '#/components/schemas/AppointmentSource'
+            comment:
+              type: string
+            lastPropertiesMismatch:
+              $ref: '#/components/schemas/AppointmentListResponse_definitions-PropertiesMismatch'
+        BusinessInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            active:
+              type: boolean
+            name:
+              type: string
+            location:
+              type: string
+            filialId:
+              type: string
+            networkId:
+              type: string
+            networkFilialKey:
+              type: string
+        Doctor:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            name:
+              type: string
+            specialization:
+              $ref: '#/components/schemas/Specialization'
+            specializations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specialization'
+        Specialization:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        Service:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              $ref: '#/components/schemas/ClientPrice'
+            duration:
+              type: integer
+        ClientPrice:
+          type: object
+          additionalProperties: false
+          properties:
+            currency:
+              $ref: '#/components/schemas/Currency'
+            originValue:
+              type: number
+              format: double
+            discountValue:
+              type: number
+              format: double
+            value:
+              type: number
+              format: double
+            discount:
+              $ref: '#/components/schemas/Discount'
+        Currency:
           type: integer
           description: ''
           x-enumNames:
-            - None
-            - GtId
-            - LimitOffset
-            - GtDate
+            - Rur
+            - Usd
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Rur
+            '1': Usd
+        Discount:
+          type: object
+          additionalProperties: false
+          properties:
+            discountType:
+              $ref: '#/components/schemas/DiscountType'
+            discountPercent:
+              type: integer
+            discountValue:
+              type: number
+              format: double
+        DiscountType:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Percent
+            - Absolute
+          enum:
+            - 0
+            - 1
+          x-enumDescriptions:
+            '0': Percent
+            '1': Absolute
+        AppointmentConfirmationStatus:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Tentative
+            - ConfirmedByClient
+            - ConfirmedByBusiness
+            - CancelledByClient
+            - CancelledByBusiness
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+          x-enumDescriptions:
+            '0': Tentative
+            '1': ConfirmedByClient
+            '2': ConfirmedByBusiness
+            '3': CancelledByClient
+            '4': CancelledByBusiness
+        PatientInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            surname:
+              type: string
+            middleName:
+              type: string
+            name:
+              type: string
+            phones:
+              type: array
+              items:
+                type: string
+            email:
+              type: string
+            gender:
+              $ref: '#/components/schemas/Gender'
+            birthdate:
+              type: string
+              format: date-time
+            medcardNumber:
+              type: string
+            descriptionText:
+              type: string
+        Gender:
+          type: integer
+          description: ''
+          x-enumNames:
+            - Male
+            - Female
+            - Other
+            - Unknown
           enum:
             - 0
             - 1
             - 2
             - 3
           x-enumDescriptions:
-            '0': None
-            '1': GtId
-            '2': LimitOffset
-            '3': GtDate
+            '0': Male
+            '1': Female
+            '2': Other
+            '3': Unknown
+        AppointmentSource:
+          type: integer
+          description: ''
+          x-enumNames:
+            - MobileClinicWebsite
+            - DesktopClinicWebsite
+            - MobileClinicApp
+            - YaMap
+            - Allianz
+            - NaPopravku
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          x-enumDescriptions:
+            '0': MobileClinicWebsite
+            '1': DesktopClinicWebsite
+            '2': MobileClinicApp
+            '3': YaMap
+            '4': Allianz
+            '5': NaPopravku
+        PropertiesMismatch:
+          allOf:
+            - $ref: '#/components/schemas/AppointmentListResponse_definitions-Exception'
+            - type: object
+              additionalProperties: false
+              properties:
+                a: {}
+                b: {}
+                name:
+                  type: string
+        Exception:
+          type: object
+          additionalProperties: false
+          properties:
+            Message:
+              type: string
+            InnerException:
+              oneOf:
+                - type: null
+                - $ref: '#/components/schemas/AppointmentListResponse_definitions-Exception'
+            Source:
+              type:
+                - null
+                - string
+            StackTrace:
+              type:
+                - null
+                - string
+        RecognitionResultInfo:
+          type: object
+          additionalProperties: false
+          properties:
+            ruleName:
+              type: string
+            numberOfMatches:
+              type: integer
+              format: int32
+    AppointmentByCreatedFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+    AppointmentByPatientIdFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            patientId:
+              type: string
+    AppointmentByStartedFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+    AppointmentByBusinessIdFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            businessId:
+              type: string
+    EntityListRequest:
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          properties:
+            limit:
+              type: integer
+              description: Size of received data chunk
+              format: int32
+            offset:
+              type: integer
+              description: Offset for pagination per page
+              format: int32
+            lastItemId:
+              type: string
+              description: Identifier that should be used in next the request
+            lastItemCreated:
+              type: string
+              description: Created date that should be used in the next request
+              format: date-time
+            orderByDescendingDate:
+              type: boolean
+              description: It should be true if you want to sort result by descending of creation date
+              default: true
+            needRecognition:
+              type: boolean
+              description: It should be true for recognize details from text
+              default: false
+    AppointmentFilters:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilters'
+        - type: object
+          additionalProperties: false
+          properties:
+            byCreated:
+              $ref: '#/components/schemas/AppointmentByCreatedFilter'
+            byPatient:
+              $ref: '#/components/schemas/AppointmentByPatientIdFilter'
+            byStart:
+              $ref: '#/components/schemas/AppointmentByStartedFilter'
+            byBusiness:
+              $ref: '#/components/schemas/AppointmentByBusinessIdFilter'
+    AppointmentListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: AppointmentListRequest
+      definitions:
+        AppointmentFilters:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilters'
+            - type: object
+              additionalProperties: false
+              properties:
+                byCreated:
+                  $ref: '#/components/schemas/AppointmentByCreatedFilter'
+                byPatient:
+                  $ref: '#/components/schemas/AppointmentByPatientIdFilter'
+                byStart:
+                  $ref: '#/components/schemas/AppointmentByStartedFilter'
+                byBusiness:
+                  $ref: '#/components/schemas/AppointmentByBusinessIdFilter'
+        AppointmentByCreatedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        RequestFilter:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        AppointmentByPatientIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                patientId:
+                  type: string
+        AppointmentByStartedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        AppointmentByBusinessIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                businessId:
+                  type: string
+        RequestFilters:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        EntityListRequest:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              properties:
+                limit:
+                  type: integer
+                  description: Size of received data chunk
+                  format: int32
+                offset:
+                  type: integer
+                  description: Offset for pagination per page
+                  format: int32
+                lastItemId:
+                  type: string
+                  description: Identifier that should be used in next the request
+                lastItemCreated:
+                  type: string
+                  description: Created date that should be used in the next request
+                  format: date-time
+                orderByDescendingDate:
+                  type: boolean
+                  description: It should be true if you want to sort result by descending of creation date
+                  default: true
+                needRecognition:
+                  type: boolean
+                  description: It should be true for recognize details from text
+                  default: false
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/EntityListRequest'
+        - type: object
+          additionalProperties: false
+          properties:
+            filters:
+              $ref: '#/components/schemas/AppointmentFilters'
     PatientIdRequest:
       $schema: http://json-schema.org/draft-04/schema#
       title: PatientIdRequest
@@ -2427,16 +4573,6 @@ components:
         '1': InProgress
         '2': Rejected
         '3': Completed
-    Period:
-      type: object
-      additionalProperties: false
-      properties:
-        begin:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
     ProcedureMessage:
       type: object
       additionalProperties: false
@@ -2656,43 +4792,6 @@ components:
         url:
           type: string
         file:
-          type: string
-    ParamType:
-      type: integer
-      description: ''
-      x-enumNames:
-        - Item
-        - Table
-        - Header
-        - ItemList
-      enum:
-        - 0
-        - 1
-        - 2
-        - 3
-      x-enumDescriptions:
-        '0': Item
-        '1': Table
-        '2': Header
-        '3': ItemList
-    ReportInfo:
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-        patientId:
-          type: string
-        parentId:
-          type: string
-        key:
-          type: string
-        name:
-          type: string
-        value: {}
-        type:
-          $ref: '#/components/schemas/ParamType'
-        entity:
           type: string
     AppointmentResultMessage:
       type: object
@@ -4149,6 +6248,131 @@ components:
             numberOfMatches:
               type: integer
               format: int32
+    EntitySearchRequestOfAppointmentFilters:
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - limit
+          properties:
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            lastItemId:
+              type: string
+            includes:
+              type: array
+              items:
+                type: string
+            excludes:
+              type: array
+              items:
+                type: string
+            filters:
+              $ref: '#/components/schemas/AppointmentFilters'
+            needRecognition:
+              type: boolean
+    AppointmentResultsSearchRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: AppointmentResultsSearchRequest
+      definitions:
+        EntitySearchRequestOfAppointmentFilters:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              required:
+                - limit
+              properties:
+                limit:
+                  type: integer
+                  format: int32
+                offset:
+                  type: integer
+                  format: int32
+                lastItemId:
+                  type: string
+                includes:
+                  type: array
+                  items:
+                    type: string
+                excludes:
+                  type: array
+                  items:
+                    type: string
+                filters:
+                  $ref: '#/components/schemas/AppointmentFilters'
+                needRecognition:
+                  type: boolean
+        AppointmentFilters:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilters'
+            - type: object
+              additionalProperties: false
+              properties:
+                byCreated:
+                  $ref: '#/components/schemas/AppointmentByCreatedFilter'
+                byPatient:
+                  $ref: '#/components/schemas/AppointmentByPatientIdFilter'
+                byStart:
+                  $ref: '#/components/schemas/AppointmentByStartedFilter'
+                byBusiness:
+                  $ref: '#/components/schemas/AppointmentByBusinessIdFilter'
+        AppointmentByCreatedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        RequestFilter:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        AppointmentByPatientIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                patientId:
+                  type: string
+        AppointmentByStartedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        AppointmentByBusinessIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                businessId:
+                  type: string
+        RequestFilters:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/EntitySearchRequestOfAppointmentFilters'
+        - type: object
+          additionalProperties: false
     DiagnosticReportStatus:
       type: integer
       description: ''
@@ -5308,6 +7532,246 @@ components:
             numberOfMatches:
               type: integer
               format: int32
+    DiagnosticReportByCreatedFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+    DiagnosticReportByPatientIdFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            patientId:
+              type: string
+    DiagnosticReportByBusinessIdFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            businessId:
+              type: string
+    DiagnosticReportFilters:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilters'
+        - type: object
+          additionalProperties: false
+          properties:
+            byCreated:
+              $ref: '#/components/schemas/DiagnosticReportByCreatedFilter'
+            byPatient:
+              $ref: '#/components/schemas/DiagnosticReportByPatientIdFilter'
+            byBusiness:
+              $ref: '#/components/schemas/DiagnosticReportByBusinessIdFilter'
+    EntitySearchRequestOfDiagnosticReportFilters:
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - limit
+          properties:
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            lastItemId:
+              type: string
+            includes:
+              type: array
+              items:
+                type: string
+            excludes:
+              type: array
+              items:
+                type: string
+            filters:
+              $ref: '#/components/schemas/DiagnosticReportFilters'
+            needRecognition:
+              type: boolean
+    DiagnosticReportsSearchRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: DiagnosticReportsSearchRequest
+      definitions:
+        EntitySearchRequestOfDiagnosticReportFilters:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              required:
+                - limit
+              properties:
+                limit:
+                  type: integer
+                  format: int32
+                offset:
+                  type: integer
+                  format: int32
+                lastItemId:
+                  type: string
+                includes:
+                  type: array
+                  items:
+                    type: string
+                excludes:
+                  type: array
+                  items:
+                    type: string
+                filters:
+                  $ref: '#/components/schemas/DiagnosticReportFilters'
+                needRecognition:
+                  type: boolean
+        DiagnosticReportFilters:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilters'
+            - type: object
+              additionalProperties: false
+              properties:
+                byCreated:
+                  $ref: '#/components/schemas/DiagnosticReportByCreatedFilter'
+                byPatient:
+                  $ref: '#/components/schemas/DiagnosticReportByPatientIdFilter'
+                byBusiness:
+                  $ref: '#/components/schemas/DiagnosticReportByBusinessIdFilter'
+        DiagnosticReportByCreatedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        RequestFilter:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        DiagnosticReportByPatientIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                patientId:
+                  type: string
+        DiagnosticReportByBusinessIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                businessId:
+                  type: string
+        RequestFilters:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/EntitySearchRequestOfDiagnosticReportFilters'
+        - type: object
+          additionalProperties: false
+    DiagnosticReportListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: DiagnosticReportListRequest
+      definitions:
+        DiagnosticReportFilters:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilters'
+            - type: object
+              additionalProperties: false
+              properties:
+                byCreated:
+                  $ref: '#/components/schemas/DiagnosticReportByCreatedFilter'
+                byPatient:
+                  $ref: '#/components/schemas/DiagnosticReportByPatientIdFilter'
+                byBusiness:
+                  $ref: '#/components/schemas/DiagnosticReportByBusinessIdFilter'
+        DiagnosticReportByCreatedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        RequestFilter:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        DiagnosticReportByPatientIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                patientId:
+                  type: string
+        DiagnosticReportByBusinessIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                businessId:
+                  type: string
+        RequestFilters:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        EntityListRequest:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              properties:
+                limit:
+                  type: integer
+                  description: Size of received data chunk
+                  format: int32
+                offset:
+                  type: integer
+                  description: Offset for pagination per page
+                  format: int32
+                lastItemId:
+                  type: string
+                  description: Identifier that should be used in next the request
+                lastItemCreated:
+                  type: string
+                  description: Created date that should be used in the next request
+                  format: date-time
+                orderByDescendingDate:
+                  type: boolean
+                  description: It should be true if you want to sort result by descending of creation date
+                  default: true
+                needRecognition:
+                  type: boolean
+                  description: It should be true for recognize details from text
+                  default: false
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/EntityListRequest'
+        - type: object
+          additionalProperties: false
+          properties:
+            filters:
+              $ref: '#/components/schemas/DiagnosticReportFilters'
     IPrescriptionMessage:
       type: object
       x-abstract: true
@@ -6187,3 +8651,243 @@ components:
             numberOfMatches:
               type: integer
               format: int32
+    PrescriptionByCreatedFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+    PrescriptionByPatientIdFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            patientId:
+              type: string
+    PrescriptionByBusinessIdFilter:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilter'
+        - type: object
+          additionalProperties: false
+          properties:
+            businessId:
+              type: string
+    PrescriptionFilters:
+      allOf:
+        - $ref: '#/components/schemas/RequestFilters'
+        - type: object
+          additionalProperties: false
+          properties:
+            byCreated:
+              $ref: '#/components/schemas/PrescriptionByCreatedFilter'
+            byPatient:
+              $ref: '#/components/schemas/PrescriptionByPatientIdFilter'
+            byBusiness:
+              $ref: '#/components/schemas/PrescriptionByBusinessIdFilter'
+    EntitySearchRequestOfPrescriptionFilters:
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - limit
+          properties:
+            limit:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            lastItemId:
+              type: string
+            includes:
+              type: array
+              items:
+                type: string
+            excludes:
+              type: array
+              items:
+                type: string
+            filters:
+              $ref: '#/components/schemas/PrescriptionFilters'
+            needRecognition:
+              type: boolean
+    PrescriptionsSearchRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PrescriptionsSearchRequest
+      definitions:
+        EntitySearchRequestOfPrescriptionFilters:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              required:
+                - limit
+              properties:
+                limit:
+                  type: integer
+                  format: int32
+                offset:
+                  type: integer
+                  format: int32
+                lastItemId:
+                  type: string
+                includes:
+                  type: array
+                  items:
+                    type: string
+                excludes:
+                  type: array
+                  items:
+                    type: string
+                filters:
+                  $ref: '#/components/schemas/PrescriptionFilters'
+                needRecognition:
+                  type: boolean
+        PrescriptionFilters:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilters'
+            - type: object
+              additionalProperties: false
+              properties:
+                byCreated:
+                  $ref: '#/components/schemas/PrescriptionByCreatedFilter'
+                byPatient:
+                  $ref: '#/components/schemas/PrescriptionByPatientIdFilter'
+                byBusiness:
+                  $ref: '#/components/schemas/PrescriptionByBusinessIdFilter'
+        PrescriptionByCreatedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        RequestFilter:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        PrescriptionByPatientIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                patientId:
+                  type: string
+        PrescriptionByBusinessIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                businessId:
+                  type: string
+        RequestFilters:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/EntitySearchRequestOfPrescriptionFilters'
+        - type: object
+          additionalProperties: false
+    EntitySearchCountRequestOfPrescriptionFilters:
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          properties:
+            includes:
+              type: array
+              items:
+                type: string
+            excludes:
+              type: array
+              items:
+                type: string
+            filters:
+              $ref: '#/components/schemas/PrescriptionFilters'
+    PrescriptionsSearchCountRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PrescriptionsSearchCountRequest
+      definitions:
+        EntitySearchCountRequestOfPrescriptionFilters:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              properties:
+                includes:
+                  type: array
+                  items:
+                    type: string
+                excludes:
+                  type: array
+                  items:
+                    type: string
+                filters:
+                  $ref: '#/components/schemas/PrescriptionFilters'
+        PrescriptionFilters:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilters'
+            - type: object
+              additionalProperties: false
+              properties:
+                byCreated:
+                  $ref: '#/components/schemas/PrescriptionByCreatedFilter'
+                byPatient:
+                  $ref: '#/components/schemas/PrescriptionByPatientIdFilter'
+                byBusiness:
+                  $ref: '#/components/schemas/PrescriptionByBusinessIdFilter'
+        PrescriptionByCreatedFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                from:
+                  type: string
+                to:
+                  type: string
+        RequestFilter:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        PrescriptionByPatientIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                patientId:
+                  type: string
+        PrescriptionByBusinessIdFilter:
+          allOf:
+            - $ref: '#/components/schemas/RequestFilter'
+            - type: object
+              additionalProperties: false
+              properties:
+                businessId:
+                  type: string
+        RequestFilters:
+          type: object
+          x-abstract: true
+          additionalProperties: false
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/EntitySearchCountRequestOfPrescriptionFilters'
+        - type: object
+          additionalProperties: false
