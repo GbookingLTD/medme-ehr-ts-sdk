@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: MedMe EHR RPCServer
+  title: MedMe EHR API
   version: 1.9.492
   description: |
     ## MedMe EHR API
@@ -63,6 +63,33 @@ paths:
             schema:
               type: object
               $ref: '#/components/requests/ApiInfo/GetSpecializationsByPattern'
+  /#misc.get_business_info:
+    post:
+      tags:
+        - Misc
+      summary: Получение информации о бизнесе
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Misc/GetBusinessInfo'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о бизнесе
+                oneOf:
+                  - $ref: '#/components/responses/Misc/GetBusinessInfo'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
   /get_attached_file:
     get:
       tags:
@@ -75,6 +102,168 @@ paths:
             type: string
           required: true
           description: Unique file key
+  /#misc.save_recognition_rule:
+    post:
+      tags:
+        - Misc
+      summary: Сохранение правила распознавания
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Misc/SaveRecognitionRule'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о бизнесе
+                oneOf:
+                  - $ref: '#/components/responses/Misc/SaveRecognitionRule'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#misc.update_db_map_config:
+    post:
+      tags:
+        - Misc
+      summary: Обновление конфигурации бизнеса
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Misc/UpdateDbMapConfig'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о бизнесе
+                oneOf:
+                  - $ref: '#/components/responses/Misc/UpdateDbMapConfig'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#misc.reload_config:
+    post:
+      tags:
+        - Misc
+      summary: Перезагрузка конфигурации из embedded.db в память
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Misc/ReloadConfig'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о бизнесе
+                oneOf:
+                  - $ref: '#/components/responses/Misc/ReloadConfig'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#misc.get_db_map_config:
+    post:
+      tags:
+        - Misc
+      summary: Получение конфигурации
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Misc/GetDbMapConfig'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о бизнесе
+                oneOf:
+                  - $ref: '#/components/responses/Misc/GetDbMapConfig'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#misc.set_apikey_cookie:
+    post:
+      tags:
+        - Misc
+      summary: Установка серверой куки для X-ApiKey для работы с файлами
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Misc/SetApiKeyCookie'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о бизнесе
+                oneOf:
+                  - $ref: '#/components/responses/Misc/SetApiKeyCookie'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
+  /#misc.set_user_token_cookie:
+    post:
+      tags:
+        - Misc
+      summary: Установка серверной куки X-UserToken для работы с файлами
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/requests/Misc/SetUserTokenCookie'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Возвращает данные о бизнесе
+                oneOf:
+                  - $ref: '#/components/responses/Misc/SetUserTokenCookie'
+                    title: Success
+                  - $ref: '#/components/errorResponses/UnknownError'
+                    title: Unknown error
+                  - $ref: '#/components/errorResponses/NotAuthorized'
+                    title: Not authorized
+                  - $ref: '#/components/errorResponses/AccessForbidden'
+                    title: Access forbidden
   /#auth.save_exchange_token:
     post:
       tags:
@@ -1098,27 +1287,6 @@ components:
         type:
           - number
           - string
-      cred:
-        description: параметры авторизации
-        oneOf:
-          - type: object
-            title: без параметров
-            params: []
-            required: []
-            additionalProperties: false
-          - type: object
-            title: с параметрами авторизации
-            properties:
-              user:
-                description: идентификатор профиля пользователя
-                type: string
-              token:
-                description: временный token для доступа
-                type: string
-            required:
-              - user
-              - token
-            additionalProperties: false
       method:
         description: название jsonrpc метода
         type: string
@@ -1131,7 +1299,44 @@ components:
       - id
       - method
       - params
-    additionalProperties: false
+    additionalProperties: true
+  RequestWithoutAuth:
+    $ref: '#/components/Request'
+    description: Запрос без авторизации
+  CredMixture:
+    - type: object
+      description: Запрос с правами пациента
+      additionalProperties: false
+      properties:
+        cred:
+          type: object
+          title: с параметрами авторизации
+          properties:
+            user:
+              description: идентификатор профиля пользователя
+              type: string
+            token:
+              description: временный token для доступа
+              type: string
+          required:
+            - user
+            - token
+          additionalProperties: false
+  RequestWithCred:
+    allOf:
+      - $ref: '#/components/Request'
+      - $ref: '#/components/CredMixture'
+  RequestWithApiKey:
+    allOf:
+      - $ref: '#/components/Request'
+      - $ref: '#/components/CredMixture'
+      - type: object
+        description: Запрос с ключом
+        additionalProperties: false
+        properties:
+          apiKey:
+            type: string
+            description: ключ API
   ErrorResponse:
     type: object
     properties:
@@ -1215,7 +1420,7 @@ components:
     Auth:
       SaveExchangeToken:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1227,7 +1432,7 @@ components:
                 $ref: '#/components/schemas/ExchangeTokenRequest'
       Authenticate:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1239,7 +1444,7 @@ components:
                 $ref: '#/components/schemas/AuthenticateRequest'
       RemoveAuthentication:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1251,7 +1456,7 @@ components:
                 $ref: '#/components/schemas/EmptyRequest'
       SaveAuthInfo:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1263,7 +1468,7 @@ components:
                 $ref: '#/components/schemas/AuthInfoRequest'
       RemoveAuthInfo:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1276,7 +1481,7 @@ components:
     Patient:
       GetPatient:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1288,7 +1493,7 @@ components:
                 $ref: '#/components/schemas/EmptyRequest'
       GetPatientByID:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1300,7 +1505,7 @@ components:
                 $ref: '#/components/schemas/IDRequest'
       GetPatients:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1312,7 +1517,7 @@ components:
                 $ref: '#/components/schemas/PatientListRequest'
       FindPatientsByPhone:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1324,7 +1529,7 @@ components:
                 $ref: '#/components/schemas/PatientsByPhoneRequest'
       FindPatientsByMedCard:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1336,7 +1541,7 @@ components:
                 $ref: '#/components/schemas/PatientsByMedCardRequest'
       Count:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1349,7 +1554,7 @@ components:
     Appointment:
       GetAppointmentById:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1361,7 +1566,7 @@ components:
                 $ref: '#/components/schemas/IDRequest'
       GetPatientAppointments:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1373,7 +1578,7 @@ components:
                 $ref: '#/components/schemas/PatientIdAppointmentListRequest'
       PatientAppointmentCount:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1385,7 +1590,7 @@ components:
                 $ref: '#/components/schemas/PatientIdRequest'
       Count:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             additionalProperties: false
             required:
@@ -1399,7 +1604,7 @@ components:
                 additionalProperties: false
       GetAppointments:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1412,7 +1617,7 @@ components:
     AppointmentResult:
       GetAppointmentResultById:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1424,7 +1629,7 @@ components:
                 $ref: '#/components/schemas/IDRequest'
       GetPatientAppointmentResults:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1436,7 +1641,7 @@ components:
                 $ref: '#/components/schemas/PatientIdAppointmentResultListRequest'
       PatientAppointmentResultCount:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1448,7 +1653,7 @@ components:
                 $ref: '#/components/schemas/PatientIdRequest'
       Count:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             additionalProperties: false
             required:
@@ -1462,7 +1667,7 @@ components:
                 additionalProperties: false
       GetAppointmentResults:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1474,7 +1679,7 @@ components:
                 $ref: '#/components/schemas/PatientIdAppointmentResultListRequest'
       SearchAppointmentResults:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1486,7 +1691,7 @@ components:
                 $ref: '#/components/schemas/AppointmentResultsSearchRequest'
       SearchAppointmentResultsCount:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1499,7 +1704,7 @@ components:
     DiagnosticReport:
       GetDiagnosticReportById:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1511,7 +1716,7 @@ components:
                 $ref: '#/components/schemas/IDRequest'
       GetPatientDiagnosticReports:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1523,7 +1728,7 @@ components:
                 $ref: '#/components/schemas/PatientIdDiagnosticReportListRequest'
       PatientDiagnosticReportCount:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1535,7 +1740,7 @@ components:
                 $ref: '#/components/schemas/PatientIdRequest'
       Count:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             additionalProperties: false
             required:
@@ -1549,7 +1754,7 @@ components:
                 additionalProperties: false
       GetDiagnosticReports:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1561,7 +1766,7 @@ components:
                 $ref: '#/components/schemas/PatientIdDiagnosticReportListRequest'
       SearchDiagnosticReports:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1573,7 +1778,7 @@ components:
                 $ref: '#/components/schemas/DiagnosticReportsSearchRequest'
       SearchDiagnosticReportsCount:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1586,7 +1791,7 @@ components:
     Prescription:
       GetPrescriptionById:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1598,7 +1803,7 @@ components:
                 $ref: '#/components/schemas/IDRequest'
       GetPatientPrescriptions:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1610,7 +1815,7 @@ components:
                 $ref: '#/components/schemas/PatientIdPrescriptionListRequest'
       PatientPrescriptionCount:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithCred'
           - type: object
             required:
               - method
@@ -1622,7 +1827,7 @@ components:
                 $ref: '#/components/schemas/PatientIdRequest'
       Count:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             additionalProperties: false
             required:
@@ -1636,7 +1841,7 @@ components:
                 additionalProperties: false
       GetPrescriptions:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1648,7 +1853,7 @@ components:
                 $ref: '#/components/schemas/PatientIdPrescriptionListRequest'
       SearchPrescriptions:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1660,7 +1865,7 @@ components:
                 $ref: '#/components/schemas/PrescriptionsSearchRequest'
       SearchPrescriptionsCount:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1673,7 +1878,7 @@ components:
     ApiInfo:
       GetSpecializationsByPattern:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithApiKey'
           - type: object
             required:
               - method
@@ -1692,7 +1897,7 @@ components:
                     description: Шаблон, по которому ищется специализация
       Healthcheck:
         allOf:
-          - $ref: '#/components/Request'
+          - $ref: '#/components/RequestWithoutAuth'
           - type: object
             additionalProperties: false
             required:
@@ -1704,6 +1909,91 @@ components:
               params:
                 type: object
                 additionalProperties: false
+    Misc:
+      GetBusinessInfo:
+        allOf:
+          - $ref: '#/components/RequestWithApiKey'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: misc.get_business_info
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
+      SaveRecognitionRule:
+        allOf:
+          - $ref: '#/components/RequestWithApiKey'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: misc.save_recognition_rule
+              params:
+                $ref: '#/components/schemas/RecognitionRuleRequest'
+      UpdateDbMapConfig:
+        allOf:
+          - $ref: '#/components/RequestWithApiKey'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: misc.update_db_map_config
+              params:
+                $ref: '#/components/schemas/UpdateDbMapConfigRequest'
+      ReloadConfig:
+        allOf:
+          - $ref: '#/components/RequestWithApiKey'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: misc.reload_config
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
+      GetDbMapConfig:
+        allOf:
+          - $ref: '#/components/RequestWithApiKey'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: misc.get_db_map_config
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
+      SetApiKeyCookie:
+        allOf:
+          - $ref: '#/components/RequestWithApiKey'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: misc.set_api_key_cookie
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
+      SetUserTokenCookie:
+        allOf:
+          - $ref: '#/components/RequestWithCred'
+          - type: object
+            required:
+              - method
+              - params
+            properties:
+              method:
+                const: misc.set_user_token_cookie
+              params:
+                $ref: '#/components/schemas/EmptyRequest'
   responses:
     ApiInfo:
       Healthcheck:
@@ -2092,6 +2382,81 @@ components:
             properties:
               result:
                 $ref: '#/components/schemas/CountResponse'
+    Misc:
+      GetBusinessInfo:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/BusinessInfoResponse'
+      SaveRecognitionRule:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/RecognitionRuleResponse'
+      UpdateDbMapConfig:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                type: object
+                required: []
+      ReloadConfig:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                type: object
+                required: []
+      GetDbMapConfig:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                $ref: '#/components/schemas/GetDbMapConfigResponse'
+      SetApiKeyCookie:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                type: object
+                required: []
+      SetUserTokenCookie:
+        allOf:
+          - $ref: '#/components/Response'
+          - type: object
+            additionalProperties: false
+            required:
+              - result
+            properties:
+              result:
+                type: object
+                required: []
   schemas:
     Result:
       type: object
@@ -2135,6 +2500,156 @@ components:
     RpcRequestPayload:
       type: object
       additionalProperties: false
+    EmptyRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: EmptyRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+    Business:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        isNetwork:
+          type: boolean
+        name:
+          type: string
+        location:
+          type: string
+        networkId:
+          type: string
+    BusinessInfoResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: BusinessInfoResponse
+      type: object
+      additionalProperties: false
+      properties:
+        businesses:
+          type: array
+          description: Array of BusinessInfo datas
+          items:
+            $ref: '#/components/schemas/Business'
+      definitions:
+        Business:
+          type: object
+          additionalProperties: false
+          properties:
+            id:
+              type: string
+            isNetwork:
+              type: boolean
+            name:
+              type: string
+            location:
+              type: string
+            networkId:
+              type: string
+    RecognitionRuleRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: RecognitionRuleRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - group
+            - entity
+            - kind
+            - name
+            - sourcePaths
+            - targetPaths
+          properties:
+            group:
+              type: string
+            entity:
+              type: string
+            kind:
+              type: string
+            name:
+              type: string
+            version:
+              type: integer
+              format: int32
+            fixtures:
+              type: array
+              items:
+                type: string
+            token:
+              type: string
+            prior:
+              type: integer
+              format: int32
+            sourcePaths:
+              type: array
+              items:
+                type: string
+            targetPaths:
+              type: array
+              items: {}
+            testRe:
+              type: string
+            matchRe:
+              type: string
+            re:
+              type: string
+            multiline:
+              type: boolean
+    RecognitionRuleResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: RecognitionRuleResponse
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: boolean
+          description: Returns true when a rule was matched; overwise it returns false
+        error:
+          type: string
+          description: Error string when a rule not matched
+    UpdateDbMapConfigRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: UpdateDbMapConfigRequest
+      definitions:
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/RpcRequestPayload'
+        - type: object
+          additionalProperties: false
+          required:
+            - config
+            - saveInDb
+          properties:
+            config:
+              type: string
+            jsLib:
+              type: string
+            luaLib:
+              type: string
+            saveInDb:
+              type: boolean
+            businessId:
+              type: string
+    GetDbMapConfigResponse:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: GetDbMapConfigResponse
+      type: object
+      additionalProperties: false
+      properties:
+        configString:
+          type: string
     AuthInfo:
       type: object
       additionalProperties: false
@@ -2637,17 +3152,6 @@ components:
             numberOfMatches:
               type: integer
               format: int32
-    EmptyRequest:
-      $schema: http://json-schema.org/draft-04/schema#
-      title: EmptyRequest
-      definitions:
-        RpcRequestPayload:
-          type: object
-          additionalProperties: false
-      allOf:
-        - $ref: '#/components/schemas/RpcRequestPayload'
-        - type: object
-          additionalProperties: false
     AuthInfoRequest:
       $schema: http://json-schema.org/draft-04/schema#
       title: AuthInfoRequest
