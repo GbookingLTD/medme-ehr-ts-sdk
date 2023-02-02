@@ -8,6 +8,8 @@ info:
     MedMe EHR API для предоставления медицинских данных конечным пользователям в виде мобильного приложения, веб интерфейса или другим способом.
 
     Главная цель API для EHR — это унификация передачи мед. данных между клиентом и сервером.
+
+    В случае, когда в теле запроса указано оба параметра авторизации (cred и apiKey), достаточно указать один из них.
 servers:
   - url: http://localhost:9999
 tags:
@@ -1304,39 +1306,39 @@ components:
     $ref: '#/components/Request'
     description: Запрос без авторизации
   CredMixture:
-    - type: object
-      description: Запрос с правами пациента
-      additionalProperties: false
-      properties:
-        cred:
-          type: object
-          title: с параметрами авторизации
-          properties:
-            user:
-              description: идентификатор профиля пользователя
-              type: string
-            token:
-              description: временный token для доступа
-              type: string
-          required:
-            - user
-            - token
-          additionalProperties: false
+    type: object
+    additionalProperties: false
+    properties:
+      cred:
+        type: object
+        description: параметры авторизации
+        properties:
+          user:
+            description: идентификатор профиля пользователя
+            type: string
+          token:
+            description: временный token для доступа
+            type: string
+        required:
+          - user
+          - token
+        additionalProperties: false
+  ApiKeyMixture:
+    type: object
+    additionalProperties: false
+    properties:
+      apiKey:
+        type: string
+        description: ключ API
   RequestWithCred:
     allOf:
       - $ref: '#/components/Request'
+      - $ref: '#/components/ApiKeyMixture'
       - $ref: '#/components/CredMixture'
   RequestWithApiKey:
     allOf:
       - $ref: '#/components/Request'
-      - $ref: '#/components/CredMixture'
-      - type: object
-        description: Запрос с ключом
-        additionalProperties: false
-        properties:
-          apiKey:
-            type: string
-            description: ключ API
+      - $ref: '#/components/ApiKeyMixture'
   ErrorResponse:
     type: object
     properties:
