@@ -4399,13 +4399,7 @@ components:
             numberOfMatches:
               type: integer
               format: int32
-    PatientIdAppointmentListRequest:
-      $schema: http://json-schema.org/draft-04/schema#
-      title: PatientIdAppointmentListRequest
-      definitions:
-        RpcRequestPayload:
-          type: object
-          additionalProperties: false
+    PatientIdEntitiesRequest:
       allOf:
         - $ref: '#/components/schemas/RpcRequestPayload'
         - type: object
@@ -4413,7 +4407,6 @@ components:
           required:
             - patientId
             - limit
-            - offset
           properties:
             patientId:
               type: string
@@ -4422,11 +4415,49 @@ components:
               format: int32
             offset:
               type: integer
-              format: int32
+              format: int64
+            lastItemCreated:
+              type: string
+              format: date-time
             orderByDescendingDate:
               type: boolean
             needRecognition:
               type: boolean
+    PatientIdAppointmentListRequest:
+      $schema: http://json-schema.org/draft-04/schema#
+      title: PatientIdAppointmentListRequest
+      definitions:
+        PatientIdEntitiesRequest:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              required:
+                - patientId
+                - limit
+              properties:
+                patientId:
+                  type: string
+                limit:
+                  type: integer
+                  format: int32
+                offset:
+                  type: integer
+                  format: int64
+                lastItemCreated:
+                  type: string
+                  format: date-time
+                orderByDescendingDate:
+                  type: boolean
+                needRecognition:
+                  type: boolean
+        RpcRequestPayload:
+          type: object
+          additionalProperties: false
+      allOf:
+        - $ref: '#/components/schemas/PatientIdEntitiesRequest'
+        - type: object
+          additionalProperties: false
     AppointmentListResponse_definitions-Exception:
       type: object
       additionalProperties: false
@@ -4839,6 +4870,8 @@ components:
         - $ref: '#/components/schemas/RpcRequestPayload'
         - type: object
           additionalProperties: false
+          required:
+            - limit
           properties:
             limit:
               type: integer
@@ -4944,6 +4977,8 @@ components:
             - $ref: '#/components/schemas/RpcRequestPayload'
             - type: object
               additionalProperties: false
+              required:
+                - limit
               properties:
                 limit:
                   type: integer
@@ -5984,30 +6019,37 @@ components:
       $schema: http://json-schema.org/draft-04/schema#
       title: PatientIdAppointmentResultListRequest
       definitions:
+        PatientIdEntitiesRequest:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              required:
+                - patientId
+                - limit
+              properties:
+                patientId:
+                  type: string
+                limit:
+                  type: integer
+                  format: int32
+                offset:
+                  type: integer
+                  format: int64
+                lastItemCreated:
+                  type: string
+                  format: date-time
+                orderByDescendingDate:
+                  type: boolean
+                needRecognition:
+                  type: boolean
         RpcRequestPayload:
           type: object
           additionalProperties: false
       allOf:
-        - $ref: '#/components/schemas/RpcRequestPayload'
+        - $ref: '#/components/schemas/PatientIdEntitiesRequest'
         - type: object
           additionalProperties: false
-          required:
-            - patientId
-            - limit
-            - offset
-          properties:
-            patientId:
-              type: string
-            limit:
-              type: integer
-              format: int32
-            offset:
-              type: integer
-              format: int32
-            orderByDescendingDate:
-              type: boolean
-            needRecognition:
-              type: boolean
     AppointmentResultListResponse_definitions-Exception:
       type: object
       additionalProperties: false
@@ -7537,30 +7579,37 @@ components:
       $schema: http://json-schema.org/draft-04/schema#
       title: PatientIdDiagnosticReportListRequest
       definitions:
+        PatientIdEntitiesRequest:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              required:
+                - patientId
+                - limit
+              properties:
+                patientId:
+                  type: string
+                limit:
+                  type: integer
+                  format: int32
+                offset:
+                  type: integer
+                  format: int64
+                lastItemCreated:
+                  type: string
+                  format: date-time
+                orderByDescendingDate:
+                  type: boolean
+                needRecognition:
+                  type: boolean
         RpcRequestPayload:
           type: object
           additionalProperties: false
       allOf:
-        - $ref: '#/components/schemas/RpcRequestPayload'
+        - $ref: '#/components/schemas/PatientIdEntitiesRequest'
         - type: object
           additionalProperties: false
-          required:
-            - patientId
-            - limit
-            - offset
-          properties:
-            patientId:
-              type: string
-            limit:
-              type: integer
-              format: int32
-            offset:
-              type: integer
-              format: int32
-            orderByDescendingDate:
-              type: boolean
-            needRecognition:
-              type: boolean
     DiagnosticReportListResponse:
       $schema: http://json-schema.org/draft-04/schema#
       title: DiagnosticReportListResponse
@@ -8244,6 +8293,8 @@ components:
             - $ref: '#/components/schemas/RpcRequestPayload'
             - type: object
               additionalProperties: false
+              required:
+                - limit
               properties:
                 limit:
                   type: integer
@@ -8681,30 +8732,37 @@ components:
       $schema: http://json-schema.org/draft-04/schema#
       title: PatientIdPrescriptionListRequest
       definitions:
+        PatientIdEntitiesRequest:
+          allOf:
+            - $ref: '#/components/schemas/RpcRequestPayload'
+            - type: object
+              additionalProperties: false
+              required:
+                - patientId
+                - limit
+              properties:
+                patientId:
+                  type: string
+                limit:
+                  type: integer
+                  format: int32
+                offset:
+                  type: integer
+                  format: int64
+                lastItemCreated:
+                  type: string
+                  format: date-time
+                orderByDescendingDate:
+                  type: boolean
+                needRecognition:
+                  type: boolean
         RpcRequestPayload:
           type: object
           additionalProperties: false
       allOf:
-        - $ref: '#/components/schemas/RpcRequestPayload'
+        - $ref: '#/components/schemas/PatientIdEntitiesRequest'
         - type: object
           additionalProperties: false
-          required:
-            - patientId
-            - limit
-            - offset
-          properties:
-            patientId:
-              type: string
-            limit:
-              type: integer
-              format: int32
-            offset:
-              type: integer
-              format: int32
-            orderByDescendingDate:
-              type: boolean
-            needRecognition:
-              type: boolean
     PageGtIdCursorInfo:
       type: object
       additionalProperties: false
