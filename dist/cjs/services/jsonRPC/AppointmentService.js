@@ -49,7 +49,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentService = void 0;
 var CursorType_1 = require("../../types/CursorType");
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
@@ -76,9 +75,9 @@ var AppointmentService = /** @class */ (function (_super) {
             });
         });
     };
-    AppointmentService.prototype.getPatientAppointments = function (patientId, limit, offset, cb) {
+    AppointmentService.prototype.getPatientAppointments = function (patientId, limit, offset, prevCreated, cb) {
         var _this = this;
-        var params = { patientId: patientId, limit: limit, offset: offset };
+        var params = { patientId: patientId, limit: limit, offset: offset, lastItemCreated: prevCreated };
         this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_APPOINTMENTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -86,13 +85,13 @@ var AppointmentService = /** @class */ (function (_super) {
             return cb(null, payload["appointments"]);
         });
     };
-    AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset) {
+    AppointmentService.prototype.getPatientAppointmentsAsync = function (patientId, limit, offset, prevCreated) {
         return __awaiter(this, void 0, void 0, function () {
             var service;
             return __generator(this, function (_a) {
                 service = this;
                 return [2 /*return*/, new Promise(function (res, rej) {
-                        service.getPatientAppointments(patientId, limit, offset, function (err, appointments) {
+                        service.getPatientAppointments(patientId, limit, offset, prevCreated, function (err, appointments) {
                             if (err)
                                 return rej(err);
                             res(appointments);

@@ -28,6 +28,7 @@ export interface IPrescriptionService extends IResourceService {
     patientId: string,
     limit: number,
     offset: number,
+    prevCreated: string,
     opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void;
@@ -35,6 +36,7 @@ export interface IPrescriptionService extends IResourceService {
     patientId: string,
     limit: number,
     offset: number,
+    prevCreated: string,
     opts: ReqOptions,
   ): Promise<PrescriptionMessage[]>;
 

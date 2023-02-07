@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PatientInfo = void 0;
 var PatientInfo = /** @class */ (function () {
     function PatientInfo() {
     }

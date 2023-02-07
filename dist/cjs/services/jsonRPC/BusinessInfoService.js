@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BusinessInfoService = void 0;
 var Handlers_1 = require("../../Handlers");
 var jsonRpcService_1 = require("./jsonRpcService");
 var BusinessInfoService = /** @class */ (function (_super) {

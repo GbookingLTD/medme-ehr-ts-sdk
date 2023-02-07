@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BusinessInfo = void 0;
 var BusinessInfo = /** @class */ (function () {
     function BusinessInfo() {
     }

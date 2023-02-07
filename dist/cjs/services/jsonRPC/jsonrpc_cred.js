@@ -16,7 +16,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.requestCred = exports.RequestCredObject = void 0;
 var jsonrpc = require("./jsonrpc");
 var RequestCredObject = /** @class */ (function (_super) {
     __extends(RequestCredObject, _super);

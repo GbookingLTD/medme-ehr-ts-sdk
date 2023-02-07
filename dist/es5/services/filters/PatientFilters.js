@@ -32,14 +32,14 @@ var PatientByNameFilter = /** @class */ (function (_super) {
         get: function () {
             return this.name;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByNameFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.PatientByName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByNameFilter.prototype.isEmpty = function () {
@@ -65,14 +65,14 @@ var PatientByMedCardFilter = /** @class */ (function (_super) {
         get: function () {
             return this.medCardId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByMedCardFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.PatientByMedCard;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByMedCardFilter.prototype.isEmpty = function () {
@@ -98,14 +98,14 @@ var PatientByPhoneFilter = /** @class */ (function (_super) {
         get: function () {
             return this.phone;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByPhoneFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.PatientByPhone;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByPhoneFilter.prototype.isEmpty = function () {
@@ -131,14 +131,14 @@ var PatientByDoctorSpecialityIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.specialityId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.PatientByDoctorSpecialityId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByDoctorSpecialityIdFilter.prototype.isEmpty = function () {
@@ -164,14 +164,14 @@ var PatientByDoctorSpecialityIdsFilter = /** @class */ (function (_super) {
         get: function () {
             return this.specialityIds.join(", ");
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.PatientByDoctorSpecialityIds;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByDoctorSpecialityIdsFilter.prototype.isEmpty = function () {
@@ -195,7 +195,7 @@ var PatientByBirthdateFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypeEnum.PatientByBirthdate;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return PatientByBirthdateFilter;

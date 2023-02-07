@@ -17,8 +17,8 @@ export interface IAppointmentService extends IResourceService {
      * @param offset смещение относительно начала списка записей
      * @param cb callback
      */
-    getPatientAppointments(patientId: string, limit: number, offset: number, cb: (err: any, appointments: AppointmentMessage[]) => void): void;
-    getPatientAppointmentsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentMessage[]>;
+    getPatientAppointments(patientId: string, limit: number, offset: number, prevCreated: string, cb: (err: any, appointments: AppointmentMessage[]) => void): void;
+    getPatientAppointmentsAsync(patientId: string, limit: number, offset: number, prevCreated: string): Promise<AppointmentMessage[]>;
     /**
      * Возвращает список всех записей.
      * @param limit максимальное количество записей, которое нужно вернуть

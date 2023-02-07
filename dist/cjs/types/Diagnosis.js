@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cd10 = exports.Diagnosis = exports.TypeDiagnosis = exports.KindDiagnosis = void 0;
 var KindDiagnosis;
 (function (KindDiagnosis) {
     // основное

@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAuthenticatedPatientByExchangeToken = exports.getAuthenticatedPatient = exports.ConnectionError = exports.PatientAuthenticationError = exports.PatientAuthenticationStep = exports.PatientAuthenticationResult = exports.AuthInfo = exports.ExchangeTokenResponse = void 0;
 var RpcErrorCodes_1 = require("./RpcErrorCodes");
 var ExchangeTokenResponse = /** @class */ (function () {
     function ExchangeTokenResponse() {

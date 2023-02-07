@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PatientReportInfo = exports.PatientReportInfoType = void 0;
 var PatientReportInfoType;
 (function (PatientReportInfoType) {
     PatientReportInfoType[PatientReportInfoType["Item"] = 0] = "Item";

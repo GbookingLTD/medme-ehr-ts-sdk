@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PrescriptionInfo = void 0;
 var Doctor_1 = require("./Doctor");
 var Medication_1 = require("./Medication");
 var Period_1 = require("./Period");

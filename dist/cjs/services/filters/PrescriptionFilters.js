@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PrescriptionFilters = exports.PrescriptionByPatientIdFilter = exports.PrescriptionByCreatedFilter = exports.PrescriptionByBusinessIdFilter = void 0;
 var index_1 = require("../../formatters/l10n/index");
 var DatePeriodFilter_1 = require("./DatePeriodFilter");
 var Filters_1 = require("./Filters");
@@ -39,14 +38,14 @@ var PrescriptionByBusinessIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.businessName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PrescriptionByBusinessIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PrescriptionByBusiness;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PrescriptionByBusinessIdFilter.prototype.isEmpty = function () {
@@ -71,7 +70,7 @@ var PrescriptionByCreatedFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PrescriptionByCreated;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return PrescriptionByCreatedFilter;
@@ -88,14 +87,14 @@ var PrescriptionByPatientIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.patientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PrescriptionByPatientIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PrescriptionByPatient;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PrescriptionByPatientIdFilter.prototype.isEmpty = function () {

@@ -19,14 +19,14 @@ var Filter = /** @class */ (function () {
         get: function () {
             return FilterKeys[this.kind];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Filter.prototype, "title", {
         get: function () {
             return this.localize[this.key];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return Filter;

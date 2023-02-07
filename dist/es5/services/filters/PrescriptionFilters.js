@@ -36,14 +36,14 @@ var PrescriptionByBusinessIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.businessName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PrescriptionByBusinessIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.PrescriptionByBusiness;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PrescriptionByBusinessIdFilter.prototype.isEmpty = function () {
@@ -68,7 +68,7 @@ var PrescriptionByCreatedFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypeEnum.PrescriptionByCreated;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return PrescriptionByCreatedFilter;
@@ -85,14 +85,14 @@ var PrescriptionByPatientIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.patientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PrescriptionByPatientIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.PrescriptionByPatient;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PrescriptionByPatientIdFilter.prototype.isEmpty = function () {

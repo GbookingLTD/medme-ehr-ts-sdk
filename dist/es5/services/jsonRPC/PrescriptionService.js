@@ -57,9 +57,9 @@ var PrescriptionService = /** @class */ (function (_super) {
             });
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, opts, cb) {
+    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, prevCreated, opts, cb) {
         var _this_1 = this;
-        var params = __assign({ patientId: patientId, limit: limit, offset: offset }, opts);
+        var params = __assign({ patientId: patientId, limit: limit, offset: offset, lastItemCreated: prevCreated }, opts);
         this.exec(Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -68,10 +68,10 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset, opts) {
+    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset, prevCreated, opts) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientPrescriptions(patientId, limit, offset, opts, function (err, values) {
+            service.getPatientPrescriptions(patientId, limit, offset, prevCreated, opts, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);

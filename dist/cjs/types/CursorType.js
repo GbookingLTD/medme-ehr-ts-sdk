@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CursorType = void 0;
 var CursorType;
 (function (CursorType) {
     CursorType[CursorType["None"] = 0] = "None";

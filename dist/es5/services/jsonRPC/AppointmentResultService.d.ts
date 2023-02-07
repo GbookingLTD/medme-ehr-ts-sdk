@@ -11,8 +11,8 @@ export declare class AppointmentResultService extends JsonRPCCredService impleme
      */
     getAppointmentResultById(id: string, cb: (err: any, appointmentResult: AppointmentResultMessage) => void): void;
     getAppointmentResultByIdAsync(id: string): Promise<AppointmentResultMessage>;
-    getPatientAppointmentResults(patientId: string, limit: number, offset: number, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
-    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number): Promise<AppointmentResultMessage[]>;
+    getPatientAppointmentResults(patientId: string, limit: number, offset: number, prevCreated: string, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
+    getPatientAppointmentResultsAsync(patientId: string, limit: number, offset: number, prevCreated: string): Promise<AppointmentResultMessage[]>;
     getAppointmentResults(limit: number, offset: number, lastId: string, prevCreated: string, cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void): void;
     getAppointmentResultsAsync(limit: number, offset: number, lastId: string, prevCreated: string): Promise<AppointmentResultMessage[]>;
     getAppointmentResultsCount(cb: (err: any, count: number, support: boolean, cursorType: CursorType) => void): void;

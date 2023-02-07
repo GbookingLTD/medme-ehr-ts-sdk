@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Doctor = void 0;
 var Specialization_1 = require("./Specialization");
 var Doctor = /** @class */ (function () {
     function Doctor() {

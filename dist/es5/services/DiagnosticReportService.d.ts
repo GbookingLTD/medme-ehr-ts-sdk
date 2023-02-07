@@ -17,8 +17,8 @@ export interface IDiagnosticReportService extends IResourceService {
      * @param offset смещение относительно начала списка назначений
      * @param cb callback
      */
-    getPatientDiagnosticReports(patientId: string, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
-    getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number): Promise<DiagnosticReportMessage[]>;
+    getPatientDiagnosticReports(patientId: string, limit: number, offset: number, prevCreated: string, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
+    getPatientDiagnosticReportsAsync(patientId: string, limit: number, offset: number, prevCreated: string): Promise<DiagnosticReportMessage[]>;
     getDiagnosticReports(limit: number, offset: number, lastId: string, prevCreated: string, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;
     getDiagnosticReportsAsync(limit: number, offset: number, lastId: string, prevCreated: string): Promise<DiagnosticReportMessage[]>;
     getFilteredDiagnosticReports(filters: DiagnosticReportFilters, limit: number, offset: number, cb: (err: any, p: DiagnosticReportMessage[]) => void): void;

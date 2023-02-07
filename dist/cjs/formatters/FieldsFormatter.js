@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FieldsFormatter = exports.buildFieldArray = exports.FieldItemModeMeta = exports.FieldMeta = exports.Field = exports.FieldItemMode = exports.FieldStatusColor = exports.FieldType = void 0;
 var index_1 = require("./l10n/index");
 var Formatter_1 = require("./Formatter");
 var index_2 = require("../types/index");
@@ -62,9 +61,9 @@ var FieldItemModeMeta = /** @class */ (function () {
 }());
 exports.FieldItemModeMeta = FieldItemModeMeta;
 function buildFieldArray(data, meta, t, priorKeys, itemModeMeta) {
-    var _a, _b, _c;
     if (priorKeys === void 0) { priorKeys = []; }
     if (itemModeMeta === void 0) { itemModeMeta = null; }
+    var _a, _b, _c;
     var keys = priorKeys
         .concat(Object.keys(meta))
         .filter(function (k, i, self) { return self.indexOf(k) === i; }); // uniq keys

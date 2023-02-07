@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PrescriptionService = void 0;
 var CursorType_1 = require("../../types/CursorType");
 var jsonRpcService_1 = require("./jsonRpcService");
 var Handlers_1 = require("../../Handlers");
@@ -60,9 +59,9 @@ var PrescriptionService = /** @class */ (function (_super) {
             });
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, opts, cb) {
+    PrescriptionService.prototype.getPatientPrescriptions = function (patientId, limit, offset, prevCreated, opts, cb) {
         var _this_1 = this;
-        var params = __assign({ patientId: patientId, limit: limit, offset: offset }, opts);
+        var params = __assign({ patientId: patientId, limit: limit, offset: offset, lastItemCreated: prevCreated }, opts);
         this.exec(Handlers_1.Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -71,10 +70,10 @@ var PrescriptionService = /** @class */ (function (_super) {
             return cb(null, payload["prescriptions"]);
         });
     };
-    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset, opts) {
+    PrescriptionService.prototype.getPatientPrescriptionsAsync = function (patientId, limit, offset, prevCreated, opts) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientPrescriptions(patientId, limit, offset, opts, function (err, values) {
+            service.getPatientPrescriptions(patientId, limit, offset, prevCreated, opts, function (err, values) {
                 if (err)
                     return rej(err);
                 res(values);

@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DiagnosticReportFilters = exports.DiagnosticReportByPatientIdFilter = exports.DiagnosticReportByCreatedFilter = exports.DiagnosticReportByBusinessIdFilter = void 0;
 var index_1 = require("../../formatters/l10n/index");
 var DatePeriodFilter_1 = require("./DatePeriodFilter");
 var Filters_1 = require("./Filters");
@@ -39,14 +38,14 @@ var DiagnosticReportByBusinessIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.businessName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportByBusinessIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.DiagnosticReportByBusiness;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     DiagnosticReportByBusinessIdFilter.prototype.isEmpty = function () {
@@ -71,7 +70,7 @@ var DiagnosticReportByCreatedFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.DiagnosticReportByCreated;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return DiagnosticReportByCreatedFilter;
@@ -88,14 +87,14 @@ var DiagnosticReportByPatientIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.patientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportByPatientIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.DiagnosticReportByPatientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     DiagnosticReportByPatientIdFilter.prototype.isEmpty = function () {

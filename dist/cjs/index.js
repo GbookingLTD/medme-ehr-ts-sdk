@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EHR = void 0;
 ///<amd-module name='MedMe'/>
 var Types = require("./types/index");
 var index_1 = require("./services/index");

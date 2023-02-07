@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthService = void 0;
 var jsonRpcService_1 = require("./jsonRpcService");
 var AuthService_1 = require("../AuthService");
 var Handlers_1 = require("../../Handlers");

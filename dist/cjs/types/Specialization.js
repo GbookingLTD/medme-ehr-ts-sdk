@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Specialization = void 0;
 var Specialization = /** @class */ (function () {
     function Specialization() {
     }

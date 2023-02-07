@@ -50,10 +50,11 @@ export class PrescriptionService
     patientId: string,
     limit: number,
     offset: number,
+    prevCreated: string,
     opts: ReqOptions,
     cb: (err: any, p: PrescriptionMessage[]) => void
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset, ...opts };
+    let params = { patientId, limit, offset, lastItemCreated: prevCreated, ...opts };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_PRESCRIPTIONS_METHOD,
       params,
@@ -71,6 +72,7 @@ export class PrescriptionService
     patientId: string,
     limit: number,
     offset: number,
+    prevCreated: string,
     opts: ReqOptions,
   ): Promise<PrescriptionMessage[]> {
     const service = this;
@@ -79,6 +81,7 @@ export class PrescriptionService
         patientId,
         limit,
         offset,
+        prevCreated,
         opts,
         (err: any, values: PrescriptionMessage[]) => {
           if (err) return rej(err);

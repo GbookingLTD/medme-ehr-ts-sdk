@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JsonRPCCredService = exports.JsonRPCService = void 0;
 var jsonRpcRequest_1 = require("./jsonRpcRequest");
 var RpcErrorCodes_1 = require("../RpcErrorCodes");
 var JsonRPCService = /** @class */ (function () {
@@ -25,14 +24,14 @@ var JsonRPCService = /** @class */ (function () {
         get: function () {
             return this._endpoint;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(JsonRPCService.prototype, "request", {
         get: function () {
             return this._request;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     JsonRPCService.prototype.exec = function (rpcMethod, payload, cb, optionalEndpoint, optionalCred) {
@@ -59,7 +58,7 @@ var JsonRPCCredService = /** @class */ (function (_super) {
         set: function (value) {
             this.cred_ = value;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(JsonRPCCredService.prototype, "apiKey", {
@@ -69,7 +68,7 @@ var JsonRPCCredService = /** @class */ (function (_super) {
         set: function (value) {
             this.apikey_ = value;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     JsonRPCCredService.prototype.exec = function (rpcMethod, payload, cb, optionalEndpoint) {

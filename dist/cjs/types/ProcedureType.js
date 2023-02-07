@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProcedureType = void 0;
 var ProcedureType;
 (function (ProcedureType) {
     ProcedureType[ProcedureType["Recomendation"] = 0] = "Recomendation";

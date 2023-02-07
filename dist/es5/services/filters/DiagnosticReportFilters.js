@@ -36,14 +36,14 @@ var DiagnosticReportByBusinessIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.businessName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportByBusinessIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.DiagnosticReportByBusiness;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     DiagnosticReportByBusinessIdFilter.prototype.isEmpty = function () {
@@ -68,7 +68,7 @@ var DiagnosticReportByCreatedFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypeEnum.DiagnosticReportByCreated;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return DiagnosticReportByCreatedFilter;
@@ -85,14 +85,14 @@ var DiagnosticReportByPatientIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.patientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(DiagnosticReportByPatientIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypeEnum.DiagnosticReportByPatientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     DiagnosticReportByPatientIdFilter.prototype.isEmpty = function () {

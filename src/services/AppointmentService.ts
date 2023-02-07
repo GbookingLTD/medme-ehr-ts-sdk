@@ -26,12 +26,14 @@ export interface IAppointmentService extends IResourceService {
     patientId: string,
     limit: number,
     offset: number,
+    prevCreated: string,
     cb: (err: any, appointments: AppointmentMessage[]) => void
   ): void;
   getPatientAppointmentsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    prevCreated: string
   ): Promise<AppointmentMessage[]>;
 
   /**

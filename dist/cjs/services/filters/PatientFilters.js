@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PatientFilters = exports.PatientByBirthdateFilter = exports.PatientByDoctorSpecialityIdsFilter = exports.PatientByDoctorSpecialityIdFilter = exports.PatientByPhoneFilter = exports.PatientByMedCardFilter = exports.PatientByNameFilter = void 0;
 var index_1 = require("../../formatters/l10n/index");
 var DatePeriodFilter_1 = require("./DatePeriodFilter");
 var Filters_1 = require("./Filters");
@@ -35,14 +34,14 @@ var PatientByNameFilter = /** @class */ (function (_super) {
         get: function () {
             return this.name;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByNameFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PatientByName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByNameFilter.prototype.isEmpty = function () {
@@ -68,14 +67,14 @@ var PatientByMedCardFilter = /** @class */ (function (_super) {
         get: function () {
             return this.medCardId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByMedCardFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PatientByMedCard;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByMedCardFilter.prototype.isEmpty = function () {
@@ -101,14 +100,14 @@ var PatientByPhoneFilter = /** @class */ (function (_super) {
         get: function () {
             return this.phone;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByPhoneFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PatientByPhone;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByPhoneFilter.prototype.isEmpty = function () {
@@ -134,14 +133,14 @@ var PatientByDoctorSpecialityIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.specialityId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByDoctorSpecialityIdFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PatientByDoctorSpecialityId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByDoctorSpecialityIdFilter.prototype.isEmpty = function () {
@@ -167,14 +166,14 @@ var PatientByDoctorSpecialityIdsFilter = /** @class */ (function (_super) {
         get: function () {
             return this.specialityIds.join(", ");
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(PatientByDoctorSpecialityIdsFilter.prototype, "kind", {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PatientByDoctorSpecialityIds;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     PatientByDoctorSpecialityIdsFilter.prototype.isEmpty = function () {
@@ -198,7 +197,7 @@ var PatientByBirthdateFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypes_1.FilterTypeEnum.PatientByBirthdate;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return PatientByBirthdateFilter;

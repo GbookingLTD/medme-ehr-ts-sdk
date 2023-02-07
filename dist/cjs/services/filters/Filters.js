@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Filter = exports.FilterList = void 0;
 var FilterTypes_1 = require("./FilterTypes");
 var FilterList = /** @class */ (function () {
     function FilterList() {
@@ -22,14 +21,14 @@ var Filter = /** @class */ (function () {
         get: function () {
             return FilterTypes_1.FilterKeys[this.kind];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Filter.prototype, "title", {
         get: function () {
             return this.localize[this.key];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return Filter;

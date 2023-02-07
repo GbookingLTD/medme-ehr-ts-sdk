@@ -59,9 +59,9 @@ var FieldItemModeMeta = /** @class */ (function () {
 }());
 export { FieldItemModeMeta };
 export function buildFieldArray(data, meta, t, priorKeys, itemModeMeta) {
-    var _a, _b, _c;
     if (priorKeys === void 0) { priorKeys = []; }
     if (itemModeMeta === void 0) { itemModeMeta = null; }
+    var _a, _b, _c;
     var keys = priorKeys
         .concat(Object.keys(meta))
         .filter(function (k, i, self) { return self.indexOf(k) === i; }); // uniq keys

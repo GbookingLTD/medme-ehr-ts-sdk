@@ -36,7 +36,7 @@ var AppointmentByBusinessIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.businessName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     AppointmentByBusinessIdFilter.prototype.setup = function (val) {
@@ -50,21 +50,21 @@ var AppointmentByBusinessIdFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypeEnum.AppointmentByBusiness;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "key", {
         get: function () {
             return FilterKeys[this.kind];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AppointmentByBusinessIdFilter.prototype, "title", {
         get: function () {
             return this.localize[this.key];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     AppointmentByBusinessIdFilter.prototype.isEmpty = function () {
@@ -82,7 +82,7 @@ var AppointmentByCreatedFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypeEnum.AppointmentByCreated;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return AppointmentByCreatedFilter;
@@ -97,7 +97,7 @@ var AppointmentByStartFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypeEnum.AppointmentByStarted;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return AppointmentByStartFilter;
@@ -114,7 +114,7 @@ var AppointmentByPatientIdFilter = /** @class */ (function (_super) {
         get: function () {
             return this.patientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     AppointmentByPatientIdFilter.prototype.setup = function (val) {
@@ -127,7 +127,7 @@ var AppointmentByPatientIdFilter = /** @class */ (function (_super) {
         get: function () {
             return FilterTypeEnum.AppointmentByPatientId;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     AppointmentByPatientIdFilter.prototype.isEmpty = function () {

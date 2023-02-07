@@ -51,9 +51,10 @@ export class DiagnosticReportService
     patientId: string,
     limit: number,
     offset: number,
+    prevCreated: string,
     cb: (err: any, p: DiagnosticReportMessage[]) => void
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset };
+    let params = { patientId, limit, offset, lastItemCreated: prevCreated };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_DIAGNOSTIC_REPORTS_METHOD,
       params,
@@ -69,7 +70,8 @@ export class DiagnosticReportService
   public getPatientDiagnosticReportsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    prevCreated: string
   ): Promise<DiagnosticReportMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -77,6 +79,7 @@ export class DiagnosticReportService
         patientId,
         limit,
         offset,
+        prevCreated,
         (err: any, reports: DiagnosticReportMessage[]) => {
           if (err) return rej(err);
 

@@ -44,9 +44,9 @@ var AppointmentResultService = /** @class */ (function (_super) {
             });
         });
     };
-    AppointmentResultService.prototype.getPatientAppointmentResults = function (patientId, limit, offset, cb) {
+    AppointmentResultService.prototype.getPatientAppointmentResults = function (patientId, limit, offset, prevCreated, cb) {
         var _this_1 = this;
-        var params = { patientId: patientId, limit: limit, offset: offset };
+        var params = { patientId: patientId, limit: limit, offset: offset, lastItemCreated: prevCreated };
         this.exec(Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD, params, function (err, payload) {
             if (err)
                 return cb(err, null);
@@ -55,10 +55,10 @@ var AppointmentResultService = /** @class */ (function (_super) {
             return cb(null, appointmentResults);
         });
     };
-    AppointmentResultService.prototype.getPatientAppointmentResultsAsync = function (patientId, limit, offset) {
+    AppointmentResultService.prototype.getPatientAppointmentResultsAsync = function (patientId, limit, offset, prevCreated) {
         var service = this;
         return new Promise(function (res, rej) {
-            service.getPatientAppointmentResults(patientId, limit, offset, function (err, appResults) {
+            service.getPatientAppointmentResults(patientId, limit, offset, prevCreated, function (err, appResults) {
                 if (err)
                     return rej(err);
                 res(appResults);

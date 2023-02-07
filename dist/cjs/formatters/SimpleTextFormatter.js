@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SimpleTextFormatter = void 0;
 var index_1 = require("./l10n/index");
 var Formatter_1 = require("./Formatter");
 function alignStrings(obj, keys) {

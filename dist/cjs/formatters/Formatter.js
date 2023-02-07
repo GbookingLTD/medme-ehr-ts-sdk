@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.trim = exports.paragrathes_nl = exports.paragrathes = exports.dateISOFormat = void 0;
 exports.dateISOFormat = function (d) {
     return d == null ? "" : typeof d === "string" ? d : d.toISOString();
 };

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ObservationValue = void 0;
 var ObservationValue = /** @class */ (function () {
     function ObservationValue() {
     }

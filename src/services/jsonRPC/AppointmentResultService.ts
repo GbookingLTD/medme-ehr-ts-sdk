@@ -51,9 +51,10 @@ export class AppointmentResultService
     patientId: string,
     limit: number,
     offset: number,
+    prevCreated: string,
     cb: (err: any, appointmentResults: AppointmentResultMessage[]) => void
   ): void {
-    let params = { patientId: patientId, limit: limit, offset: offset };
+    let params = { patientId, limit, offset, lastItemCreated: prevCreated };
     this.exec(
       Handlers.HANDLER_GET_PATIENT_APPOINTMENT_RESULTS_METHOD,
       params,
@@ -70,7 +71,8 @@ export class AppointmentResultService
   getPatientAppointmentResultsAsync(
     patientId: string,
     limit: number,
-    offset: number
+    offset: number,
+    prevCreated: string
   ): Promise<AppointmentResultMessage[]> {
     const service = this;
     return new Promise((res, rej) => {
@@ -78,6 +80,7 @@ export class AppointmentResultService
         patientId,
         limit,
         offset,
+        prevCreated,
         (err: any, appResults: AppointmentResultMessage[]) => {
           if (err) return rej(err);
 

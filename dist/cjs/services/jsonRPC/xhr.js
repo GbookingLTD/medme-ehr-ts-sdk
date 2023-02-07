@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.xhr = void 0;
 var AuthService_1 = require("../AuthService");
 if (typeof window === "undefined") {
     var XMLHttpRequest = require("xhr2");

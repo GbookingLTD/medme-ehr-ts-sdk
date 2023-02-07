@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SearchPatientEhrResultItem = exports.SearchPatientEhrFilters = exports.SearchPatientEhrKeywords = exports.SearchEntityKeywords = void 0;
 var SearchEntityKeywords = /** @class */ (function () {
     function SearchEntityKeywords() {
     }

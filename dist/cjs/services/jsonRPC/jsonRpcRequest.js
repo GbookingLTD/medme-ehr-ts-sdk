@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JsonRpcHeader = void 0;
 var JsonRpcHeader = /** @class */ (function () {
     function JsonRpcHeader(id, method, cred, apiKey) {
         if (cred === void 0) { cred = null; }
@@ -14,28 +13,28 @@ var JsonRpcHeader = /** @class */ (function () {
         get: function () {
             return this._id;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(JsonRpcHeader.prototype, "method", {
         get: function () {
             return this._method;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(JsonRpcHeader.prototype, "cred", {
         get: function () {
             return this._cred;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(JsonRpcHeader.prototype, "apiKey", {
         get: function () {
             return this._apiKey;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return JsonRpcHeader;

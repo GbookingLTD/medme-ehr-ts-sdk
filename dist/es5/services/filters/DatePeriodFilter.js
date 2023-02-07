@@ -26,7 +26,7 @@ var DatePeriodFilter = /** @class */ (function (_super) {
                 " — " +
                 new Intl.DateTimeFormat("ru").format(this.to));
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     DatePeriodFilter.prototype.setup = function (val) {

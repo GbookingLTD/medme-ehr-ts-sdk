@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DatePeriodFilter = void 0;
 var Filters_1 = require("./Filters");
 function isNullUndefZero(val) {
     return val === null || typeof val === "undefined" || val.getTime() === 0;
@@ -29,7 +28,7 @@ var DatePeriodFilter = /** @class */ (function (_super) {
                 " — " +
                 new Intl.DateTimeFormat("ru").format(this.to));
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     DatePeriodFilter.prototype.setup = function (val) {
