@@ -143,6 +143,7 @@ export default {
         DiagnosticReportByCreated: "Дата создания",
         DiagnosticReportByBusiness: "ЛПУ",
         PrescriptionByPatient: "ID Пациента",
+        PrescriptionByDiagnosisCd10: "МКБ-10",
         PrescriptionByCreated: "Дата создания",
         PrescriptionByBusiness: "ЛПУ",
     },

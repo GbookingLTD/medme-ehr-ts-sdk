@@ -857,6 +857,7 @@ define("formatters/l10n/ru-ru", ["require", "exports"], function (require, expor
             DiagnosticReportByCreated: "Дата создания",
             DiagnosticReportByBusiness: "ЛПУ",
             PrescriptionByPatient: "ID Пациента",
+            PrescriptionByDiagnosisCd10: "МКБ-10",
             PrescriptionByCreated: "Дата создания",
             PrescriptionByBusiness: "ЛПУ",
         },
@@ -970,6 +971,7 @@ define("services/filters/FilterTypes", ["require", "exports"], function (require
         FilterTypeEnum[FilterTypeEnum["PrescriptionByPatient"] = 30] = "PrescriptionByPatient";
         FilterTypeEnum[FilterTypeEnum["PrescriptionByCreated"] = 31] = "PrescriptionByCreated";
         FilterTypeEnum[FilterTypeEnum["PrescriptionByBusiness"] = 32] = "PrescriptionByBusiness";
+        FilterTypeEnum[FilterTypeEnum["PrescriptionByDiagnosisCd10"] = 33] = "PrescriptionByDiagnosisCd10";
     })(FilterTypeEnum = exports.FilterTypeEnum || (exports.FilterTypeEnum = {}));
     exports.FilterKeys = (_a = {},
         _a[FilterTypeEnum.Unknown] = "Unknown",
@@ -986,6 +988,7 @@ define("services/filters/FilterTypes", ["require", "exports"], function (require
         _a[FilterTypeEnum.PrescriptionByPatient] = "PrescriptionByPatient",
         _a[FilterTypeEnum.PrescriptionByCreated] = "PrescriptionByCreated",
         _a[FilterTypeEnum.PrescriptionByBusiness] = "PrescriptionByBusiness",
+        _a[FilterTypeEnum.PrescriptionByDiagnosisCd10] = "PrescriptionByDiagnosisCd10",
         _a);
 });
 define("services/filters/Filters", ["require", "exports", "services/filters/FilterTypes"], function (require, exports, FilterTypes_1) {
@@ -1689,6 +1692,47 @@ define("services/filters/PrescriptionFilters", ["require", "exports", "formatter
         return PrescriptionByPatientIdFilter;
     }(Filters_5.Filter));
     exports.PrescriptionByPatientIdFilter = PrescriptionByPatientIdFilter;
+    function limitText(n, text) {
+        if (n < text.length) {
+            return text.substring(0, n) + "...";
+        }
+        return text;
+    }
+    var PrescriptionByDiagnosisCd10Filter = /** @class */ (function (_super) {
+        __extends(PrescriptionByDiagnosisCd10Filter, _super);
+        function PrescriptionByDiagnosisCd10Filter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.cd10 = [];
+            return _this;
+        }
+        Object.defineProperty(PrescriptionByDiagnosisCd10Filter.prototype, "prettyValue", {
+            get: function () {
+                return limitText(80, this.cd10.join(", "));
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PrescriptionByDiagnosisCd10Filter.prototype, "kind", {
+            get: function () {
+                return FilterTypes_5.FilterTypeEnum.PrescriptionByDiagnosisCd10;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PrescriptionByDiagnosisCd10Filter.prototype.isEmpty = function () {
+            return !this.cd10 || this.cd10.length == 0;
+        };
+        PrescriptionByDiagnosisCd10Filter.prototype.setup = function (val) {
+            this.cd10 = (val === null || val === void 0 ? void 0 : val.cd10) || [];
+        };
+        PrescriptionByDiagnosisCd10Filter.prototype.plain = function () {
+            return {
+                cd10: this.cd10 || [],
+            };
+        };
+        return PrescriptionByDiagnosisCd10Filter;
+    }(Filters_5.Filter));
+    exports.PrescriptionByDiagnosisCd10Filter = PrescriptionByDiagnosisCd10Filter;
     var PrescriptionFilters = /** @class */ (function (_super) {
         __extends(PrescriptionFilters, _super);
         function PrescriptionFilters(localize) {
@@ -1696,6 +1740,7 @@ define("services/filters/PrescriptionFilters", ["require", "exports", "formatter
             _this.byBusinessId = new PrescriptionByBusinessIdFilter(localize);
             _this.byCreated = new PrescriptionByCreatedFilter(localize);
             _this.byPatientId = new PrescriptionByPatientIdFilter(localize);
+            _this.byDiagnosisCd10 = new PrescriptionByDiagnosisCd10Filter(localize);
             return _this;
         }
         PrescriptionFilters.createWithLocale = function (locale) {
@@ -1707,16 +1752,18 @@ define("services/filters/PrescriptionFilters", ["require", "exports", "formatter
             this.byBusinessId.setup(val["byBusines"]);
             this.byCreated.setup(val["byCreated"]);
             this.byPatientId.setup(val["byPatient"]);
+            this.byDiagnosisCd10.setup(val["byDiagnosis"]);
         };
         PrescriptionFilters.prototype.plain = function () {
             return {
                 byBusiness: this.byBusinessId.plain(),
                 byCreated: this.byCreated.plain(),
                 byPatient: this.byPatientId.plain(),
+                byDiagnosisCd10: this.byDiagnosisCd10.plain(),
             };
         };
         PrescriptionFilters.prototype.getFilters = function () {
-            return [this.byBusinessId, this.byCreated, this.byPatientId];
+            return [this.byBusinessId, this.byCreated, this.byPatientId, this.byDiagnosisCd10];
         };
         return PrescriptionFilters;
     }(Filters_5.FilterList));
