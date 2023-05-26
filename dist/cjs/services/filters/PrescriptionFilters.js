@@ -111,6 +111,47 @@ var PrescriptionByPatientIdFilter = /** @class */ (function (_super) {
     return PrescriptionByPatientIdFilter;
 }(Filters_1.Filter));
 exports.PrescriptionByPatientIdFilter = PrescriptionByPatientIdFilter;
+function limitText(n, text) {
+    if (n < text.length) {
+        return text.substring(0, n) + "...";
+    }
+    return text;
+}
+var PrescriptionByDiagnosisCd10Filter = /** @class */ (function (_super) {
+    __extends(PrescriptionByDiagnosisCd10Filter, _super);
+    function PrescriptionByDiagnosisCd10Filter() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.cd10 = [];
+        return _this;
+    }
+    Object.defineProperty(PrescriptionByDiagnosisCd10Filter.prototype, "prettyValue", {
+        get: function () {
+            return limitText(80, this.cd10.join(", "));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PrescriptionByDiagnosisCd10Filter.prototype, "kind", {
+        get: function () {
+            return FilterTypes_1.FilterTypeEnum.PrescriptionByDiagnosisCd10;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    PrescriptionByDiagnosisCd10Filter.prototype.isEmpty = function () {
+        return !this.cd10 || this.cd10.length == 0;
+    };
+    PrescriptionByDiagnosisCd10Filter.prototype.setup = function (val) {
+        this.cd10 = (val === null || val === void 0 ? void 0 : val.cd10) || [];
+    };
+    PrescriptionByDiagnosisCd10Filter.prototype.plain = function () {
+        return {
+            cd10: this.cd10 || [],
+        };
+    };
+    return PrescriptionByDiagnosisCd10Filter;
+}(Filters_1.Filter));
+exports.PrescriptionByDiagnosisCd10Filter = PrescriptionByDiagnosisCd10Filter;
 var PrescriptionFilters = /** @class */ (function (_super) {
     __extends(PrescriptionFilters, _super);
     function PrescriptionFilters(localize) {
@@ -118,6 +159,7 @@ var PrescriptionFilters = /** @class */ (function (_super) {
         _this.byBusinessId = new PrescriptionByBusinessIdFilter(localize);
         _this.byCreated = new PrescriptionByCreatedFilter(localize);
         _this.byPatientId = new PrescriptionByPatientIdFilter(localize);
+        _this.byDiagnosisCd10 = new PrescriptionByDiagnosisCd10Filter(localize);
         return _this;
     }
     PrescriptionFilters.createWithLocale = function (locale) {
@@ -129,16 +171,18 @@ var PrescriptionFilters = /** @class */ (function (_super) {
         this.byBusinessId.setup(val["byBusines"]);
         this.byCreated.setup(val["byCreated"]);
         this.byPatientId.setup(val["byPatient"]);
+        this.byDiagnosisCd10.setup(val["byDiagnosis"]);
     };
     PrescriptionFilters.prototype.plain = function () {
         return {
             byBusiness: this.byBusinessId.plain(),
             byCreated: this.byCreated.plain(),
             byPatient: this.byPatientId.plain(),
+            byDiagnosisCd10: this.byDiagnosisCd10.plain(),
         };
     };
     PrescriptionFilters.prototype.getFilters = function () {
-        return [this.byBusinessId, this.byCreated, this.byPatientId];
+        return [this.byBusinessId, this.byCreated, this.byPatientId, this.byDiagnosisCd10];
     };
     return PrescriptionFilters;
 }(Filters_1.FilterList));

@@ -71,6 +71,37 @@ export class PrescriptionByPatientIdFilter
   }
 }
 
+function limitText(n: number, text: string): string {
+  if (n < text.length) {
+    return text.substring(0, n) + "...";
+  }
+  return text;
+}
+
+export class PrescriptionByDiagnosisCd10Filter
+  extends Filter
+  implements ISerializableFilter
+{
+  public cd10: string[] = [];
+  get prettyValue(): string {
+    return limitText(80, this.cd10.join(", "));
+  }
+  get kind(): FilterTypeEnum {
+    return FilterTypeEnum.PrescriptionByDiagnosisCd10;
+  }
+  isEmpty(): boolean {
+    return !this.cd10 || this.cd10.length == 0;
+  }
+  setup(val: any): void {
+    this.cd10 = val?.cd10 || [];
+  }
+  plain() {
+    return {
+      cd10: this.cd10 || [],
+    };
+  }
+}
+
 export class PrescriptionFilters
   extends FilterList
   implements ISerializableFilter
@@ -84,26 +115,30 @@ export class PrescriptionFilters
     this.byBusinessId = new PrescriptionByBusinessIdFilter(localize);
     this.byCreated = new PrescriptionByCreatedFilter(localize);
     this.byPatientId = new PrescriptionByPatientIdFilter(localize);
+    this.byDiagnosisCd10 = new PrescriptionByDiagnosisCd10Filter(localize);
   }
   setup(val: any): void {
     if (isNullUndef(val)) return;
     this.byBusinessId.setup(val["byBusines"]);
     this.byCreated.setup(val["byCreated"]);
     this.byPatientId.setup(val["byPatient"]);
+    this.byDiagnosisCd10.setup(val["byDiagnosis"]);
   }
   plain() {
     return {
       byBusiness: this.byBusinessId.plain(),
       byCreated: this.byCreated.plain(),
       byPatient: this.byPatientId.plain(),
+      byDiagnosisCd10: this.byDiagnosisCd10.plain(),
     };
   }
 
   getFilters(): IFilter[] {
-    return [this.byBusinessId, this.byCreated, this.byPatientId];
+    return [this.byBusinessId, this.byCreated, this.byPatientId, this.byDiagnosisCd10];
   }
 
   public byBusinessId: PrescriptionByBusinessIdFilter;
   public byCreated: PrescriptionByCreatedFilter;
   public byPatientId: PrescriptionByPatientIdFilter;
+  public byDiagnosisCd10: PrescriptionByDiagnosisCd10Filter;
 }

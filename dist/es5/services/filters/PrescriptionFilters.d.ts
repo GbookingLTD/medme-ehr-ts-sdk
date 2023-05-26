@@ -27,6 +27,16 @@ export declare class PrescriptionByPatientIdFilter extends Filter implements ISe
         patientId: string;
     };
 }
+export declare class PrescriptionByDiagnosisCd10Filter extends Filter implements ISerializableFilter {
+    cd10: string[];
+    get prettyValue(): string;
+    get kind(): FilterTypeEnum;
+    isEmpty(): boolean;
+    setup(val: any): void;
+    plain(): {
+        cd10: string[];
+    };
+}
 export declare class PrescriptionFilters extends FilterList implements ISerializableFilter {
     static createWithLocale(locale: LocaleCode): PrescriptionFilters;
     constructor(localize: {
@@ -45,9 +55,13 @@ export declare class PrescriptionFilters extends FilterList implements ISerializ
         byPatient: {
             patientId: string;
         };
+        byDiagnosisCd10: {
+            cd10: string[];
+        };
     };
     getFilters(): IFilter[];
     byBusinessId: PrescriptionByBusinessIdFilter;
     byCreated: PrescriptionByCreatedFilter;
     byPatientId: PrescriptionByPatientIdFilter;
+    byDiagnosisCd10: PrescriptionByDiagnosisCd10Filter;
 }

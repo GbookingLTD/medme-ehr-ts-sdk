@@ -158,6 +158,7 @@ export declare class SimpleTextFormatter implements IFormatter<string> {
                 DiagnosticReportByCreated: string;
                 DiagnosticReportByBusiness: string;
                 PrescriptionByPatient: string;
+                PrescriptionByDiagnosisCd10: string;
                 PrescriptionByCreated: string;
                 PrescriptionByBusiness: string;
             };

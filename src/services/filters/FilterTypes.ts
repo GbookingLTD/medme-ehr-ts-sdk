@@ -19,6 +19,7 @@ export enum FilterTypeEnum {
   PrescriptionByPatient = 30,
   PrescriptionByCreated = 31,
   PrescriptionByBusiness = 32,
+  PrescriptionByDiagnosisCd10 = 33,
 }
 
 type FilterKeyMap = { [key: number]: string };
@@ -41,4 +42,5 @@ export const FilterKeys: FilterKeyMap = {
   [FilterTypeEnum.PrescriptionByPatient]: "PrescriptionByPatient",
   [FilterTypeEnum.PrescriptionByCreated]: "PrescriptionByCreated",
   [FilterTypeEnum.PrescriptionByBusiness]: "PrescriptionByBusiness",
+  [FilterTypeEnum.PrescriptionByDiagnosisCd10]: "PrescriptionByDiagnosisCd10",
 };

@@ -20,6 +20,7 @@ var FilterTypeEnum;
     FilterTypeEnum[FilterTypeEnum["PrescriptionByPatient"] = 30] = "PrescriptionByPatient";
     FilterTypeEnum[FilterTypeEnum["PrescriptionByCreated"] = 31] = "PrescriptionByCreated";
     FilterTypeEnum[FilterTypeEnum["PrescriptionByBusiness"] = 32] = "PrescriptionByBusiness";
+    FilterTypeEnum[FilterTypeEnum["PrescriptionByDiagnosisCd10"] = 33] = "PrescriptionByDiagnosisCd10";
 })(FilterTypeEnum = exports.FilterTypeEnum || (exports.FilterTypeEnum = {}));
 exports.FilterKeys = (_a = {},
     _a[FilterTypeEnum.Unknown] = "Unknown",
@@ -36,4 +37,5 @@ exports.FilterKeys = (_a = {},
     _a[FilterTypeEnum.PrescriptionByPatient] = "PrescriptionByPatient",
     _a[FilterTypeEnum.PrescriptionByCreated] = "PrescriptionByCreated",
     _a[FilterTypeEnum.PrescriptionByBusiness] = "PrescriptionByBusiness",
+    _a[FilterTypeEnum.PrescriptionByDiagnosisCd10] = "PrescriptionByDiagnosisCd10",
     _a);

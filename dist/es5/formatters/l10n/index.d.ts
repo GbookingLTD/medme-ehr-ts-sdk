@@ -145,6 +145,7 @@ declare const _default: {
             DiagnosticReportByCreated: string;
             DiagnosticReportByBusiness: string;
             PrescriptionByPatient: string;
+            PrescriptionByDiagnosisCd10: string;
             PrescriptionByCreated: string;
             PrescriptionByBusiness: string;
         };
@@ -352,6 +353,7 @@ declare const _default: {
             DiagnosticReportByCreated: string;
             DiagnosticReportByBusiness: string;
             PrescriptionByPatient: string;
+            PrescriptionByDiagnosisCd10: string;
             PrescriptionByCreated: string;
             PrescriptionByBusiness: string;
         };

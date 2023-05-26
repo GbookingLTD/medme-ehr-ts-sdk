@@ -15,7 +15,8 @@ export declare enum FilterTypeEnum {
     DiagnosticReportByBusiness = 22,
     PrescriptionByPatient = 30,
     PrescriptionByCreated = 31,
-    PrescriptionByBusiness = 32
+    PrescriptionByBusiness = 32,
+    PrescriptionByDiagnosisCd10 = 33
 }
 declare type FilterKeyMap = {
     [key: number]: string;
